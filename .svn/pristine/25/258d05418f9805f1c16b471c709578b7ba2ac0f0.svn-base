@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.ActivityMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.Activity">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="ENG_SN_USED" jdbcType="VARCHAR" property="engSnUsed" />
+		<result column="LPTN1_PN" jdbcType="VARCHAR" property="lptn1Pn" />
+		<result column="LPTN1_SN" jdbcType="VARCHAR" property="lptn1Sn" />
+		<result column="ENG_PN" jdbcType="VARCHAR" property="engPn" />
+		<result column="ON_DATE" jdbcType="INTEGER" property="onDate" />
+		<result column="ON_ETSN" jdbcType="INTEGER" property="onEtsn" />
+		<result column="ON_ECSN" jdbcType="INTEGER" property="onEcsn" />
+		<result column="ON_PTSN" jdbcType="INTEGER" property="onPtsn" />
+		<result column="ON_PCSN" jdbcType="INTEGER" property="onPcsn" />
+		<result column="OFF_DATE" jdbcType="INTEGER" property="offDate" />
+		<result column="OFF_ETSN" jdbcType="INTEGER" property="offEtsn" />
+		<result column="OFF_ECSN" jdbcType="INTEGER" property="offEcsn" />
+		<result column="OFF_PTSN" jdbcType="INTEGER" property="offPtsn" />
+		<result column="OFF_PCSN" jdbcType="INTEGER" property="offPcsn" />
+		<result column="LIMIT_SPECIAL" jdbcType="VARCHAR" property="limitSpecial" />
+		<result column="CODE" jdbcType="VARCHAR" property="code" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		id,ENG_SN_USED,LPTN1_PN,LPTN1_SN,ENG_PN,ON_DATE,ON_ETSN,ON_ECSN,ON_PTSN,ON_PCSN,
+		OFF_DATE,OFF_ETSN,OFF_ECSN,OFF_PTSN,OFF_PCSN,LIMIT_SPECIAL,CODE,REMARK
+	</sql>
+
+	<select id="getActivityList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM lptn1_history
+	</select>
+	
+	<select id ="delete"  parameterType="com.cea.ehm.bean.Activity">
+		DELETE FROM lptn1_history WHERE id = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<select id="add" parameterType="com.cea.ehm.bean.Activity">
+		INSERT  INTO lptn1_history
+		(ENG_SN_USED,LPTN1_PN,LPTN1_SN,ENG_PN,ON_DATE,ON_ETSN,ON_ECSN,ON_PTSN,ON_PCSN,LIMIT_SPECIAL,CODE,REMARK)
+		  VALUES
+		(
+			#{engSnUsed,jdbcType=VARCHAR},
+			#{lptn1Pn,jdbcType=VARCHAR},
+			#{lptn1Sn,jdbcType=VARCHAR},
+			#{engPn,jdbcType=VARCHAR},
+			#{onDate,jdbcType=INTEGER},
+			#{onEtsn,jdbcType=INTEGER},
+			#{onEcsn,jdbcType=INTEGER},
+			#{onPtsn,jdbcType=INTEGER},
+			#{onPcsn,jdbcType=INTEGER},
+			#{limitSpecial,jdbcType=VARCHAR},
+			#{code,jdbcType=VARCHAR},
+			#{remark,jdbcType=VARCHAR}
+		)
+	</select>
+	
+	<select id ="update"  parameterType="com.cea.ehm.bean.Activity">
+		UPDATE lptn1_history 
+		<set>
+			<if test="engSnUsed != null">
+				ENG_SN_USED = #{engSnUsed,jdbcType=VARCHAR},
+			</if>
+			<if test="lptn1Pn != null">
+				LPTN1_PN = #{lptn1Pn,jdbcType=VARCHAR},
+			</if>
+			<if test="lptn1Sn != null">
+				LPTN1_SN = #{lptn1Sn,jdbcType=VARCHAR},
+			</if>
+			<if test="engPn != null">
+				ENG_PN = #{engPn,jdbcType=VARCHAR},
+			</if>
+			<if test="limitSpecial != null">
+				LIMIT_SPECIAL = #{limitSpecial,jdbcType=VARCHAR},
+			</if>
+			<if test="onDate != null">
+				ON_DATE = #{onDate,jdbcType=INTEGER},
+			</if>
+			<if test="code != null">
+				CODE = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				REMARK = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="onEtsn != null">
+				ON_ETSN = #{onEtsn,jdbcType=INTEGER},
+			</if>
+			<if test="onEcsn != null">
+				ON_ECSN = #{onEcsn,jdbcType=INTEGER},
+			</if>
+			<if test="onPtsn != null">
+				ON_PTSN = #{onPtsn,jdbcType=INTEGER},
+			</if>
+			<if test="onPcsn != null">
+				ON_PCSN = #{onPcsn,jdbcType=INTEGER},
+			</if>
+		</set>
+		WHERE id=#{id,jdbcType=INTEGER}
+	</select>
+</mapper>

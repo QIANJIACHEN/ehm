@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.ControlFleetPlaneMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.ControlFleetPlane">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="PLANE_ID" jdbcType="INTEGER" property="planeId" />
+		<result column="TAIL" jdbcType="VARCHAR" property="tail" />
+		<result column="ENG_POSITION" jdbcType="INTEGER" property="engPosition" />
+		<result column="ENG_ID" jdbcType="INTEGER" property="engId" />
+		<result column="ENG_SN" jdbcType="VARCHAR" property="engSn" />
+		<result column="ENG_PN" jdbcType="VARCHAR" property="engPn" />
+		<result column="CODE_POSITION" jdbcType="VARCHAR" property="codePosition" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+	</resultMap>
+	
+	<resultMap id="planeMap" type="com.cea.ehm.bean.DataPlane">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="TAIL" jdbcType="VARCHAR" property="tail" />
+
+	</resultMap>
+	
+	<sql id="baseColumnList">
+		ID,PLANE_ID,TAIL,ENG_POSITION,ENG_ID,ENG_SN,ENG_PN,CODE_POSITION,REMARK
+	</sql>
+	<select id="getPlane" parameterType="com.cea.ehm.bean.DataPlane"
+		resultMap="planeMap">
+		SELECT
+		ID,TAIL
+		FROM ehm_data_plane
+	</select>
+	<select id="select" parameterType="com.cea.ehm.bean.ControlFleetPlane" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_control_fleet_plane
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</select>
+
+	<select id="getlistbyplane" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_control_fleet_plane
+		<if test="tail != null">
+		WHERE TAIL = #{tail,jdbcType=VARCHAR}
+		</if>
+	</select>
+
+	<select id="getControlFleetPlaneList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_control_fleet_plane
+		<if test="tail != null">
+		WHERE TAIL LIKE CONCAT('%',#{tail,jdbcType=VARCHAR})
+		</if>
+	</select>
+
+	<insert id="insert" parameterType="com.cea.ehm.bean.ControlFleetPlane">
+		INSERT INTO ehm_control_fleet_plane
+			(ID,PLANE_ID,TAIL,ENG_POSITION,ENG_ID,ENG_SN,ENG_PN,CODE_POSITION,REMARK)
+		VALUES
+		(
+			#{id,jdbcType=INTEGER},
+			#{planeId,jdbcType=INTEGER},
+			#{tail,jdbcType=VARCHAR},
+			#{engPosition,jdbcType=INTEGER},
+			#{engId,jdbcType=INTEGER},
+			#{engSn,jdbcType=VARCHAR},
+			#{engPn,jdbcType=VARCHAR},
+			#{codePosition,jdbcType=VARCHAR},
+			#{remark,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="com.cea.ehm.bean.ControlFleetPlane">
+		DELETE FROM
+			ehm_control_fleet_plane
+		WHERE
+			ID = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<update id="update" parameterType="com.cea.ehm.bean.ControlFleetPlane">
+		UPDATE ehm_control_fleet_plane
+		<set>
+			<if test="planeId != null">
+				PLANE_ID = #{planeId,jdbcType=INTEGER},
+			</if>
+			<if test="tail != null">
+				TAIL = #{tail,jdbcType=VARCHAR},
+			</if>
+			<if test="engPosition != null">
+				ENG_POSITION = #{engPosition,jdbcType=INTEGER},
+			</if>
+			<if test="engId != null">
+				ENG_ID = #{engId,jdbcType=INTEGER},
+			</if>
+			<if test="engSn != null">
+				ENG_SN = #{engSn,jdbcType=VARCHAR},
+			</if>
+			<if test="engPn != null">
+				ENG_PN = #{engPn,jdbcType=VARCHAR},
+			</if>
+			<if test="codePosition != null">
+				CODE_POSITION = #{codePosition,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				REMARK = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</update>
+
+</mapper>

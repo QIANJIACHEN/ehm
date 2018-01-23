@@ -1,0 +1,19 @@
+
+<!--#include file="chart/bars_report.js"-->
+<!--#include file="chart/line_chart.js"-->
+<!--#include file="chart/pie_chart.js"-->
+
+var DATA_URL_findRcDataItemReadinessByItemRID = "/dcds/findRcDataItemReadinessByItemRID.json" // 自然周
+var DATA_URL_findDistinctDwWarehouseSource = "/dcds/findDistinctDwWarehouseSource.json" // REG_SOURCE_PROJECT,REG_SOURCE_NAME
+var DATA_URL_findDwWarehouseSourceDetail = "/dcds/findDwWarehouseSourceDetail.json" // 详细报表
+var DATA_URL_findDwWarehouseSourceDetailLine = "/dcds/findDwWarehouseSourceDetailLine.json" // 详细报表Line
+var DATA_URL_findDwWarehouseSourceDetailPie = "/dcds/findDwWarehouseSourceDetailPie.json" // 详细报表Pie
+var DATA_URL_findRcDataItemDimensionsByItemRID = "/dcds/findRcDataItemDimensionsByItemRID.json" // REG_SOURCE_PROJECT,REG_SOURCE_NAME
+var DATA_URL_findDwWarehouseSourceDetailCsv = "/dcds/findDwWarehouseSourceDetailCsv.json"; // 详细报表 csv下载																																// 等等字段名称
+var DATA_URL_findRcDataItemFactsByItemRID = "/dcds/findRcDataItemFactsByItemRID.json" // fur.USER_COUNT_INCREMENT/1000与fur.USER_COUNT_CUMULATED/1000
+var reg_resource_ids = {};
+var reg_resource_ids_line = {};
+var reg_resource_ids_pie = {};
+var unified_style = {
+combobox:{width:151}
+}

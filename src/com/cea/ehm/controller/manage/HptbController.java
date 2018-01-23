@@ -1,0 +1,318 @@
+package com.cea.ehm.controller.manage;
+
+import java.time.LocalDateTime;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.cea.ehm.bean.HptbActivity;
+import com.cea.ehm.bean.HptbHistory;
+import com.cea.ehm.controller.BaseController;
+import com.cea.ehm.service.HptbService;
+import com.cea.ehm.util.ConstantUtil;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import com.google.common.collect.Maps;
+
+/**
+ * hptb
+ */
+@Controller
+@RequestMapping(value = "/manage/hptb")
+public class HptbController extends BaseController {
+	private Logger logger = Logger.getLogger(HptbController.class);
+	@Autowired
+	private HptbService hptbService;
+
+	/**
+	 * hptb_activity 列表页面
+	 * 
+	 * @return
+	 **/
+	@RequestMapping(value = "hptbactivitylist.do")
+	public ModelAndView hptbactivitylist() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/hptb/hptbactivitylist");
+		return mv;
+	}
+
+	/**
+	 * hptb_activity 数据
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/hptbactivity.do")
+	@ResponseBody
+	public Map<String, Object> hptbactivity(@RequestParam Map<String, String> reqPara) {
+		logger.info("页面请求参数: " + reqPara);
+		PageBounds pageBounds = handlePageInfoForManage(reqPara);
+		String sEcho = reqPara.get("draw");
+		Map<String, String> paramMap = Maps.newHashMap();
+		// 条件参数
+		String engSn = reqPara.get("engSn");
+		paramMap.put("engSn", engSn);
+		PageList<HptbActivity> pageList = (PageList<HptbActivity>) hptbService.getHptbActivityList(paramMap,
+				pageBounds);
+		Pageable page = new PageRequest(pageBounds.getPage(), pageBounds.getLimit());
+		Page<HptbActivity> content = new PageImpl<>(pageList, page, pageList.getPaginator().getTotalCount());
+		Map<String, Object> map = Maps.newHashMap();
+		map.put("data", pageList);
+		map.put("iTotalRecords", content.getTotalElements());
+		map.put("iTotalDisplayRecords", content.getTotalElements());
+		map.put("sEcho", sEcho);
+		map.put("draw", sEcho);
+		return map;
+	}
+
+	/**
+	 * 获取 hptbActivity 信息
+	 * 
+	 * @param reqData
+	 * @return
+	 */
+	public HptbActivity getHptbActivity(Map<String, String> reqPara) {
+		logger.info("待编辑信息: " + reqPara);
+
+		String id = reqPara.get("id");
+		String engSn = reqPara.get("engSn");
+		String hptbPn = reqPara.get("hptbPn");
+		String hptbSn = reqPara.get("hptbSn");
+		String engPn = reqPara.get("engPn");
+		String onDate = reqPara.get("onDate");
+		String onEtsn = reqPara.get("onEtsn");
+		String onEcsn = reqPara.get("onEcsn");
+		String onPtsn = reqPara.get("onPtsn");
+		String onPcsn = reqPara.get("onPcsn");
+		String limitSpecial = reqPara.get("limitSpecial");
+		String code = reqPara.get("code");
+		String remark = reqPara.get("remark");
+
+		HptbActivity hptbActivity = new HptbActivity();
+		if (id != null) {
+			hptbActivity.setId(Integer.parseInt(id));
+		}
+		hptbActivity.setEngSn(engSn);
+		hptbActivity.setHptbPn(hptbPn);
+		hptbActivity.setHptbSn(hptbSn);
+		hptbActivity.setEngPn(engPn);
+		hptbActivity.setOnDate(onDate);
+		hptbActivity.setOnEtsn(onEtsn);
+		hptbActivity.setOnEcsn(onEcsn);
+		hptbActivity.setOnPtsn(onPtsn);
+		hptbActivity.setOnPcsn(onPcsn);
+		hptbActivity.setLimitSpecial(limitSpecial);
+		hptbActivity.setCode(code);
+		hptbActivity.setRemark(remark);
+		String date = LocalDateTime.now().toString().replace("T", " ");
+		String time = date.substring(0, date.indexOf("."));
+		hptbActivity.setCtime(time);
+		return hptbActivity;
+	}
+
+	/**
+	 * hptb_activity 添加
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/saveHptbActivity.do")
+	@ResponseBody
+	public Map<String, Object> saveHptbActivity(@RequestParam Map<String, String> reqPara) {
+		HptbActivity hptbActivity = getHptbActivity(reqPara);
+		HptbActivity selectHptbActivity = hptbService.selectHptbActivity(hptbActivity);
+		if (selectHptbActivity != null) {
+			return getFailureMessage(ConstantUtil.RES_MSG_EXIST, 1);
+		}
+		hptbService.saveHptbActivity(hptbActivity);
+		return getSuccessMessage();
+	}
+
+	/**
+	 * hptb_activity 修改
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/updateHptbActivity.do")
+	@ResponseBody
+	public Map<String, Object> updateHptbActivity(@RequestParam Map<String, String> reqPara) {
+		HptbActivity hptbActivity = getHptbActivity(reqPara);
+		hptbService.updateHptbActivity(hptbActivity);
+		return getSuccessMessage();
+	}
+
+	/**
+	 * hptb_activity 删除
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/deleteHptbActivity.do")
+	@ResponseBody
+	public Map<String, Object> deleteHptbActivity(@RequestParam Map<String, String> reqPara) {
+		Integer id = Integer.parseInt(reqPara.get("id"));
+		HptbActivity hptbActivity = new HptbActivity();
+		hptbActivity.setId(id);
+		hptbService.deleteHptbActivity(hptbActivity);
+		return getSuccessMessage();
+	}
+
+	/**
+	 * *** ( hptb_history ) ***
+	 */
+
+	/**
+	 * hptbhistory 列表页面
+	 * 
+	 * @return
+	 **/
+	@RequestMapping(value = "hptbhistorylist.do")
+	public ModelAndView hptbhistorylist() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/hptb/hptbhistorylist");
+		return mv;
+	}
+
+	/**
+	 * hptb_history数据
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/hptbhistory.do")
+	@ResponseBody
+	public Map<String, Object> hptbhistory(@RequestParam Map<String, String> reqPara) {
+		logger.info("页面请求参数: " + reqPara);
+		PageBounds pageBounds = handlePageInfoForManage(reqPara);
+		String sEcho = reqPara.get("draw");
+		Map<String, String> paramMap = Maps.newHashMap();
+		// 条件参数
+		String engSnUsed = reqPara.get("engSnUsed");
+		paramMap.put("engSnUsed", engSnUsed);
+		PageList<HptbHistory> pageList = (PageList<HptbHistory>) hptbService.getHptbHistoryList(paramMap, pageBounds);
+		Pageable page = new PageRequest(pageBounds.getPage(), pageBounds.getLimit());
+		Page<HptbHistory> content = new PageImpl<>(pageList, page, pageList.getPaginator().getTotalCount());
+		Map<String, Object> map = Maps.newHashMap();
+		map.put("data", pageList);
+		map.put("iTotalRecords", content.getTotalElements());
+		map.put("iTotalDisplayRecords", content.getTotalElements());
+		map.put("sEcho", sEcho);
+		map.put("draw", sEcho);
+		return map;
+	}
+
+	/**
+	 * 获取 hptbhistory 信息
+	 * 
+	 * @param reqData
+	 * @return
+	 */
+	public HptbHistory getHptbHistory(Map<String, String> reqPara) {
+		logger.info("待编辑信息: " + reqPara);
+
+		String id = reqPara.get("id");
+		String engSnUsed = reqPara.get("engSnUsed");
+		String hptbPn = reqPara.get("hptbPn");
+		String hptbSn = reqPara.get("hptbSn");
+		String engPn = reqPara.get("engPn");
+		String onDate = reqPara.get("onDate");
+		String onEtsn = reqPara.get("onEtsn");
+		String onEcsn = reqPara.get("onEcsn");
+		String onPtsn = reqPara.get("onPtsn");
+		String onPcsn = reqPara.get("onPcsn");
+		String offDate = reqPara.get("offDate");
+		String offEtsn = reqPara.get("offEtsn");
+		String offEcsn = reqPara.get("offEcsn");
+		String offPtsn = reqPara.get("offPtsn");
+		String offPcsn = reqPara.get("offPcsn");
+		String limitSpecial = reqPara.get("limitSpecial");
+		String code = reqPara.get("code");
+		String remark = reqPara.get("remark");
+
+		HptbHistory hptbHistory = new HptbHistory();
+		if (id != null) {
+			hptbHistory.setId(Integer.parseInt(id));
+		}
+		hptbHistory.setEngSnUsed(engSnUsed);
+		hptbHistory.setHptbPn(hptbPn);
+		hptbHistory.setHptbSn(hptbSn);
+		hptbHistory.setEngPn(engPn);
+		hptbHistory.setOnDate(onDate);
+		hptbHistory.setOnEtsn(onEtsn);
+		hptbHistory.setOnEcsn(onEcsn);
+		hptbHistory.setOnPtsn(onPtsn);
+		hptbHistory.setOnPcsn(onPcsn);
+		hptbHistory.setOffDate(offDate);
+		hptbHistory.setOffEtsn(offEtsn);
+		hptbHistory.setOffEcsn(offEcsn);
+		hptbHistory.setOffPtsn(offPtsn);
+		hptbHistory.setOffPcsn(offPcsn);
+		hptbHistory.setLimitSpecial(limitSpecial);
+		hptbHistory.setCode(code);
+		hptbHistory.setRemark(remark);
+		String date = LocalDateTime.now().toString().replace("T", " ");
+		String time = date.substring(0, date.indexOf("."));
+		hptbHistory.setCtime(time);
+		return hptbHistory;
+	}
+
+	/**
+	 * hptb_history 添加
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/saveHptbHistory.do")
+	@ResponseBody
+	public Map<String, Object> saveHptbHistory(@RequestParam Map<String, String> reqPara) {
+		HptbHistory hptbHistory = getHptbHistory(reqPara);
+		HptbHistory selectHptbHistory = hptbService.selectHptbHistory(hptbHistory);
+		if (selectHptbHistory != null) {
+			return getFailureMessage(ConstantUtil.RES_MSG_EXIST, 1);
+		}
+		hptbService.saveHptbHistory(hptbHistory);
+		return getSuccessMessage();
+	}
+
+	/**
+	 * hptb_history 修改
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/updateHptbHistory.do")
+	@ResponseBody
+	public Map<String, Object> updateHptbHistory(@RequestParam Map<String, String> reqPara) {
+		HptbHistory hptbHistory = getHptbHistory(reqPara);
+		hptbService.updateHptbHistory(hptbHistory);
+		return getSuccessMessage();
+	}
+
+	/**
+	 * hptb_history 删除
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/deleteHptbHistory.do")
+	@ResponseBody
+	public Map<String, Object> deleteHptbHistory(@RequestParam Map<String, String> reqPara) {
+		Integer id = Integer.parseInt(reqPara.get("id"));
+		HptbHistory hptbHistory = new HptbHistory();
+		hptbHistory.setId(id);
+		hptbService.deleteHptbHistory(hptbHistory);
+		return getSuccessMessage();
+	}
+
+}

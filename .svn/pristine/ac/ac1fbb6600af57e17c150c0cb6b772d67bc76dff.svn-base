@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.RuleComputationMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.RuleComputation">
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="INSPECTION_ID" jdbcType="VARCHAR" property="inspectionId" />
+		<result column="TYPE" jdbcType="VARCHAR" property="type" />
+		<result column="RULE_ID" jdbcType="VARCHAR" property="ruleId" />
+		<result column="MAX_VAL" jdbcType="VARCHAR" property="maxVal" />
+		<result column="MIN_VAL" jdbcType="VARCHAR" property="minVal" />
+		<result column="CTIME" jdbcType="VARCHAR" property="ctime" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ID,INSPECTION_ID,TYPE,RULE_ID,MAX_VAL,MIN_VAL,CTIME
+	</sql>
+	
+	<select id="select" parameterType="com.cea.ehm.bean.RuleComputation" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM rule_computation
+		WHERE ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getRuleComputationList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM rule_computation
+	</select>
+
+	<insert id="insert" parameterType="com.cea.ehm.bean.RuleComputation">
+		INSERT INTO rule_computation
+			(ID,INSPECTION_ID,TYPE,RULE_ID,MAX_VAL,MIN_VAL,CTIME)
+		VALUES
+		(
+			#{id,jdbcType=VARCHAR},
+			#{inspectionId,jdbcType=VARCHAR},
+			#{type,jdbcType=VARCHAR},
+			#{ruleId,jdbcType=VARCHAR},
+			#{maxVal,jdbcType=VARCHAR},
+			#{minVal,jdbcType=VARCHAR},
+			#{ctime,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="com.cea.ehm.bean.RuleComputation">
+		DELETE FROM
+			rule_computation
+		WHERE
+			ID = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<update id="update" parameterType="com.cea.ehm.bean.RuleComputation">
+		UPDATE rule_computation
+		<set>
+			<if test="inspectionId != null">
+				INSPECTION_ID = #{inspectionId,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				TYPE = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="ruleId != null">
+				RULE_ID = #{ruleId,jdbcType=VARCHAR},
+			</if>
+			<if test="maxVal != null">
+				MAX_VAL = #{maxVal,jdbcType=VARCHAR},
+			</if>
+			<if test="minVal != null">
+				MIN_VAL = #{minVal,jdbcType=VARCHAR}
+			</if>
+		</set>
+		WHERE ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

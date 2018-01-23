@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.DataEngMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.DataEng">
+		<result column="ENG_SN" jdbcType="VARCHAR" property="engSn" />
+		<result column="ENG_SN_SAP" jdbcType="VARCHAR" property="engSnSap" />
+		<result column="ENG_SERIES" jdbcType="VARCHAR" property="engSeries" />
+		<result column="ENG_TYPE" jdbcType="VARCHAR" property="engType" />
+		<result column="ENG_MODEL" jdbcType="VARCHAR" property="engModel" />
+		<result column="ENG_CONFIG" jdbcType="VARCHAR" property="engConfig" />
+		<result column="DELIVERY_MODE" jdbcType="VARCHAR" property="deliveryMode" />
+		<result column="OWNER" jdbcType="VARCHAR" property="owner" />
+		<result column="CODE_CONFIG" jdbcType="VARCHAR" property="codeConfig" />
+		<result column="ENG_CONFIGRATION" jdbcType="VARCHAR" property="engConfigration" />
+		<result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ENG_SN, ENG_SN_SAP, ENG_SERIES, ENG_TYPE, ENG_MODEL, ENG_CONFIG,
+		DELIVERY_MODE, OWNER, CODE_CONFIG ,ENG_CONFIGRATION ,CTIME
+	</sql>
+
+	<select id="select" parameterType="com.cea.ehm.bean.DataEng"
+		resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_data_eng
+		WHERE ENG_SN = #{engSn,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getdataengList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_data_eng
+		WHERE ENG_SN LIKE CONCAT('%',#{engSn,jdbcType=VARCHAR})
+	</select>
+
+	<insert id="insert" parameterType="com.cea.ehm.bean.DataEng">
+		INSERT INTO ehm_data_eng
+		(
+			ENG_SN, ENG_SN_SAP, ENG_SERIES, ENG_TYPE, ENG_MODEL, ENG_CONFIG,
+			DELIVERY_MODE, OWNER, CODE_CONFIG ,ENG_CONFIGRATION ,CTIME
+		)
+		VALUES
+		(
+			#{engSn,jdbcType=VARCHAR},
+			#{engSnSap,jdbcType=VARCHAR},
+			#{engSeries,jdbcType=VARCHAR},
+			#{engType,jdbcType=VARCHAR},
+			#{engModel,jdbcType=VARCHAR},
+			#{engConfig,jdbcType=VARCHAR},
+			#{deliveryMode,jdbcType=VARCHAR},
+			#{owner,jdbcType=VARCHAR},
+			#{codeConfig,jdbcType=VARCHAR},
+			#{engConfigration,jdbcType=VARCHAR},
+			#{ctime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="com.cea.ehm.bean.DataEng">
+		DELETE FROM
+			ehm_data_eng
+		WHERE
+			ENG_SN = #{engSn,jdbcType=VARCHAR}
+	</delete>
+
+	<update id="update" parameterType="com.cea.ehm.bean.DataEng">
+		UPDATE ehm_data_eng
+		<set>
+			<if test="engSnSap != null">
+				ENG_SN_SAP = #{engSnSap,jdbcType=VARCHAR},
+			</if>
+			<if test="engSeries != null">
+				ENG_SERIES = #{engSeries,jdbcType=VARCHAR},
+			</if>
+			<if test="engType != null">
+				ENG_TYPE = #{engType,jdbcType=VARCHAR},
+			</if>
+			<if test="engModel != null">
+				ENG_MODEL = #{engModel,jdbcType=VARCHAR},
+			</if>
+			<if test="engConfig != null">
+				ENG_CONFIG = #{engConfig,jdbcType=INTEGER},
+			</if>
+			<if test="deliveryMode != null">
+				DELIVERY_MODE = #{deliveryMode,jdbcType=VARCHAR},
+			</if>
+			<if test="owner != null">
+				OWNER = #{owner,jdbcType=VARCHAR},
+			</if>
+			<if test="codeConfig != null">
+				CODE_CONFIG = #{codeConfig,jdbcType=VARCHAR},
+			</if>
+			<if test="engConfigration != null">
+				ENG_CONFIGRATION = #{engConfigration,jdbcType=VARCHAR},
+			</if>
+		</set>
+		WHERE ENG_SN = #{engSn,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

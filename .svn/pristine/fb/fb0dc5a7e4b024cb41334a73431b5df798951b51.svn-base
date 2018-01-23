@@ -1,0 +1,74 @@
+package com.cea.ehm.controller.manage;
+
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.cea.ehm.controller.BaseController;
+import com.cea.ehm.util.Constant;
+import com.cea.ehm.util.PropertiesUtil;
+import com.google.common.base.Strings;
+
+@Controller
+@RequestMapping(value = "/manage/auth")
+public class LoginController extends BaseController {
+
+	private static final Logger logger = Logger.getLogger(LoginController.class);
+
+	/**
+	 * 注销登录
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/logout")
+	@ResponseBody
+	public Map<String, Object> logout(HttpServletRequest request) {
+		request.getSession().setAttribute(Constant.SESSION_USERNAME, null);
+		request.getSession().setAttribute(Constant.SESSION_PASSWORD, null);
+		request.getSession().setAttribute(Constant.SESSION_TYPE, null);
+		return getSuccessMessage();
+	}
+
+	/**
+	 * 登录验证
+	 * 
+	 * @param reqPara
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/login.do")
+	@ResponseBody
+	public Map<String, Object> login(@RequestParam Map<String, String> reqPara, HttpServletRequest request)
+			throws Exception {
+		String username = reqPara.get("username");
+		String password = reqPara.get("password");
+		logger.info("用户名: " + username + " 密码: " + password);
+
+		if (Strings.isNullOrEmpty(username) || Strings.isNullOrEmpty(password)) {
+			return getFailureMessage("请输入账号和密码！", 301);
+		}
+
+		String adminUser = PropertiesUtil.getFromLoginPro("USERNAME");
+		String adminPWD = PropertiesUtil.getFromLoginPro("PASSWORD");
+
+		if (adminUser.equals(username) && adminPWD.equals(password)) {
+			request.getSession().setAttribute(Constant.SESSION_USERNAME, username);
+			request.getSession().setAttribute(Constant.SESSION_PASSWORD, password);
+			// 用户登录 把权限规则放入session ,拦截器实现权限管理（现阶段使用）
+			request.getSession().setAttribute(Constant.SESSION_TYPE, "admin_1");
+			return getSuccessMessage();
+		} else {
+			return getFailureMessage("账号或密码错误！", 201);
+		}
+
+	}
+
+}

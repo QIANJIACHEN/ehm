@@ -1,0 +1,377 @@
+package com.cea.ehm.bean;
+
+import java.io.Serializable;
+
+/**
+ * 发动机监测参数表
+ */
+public class DataCfmPerformance implements Serializable {
+	private static final long serialVersionUID = 1L;
+	// 某个点飞机的唯一标识,表之间一般使用这个字段进行关联
+	private String TAIL;
+	// EPOSITION
+	private String EPOSITION;
+	// ESN
+	private String ESN;
+	// FLIGHT_PHASE
+	private String FLIGHT_PHASE;
+	// 时间
+	private String FLIGHT_DATETIME;
+	// 发动机类型
+	private String ENGINE_TYPE;
+	// N1 Phase Angle Rear
+	private Integer ZPHSR;
+	// Delta Core Speed Smoothed
+	private String GPCN25_SMOOTHED;
+	// Delta EGT Smoothed
+	private String DEGT_SMOOTHED;
+	// N1 Phase Angle Fwd
+	private String ZPHSF;
+	// EGT Hot Day Margin Divergence
+	private String EGTHDM_D;
+	// Fan Vibe Fwd Smoothed
+	private String ZVB1F_SMOOTHED;
+	//Delta Fuel Flow
+	private String GWFM;
+	// EGT Hot Day Margin
+	private String EGTHDM;
+	//Delta Fuel Flow Divergence
+	private String GWFM_D;
+	//Fan Vibe Rear
+	private String ZVB1R;
+	//EGT Hot Day Margin Divergence Smoothed
+	private String EGTHDM_D_SMOOTHED;
+	//Oil Temperature
+	private String ZTOIL;
+	//Core Vibe Fwd
+	private String ZVB2F;
+	//Core Vibe Rear
+	private String ZVB2R;
+	//Fan Vibe Fwd
+	private String ZVB1F;
+	//Core Vibe Rear Smoothed
+	private String ZVB2R_SMOOTHED;
+	//Delta EGT Divergence Smoothed
+	private String DEGT_D_SMOOTHED;
+	//Delta Core Speed Divergence
+	private String GPCN25_D;
+	//Fan Vibe Rear Smoothed
+	private String ZVB1R_SMOOTHED;
+	//Oil Temperature Smoothed
+	private String ZTOIL_SMOOTHED;
+	//Delta Fuel Flow Smoothed
+	private String GWFM_SMOOTHED;
+	//Delta Core Speed
+	private String GPCN25;
+	// Delta Fuel Flow Divergence Smoothed
+	private String GWFM_D_SMOOTHED;
+	// Delta Core Speed Divergence Smoothed
+	private String GPCN25_D_SMOOTHED;
+	//Core Vibe Fwd Smoothed
+	private String ZVB2F_SMOOTHED;
+	//Oil Pressure Smoothed
+	private String ZPOIL_SMOOTHED;
+	//EGT Hot Day Margin Smoothed
+	private String EGTHDM_SMOOTHED;
+	//Delta EGT Divergence
+	private String DEGT_D;
+	//Oil Pressure
+	private String ZPOIL;
+	//EGT
+	private String ZT49;
+	//Delta EGT
+	private String DEGT;
+	
+	@SuppressWarnings("unused")
+	private String button;
+
+//	public String getButton() {
+//		return "<button class='btn btn-block btn-default edit' data-id='"+getUserId()+"'>修改</button><button class='btn btn-block btn-default delete' data-id='"+getUserId()+"'>删除</button>";
+//	}
+
+	public String getTAIL() {
+		return TAIL;
+	}
+
+	public void setTAIL(String TAIL) {
+		this.TAIL = TAIL;
+	}
+
+	public String getEPOSITION() {
+		return EPOSITION;
+	}
+
+	public void setEPOSITION(String EPOSITION) {
+		this.EPOSITION = EPOSITION;
+	}
+
+	public String getESN() {
+		return ESN;
+	}
+
+	public void setESN(String ESN) {
+		this.ESN = ESN;
+	}
+
+	public String getFLIGHT_PHASE() {
+		return FLIGHT_PHASE;
+	}
+
+	public void setFLIGHT_PHASE(String FLIGHT_PHASE) {
+		this.FLIGHT_PHASE = FLIGHT_PHASE;
+	}
+
+	public String getFLIGHT_DATETIME() {
+		return FLIGHT_DATETIME;
+	}
+
+	public void setFLIGHT_DATETIME(String FLIGHT_DATETIME) {
+		this.FLIGHT_DATETIME = FLIGHT_DATETIME;
+	}
+
+	public String getENGINE_TYPE() {
+		return ENGINE_TYPE;
+	}
+
+	public void setENGINE_TYPE(String ENGINE_TYPE) {
+		this.ENGINE_TYPE = ENGINE_TYPE;
+	}
+
+	public Integer getZPHSR() {
+		return ZPHSR;
+	}
+
+	public void setZPHSR(Integer ZPHSR) {
+		this.ZPHSR = ZPHSR;
+	}
+
+	public String getGPCN25_SMOOTHED() {
+		return GPCN25_SMOOTHED;
+	}
+
+	public void setGPCN25_SMOOTHED(String GPCN25_SMOOTHED) {
+		this.GPCN25_SMOOTHED = GPCN25_SMOOTHED;
+	}
+
+	public String getDEGT_SMOOTHED() {
+		return DEGT_SMOOTHED;
+	}
+
+	public void setDEGT_SMOOTHED(String DEGT_SMOOTHED) {
+		this.DEGT_SMOOTHED = DEGT_SMOOTHED;
+	}
+
+	public String getZPHSF() {
+		return ZPHSF;
+	}
+
+	public void setZPHSF(String ZPHSF) {
+		this.ZPHSF = ZPHSF;
+	}
+
+	public String getEGTHDM_D() {
+		return EGTHDM_D;
+	}
+
+	public void setEGTHDM_D(String EGTHDM_D) {
+		this.EGTHDM_D = EGTHDM_D;
+	}
+	public String getZVB1F_SMOOTHED() {
+		return ZVB1F_SMOOTHED;
+	}
+
+	public void setZVB1F_SMOOTHED(String ZVB1F_SMOOTHED) {
+		this.ZVB1F_SMOOTHED = ZVB1F_SMOOTHED;
+	}
+	public String getGWFM() {
+		return GWFM;
+	}
+
+	public void setGWFM(String GWFM) {
+		this.GWFM = GWFM;
+	}
+	public String getEGTHDM() {
+		return EGTHDM;
+	}
+
+	public void setEGTHDM(String EGTHDM) {
+		this.EGTHDM = EGTHDM;
+	}
+	public String getGWFM_D() {
+		return GWFM_D;
+	}
+
+	public void setGWFM_D(String GWFM_D) {
+		this.GWFM_D = GWFM_D;
+	}
+	public String getZVB1R() {
+		return ZVB1R;
+	}
+
+	public void setZVB1R(String ZVB1R) {
+		this.ZVB1R = ZVB1R;
+	}
+	public String getEGTHDM_D_SMOOTHED() {
+		return EGTHDM_D_SMOOTHED;
+	}
+
+	public void setEGTHDM_D_SMOOTHED(String EGTHDM_D_SMOOTHED) {
+		this.EGTHDM_D_SMOOTHED = EGTHDM_D_SMOOTHED;
+	}
+	public String getZTOIL() {
+		return ZTOIL;
+	}
+
+	public void setZTOIL(String ZTOIL) {
+		this.ZTOIL = ZTOIL;
+	}
+	public String getZVB2F() {
+		return ZVB2F;
+	}
+
+	public void setZVB2F(String ZVB2F) {
+		this.ZVB2F = ZVB2F;
+	}
+	public String getZVB2R() {
+		return ZVB2R;
+	}
+
+	public void setZVB2R(String ZVB2R) {
+		this.ZVB2R = ZVB2R;
+	}
+	
+	public String getZVB1F() {
+		return ZVB1F;
+	}
+
+	public void setZVB1F(String ZVB1F) {
+		this.ZVB1F = ZVB1F;
+	}
+	public String getZVB2R_SMOOTHED() {
+		return ZVB2R_SMOOTHED;
+	}
+
+	public void setZVB2R_SMOOTHED(String ZVB2R_SMOOTHED) {
+		this.ZVB2R_SMOOTHED = ZVB2R_SMOOTHED;
+	}
+	public String getDEGT_D_SMOOTHED() {
+		return DEGT_D_SMOOTHED;
+	}
+
+	public void setDEGT_D_SMOOTHED(String DEGT_D_SMOOTHED) {
+		this.DEGT_D_SMOOTHED = DEGT_D_SMOOTHED;
+	}
+	public String getGPCN25_D() {
+		return GPCN25_D;
+	}
+
+	public void setGPCN25_D(String GPCN25_D) {
+		this.GPCN25_D = GPCN25_D;
+	}
+	public String getZVB1R_SMOOTHED() {
+		return ZVB1R_SMOOTHED;
+	}
+
+	public void setZVB1R_SMOOTHED(String ZVB1R_SMOOTHED) {
+		this.ZVB1R_SMOOTHED = ZVB1R_SMOOTHED;
+	}
+	public String getZTOIL_SMOOTHED() {
+		return ZTOIL_SMOOTHED;
+	}
+
+	public void setZTOIL_SMOOTHED(String ZTOIL_SMOOTHED) {
+		this.ZTOIL_SMOOTHED = ZTOIL_SMOOTHED;
+	}
+	public String getGWFM_SMOOTHED() {
+		return GWFM_SMOOTHED;
+	}
+
+	public void setGWFM_SMOOTHED(String GWFM_SMOOTHED) {
+		this.GWFM_SMOOTHED = GWFM_SMOOTHED;
+	}
+	public String getGPCN25() {
+		return GPCN25;
+	}
+
+	public void setGPCN25(String GPCN25) {
+		this.GPCN25 = GPCN25;
+	}
+	public String getGWFM_D_SMOOTHED() {
+		return GWFM_D_SMOOTHED;
+	}
+
+	public void setGWFM_D_SMOOTHED(String GWFM_D_SMOOTHED) {
+		this.GWFM_D_SMOOTHED = GWFM_D_SMOOTHED;
+	}
+	public String getGPCN25_D_SMOOTHED() {
+		return GPCN25_D_SMOOTHED;
+	}
+
+	public void setGPCN25_D_SMOOTHED(String GPCN25_D_SMOOTHED) {
+		this.GPCN25_D_SMOOTHED = GPCN25_D_SMOOTHED;
+	}
+	public String getZVB2F_SMOOTHED() {
+		return ZVB2F_SMOOTHED;
+	}
+
+	public void setZVB2F_SMOOTHED(String ZVB2F_SMOOTHED) {
+		this.ZVB2F_SMOOTHED = ZVB2F_SMOOTHED;
+	}
+	public String getZPOIL_SMOOTHED() {
+		return ZPOIL_SMOOTHED;
+	}
+
+	public void setZPOIL_SMOOTHED(String ZPOIL_SMOOTHED) {
+		this.ZPOIL_SMOOTHED = ZPOIL_SMOOTHED;
+	}
+	public String getEGTHDM_SMOOTHED() {
+		return EGTHDM_SMOOTHED;
+	}
+
+	public void setEGTHDM_SMOOTHED(String EGTHDM_SMOOTHED) {
+		this.EGTHDM_SMOOTHED = EGTHDM_SMOOTHED;
+	}
+	public String getDEGT_D() {
+		return DEGT_D;
+	}
+
+	public void setDEGT_D(String DEGT_D) {
+		this.DEGT_D = DEGT_D;
+	}
+	
+	public String getZPOIL() {
+		return ZPOIL;
+	}
+
+	public void setZPOIL(String ZPOIL) {
+		this.ZPOIL = ZPOIL;
+	}
+	
+	public String getZT49() {
+		return ZT49;
+	}
+
+	public void setZT49(String ZT49) {
+		this.ZT49 = ZT49;
+	}
+	
+	public String getDEGT() {
+		return DEGT;
+	}
+
+	public void setDEGT(String DEGT) {
+		this.DEGT = DEGT;
+	}
+	@Override
+	public String toString() {
+		return "User [TAIL=" + TAIL + ", EPOSITION=" + EPOSITION + ", ESN=" + ESN + ", FLIGHT_PHASE=" + FLIGHT_PHASE
+				+ ", FLIGHT_DATETIME=" + FLIGHT_DATETIME + ", ENGINE_TYPE=" + ENGINE_TYPE + ", ZPHSR=" + ZPHSR + ", GPCN25_SMOOTHED=" + GPCN25_SMOOTHED + ","
+				+ ", ZPHSF=" + ZPHSF + ", EGTHDM_D =" + EGTHDM_D + ", ZVB1F_SMOOTHED=" + ZVB1F_SMOOTHED + ", GWFM=" + GWFM + ", EGTHDM=" + EGTHDM 
+				+ ", GWFM_D=" + GWFM_D + ", ZVB1R=" + ZVB1R + ", EGTHDM_D_SMOOTHED=" + EGTHDM_D_SMOOTHED +", ZTOIL=" + ZTOIL + ", ZVB2F="+ ZVB2F 
+				+ ", ZVB2R ="+ ZVB2R + ", ZVB1F=" + ZVB1F + ", ZVB2R_SMOOTHED=" + ZVB2R_SMOOTHED +", DEGT_D_SMOOTHED="+ DEGT_D_SMOOTHED +", GPCN25_D="
+				+ GPCN25_D +", ZVB1R_SMOOTHED=" + ZVB1R_SMOOTHED + ", ZTOIL_SMOOTHED=" + ZTOIL_SMOOTHED + ", GWFM_SMOOTHED="+ GWFM_SMOOTHED +", GPCN25=" + GPCN25 
+				+", GWFM_D_SMOOTHED=" + GWFM_D_SMOOTHED + ", GPCN25_D_SMOOTHED="+ GPCN25_D_SMOOTHED + ", ZVB2F_SMOOTHED="+ ZVB2F_SMOOTHED +", ZPOIL_SMOOTHED=" 
+				+ ZPOIL_SMOOTHED + ", EGTHDM_SMOOTHED=" + EGTHDM_SMOOTHED + ", DEGT_D=" + DEGT_D +", ZPOIL=" + ZPOIL +", ZT49="+ ZT49 +", DEGT=" + DEGT + " ]";
+	}
+
+}

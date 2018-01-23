@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.OilConsumptionMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.OilConsumption">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="DUTY" jdbcType="INTEGER" property="duty" />
+		<result column="DUTYNAME" jdbcType="VARCHAR" property="dutyName" />
+		<result column="CONFIG_PLANE" jdbcType="VARCHAR" property="configPlane" />
+		<result column="PLANE_ID" jdbcType="INTEGER" property="planeId" />
+		<result column="TAIL" jdbcType="VARCHAR" property="tail" />
+		<result column="FLT_NO" jdbcType="VARCHAR" property="fltNo" />
+		<result column="FLT_TIME" jdbcType="TIMESTAMP" property="fltTime" />
+		<result column="AIR_TIME" jdbcType="TIMESTAMP" property="airTime" />
+		<result column="GROUND_TIME" jdbcType="TIMESTAMP" property="groundTime" />
+		<result column="START_TERMINAL" jdbcType="VARCHAR" property="startTerminal" />
+		<result column="END_TERMINAL" jdbcType="VARCHAR" property="endTerminal" />
+		<result column="REFUEL_OIL_1" jdbcType="VARCHAR" property="refuelOil1" />
+		<result column="OIL_ADDITION_1" jdbcType="VARCHAR" property="oilAddition1" />
+		<result column="REFUEL_TIME_DIFFERENCE_1" jdbcType="VARCHAR" property="refuelTimeDifference1" />
+		<result column="OIL_CONSUME_1" jdbcType="VARCHAR" property="oilConsume1" />
+		<result column="OIL_CONSUME_RATE_1" jdbcType="VARCHAR" property="oilConsumeRate1" />
+		<result column="REFUEL_OIL_2" jdbcType="VARCHAR" property="refuelOil2" />
+		<result column="OIL_ADDITION_2" jdbcType="VARCHAR" property="oilAddition2" />
+		<result column="REFUEL_TIME_DIFFERENCE_2" jdbcType="VARCHAR" property="refuelTimeDifference2" />
+		<result column="OIL_CONSUME_2" jdbcType="VARCHAR" property="oilConsume2" />
+		<result column="OIL_CONSUME_RATE_2" jdbcType="VARCHAR" property="oilConsumeRate2" />
+		<result column="REFUEL_OIL_3" jdbcType="VARCHAR" property="refuelOil3" />
+		<result column="OIL_ADDITION_3" jdbcType="VARCHAR" property="oilAddition3" />
+		<result column="REFUEL_TIME_DIFFERENCE_3" jdbcType="VARCHAR" property="refuelTimeDifference3" />
+		<result column="OIL_CONSUME_3" jdbcType="VARCHAR" property="oilConsume3" />
+		<result column="OIL_CONSUME_RATE_3" jdbcType="VARCHAR" property="oilConsumeRate3" />
+		<result column="REFUEL_OIL_4" jdbcType="VARCHAR" property="refuelOil4" />
+		<result column="OIL_ADDITION_4" jdbcType="VARCHAR" property="oilAddition4" />
+		<result column="REFUEL_TIME_DIFFERENCE_4" jdbcType="VARCHAR" property="refuelTimeDifference4" />
+		<result column="OIL_CONSUME_4" jdbcType="VARCHAR" property="oilConsume4" />
+		<result column="OIL_CONSUME_RATE_4" jdbcType="VARCHAR" property="oilConsumeRate4" />
+		<result column="ENG_VIGILANCE" jdbcType="VARCHAR" property="engVigilance" />
+		<result column="APU_OIL_ADDITION" jdbcType="VARCHAR" property="apuOilAddition" />
+		<result column="APU_OIL_CONSUME_RATE" jdbcType="VARCHAR" property="apuOilConsumeRate" />
+		<result column="APU_OIL_CONSUME_VIGILANCE" jdbcType="VARCHAR" property="apuOilConsumeVigilance" />
+		<result column="USERID" jdbcType="VARCHAR" property="userId" />
+		<result column="USERNAME" jdbcType="VARCHAR" property="username" />
+		<result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ID,DUTY,CONFIG_PLANE,PLANE_ID,TAIL,FLT_NO,FLT_TIME,AIR_TIME,GROUND_TIME,START_TERMINAL,
+		END_TERMINAL,REFUEL_OIL_1,OIL_ADDITION_1,REFUEL_TIME_DIFFERENCE_1,OIL_CONSUME_1,OIL_CONSUME_RATE_1,
+		REFUEL_OIL_2,OIL_ADDITION_2,REFUEL_TIME_DIFFERENCE_2,OIL_CONSUME_2,OIL_CONSUME_RATE_2,
+		REFUEL_OIL_3,OIL_ADDITION_3,REFUEL_TIME_DIFFERENCE_3,OIL_CONSUME_3,OIL_CONSUME_RATE_3,
+		REFUEL_OIL_4,OIL_ADDITION_4,REFUEL_TIME_DIFFERENCE_4,OIL_CONSUME_4,OIL_CONSUME_RATE_4,
+		ENG_VIGILANCE,APU_OIL_ADDITION,APU_OIL_CONSUME_RATE,APU_OIL_CONSUME_VIGILANCE,USERID,CTIME
+	</sql>
+	
+	<select id="getList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_data_sap_oil_consumption
+		WHERE 1 = 1
+		<if test="duty != null">
+			AND DUTY = #{duty,jdbcType=INTEGER}
+		</if>
+		<if test="planeId != null">
+			AND PLANE_ID = #{planeId,jdbcType=INTEGER}
+		</if>
+	</select>
+	
+	<select id="select" parameterType="com.cea.ehm.bean.OilConsumption" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_data_sap_oil_consumption
+		WHERE ID = #{Id,jdbcType=INTEGER}
+	</select>
+	
+	<select id="allOilConsumption" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_data_sap_oil_consumption
+	</select>
+	
+	<select id="oilInfo" resultMap="baseResultMap" >
+		SELECT
+		dsoc.*,d.NAME as DUTYNAME,u.REALNAME as USERNAME
+		FROM ehm_data_sap_oil_consumption dsoc 
+		LEFT JOIN ehm_duty d ON d.ID = dsoc.DUTY
+		LEFT JOIN ehm_user u ON u.USERID = dsoc.USERID
+		WHERE dsoc.ID = #{id,jdbcType=VARCHAR}
+	</select>
+	
+	<insert id="save" parameterType="com.cea.ehm.bean.OilConsumption">
+		INSERT INTO ehm_data_sap_oil_consumption
+		(
+			DUTY,CONFIG_PLANE,PLANE_ID,TAIL,FLT_NO,FLT_TIME,AIR_TIME,GROUND_TIME,START_TERMINAL,
+			END_TERMINAL,REFUEL_OIL_1,OIL_ADDITION_1,REFUEL_TIME_DIFFERENCE_1,OIL_CONSUME_1,OIL_CONSUME_RATE_1,
+			REFUEL_OIL_2,OIL_ADDITION_2,REFUEL_TIME_DIFFERENCE_2,OIL_CONSUME_2,OIL_CONSUME_RATE_2,
+			REFUEL_OIL_3,OIL_ADDITION_3,REFUEL_TIME_DIFFERENCE_3,OIL_CONSUME_3,OIL_CONSUME_RATE_3,
+			REFUEL_OIL_4,OIL_ADDITION_4,REFUEL_TIME_DIFFERENCE_4,OIL_CONSUME_4,OIL_CONSUME_RATE_4,
+			ENG_VIGILANCE,APU_OIL_ADDITION,APU_OIL_CONSUME_RATE,APU_OIL_CONSUME_VIGILANCE,USERID,CTIME
+		)
+		VALUES
+		(
+			#{duty,jdbcType=INTEGER},
+			#{configPlane,jdbcType=VARCHAR},
+			#{planeId,jdbcType=INTEGER},
+			#{tail,jdbcType=VARCHAR},
+			#{fltNo,jdbcType=VARCHAR},
+			#{fltTime,jdbcType=TIMESTAMP},
+			#{airTime,jdbcType=TIMESTAMP},
+			#{groundTime,jdbcType=TIMESTAMP},
+			#{startTerminal,jdbcType=VARCHAR},
+			#{endTerminal,jdbcType=VARCHAR},
+			#{refuelOil1,jdbcType=VARCHAR},
+			#{oilAddition1,jdbcType=VARCHAR},
+			#{refuelTimeDifference1,jdbcType=VARCHAR},
+			#{oilConsume1,jdbcType=VARCHAR},
+			#{oilConsumeRate1,jdbcType=VARCHAR},
+			#{refuelOil2,jdbcType=VARCHAR},
+			#{oilAddition2,jdbcType=VARCHAR},
+			#{refuelTimeDifference2,jdbcType=VARCHAR},
+			#{oilConsume2,jdbcType=VARCHAR},
+			#{oilConsumeRate2,jdbcType=VARCHAR},
+			#{refuelOil3,jdbcType=VARCHAR},
+			#{oilAddition3,jdbcType=VARCHAR},
+			#{refuelTimeDifference3,jdbcType=VARCHAR},
+			#{oilConsume3,jdbcType=VARCHAR},
+			#{oilConsumeRate3,jdbcType=VARCHAR},
+			#{refuelOil4,jdbcType=VARCHAR},
+			#{oilAddition4,jdbcType=VARCHAR},
+			#{refuelTimeDifference4,jdbcType=VARCHAR},
+			#{oilConsume4,jdbcType=VARCHAR},
+			#{oilConsumeRate4,jdbcType=VARCHAR},
+			#{engVigilance,jdbcType=VARCHAR},
+			#{apuOilAddition,jdbcType=VARCHAR},
+			#{apuOilConsumeRate,jdbcType=VARCHAR},
+			#{apuOilConsumeVigilance,jdbcType=VARCHAR},
+			#{userId,jdbcType=INTEGER},
+			#{ctime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+
+	<delete id="delete">
+		DELETE FROM
+			ehm_data_sap_oil_consumption
+		WHERE
+			ID = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<update id="update" parameterType="com.cea.ehm.bean.OilConsumption">
+		UPDATE ehm_data_sap_oil_consumption
+		<set>
+			<if test="duty != null">
+				DUTY = #{duty,jdbcType=INTEGER},
+			</if>
+			<if test="configPlane != null">
+				CONFIG_PLANE = #{configPlane,jdbcType=VARCHAR},
+			</if>
+			<if test="planeId != null">
+				PLANE_ID = #{planeId,jdbcType=INTEGER},
+			</if>
+			<if test="tail != null">
+				TAIL = #{tail,jdbcType=VARCHAR},
+			</if>
+			<if test="fltNo != null">
+				FLT_NO = #{fltNo,jdbcType=VARCHAR},
+			</if>
+			<if test="fltTime != null and fltTime !=''">
+				FLT_TIME = #{fltTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="airTime != null and airTime !=''">
+				AIR_TIME = #{airTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="groundTime != null and groundTime !=''">
+				GROUND_TIME = #{groundTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="startTerminal != null">
+				START_TERMINAL = #{startTerminal,jdbcType=VARCHAR},
+			</if>
+			<if test="endTerminal != null">
+				END_TERMINAL = #{endTerminal,jdbcType=VARCHAR},
+			</if>
+			<if test="refuelOil1 != null">
+				REFUEL_OIL_1 = #{refuelOil1,jdbcType=VARCHAR},
+			</if>
+			<if test="oilAddition1 != null">
+				OIL_ADDITION_1 = #{oilAddition1,jdbcType=VARCHAR},
+			</if>
+			<if test="refuelTimeDifference1 != null">
+				REFUEL_TIME_DIFFERENCE_1 = #{refuelTimeDifference1,jdbcType=VARCHAR},
+			</if>
+			<if test="oilConsume1 != null">
+				OIL_CONSUME_1 = #{oilConsume1,jdbcType=VARCHAR},
+			</if>
+			<if test="oilConsumeRate1 != null">
+				OIL_CONSUME_RATE_1 = #{oilConsumeRate1,jdbcType=VARCHAR},
+			</if>
+			<if test="refuelOil2 != null">
+				REFUEL_OIL_2 = #{refuelOil2,jdbcType=VARCHAR},
+			</if>
+			<if test="oilAddition2 != null">
+				OIL_ADDITION_2 = #{oilAddition2,jdbcType=VARCHAR},
+			</if>
+			<if test="refuelTimeDifference2 != null">
+				REFUEL_TIME_DIFFERENCE_2 = #{refuelTimeDifference2,jdbcType=VARCHAR},
+			</if>
+			<if test="oilConsume2 != null">
+				OIL_CONSUME_2 = #{oilConsume2,jdbcType=VARCHAR},
+			</if>
+			<if test="oilConsumeRate2 != null">
+				OIL_CONSUME_RATE_2 = #{oilConsumeRate2,jdbcType=VARCHAR},
+			</if>
+			<if test="refuelOil3 != null">
+				REFUEL_OIL_3 = #{refuelOil3,jdbcType=VARCHAR},
+			</if>
+			<if test="oilAddition3 != null">
+				OIL_ADDITION_3 = #{oilAddition3,jdbcType=VARCHAR},
+			</if>
+			<if test="refuelTimeDifference3 != null">
+				REFUEL_TIME_DIFFERENCE_3 = #{refuelTimeDifference3,jdbcType=VARCHAR},
+			</if>
+			<if test="oilConsume3 != null">
+				OIL_CONSUME_3 = #{oilConsume3,jdbcType=INTEGER},
+			</if>
+			<if test="oilConsumeRate3 != null">
+				OIL_CONSUME_RATE_3 = #{oilConsumeRate3,jdbcType=VARCHAR},
+			</if>
+			<if test="refuelOil4 != null">
+				REFUEL_OIL_4 = #{refuelOil4,jdbcType=VARCHAR},
+			</if>
+			<if test="oilAddition4 != null">
+				OIL_ADDITION_4 = #{oilAddition4,jdbcType=VARCHAR},
+			</if>
+			<if test="refuelTimeDifference4 != null">
+				REFUEL_TIME_DIFFERENCE_4 = #{refuelTimeDifference4,jdbcType=VARCHAR},
+			</if>
+			<if test="oilConsume4 != null">
+				OIL_CONSUME_4 = #{oilConsume4,jdbcType=VARCHAR},
+			</if>
+			<if test="oilConsumeRate4 != null">
+				OIL_CONSUME_RATE_4 = #{oilConsumeRate4,jdbcType=VARCHAR},
+			</if>
+			<if test="engVigilance != null">
+				ENG_VIGILANCE = #{engVigilance,jdbcType=VARCHAR},
+			</if>
+			<if test="apuOilAddition != null">
+				APU_OIL_ADDITION = #{apuOilAddition,jdbcType=VARCHAR},
+			</if>
+			<if test="apuOilConsumeRate != null">
+				APU_OIL_CONSUME_RATE = #{apuOilConsumeRate,jdbcType=VARCHAR},
+			</if>
+			<if test="apuOilConsumeVigilance != null">
+				APU_OIL_CONSUME_VIGILANCE = #{apuOilConsumeVigilance,jdbcType=VARCHAR},
+			</if>
+		</set>
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

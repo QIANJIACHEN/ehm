@@ -1,0 +1,45 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<div class="modal fade" id="ruleinspection-add-modal" tabindex="-1" role="dialog" aria-labelledby="user-info-modal-label">
+    <div class="modal-dialog" role="document">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">检测规则信息</h3>
+            </div>
+            <form id="form-userinfo" method="post" enctype="multipart/form-data">
+                <div class="box-body">
+                        
+                    
+                    <div class="form-group">
+                        <label for="text-username">inspection_rule表ID</label>
+                        <input type="tel" class="form-control" id="addinspectionId"
+                               placeholder="inspection_rule表ID">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">条件类型</label>
+                        <input type="text" class="form-control" id="addtype"
+                               placeholder="录入人">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">规则参数ID</label>
+                        <input type="text" class="form-control" id="addruleId"
+                               placeholder="状态">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">最大值</label>
+                        <input type="text" class="form-control" id="addmaxVal"
+                               placeholder="警告提示内容">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">最小值</label>
+                        <input type="text" class="form-control" id="addminVal"
+                               placeholder="发动机序列">
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <button type="button" class="btn btn-primary pull-right" onclick="addruleinspection()">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

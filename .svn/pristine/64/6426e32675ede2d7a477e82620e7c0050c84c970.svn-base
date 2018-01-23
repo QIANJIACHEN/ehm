@@ -1,0 +1,23 @@
+package com.cea.ehm.dao;
+
+import java.util.Map;
+
+import com.cea.ehm.bean.Shake;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+/**
+ * 震动数据 持久层接口
+ */
+public interface ShakeMapper {
+
+	/**
+	 * 查询震动数据（起飞）
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	PageList<Shake> geListOne(Map<String, String> paramMap, PageBounds pageBounds);
+
+}

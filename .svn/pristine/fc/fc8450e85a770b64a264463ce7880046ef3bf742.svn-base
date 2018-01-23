@@ -1,0 +1,197 @@
+<%@ page language="java" contentType="text/html; charset=utf8"  pageEncoding="utf8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-head.jsp"/>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-script.jsp"/>
+</head>
+<body>
+<div class="wrapper">
+
+    <div class="box wrapper " style="overflow: hidden;">
+
+        <div class="box-header with-border">
+            <div class="row">
+                <div class="col-xs-2" style="min-width: 160px">
+                    <input type="text" class=" form-control" id="search-key" placeholder="名称">
+                </div>
+                <div class="col-xs-1" style="min-width: 160px">
+                    <button class="btn btn-block btn-default" onclick="searchUser()">
+                        <i class="fa fa-search"></i>
+                      	  搜索
+                    </button>
+                </div>
+                    <div class="col-xs-1" style="min-width: 160px">
+                    <button class="btn btn-block btn-default col-sm-1" data-toggle="modal" data-target="#activityAdd-modal">
+                        <i class="fa fa-plus"></i>
+                       	 添加
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="box-body">
+
+            <div class="dataTables_wrapper form-inline dt-bootstrap">
+                <table id="table-list" class="table  table-hover">
+                    <thead>
+                    <tr>
+                    	<th>id</th>
+                        <th>engSnUsed</th>
+                        <th>hptnPn</th>
+                        <th>hptnSn</th>
+                        <th>engPn</th>
+                        <th>onDate</th>
+                        <th>onEtsn</th>
+                        <th>onEcsn</th>
+                        <th>onPtsn</th>
+                        <th>onPcsn</th>
+                        <th>limitSpecial</th>
+                        <th>code</th>
+                        <th>remark</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<jsp:include page='historyModel.jsp'/>
+<jsp:include page='historyAddModel.jsp'/>
+<script type="text/javascript">
+$("#table-list").DataTable({
+    'dom': 'tr<"row"<"col-sm-5"l><"col-sm-7"p>>',
+    "serverSide": true,
+    ordering: false,
+    "type": "POST",
+    "ajax": {
+        "url": "${pageContext.request.contextPath}/manage/activity/historyInfo.do",
+        "type": "POST",
+        "data": function (d) {
+        	// 条件查询参数
+        	d.key = $("#search-key").val();
+        	
+        	// d.bzStatus = $("#search-bz-status").val();
+            // d.accountStatus = $("#search-account-status").val();
+        }
+   	 },
+    "columns": [
+    	{"data": "id"},
+        {"data": "engSnUsed"},
+        {"data": "hptnPn"},
+        {"data": "hptnSn"},
+        {"data": "engPn"},
+        {"data": "onDate"},
+        {"data": "onEtsn"},
+        {"data": "onEcsn"},
+        {"data": "onPtsn"},
+        {"data": "onPcsn"},
+        {"data": "limitSpecial"},
+        {"data": "code"},
+        {"data": "remark"},
+        null
+    ],
+    "ordering": false,
+    "searching": false,
+     "columnDefs": [
+        {
+            "targets": 13,
+            "data": function (row, type, val, meta) {
+                return row;
+            },
+            "render": function (data, type, full, meta) {
+                var table = $("#table-list").DataTable();
+                var result = '<div class="btn-group open">'
+                    + '<button class="btn btn-default btn-sm "'
+                    + ' data-toggle="modal" data-target="#activity-modal">'
+                    + '<i class="fa fa-gear"></i>'
+                    + '</button><button class="btn btn-default btn-sm" onclick="historydelete(' + data.id + ')">'
+                    + '<i class="fa fa-trash"></i></button></div>';
+                return result;
+            }
+        }
+    ],
+    "info": false,
+    "language": {
+        "lengthMenu": "显示 _MENU_ 条记录",
+        "paginate": {
+            "first": "首页",
+            "next": "下一页",
+            "previous": "上一页",
+            "last": "末页",
+        },
+        "zeroRecords": "",
+        "infoEmpty":"没有符合条件的数据",
+        "emptyTable":"没有符合条件的数据"
+    }
+});
+
+// 存储点击行的内容
+var cellUserData = null;
+$('#table-list tbody').on('click', 'td', function () {
+    var table = $('#table-list').DataTable();
+    cellUserData = table.cell(this).data();
+});
+
+// 编辑按钮 → 用户信息填充
+ $('#activity-modal').on('show.bs.modal', function (event) {
+     var modal = $(this);
+     modal.find('#engSnUsed').val(cellUserData.engSnUsed);
+     modal.find('#hptnPn').val(cellUserData.hptnPn);
+     modal.find('#hptnSn').val(cellUserData.hptnSn);
+     modal.find('#engPn').val(cellUserData.engPn);
+     modal.find('#onDate').val(cellUserData.onDate);
+     modal.find('#onEtsn').val(cellUserData.onEtsn);
+     modal.find('#onEcsn').val(cellUserData.onEcsn);
+     modal.find('#onPtsn').val(cellUserData.onPtsn);
+     modal.find('#onPcsn').val(cellUserData.onPcsn);
+     modal.find('#limitSpecial').val(cellUserData.limitSpecial);
+     modal.find('#code').val(cellUserData.code);
+     modal.find('#remark').val(cellUserData.remark);
+     modal.find('#id').val(cellUserData.id);
+     modal.find('#sub-title').text('修改');
+     modal.find('#type').val(1);
+ }).on('hide.bs.modal', function (event) {
+     cellUserData = null;
+ });
+ 
+ 
+ /**
+  * 重载列表
+  */
+ function reloadTable(reset) {
+     var table = $('#table-list').DataTable();
+     if (reset == true) {
+         table.ajax.reload(null, true);
+     } else {
+         table.ajax.reload();
+     }
+ }
+
+ // search 
+ function searchUser() {
+	 reloadTable(true);
+ }
+ 
+// delete
+function historydelete(id){
+	 if (confirm("你确定要删除吗？")) {
+		 $.ajax({
+			 type : "post",
+			 url : "${pageContext.request.contextPath}/manage/activity/historydelete.do",
+			 data : { "id": id,},
+			 dataType:"json",
+			 success : function(data){
+				 console.log('删除成功');
+                 $('#mood-modal').modal('hide');
+                 reloadTable(true);
+			 }
+		 })
+     };
+}
+ 
+</script>
+</body>
+</html>

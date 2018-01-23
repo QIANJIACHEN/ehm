@@ -1,0 +1,476 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<aside class="main-sidebar">
+    <section class="sidebar">
+
+        <ul class="sidebar-menu">
+
+            <li class="treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-home" style="font-size:18px"></i> <span>首页</span> <i class="fa fa-angle-right pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <%--<li class="active">--%>
+                    <li><a href="javascript:void(0);" data="1" data_url="/manage/index/home.do" onclick="jumpPage(this)"><i
+                            class="fa fa-circle-o"></i>首页</a></li>
+                </ul>
+            </li>
+            <!-- 飞机管理 -->
+            <li class="treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-plane"></i> <span>飞机管理</span> <i class="fa fa-angle-right pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="javascript:void(0);" data="1" data_url="/manage/dataplane/dataplanelist.do" onclick="jumpPage(this)"><i
+                            class="fa fa-circle-o"></i>飞机列表</a>
+                    </li>
+                    <li><a href="javascript:void(0);" data="1" data_url="/manage/dataplane/dataplanelistdetail.do" onclick="jumpPage(this)"><i
+                            class="fa fa-circle-o"></i>飞机详情</a></li>
+                    <li><a href="javascript:void(0);" data="1" data_url="/manage/recorddataplane/recorddataplanelist.do" onclick="jumpPage(this)">
+	                    	<i class="fa fa-circle-o"></i>飞机属性更变记录</a>
+	                </li>
+					<li><a href="javascript:void(0);" data="1" data_url="/manage/controlfleetplane/controlfleetplanelist.do" onclick="jumpPage(this)">
+	                    	<i class="fa fa-circle-o"></i>飞机发动机关联</a>
+	                </li>
+                    <li><a href="javascript:void(0);" data="1" data_url="/manage/flight/flightlist.do" onclick="jumpPage(this)"><i
+                            class="fa fa-circle-o"></i>航班信息</a>
+                    </li>
+                    <li><a href="javascript:void(0);" data="1" data_url="/manage/pwf/pwflist.do" onclick="jumpPage(this)"><i
+                            class="fa fa-circle-o"></i>飞机航班关联</a>
+                    </li>
+                </ul>
+              </li>
+                <!-- 发动机管理 -->
+	          <li class="treeview">
+	                <a href="javascript:void(0);">
+	                    <i class="fa icons icon-fdj"></i> <span>发动机管理</span> <i class="fa fa-angle-right pull-right"></i>
+	                </a>
+	                <ul class="treeview-menu">
+	                    <li><a href="javascript:void(0);" data="1" data_url="/manage/dataeng/dataenglist.do"  onclick="jumpPage(this)">
+	                    	<i class="fa fa-circle-o"></i>发动机列表</a>
+	                    </li>
+	                    <li><a href="javascript:void(0);" data="1" data_url="/manage/dataeng/dataenglistdetail.do"  onclick="jumpPage(this)">
+	                    	<i class="fa fa-circle-o"></i>发动机详情</a>
+	                    </li>
+	                   	<li><a href="javascript:void(0);" data="1" data_url="/manage/recorddataeng/recorddataenglist.do"  onclick="jumpPage(this)">
+	                    	<i class="fa fa-circle-o"></i>发动机属性更变记录</a>
+	                    </li>
+	                    <li><a href="javascript:void(0);" data="1" data_url="/manage/controlfleetengspare/fleetengsparelist.do"  onclick="jumpPage(this)">
+	                    	<i class="fa fa-circle-o"></i>发动机维修</a>
+	                    </li>
+	                    <li><a href="javascript:void(0);" data="1" data_url="/manage/engspare/engsparelist.do"  onclick="jumpPage(this)">
+	                    	<i class="fa fa-circle-o"></i>发动机备发</a>
+	                    </li>
+	                    <li><a href="javascript:void(0);" data="1" data_url="/manage/dataidplug/dataidpluglist.do"  onclick="jumpPage(this)">
+	                    	<i class="fa fa-circle-o"></i>IDPLUG数据</a>
+	                    </li>
+	                    <li><a href="javascript:void(0);" data="1" data_url="/manage/engonwing/engonwinglist.do"  onclick="jumpPage(this)">
+	                    	<i class="fa fa-circle-o"></i>onwing发动机</a>
+	                    </li>
+	                    <li><a href="javascript:void(0);" data="1" data_url="/manage/recordengsvschedule/recordengsvschedulelist.do"  onclick="jumpPage(this)">
+	                    	<i class="fa fa-circle-o"></i>发动机维修记录</a>
+	                    </li>
+	                    <li>
+                    	<a href="javascript:void(0);" data="1" data_url="/manage/engconditionfleet/engconditionfleetlist.do"  onclick="jumpPage(this)">
+                    		<i class="fa fa-circle-o"></i>发动机状态简报
+                    	</a>
+                    </li>
+	                </ul>
+	         </li>   
+	             
+	        <!-- 性能监控 -->
+            <li class="treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-bolt"></i> <span>性能监控</span> <i class="fa fa-angle-right pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                	<li>
+                    	<a href="javascript:void(0);" data="1" data_url="/manage/sapdailyreport/sapdailyreportlist.do" onclick="jumpPage(this)">
+                    		<i class="fa fa-circle-o"></i>SAP日报表
+                    	</a>
+                    </li>
+                    <li>
+	                    <a href="javascript:void(0);" data="1" data_url="/manage/shakemonitor/shakelist.do" onclick="jumpPage(this)">
+	                    <i class="fa fa-circle-o"></i>震动监控数据
+	                    </a>
+                    </li>
+                    <li><a href="javascript:void(0);" data="1" data_url="/manage/datacfmperformance/datacfmperformancelist.do" onclick="jumpPage(this)">
+	                    	<i class="fa fa-circle-o"></i>发动机性能数据</a>
+	                </li>
+                    <li>
+	                    <a href="javascript:void(0);" data="1" data_url="/manage/shakemonitor/shakereport.do" onclick="jumpPage(this)">
+	                    <i class="fa fa-circle-o"></i>震动健康报告
+	                    </a>
+                    </li>
+                    <li><a href="javascript:void(0);" data="1" data_url="/manage/datacfmperformance/datacfmperformancelist.do" onclick="jumpPage(this)">
+	                    	<i class="fa fa-circle-o"></i>发动机性能数据</a>
+	                 </li>
+	                 <li>
+                    	<a href="javascript:void(0);" data="1" data_url="/manage/datacfmperformance/cmfreport.do" onclick="jumpPage(this)">
+                    		<i class="fa fa-circle-o"></i>发动机性能数据表
+                    	</a>
+                    </li>
+                </ul>
+            </li>	
+            
+ 			<!-- 滑油监控 -->
+            <li class="treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-tint"></i> <span>滑油监控</span> <i class="fa fa-angle-right pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+	                    <a href="javascript:void(0);" data="1" data_url="/manage/oilconsumption/oillist.do" onclick="jumpPage(this)">
+	                    <i class="fa fa-circle-o"></i>滑油数据
+	                    </a>
+                    </li>
+                    <li>
+	                    <a href="javascript:void(0);" data="1" data_url="/manage/oilconsume/oilconsumelist.do" onclick="jumpPage(this)">
+	                    <i class="fa fa-circle-o"></i>滑耗监控
+	                    </a>
+                    </li>
+                    <li>
+	                    <a href="javascript:void(0);" data="1" data_url="/manage/oilconsume/oilpressurelist.do" onclick="jumpPage(this)">
+	                    <i class="fa fa-circle-o"></i>滑油压力监控
+	                    </a>
+                    </li>
+                    <li>
+	                    <a href="javascript:void(0);" data="1" data_url="/manage/oilconsumption/oilreport.do" onclick="jumpPage(this)">
+	                    <i class="fa fa-circle-o"></i>健康报告
+	                    </a>
+                    </li>
+                </ul>
+            </li>    
+            
+			<li class="treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-shower"></i> <span>水洗监控</span> <i class="fa fa-angle-right pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+	                    <a href="javascript:void(0);" data="1" data_url="/manage/waterwash/waterwashlist.do" onclick="jumpPage(this)">
+	                    	<i class="fa fa-circle-o"></i>水洗列表
+	                    </a>
+                    </li>
+                    <li>
+	                    <a href="javascript:void(0);" data="1" data_url="/manage/waterwash/waterwashrecord.do" onclick="jumpPage(this)">
+	                    	<i class="fa fa-circle-o"></i>操作记录
+	                    </a>
+                    </li>
+                </ul>
+            </li>    
+            
+			<!-- 排故专家 -->
+            <li class="treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-wrench "></i> <span>排故专家</span> <i class="fa fa-angle-right pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                	<li><a href="javascript:void(0);" data="1" data_url="/manage/troubleshooting/record.do" onclick="jumpPage(this)"><i
+                            class="fa fa-circle-o"></i>故障记录列表</a></li>
+                    <li><a href="javascript:void(0);" data="1" data_url="/manage/troubleshooting/troublelist.do" onclick="jumpPage(this)"><i
+                            class="fa fa-circle-o"></i>排故列表</a></li>
+                    <li><a href="javascript:void(0);" data="1" data_url="/manage/datacase/datacaselist.do" onclick="jumpPage(this)"><i
+                            class="fa fa-circle-o"></i>故障类型</a></li>
+                </ul>
+            </li>
+            
+			<!-- LLP余寿管理 -->
+            <li class="treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-clock-o"></i> <span>LLP余寿管理</span> <i class="fa fa-angle-right pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="javascript:void(0);" data="1" data_url="/manage/llpactivity/llpactivitylist.do" onclick="jumpPage(this)"><i
+                            class="fa fa-circle-o"></i>余寿管理列表</a></li>
+                    <li><a href="javascript:void(0);" data="1" data_url="/manage/llpactivity/llphistorylist.do" onclick="jumpPage(this)"><i
+                            class="fa fa-circle-o"></i>余寿历史</a></li>
+                    <li><a href="javascript:void(0);" data="1" data_url="/manage/hptn/hptnactivitylist.do"  onclick="jumpPage(this)"><i
+                            class="fa fa-circle-o"></i>HPTN数据</a></li>
+                    <li><a href="javascript:void(0);" data="1" data_url="/manage/hptn/hptnhistorylist.do" onclick="jumpPage(this)"><i
+                            class="fa fa-circle-o"></i>HPTN历史</a></li>
+                    <li><a href="javascript:void(0);" data="1" data_url="/manage/lptn1/lptn1activitylist.do" onclick="jumpPage(this)"><i
+                            class="fa fa-circle-o"></i>LPTN1数据</a></li>
+                    <li><a href="javascript:void(0);" data="1" data_url="/manage/lptn1/lptn1historylist.do" onclick="jumpPage(this)"><i
+                            class="fa fa-circle-o"></i>LPTN1历史</a></li>
+					<li><a href="javascript:void(0);" data="1" data_url="/manage/hptb/hptbactivitylist.do" onclick="jumpPage(this)"><i
+							class="fa fa-circle-o"></i>HPTB数据</a></li>
+					<li><a href="javascript:void(0);" data="1" data_url="/manage/hptb/hptbhistorylist.do" onclick="jumpPage(this)"><i
+							class="fa fa-circle-o"></i>HPTB历史</a></li>
+				</ul>
+            </li>
+            
+            <!-- 监控数据 -->
+            <!-- 监控报警 -->
+            <li class="treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-area-chart"></i> <span>监控报警</span> <i class="fa fa-angle-right pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    
+                </ul>
+            </li>
+        
+            <!-- 排气温度 -->
+<!--             <li class="treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-thermometer-three-quarters"></i> <span>排气温度</span> <i class="fa fa-angle-right pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+	                    <a href="javascript:void(0);" onclick="jumpPage(this)">
+	                    	<i class="fa fa-circle-o"></i>排气温度列表
+	                    </a>
+                   </li>
+                </ul>
+            </li>  -->      
+
+			<!-- 计算设置 -->
+            <li class="treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-calculator"></i> <span>计算设置</span> <i class="fa fa-angle-right pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="javascript:void(0);" data="1" data_url="/manage/calculate/settings.do" onclick="jumpPage(this)">
+                    	<i class="fa fa-circle-o"></i>计算设置</a>
+                    </li>
+                    <li><a href="javascript:void(0);" data="1" data_url="/manage/calculate/settings_new.do" onclick="jumpPage(this)">
+                    	<i class="fa fa-circle-o"></i>计算设置New</a>
+                    </li>
+                    <li><a href="javascript:void(0);" data="1" data_url="/manage/calculate/settings_check.do" onclick="jumpPage(this)">
+                    	<i class="fa fa-circle-o"></i>计算规则查看</a>
+                    </li>
+                    <!-- <li><a href="javascript:void(0);" onclick="jumpPage(this)">
+                    	<i class="fa fa-circle-o"></i>计算规则</a>
+                    </li>
+                    <li><a href="javascript:void(0);" onclick="jumpPage(this)">
+                    	<i class="fa fa-circle-o"></i>规则参数</a>
+                    </li>
+                    <li><a href="javascript:void(0);" onclick="jumpPage(this)"><i
+                            class="fa fa-circle-o"></i>监测规则</a></li> -->
+                </ul>
+            </li>
+                                                                     
+             <li class="treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-users"></i> <span>人员管理</span> <i class="fa fa-angle-right pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="javascript:void(0);" data_url="/manage/user/userlist.do" data="1" onclick="jumpPage(this)"><i
+                            class="fa fa-circle-o"></i>成员列表</a>
+                    </li>
+                    <li>
+                    	<a href="javascript:void(0);" data_url="/manage/duty/dutylist.do" data="1" onclick="jumpPage(this)">
+                    		<i class="fa fa-circle-o"></i>部门列表
+                    	</a>
+                    </li>
+                    <li><a href="javascript:void(0);" data_url="/manage/manage/rolelist.do" data="1" onclick="jumpPage(this)"><i
+                            class="fa fa-circle-o"></i>角色列表</a></li>
+                    <li><a href="javascript:void(0);" data_url="/manage/manage/rolefunclist.do" data="1" onclick="jumpPage(this)"><i
+                            class="fa fa-circle-o"></i>权限设置</a></li>
+                </ul>
+            </li>
+            
+<!--             <li class="treeview">
+                <a href="javascript:void(0);">
+                    <i class="glyphicon glyphicon-blackboard"></i> <span>部门管理</span> <i class="fa fa-angle-right pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-lock"></i> <span>权限管理</span> <i class="fa fa-angle-right pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    
+                </ul>
+            </li> -->
+<!--             <li class="treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-cog"></i> <span>系统设置</span> <i class="fa fa-angle-right pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="javascript:void(0);" onclick="jumpPage(this)"><i
+                            class="fa fa-circle-o"></i>版本列表</a></li>
+                </ul>
+            </li> -->
+
+        </ul>
+    </section>
+
+</aside>
+
+<script>
+	
+    var base = "${pageContext.request.contextPath}";
+    var storeUrl = null;
+  
+    function jumpPage(object) {
+    	var url = $(object).attr("data_url");
+    	var text = $(object).text();
+        //if (storeUrl == url) {
+        	
+        //    return false;
+       // }
+       	//var data_url = $("#myiframe").attr("data_url");
+       	//console.log(isaddtab(url));console.log(lasturl);return false;
+       	//追加在此（打开已存在的iframe）
+      //将所有标签改为未被选中状态
+      notchosentab();
+      //添加标签
+		if(isaddtab(url)){
+			addtab(url,text);
+			$("#myiframe").attr("data_url",url);
+		//添加iframe,需要判断是否需要添加，判断方式有问题
+		//应当为上一个标签新增一个，新增的url有问题
+	 	 	var lasturl = getlasttaburl();
+		//console.log(lasturl);
+			if(lasturl!=''&&lasturl!="null"&&lasturl!="undefined"){
+				if(isaddiframe(lasturl)){
+					addiframe(lasturl);
+				}
+			}
+			document.getElementById("myiframe").src = base + url;
+			
+		}else{
+	 		//更改为被选中
+	 		changetab(url);
+	 		
+	 		
+	 		
+	 		
+		}
+		//显示iframe,隐藏其他的
+		showiframe(url);
+        
+        //storeUrl = url;
+        
+   	 }
+
+  //显示iframe,隐藏其他的
+	function showiframe(url){
+		$(".myiframe").each(function(key,val){
+			if($(val).attr("data_url")==url){
+				$(val).show();
+			}else{
+				$(val).hide();
+			}
+		});
+	}
+    //获取最后第二个标签的url
+    function getlasttaburl(){
+    	 lasturl ="";
+    	 length = $(".cxc").length;
+    	// console.log(length);
+    	if(length<=3){
+    		//va=$(".cxc").0;
+    		if(length=="3"){
+    			lasturl = $(".cxc").eq(1).attr("data_url");
+    		}
+    		if(length=="2"){
+    			lasturl = $(".cxc").eq(0).attr("data_url");
+    		}
+    		
+    	} else{
+    		$(".cxc").each(function(key,val){
+        		//console.log(key);
+        		if(key == length-2){
+        			 lasturl = $(val).attr("data_url");
+        		}
+        	})
+    	}
+    	
+    	return lasturl;
+    }
+    //判断是否需要添加iframe
+    function isaddiframe(url){
+    	 b = 0;
+    	$(".box").each(function(key,val){
+    		if($(val).attr("data_url")==url){
+    			 b = 1;
+    			 return false;
+    		}
+    	});
+    	if(b=="1"){
+    		return false;
+    	}else{
+    		return true;
+    	}
+    }
+    //添加iframe
+    function addiframe(url){
+    	$(".box").append(" <iframe style='display:none;' class='myiframe' data_url='"+url+"' src='${pageContext.request.contextPath}"+url+"' width='100%' height='100%'></iframe>"); 
+    }
+    //将所有tab改为未选中状态 
+	function notchosentab(){
+		$(".cxc").each(function(key,val){
+    		$(val).css("background","grey");
+    		$(val).attr("class","cxc");
+    	})
+	}
+    //更改标签为选中状态
+    function changetab(url){
+    	$(".cxc").each(function(key,val){
+    		if($(val).attr("data_url")==url){
+    			$(val).css("background","red");
+    			$(val).attr("class","cxc active");
+    		}
+    	})
+    }
+    //添加标签
+    function addtab(url,text){
+    	//需要判断是否需要添加
+    	$("#uls").append("<li data_url='"+url+"' class='cxc' style='background:red;cursor: pointer;float:left;padding:8px 25px;float:left;overflow:hidden; margin-left:10px;margin-bottom:10px;border:1px solid #969595;' cc='1' onclick='jumpPage(this)' >"+"<a style='position: relative;color:#969595;'>"+text+"<span class='a' onclick='deltab(this)' style='position:absolute;top:-14px;right:-20px;font-size:20px;cursor: pointer'>x</span>"+"</a>"+"</li>");
+    }
+    //判断是否需要添加标签
+    function isaddtab(url){
+    	//遍历查询
+    	 a = 0;
+    	$(".cxc").each(function(key,val){
+    		
+    		if($(val).attr("data_url")===url){
+    			
+    			 a = 1;
+    			return false;
+    		}
+    	})
+    	if(a=="1"){
+    		return false;
+    	}else{
+    		return true;
+    	}
+    }
+    //关闭按钮
+    function deltab(object){
+		//删除对应的tab和iframe，先删iframe
+		url = $(object).parent().parent().attr("data_url");
+		data_url = $("#myiframe").attr("data_url");
+		//如果是id的那个，需要把最后一个传下去
+		if(data_url===url){
+			lasturl = getlasttaburl();
+			deliframe(lasturl);
+			$("#myiframe").attr("src",base + lasturl);
+			$("#myiframe").attr("data_url",lasturl);
+			changetab(lasturl);
+		} else {
+			deliframe(url);
+		}
+		//删除tab	
+		$(object).parent().parent().remove();
+		event.stopPropagation();
+	}
+    //删除iframe
+    function deliframe(url){
+    	$(".myiframe").each(function(key,val){
+    		
+			if($(val).attr("data_url")===url){
+				$(val).remove();
+				//$(val).parentNode.removeChild($(val))
+			}
+		});
+    }
+  	
+    
+</script>

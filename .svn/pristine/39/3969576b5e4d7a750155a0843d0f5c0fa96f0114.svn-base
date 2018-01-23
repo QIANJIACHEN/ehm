@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.DataCfmPerformanceMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.DataCfmPerformance">
+		<id column="ID" jdbcType="VARCHAR" property="ID" />
+		<result column="TAIL" jdbcType="VARCHAR" property="tail" />
+		<result column="EPOSITION" jdbcType="VARCHAR" property="eposition" />
+		<result column="ESN" jdbcType="VARCHAR" property="esn" />
+		<result column="FLIGHT_PHASE" jdbcType="VARCHAR" property="flight_phase" />
+		<result column="FLIGHT_DATETIME" jdbcType="VARCHAR" property="flight_datetime" />
+		<result column="ENGINE_TYPE" jdbcType="VARCHAR" property="engine_type" />
+		<result column="ZPHSR" jdbcType="VARCHAR" property="zphsr" />
+		<result column="GPCN25_SMOOTHED" jdbcType="VARCHAR" property="gpcn25_smoothed" />
+		<result column="DEGT_SMOOTHED" jdbcType="VARCHAR" property="degt_smoothed" />
+
+	</resultMap>
+
+	<sql id="baseColumnList">
+		USERID,USERNAME,REALNAME,PASSWORD,POSITION,ROLE,PHONE,CTIME,DUTY
+	</sql>
+	
+	<select id="select" parameterType="com.cea.ehm.bean.DataCfmPerformance" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM user
+		WHERE USERNAME = #{username,jdbcType=VARCHAR}
+		AND REALNAME = #{realName,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getData_cfm_perforList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM user
+		WHERE USERNAME LIKE CONCAT('%',#{username,jdbcType=VARCHAR})
+	</select>
+
+	<insert id="insert" parameterType="com.cea.ehm.bean.DataCfmPerformance">
+		INSERT INTO user
+			(USERID,USERNAME,REALNAME,PASSWORD,POSITION,ROLE,PHONE,CTIME,DUTY)
+		VALUES
+		(
+			#{userId,jdbcType=VARCHAR},
+			#{username,jdbcType=VARCHAR},
+			#{realName,jdbcType=VARCHAR},
+			#{password,jdbcType=VARCHAR},
+			#{position,jdbcType=VARCHAR},
+			#{role,jdbcType=VARCHAR},
+			#{phone,jdbcType=INTEGER},
+			#{ctime,jdbcType=VARCHAR},
+			#{duty,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="com.cea.ehm.bean.DataCfmPerformance">
+		DELETE FROM
+			user
+		WHERE
+			USERID = #{userId,jdbcType=VARCHAR}
+	</delete>
+
+	<update id="update" parameterType="com.cea.ehm.bean.DataCfmPerformance">
+		UPDATE user
+		<set>
+			<if test="username != null">
+				USERNAME = #{username,jdbcType=VARCHAR},
+			</if>
+			<if test="realName != null">
+				REALNAME = #{realName,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				PASSWORD = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="position != null">
+				POSITION = #{position,jdbcType=VARCHAR},
+			</if>
+			<if test="role != null">
+				ROLE = #{role,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				PHONE = #{phone,jdbcType=INTEGER},
+			</if>
+			<if test="ctime != null">
+				CTIME = #{ctime,jdbcType=VARCHAR},
+			</if>
+			<if test="duty != null">
+				DUTY = #{duty,jdbcType=VARCHAR}
+			</if>
+		</set>
+		WHERE USERID = #{userId,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

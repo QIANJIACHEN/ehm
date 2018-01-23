@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.DataCfmPerformanceMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.DataCfmPerformance">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="PLANE_ID" jdbcType="INTEGER" property="planeId" />
+		<result column="TAIL" jdbcType="VARCHAR" property="tail" />
+		<result column="EPOSITION" jdbcType="VARCHAR" property="eposition" />
+		<result column="ENG_ID" jdbcType="INTEGER" property="engId" />
+		<result column="ESN" jdbcType="VARCHAR" property="esn" />
+		<result column="FLIGHT_PHASE" jdbcType="VARCHAR" property="flightPhase" />
+		<result column="FLIGHT_DATETIME" jdbcType="TIMESTAMP" property="flightDateTime" />
+		<result column="ENGINE_TYPE" jdbcType="VARCHAR" property="engineType" />
+		<result column="ZPHSR" jdbcType="VARCHAR" property="zphsr" />
+		<result column="GPCN25_SMOOTHED" jdbcType="VARCHAR" property="gpcn25Smoothed" />
+		<result column="DEGT_SMOOTHED" jdbcType="VARCHAR" property="degtSmoothed" />
+		<result column="ZPHSF" jdbcType="VARCHAR" property="zphsf" />
+		<result column="EGTHDM_D" jdbcType="VARCHAR" property="egthdmD" />
+		<result column="ZVB1F_SMOOTHED" jdbcType="VARCHAR" property="zvb1fSmoothed" />
+		<result column="GWFM" jdbcType="VARCHAR" property="gwfm" />
+		<result column="EGTHDM" jdbcType="VARCHAR" property="egthdm" />
+		<result column="GWFM_D" jdbcType="VARCHAR" property="gwfmD" />
+		<result column="ZVB1R" jdbcType="VARCHAR" property="zvb1r" />
+		<result column="EGTHDM_D_SMOOTHED" jdbcType="VARCHAR" property="egthdmDSmoothed" />
+		<result column="ZTOIL" jdbcType="VARCHAR" property="ztoil" />
+		<result column="ZVB2F" jdbcType="VARCHAR" property="zvb2f" />
+		<result column="ZVB2R" jdbcType="VARCHAR" property="zvb2r" />
+		<result column="ZVB1F" jdbcType="VARCHAR" property="zvb1f" />
+		<result column="ZVB2R_SMOOTHED" jdbcType="VARCHAR" property="zvb2rSmoothed" />
+		<result column="DEGT_D_SMOOTHED" jdbcType="VARCHAR" property="degtDSmoothed" />
+		<result column="GPCN25_D" jdbcType="VARCHAR" property="gpcn25D" />
+		<result column="ZVB1R_SMOOTHED" jdbcType="VARCHAR" property="zvb1rSmoothed" />
+		<result column="ZTOIL_SMOOTHED" jdbcType="VARCHAR" property="ztoilSmoothed" />
+		<result column="GWFM_SMOOTHED" jdbcType="VARCHAR" property="gwfmSmoothed" />
+		<result column="GPCN25" jdbcType="VARCHAR" property="gpcn25" />
+		<result column="GWFM_D_SMOOTHED" jdbcType="VARCHAR" property="gwfmDSmoothed" />
+		<result column="GPCN25_D_SMOOTHED" jdbcType="VARCHAR" property="gpcn25DSmoothed" />
+		<result column="ZVB2F_SMOOTHED" jdbcType="VARCHAR" property="zvb2fSmoothed" />
+		<result column="ZPOIL_SMOOTHED" jdbcType="VARCHAR" property="zpoilSmoothed" />
+		<result column="EGTHDM_SMOOTHED" jdbcType="VARCHAR" property="egthdmSmoothed" />
+		<result column="DEGT_D" jdbcType="VARCHAR" property="degtD" />
+		<result column="ZPOIL" jdbcType="VARCHAR" property="zpoil" />
+		<result column="ZT49" jdbcType="VARCHAR" property="zt49" />
+		<result column="DEGT" jdbcType="VARCHAR" property="degt" />
+		<result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ID,PLANE_ID,TAIL,EPOSITION,ENG_ID,ESN,FLIGHT_PHASE,FLIGHT_DATETIME,ENGINE_TYPE,ZPHSR,GPCN25_SMOOTHED,DEGT_SMOOTHED,ZPHSF,EGTHDM_D,
+		ZVB1F_SMOOTHED,GWFM,EGTHDM,GWFM_D,ZVB1R,EGTHDM_D_SMOOTHED,ZTOIL,ZVB2F,ZVB2R,ZVB1F,ZVB2R_SMOOTHED,DEGT_D_SMOOTHED,
+		GPCN25_D,ZVB1R_SMOOTHED,ZTOIL_SMOOTHED,GWFM_SMOOTHED,GPCN25,GWFM_D_SMOOTHED,GPCN25_D_SMOOTHED,ZVB2F_SMOOTHED,
+		ZPOIL_SMOOTHED,EGTHDM_SMOOTHED,DEGT_D,ZPOIL,ZT49,DEGT,CTIME
+	</sql>
+	
+	<select id="select" parameterType="com.cea.ehm.bean.DataCfmPerformance" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_data_cfm_performance
+		WHERE ENGINE_TYPE = #{engineType,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="allDataCfmPerformance" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_data_cfm_performance
+	</select>
+	
+	<select id="all" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_data_cfm_performance
+		WHERE 1 = 1	
+		<if test="tail != null and tail != ''">
+			AND TAIL = #{tail, jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	<select id="getOne" parameterType="java.lang.Integer" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_data_cfm_performance
+		WHERE ID = #{id, jdbcType=INTEGER}
+	</select>
+
+	<select id="getDataCfmPerformanceList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_data_cfm_performance
+	</select>
+
+	<insert id="insert" parameterType="com.cea.ehm.bean.DataCfmPerformance">
+		INSERT INTO ehm_data_cfm_performance
+		(
+			PLANE_ID,TAIL,EPOSITION,ENG_ID,ESN,FLIGHT_PHASE,FLIGHT_DATETIME,ENGINE_TYPE,ZPHSR,GPCN25_SMOOTHED,
+			DEGT_SMOOTHED,ZPHSF,EGTHDM_D,ZVB1F_SMOOTHED,GWFM,EGTHDM,GWFM_D,ZVB1R,EGTHDM_D_SMOOTHED,ZTOIL,ZVB2F,ZVB2R,
+			ZVB1F,ZVB2R_SMOOTHED,DEGT_D_SMOOTHED,GPCN25_D,ZVB1R_SMOOTHED,ZTOIL_SMOOTHED,GWFM_SMOOTHED,GPCN25,
+			GWFM_D_SMOOTHED,GPCN25_D_SMOOTHED,ZVB2F_SMOOTHED,ZPOIL_SMOOTHED,EGTHDM_SMOOTHED,DEGT_D,ZPOIL,ZT49,DEGT,CTIME
+		)
+		VALUES
+		(
+			#{planeId,jdbcType=INTEGER},
+			#{tail,jdbcType=VARCHAR},
+			#{eposition,jdbcType=VARCHAR},
+			#{engId,jdbcType=INTEGER},
+			#{esn,jdbcType=VARCHAR},
+			#{flightPhase,jdbcType=VARCHAR},
+			#{flightDateTime,jdbcType=TIMESTAMP},
+			#{engineType,jdbcType=VARCHAR},
+			#{zphsr,jdbcType=INTEGER},
+			#{gpcn25Smoothed,jdbcType=VARCHAR},
+			#{degtSmoothed,jdbcType=VARCHAR},
+			#{zphsf,jdbcType=VARCHAR},
+			#{egthdmD,jdbcType=VARCHAR},
+			#{zvb1fSmoothed,jdbcType=VARCHAR},
+			#{gwfm,jdbcType=VARCHAR},
+			#{egthdm,jdbcType=VARCHAR},
+			#{gwfmD,jdbcType=VARCHAR},
+			#{zvb1r,jdbcType=VARCHAR},
+			#{egthdmDSmoothed,jdbcType=VARCHAR},
+			#{ztoil,jdbcType=VARCHAR},
+			#{zvb2f,jdbcType=VARCHAR},
+			#{zvb2r,jdbcType=VARCHAR},
+			#{zvb1f,jdbcType=VARCHAR},
+			#{zvb2rSmoothed,jdbcType=VARCHAR},
+			#{degtDSmoothed,jdbcType=VARCHAR},
+			#{gpcn25D,jdbcType=VARCHAR},
+			#{zvb1rSmoothed,jdbcType=VARCHAR},
+			#{ztoilSmoothed,jdbcType=VARCHAR},
+			#{gwfmSmoothed,jdbcType=VARCHAR},
+			#{gpcn25,jdbcType=VARCHAR},
+			#{gwfmDSmoothed,jdbcType=VARCHAR},
+			#{gpcn25DSmoothed,jdbcType=VARCHAR},
+			#{zvb2fSmoothed,jdbcType=VARCHAR},
+			#{zpoilSmoothed,jdbcType=VARCHAR},
+			#{egthdmSmoothed,jdbcType=VARCHAR},
+			#{degtD,jdbcType=VARCHAR},
+			#{zpoil,jdbcType=VARCHAR},
+			#{zt49,jdbcType=VARCHAR},
+			#{degt,jdbcType=VARCHAR},
+			#{ctime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="com.cea.ehm.bean.DataCfmPerformance">
+		DELETE FROM
+			ehm_data_cfm_performance
+		WHERE
+			ID = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<update id="update" parameterType="com.cea.ehm.bean.DataCfmPerformance">
+		UPDATE ehm_data_cfm_performance
+		<set>
+			<if test="planeId != null">
+				PLANE_ID = #{planeId,jdbcType=INTEGER},
+			</if>
+			<if test="tail != null">
+				TAIL = #{tail,jdbcType=VARCHAR},
+			</if>
+			<if test="eposition != null">
+				EPOSITION = #{eposition,jdbcType=VARCHAR},
+			</if>
+			<if test="engId != null">
+				ENG_ID = #{engId,jdbcType=INTEGER},
+			</if>
+			<if test="esn != null">
+				ESN = #{esn,jdbcType=VARCHAR},
+			</if>
+			<if test="flightPhase != null">
+				FLIGHT_PHASE = #{flightPhase,jdbcType=VARCHAR},
+			</if>
+			<if test="flightDateTime != null and flightDateTime != ''">
+				FLIGHT_DATETIME = #{flightDateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="engineType != null">
+				ENGINE_TYPE = #{engineType,jdbcType=VARCHAR},
+			</if>
+			<if test="zphsr != null">
+				ZPHSR = #{zphsr,jdbcType=VARCHAR},
+			</if>
+			<if test="gpcn25Smoothed != null">
+				GPCN25_SMOOTHED = #{gpcn25Smoothed,jdbcType=VARCHAR},
+			</if>
+			<if test="degtSmoothed != null">
+				DEGT_SMOOTHED = #{degtSmoothed,jdbcType=VARCHAR},
+			</if>
+			<if test="zphsf != null">
+				ZPHSF = #{zphsf,jdbcType=VARCHAR},
+			</if>
+			<if test="egthdmD != null">
+				EGTHDM_D = #{egthdmD,jdbcType=VARCHAR},
+			</if>
+			<if test="zvb1fSmoothed != null">
+				ZVB1F_SMOOTHED = #{zvb1fSmoothed,jdbcType=VARCHAR},
+			</if>
+			<if test="gwfm != null">
+				GWFM = #{gwfm,jdbcType=VARCHAR},
+			</if>
+			<if test="egthdm != null">
+				EGTHDM = #{egthdm,jdbcType=VARCHAR},
+			</if>
+			<if test="gwfmD != null">
+				GWFM_D = #{gwfmD,jdbcType=VARCHAR},
+			</if>
+			<if test="zvb1r != null">
+				ZVB1R = #{zvb1r,jdbcType=VARCHAR},
+			</if>
+			<if test="egthdmDSmoothed != null">
+				EGTHDM_D_SMOOTHED = #{egthdmDSmoothed,jdbcType=VARCHAR},
+			</if>
+			<if test="ztoil != null">
+				ZTOIL = #{ztoil,jdbcType=VARCHAR},
+			</if>
+			<if test="zvb2f != null">
+				ZVB2F = #{zvb2f,jdbcType=VARCHAR},
+			</if>
+			<if test="zvb2r != null">
+				ZVB2R = #{zvb2r,jdbcType=VARCHAR},
+			</if>
+			<if test="zvb1f != null">
+				ZVB1F = #{zvb1f,jdbcType=VARCHAR},
+			</if>
+			<if test="zvb2rSmoothed != null">
+				ZVB2R_SMOOTHED = #{zvb2rSmoothed,jdbcType=VARCHAR},
+			</if>
+			<if test="degtDSmoothed != null">
+				DEGT_D_SMOOTHED = #{degtDSmoothed,jdbcType=VARCHAR},
+			</if>
+			<if test="gpcn25D != null">
+				GPCN25_D = #{gpcn25D,jdbcType=VARCHAR},
+			</if>
+			<if test="zvb1rSmoothed != null">
+				ZVB1R_SMOOTHED = #{zvb1rSmoothed,jdbcType=VARCHAR},
+			</if>
+			<if test="ztoilSmoothed != null">
+				ZTOIL_SMOOTHED = #{ztoilSmoothed,jdbcType=VARCHAR},
+			</if>
+			<if test="gpcn25Smoothed != null">
+				GWFM_SMOOTHED = #{gwfmSmoothed,jdbcType=VARCHAR},
+			</if>
+			<if test="gpcn25 != null">
+				GPCN25 = #{gpcn25,jdbcType=VARCHAR},
+			</if>
+			<if test="gwfmDSmoothed != null">
+				GWFM_D_SMOOTHED = #{gwfmDSmoothed,jdbcType=VARCHAR},
+			</if>
+			<if test="gpcn25DSmoothed != null">
+				GPCN25_D_SMOOTHED = #{gpcn25DSmoothed,jdbcType=VARCHAR},
+			</if>
+			<if test="zvb2fSmoothed != null">
+				ZVB2F_SMOOTHED = #{zvb2fSmoothed,jdbcType=VARCHAR},
+			</if>
+			<if test="zpoilSmoothed != null">
+				ZPOIL_SMOOTHED = #{zpoilSmoothed,jdbcType=VARCHAR},
+			</if>
+			<if test="egthdmSmoothed != null">
+				EGTHDM_SMOOTHED = #{egthdmSmoothed,jdbcType=VARCHAR},
+			</if>
+			<if test="degtD != null">
+				DEGT_D = #{degtD,jdbcType=VARCHAR},
+			</if>
+			<if test="zpoil != null">
+				ZPOIL = #{zpoil,jdbcType=VARCHAR},
+			</if>
+			<if test="zt49 != null">
+				ZT49 = #{zt49,jdbcType=VARCHAR},
+			</if>
+			<if test="degt != null">
+				DEGT = #{degt,jdbcType=VARCHAR}
+			</if>
+		</set>
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateTwo" parameterType="com.cea.ehm.bean.DataCfmPerformance">
+		UPDATE ehm_data_cfm_performance
+		<set>
+			<if test="tail != null">
+				TAIL = #{tail,jdbcType=VARCHAR},
+			</if>
+			<if test="eposition != null">
+				EPOSITION = #{eposition,jdbcType=VARCHAR},
+			</if>
+			<if test="esn != null">
+				ESN = #{esn,jdbcType=VARCHAR},
+			</if>
+			<if test="flightPhase != null">
+				FLIGHT_PHASE = #{flightPhase,jdbcType=VARCHAR},
+			</if>
+			<if test="flightDateTime != null and flightDateTime != ''">
+				FLIGHT_DATETIME = #{flightDateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="zphsr != null">
+				ZPHSR = #{zphsr,jdbcType=VARCHAR},
+			</if>
+			<if test="gpcn25Smoothed != null">
+				GPCN25_SMOOTHED = #{gpcn25Smoothed,jdbcType=VARCHAR},
+			</if>
+			<if test="degtSmoothed != null">
+				DEGT_SMOOTHED = #{degtSmoothed,jdbcType=VARCHAR},
+			</if>
+			<if test="zphsf != null">
+				ZPHSF = #{zphsf,jdbcType=VARCHAR},
+			</if>
+			<if test="egthdmD != null">
+				EGTHDM_D = #{egthdmD,jdbcType=VARCHAR},
+			</if>
+			<if test="zvb1fSmoothed != null">
+				ZVB1F_SMOOTHED = #{zvb1fSmoothed,jdbcType=VARCHAR},
+			</if>
+			<if test="gwfm != null">
+				GWFM = #{gwfm,jdbcType=VARCHAR},
+			</if>
+			<if test="egthdm != null">
+				EGTHDM = #{egthdm,jdbcType=VARCHAR},
+			</if>
+			<if test="gwfmD != null">
+				GWFM_D = #{gwfmD,jdbcType=VARCHAR},
+			</if>
+			<if test="zvb1r != null">
+				ZVB1R = #{zvb1r,jdbcType=VARCHAR},
+			</if>
+			<if test="egthdmDSmoothed != null">
+				EGTHDM_D_SMOOTHED = #{egthdmDSmoothed,jdbcType=VARCHAR},
+			</if>
+			<if test="ztoil != null">
+				ZTOIL = #{ztoil,jdbcType=VARCHAR},
+			</if>
+			<if test="zvb2f != null">
+				ZVB2F = #{zvb2f,jdbcType=VARCHAR},
+			</if>
+			<if test="zvb2r != null">
+				ZVB2R = #{zvb2r,jdbcType=VARCHAR},
+			</if>
+			<if test="zvb1f != null">
+				ZVB1F = #{zvb1f,jdbcType=VARCHAR},
+			</if>
+			<if test="zvb2rSmoothed != null">
+				ZVB2R_SMOOTHED = #{zvb2rSmoothed,jdbcType=VARCHAR},
+			</if>
+			<if test="degtDSmoothed != null">
+				DEGT_D_SMOOTHED = #{degtDSmoothed,jdbcType=VARCHAR},
+			</if>
+			<if test="gpcn25D != null">
+				GPCN25_D = #{gpcn25D,jdbcType=VARCHAR},
+			</if>
+			<if test="zvb1rSmoothed != null">
+				ZVB1R_SMOOTHED = #{zvb1rSmoothed,jdbcType=VARCHAR},
+			</if>
+			<if test="ztoilSmoothed != null">
+				ZTOIL_SMOOTHED = #{ztoilSmoothed,jdbcType=VARCHAR},
+			</if>
+			<if test="gpcn25Smoothed != null">
+				GWFM_SMOOTHED = #{gwfmSmoothed,jdbcType=VARCHAR},
+			</if>
+			<if test="gpcn25 != null">
+				GPCN25 = #{gpcn25,jdbcType=VARCHAR},
+			</if>
+			<if test="gwfmDSmoothed != null">
+				GWFM_D_SMOOTHED = #{gwfmDSmoothed,jdbcType=VARCHAR},
+			</if>
+			<if test="gpcn25DSmoothed != null">
+				GPCN25_D_SMOOTHED = #{gpcn25DSmoothed,jdbcType=VARCHAR},
+			</if>
+			<if test="zvb2fSmoothed != null">
+				ZVB2F_SMOOTHED = #{zvb2fSmoothed,jdbcType=VARCHAR},
+			</if>
+			<if test="zpoilSmoothed != null">
+				ZPOIL_SMOOTHED = #{zpoilSmoothed,jdbcType=VARCHAR},
+			</if>
+			<if test="egthdmSmoothed != null">
+				EGTHDM_SMOOTHED = #{egthdmSmoothed,jdbcType=VARCHAR},
+			</if>
+			<if test="degtD != null">
+				DEGT_D = #{degtD,jdbcType=VARCHAR},
+			</if>
+			<if test="zpoil != null">
+				ZPOIL = #{zpoil,jdbcType=VARCHAR},
+			</if>
+			<if test="zt49 != null">
+				ZT49 = #{zt49,jdbcType=VARCHAR},
+			</if>
+			<if test="degt != null">
+				DEGT = #{degt,jdbcType=VARCHAR}
+			</if>
+		</set>
+		WHERE ENGINE_TYPE = #{engineType,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

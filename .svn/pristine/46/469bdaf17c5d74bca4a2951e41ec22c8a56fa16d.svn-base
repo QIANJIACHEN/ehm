@@ -1,0 +1,187 @@
+//获取到这个DOM节点，然后初始化
+
+
+function chart(N1_1, N1_2, N1_3, N1_4, N1_5, N1_6, N1_7, N1_8, N1_9, N1_10){
+	
+	
+	var myChart = echarts.init(document.getElementById("top"));
+	var myChart1 = echarts.init(document.getElementById("bottom"));
+	var myChart2 = echarts.init(document.getElementById("top1"));
+	var myChart3 = echarts.init(document.getElementById("bottom1"));
+	
+	var option = {
+	    // 标题
+	    title: {
+	        text: '1发单点'
+	    },
+	    tooltip: {
+	        trigger: 'axis'
+	    },
+	    grid: {
+	        left: '3%',
+	        right: '4%',
+	        bottom: '3%',
+	        containLabel: true
+	    },
+	    //工具框，可以选择
+	    toolbox: {
+	        feature: {
+	            saveAsImage: {}
+	        }
+	    },
+	    //x轴信息样式
+	    xAxis: {
+	        type: 'category',
+	        boundaryGap: false,
+	        data: ['1','2','3','4','5','6','7','8','9','10'],
+	    },
+	    yAxis: {
+	        type: 'value'
+	    },
+	    series: [
+	        
+	        {
+	            name:'1发单点',
+	            type:'line',
+	            data:[N1_1, N1_2, N1_3, N1_4, N1_5, N1_6, N1_7, N1_8, N1_9, N1_10]
+	        },
+	        
+	        
+	
+	    ]
+	};
+	var option1 = {
+		    // 标题
+		    title: {
+		        text: '1发平滑'
+		    },
+		    tooltip: {
+		        trigger: 'axis'
+		    },
+		    grid: {
+		        left: '3%',
+		        right: '4%',
+		        bottom: '3%',
+		        containLabel: true
+		    },
+		    //工具框，可以选择
+		    toolbox: {
+		        feature: {
+		            saveAsImage: {}
+		        }
+		    },
+		    //x轴信息样式
+		    xAxis: {
+		        type: 'category',
+		        boundaryGap: false,
+		        data: ['1','2','3','4','5','6','7','8','9','10'],
+		    },
+		    yAxis: {
+		        type: 'value'
+		    },
+		    series: [
+		        
+		        {
+		            name:'1发平滑',
+		            type:'line',
+		            data:[81,82,81,83,82,81,83,82,84,83]
+		        },
+		        
+		        
+		
+		    ]
+		};
+	var option2 = {
+		    // 标题
+		    title: {
+		        text: '2发单点'
+		    },
+		    tooltip: {
+		        trigger: 'axis'
+		    },
+		    grid: {
+		        left: '3%',
+		        right: '4%',
+		        bottom: '3%',
+		        containLabel: true
+		    },
+		    //工具框，可以选择
+		    toolbox: {
+		        feature: {
+		            saveAsImage: {}
+		        }
+		    },
+		    //x轴信息样式
+		    xAxis: {
+		        type: 'category',
+		        boundaryGap: false,
+		        data: ['1','2','3','4','5','6','7','8','9','10'],
+		    },
+		    yAxis: {
+		        type: 'value'
+		    },
+		    series: [
+		        
+		        {
+		            name:'2发单点',
+		            type:'line',
+		            data:[44,45,44,44.5,43,44,46,51,50,52]
+		        },
+		        
+		        
+		
+		    ]
+		};
+	var option3 = {
+		    // 标题
+		    title: {
+		        text: '2发平滑'
+		    },
+		    tooltip: {
+		        trigger: 'axis'
+		    },
+		    grid: {
+		        left: '3%',
+		        right: '4%',
+		        bottom: '3%',
+		        containLabel: true
+		    },
+		    //工具框，可以选择
+		    toolbox: {
+		        feature: {
+		            saveAsImage: {}
+		        }
+		    },
+		    //x轴信息样式
+		    xAxis: {
+		        type: 'category',
+		        boundaryGap: false,
+		        data: ['1','2','3','4','5','6','7','8','9','10'],
+		    },
+		    yAxis: {
+		        type: 'value'
+		    },
+		    series: [
+		        
+		        {
+		            name:'2发平滑',
+		            type:'line',
+		            data:[70,72,71,70.5,70,70.5,71,72,70.5,72]
+		        },
+		        
+		        
+		
+		    ]
+		};
+	
+	
+	myChart.setOption(option);
+	myChart1.setOption(option1);
+	myChart2.setOption(option2);
+	myChart3.setOption(option3);
+	
+	
+	
+}	
+	
+	

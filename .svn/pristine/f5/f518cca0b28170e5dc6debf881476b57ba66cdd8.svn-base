@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.EngOnwingMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.EngOnwing">
+		<id column="ID" jdbcType="INTEGER" property="id"/>
+		<result column="EXPR1" jdbcType="VARCHAR" property="ecpr" />
+		<result column="PLANE_ID" jdbcType="INTEGER" property="planeId" />
+		<result column="TAIL" jdbcType="VARCHAR" property="tail" />
+		<result column="MODEL" jdbcType="VARCHAR" property="model" />
+		<result column="ENG_POSITION" jdbcType="INTEGER" property="engPosition" />
+		<result column="ENG_ID" jdbcType="INTEGER" property="engId" />
+		<result column="ENG_SN" jdbcType="VARCHAR" property="engSn" />
+		<result column="ENG_PN" jdbcType="VARCHAR" property="engPn" />
+		<result column="ETOPS" jdbcType="VARCHAR" property="etops" />
+		<result column="H_HIGHLAND" jdbcType="INTEGER" property="hHighLand" />
+		<result column="DUTY" jdbcType="INTEGER" property="duty" />
+		<result column="OPERATER" jdbcType="VARCHAR" property="operater" />
+		<result column="IDPLUG_PN" jdbcType="VARCHAR" property="idPlugPn" />
+		<result column="OWNER" jdbcType="VARCHAR" property="owner" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ID, EXPR1, PLANE_ID, TAIL, MODEL,ENG_POSITION,ENG_ID,ENG_SN,ENG_PN
+		ETOPS, H_HIGHLAND, DUTY, OPERATER, IDPLUG_PN, OWNER
+	</sql>
+
+	<select id="getList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+			p.ID  PLANE_ID,
+			p.TAIL TAIL,
+			p.MODEL MODEL,
+			p.ETOPS ETOPS,
+			p.H_HIGHLAND H_HIGHLAND,
+			p.DUTY DUTY,
+			p.OPERATER OPERATER,
+			p.OWNER OWNER,
+			f.ENG_POSITION ENG_POSITION,
+			f.ENG_ID ENG_ID,
+			f.ENG_SN ENG_SN,
+			f.ENG_PN ENG_PN,
+			i.IDPLUG_PN IDPLUG_PN
+		FROM ehm_data_plane p
+			LEFT JOIN ehm_control_fleet_plane f on p.ID = f.PLANE_ID
+			LEFT JOIN ehm_data_idplug i on f.ENG_PN = i.ENG_PN
+			<if test="planeId != null">
+				WHERE p.ID = #{planeId,jdbcType=VARCHAR}
+			</if>
+	</select>
+	
+	<select id="getInfo" parameterType="map" resultMap="baseResultMap">
+		SELECT
+			p.ID  PLANE_ID,
+			p.TAIL TAIL,
+			p.MODEL MODEL,
+			p.ETOPS ETOPS,
+			p.H_HIGHLAND H_HIGHLAND,
+			p.DUTY DUTY,
+			p.OPERATER OPERATER,
+			p.OWNER OWNER,
+			f.ENG_POSITION ENG_POSITION,
+			f.ENG_ID ENG_ID,
+			f.ENG_SN ENG_SN,
+			f.ENG_PN ENG_PN,
+			i.IDPLUG_PN IDPLUG_PN
+		FROM ehm_data_plane p
+			LEFT JOIN ehm_control_fleet_plane f on p.ID = f.PLANE_ID
+			LEFT JOIN ehm_data_idplug i on f.ENG_PN = i.ENG_PN
+			<if test="planeId != null">
+				WHERE p.ID = #{planeId,jdbcType=VARCHAR}
+			</if>			
+	</select>
+
+</mapper>

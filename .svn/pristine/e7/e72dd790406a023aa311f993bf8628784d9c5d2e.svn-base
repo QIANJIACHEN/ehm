@@ -1,0 +1,153 @@
+package com.cea.ehm.service;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.cea.ehm.bean.WaterWash;
+import com.cea.ehm.dao.WaterWashMapper;
+import com.cea.ehm.util.ExcelUtil;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+/**
+ * 水洗服务层
+ */
+@Service
+public class WaterWashService {
+	private Logger logger = Logger.getLogger(WaterWashService.class);
+	@Autowired
+	private WaterWashMapper waterwashMapper;
+
+	/**
+	 * 查询水洗列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	public PageList<WaterWash> getWaterWashList(Map<String, String> paramMap, PageBounds pageBounds) {
+		logger.info("数据库查询参数：" + paramMap);
+		return waterwashMapper.getWaterWashList(paramMap, pageBounds);
+	}
+
+	/**
+	 * 保存或更新水洗信息
+	 * 
+	 * @param waterwash
+	 */
+	public void saveOrUpdate(WaterWash waterwash) {
+		// 查询判断水洗信息是否存在，考虑保存还是更新
+		WaterWash selectuser = waterwashMapper.select(waterwash);
+		if (selectuser == null) {
+			waterwashMapper.insert(waterwash);
+		} else {
+			waterwashMapper.update(waterwash);
+		}
+	}
+
+	/**
+	 * 删除水洗信息
+	 * 
+	 * @param waterwash
+	 */
+	public void delete(WaterWash waterwash) {
+		// 这里是物理删除，删除后水洗信息从数据库消失
+		waterwashMapper.delete(waterwash);
+	}
+	/**
+	 * 创建 excel数据表格
+	 * 
+	 * @return
+	 */
+	public Workbook createExcel() {
+		List<WaterWash> waterwashs = waterwashMapper.allWaterWash();
+
+		// 创建一个Excel文件
+		Workbook workbook = new XSSFWorkbook();
+		// 创建一个工作表
+		Sheet sheet = workbook.createSheet("水洗数据");
+		// 添加表头行
+		Row row0 = sheet.createRow(0);
+		// 添加表头内容
+		row0.createCell(0).setCellValue("ID");
+		row0.createCell(1).setCellValue("设备参数");
+		row0.createCell(2).setCellValue("水洗人员");
+		row0.createCell(3).setCellValue("地理位置");
+		row0.createCell(4).setCellValue("天气");
+		row0.createCell(5).setCellValue("发动机型号");
+		row0.createCell(6).setCellValue("效果");
+		row0.createCell(7).setCellValue("评级");
+		row0.createCell(8).setCellValue("持续时间");
+		row0.createCell(9).setCellValue("创建时间");
+	
+
+		// 添加数据内容
+		for (int i = 0; i < waterwashs.size(); i++) {
+			Row row = sheet.createRow(i + 1);
+			row.createCell(0).setCellValue(waterwashs.get(i).getId() + "");
+			row.createCell(1).setCellValue(waterwashs.get(i).getParameterApparatus() + "");
+			row.createCell(2).setCellValue(waterwashs.get(i).getUserId() + "");
+			row.createCell(3).setCellValue(waterwashs.get(i).getGeographic() + "");
+			row.createCell(4).setCellValue(waterwashs.get(i).getWeather() + "");
+			row.createCell(5).setCellValue(waterwashs.get(i).getEngSn() + "");
+			row.createCell(6).setCellValue(waterwashs.get(i).getResult() + "");
+			row.createCell(7).setCellValue(waterwashs.get(i).getLevel() + "");
+			row.createCell(8).setCellValue(waterwashs.get(i).getDurationTime() + "");
+			row.createCell(9).setCellValue(waterwashs.get(i).getCtime() + "");
+	
+		}
+
+		return workbook;
+	}
+
+	/**
+	 * 处理飞机数据信息
+	 * 
+	 * @param file
+	 */
+	public void process(MultipartFile file) {
+		// 提取所有的基地ID 和基地名
+		//List<Duty> allDuty = dutyMapper.getAllDuty();
+		//Map<String, Integer> dutyMap = Maps.newHashMap();
+		//allDuty.forEach(duty -> dutyMap.put(duty.getName(), duty.getId()));
+		try {
+			// 这里得到的是一个集合，里面的每一个元素是String[]数组
+			List<String[]> list = ExcelUtil.readExcel(file);
+			for (String[] arr : list) {
+				WaterWash wash = new WaterWash();
+				wash.setId(Integer.parseInt(arr[0]));
+				wash.setParameterApparatus(arr[1]);
+				wash.setUserId(Integer.parseInt(arr[2]));
+				wash.setGeographic(arr[3]);
+				wash.setWeather(arr[4]);
+				wash.setEngSn(arr[5]);
+				wash.setResult(arr[6]);
+				wash.setLevel(arr[7]);
+				wash.setDurationTime(arr[8]);
+				wash.setCtime(arr[9]);
+				WaterWash isExistWash =waterwashMapper.select(wash);
+				if (isExistWash == null) {
+					String date = LocalDateTime.now().toString().replace("T", " ");
+					String ctime = date.substring(0, date.indexOf("."));
+					wash.setCtime(ctime);
+					waterwashMapper.insert(wash);
+				} else {
+					waterwashMapper.update(wash);
+				}
+			}
+		} catch (IOException e) {
+			logger.debug(e);
+		}
+
+	}
+}

@@ -1,0 +1,471 @@
+package com.cea.ehm.bean;
+
+import java.io.Serializable;
+
+/**
+ * 油耗记录表
+ */
+public class OilConsumption implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	private Integer id;
+	/**
+	 * 分公司
+	 */
+	private Integer duty;
+	private String dutyName;
+	/**
+	 * 机型
+	 */
+	private String configPlane;
+	/**
+	 * 飞机ID
+	 */
+	private Integer planeId;
+	/**
+	 * 机号tail
+	 */
+	private String tail;
+	/**
+	 * 航班号
+	 */
+	private String fltNo;
+	/**
+	 * 飞行日期
+	 */
+	private String fltTime;
+	/**
+	 * 空中时间
+	 */
+	private String airTime;
+	/**
+	 * 空地时间
+	 */
+	private String groundTime;
+	/**
+	 * 起飞航站
+	 */
+	private String startTerminal;
+	/**
+	 * 到达航站
+	 */
+	private String endTerminal;
+	/**
+	 * 1发加油前滑油量
+	 */
+	private String refuelOil1;
+	/**
+	 * 1发滑油添加量
+	 */
+	private String oilAddition1;
+	/**
+	 * 1发加油时间差
+	 */
+	private String refuelTimeDifference1;
+	/**
+	 * 1发滑油消耗
+	 */
+	private String oilConsume1;
+	/**
+	 * 1发滑油消耗率
+	 */
+	private String oilConsumeRate1;
+	/**
+	 * 2发加油前滑油量
+	 */
+	private String refuelOil2;
+	/**
+	 * 2发滑油添加量
+	 */
+	private String oilAddition2;
+	/**
+	 * 2发加油时间差
+	 */
+	private String refuelTimeDifference2;
+	/**
+	 * 2发滑油消耗
+	 */
+	private String oilConsume2;
+	/**
+	 * 2发滑油消耗率
+	 */
+	private String oilConsumeRate2;
+	/**
+	 * 3发加油前滑油量
+	 */
+	private String refuelOil3;
+	/**
+	 * 3发滑油添加量
+	 */
+	private String oilAddition3;
+	/**
+	 * 3发加油时间差
+	 */
+	private String refuelTimeDifference3;
+	/**
+	 * 3发滑油消耗
+	 */
+	private String oilConsume3;
+	/**
+	 * 3发滑油消耗率
+	 */
+	private String oilConsumeRate3;
+	/**
+	 * 4发加油前滑油量
+	 */
+	private String refuelOil4;
+	/**
+	 * 4发滑油添加量
+	 */
+	private String oilAddition4;
+	/**
+	 * 4发加油时间差
+	 */
+	private String refuelTimeDifference4;
+	/**
+	 * 4发滑油消耗
+	 */
+	private String oilConsume4;
+	/**
+	 * 4发滑油消耗率
+	 */
+	private String oilConsumeRate4;
+	/**
+	 * 发动机警戒值
+	 */
+	private String engVigilance;
+	/**
+	 * APU滑油添加量
+	 */
+	private String apuOilAddition;
+	/**
+	 * APU滑油消耗率
+	 */
+	private String apuOilConsumeRate;
+	/**
+	 * APU滑油消耗警戒值
+	 */
+	private String apuOilConsumeVigilance;
+	/**
+	 * 录入人ID
+	 */
+	private Integer userId;
+	private String username;
+	/**
+	 * 创建时间
+	 */
+	private String ctime;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getDuty() {
+		return duty;
+	}
+
+	public void setDuty(Integer duty) {
+		this.duty = duty;
+	}
+
+	public String getDutyName() {
+		return dutyName;
+	}
+
+	public void setDutyName(String dutyName) {
+		this.dutyName = dutyName;
+	}
+
+	public String getConfigPlane() {
+		return configPlane;
+	}
+
+	public void setConfigPlane(String configPlane) {
+		this.configPlane = configPlane;
+	}
+
+	public Integer getPlaneId() {
+		return planeId;
+	}
+
+	public void setPlaneId(Integer planeId) {
+		this.planeId = planeId;
+	}
+
+	public String getTail() {
+		return tail;
+	}
+
+	public void setTail(String tail) {
+		this.tail = tail;
+	}
+
+	public String getFltNo() {
+		return fltNo;
+	}
+
+	public void setFltNo(String fltNo) {
+		this.fltNo = fltNo;
+	}
+
+	public String getFltTime() {
+		return fltTime;
+	}
+
+	public void setFltTime(String fltTime) {
+		this.fltTime = fltTime;
+	}
+
+	public String getAirTime() {
+		return airTime;
+	}
+
+	public void setAirTime(String airTime) {
+		this.airTime = airTime;
+	}
+
+	public String getGroundTime() {
+		return groundTime;
+	}
+
+	public void setGroundTime(String groundTime) {
+		this.groundTime = groundTime;
+	}
+
+	public String getStartTerminal() {
+		return startTerminal;
+	}
+
+	public void setStartTerminal(String startTerminal) {
+		this.startTerminal = startTerminal;
+	}
+
+	public String getEndTerminal() {
+		return endTerminal;
+	}
+
+	public void setEndTerminal(String endTerminal) {
+		this.endTerminal = endTerminal;
+	}
+
+	public String getRefuelOil1() {
+		return refuelOil1;
+	}
+
+	public void setRefuelOil1(String refuelOil1) {
+		this.refuelOil1 = refuelOil1;
+	}
+
+	public String getOilAddition1() {
+		return oilAddition1;
+	}
+
+	public void setOilAddition1(String oilAddition1) {
+		this.oilAddition1 = oilAddition1;
+	}
+
+	public String getRefuelTimeDifference1() {
+		return refuelTimeDifference1;
+	}
+
+	public void setRefuelTimeDifference1(String refuelTimeDifference1) {
+		this.refuelTimeDifference1 = refuelTimeDifference1;
+	}
+
+	public String getOilConsume1() {
+		return oilConsume1;
+	}
+
+	public void setOilConsume1(String oilConsume1) {
+		this.oilConsume1 = oilConsume1;
+	}
+
+	public String getOilConsumeRate1() {
+		return oilConsumeRate1;
+	}
+
+	public void setOilConsumeRate1(String oilConsumeRate1) {
+		this.oilConsumeRate1 = oilConsumeRate1;
+	}
+
+	public String getRefuelOil2() {
+		return refuelOil2;
+	}
+
+	public void setRefuelOil2(String refuelOil2) {
+		this.refuelOil2 = refuelOil2;
+	}
+
+	public String getOilAddition2() {
+		return oilAddition2;
+	}
+
+	public void setOilAddition2(String oilAddition2) {
+		this.oilAddition2 = oilAddition2;
+	}
+
+	public String getRefuelTimeDifference2() {
+		return refuelTimeDifference2;
+	}
+
+	public void setRefuelTimeDifference2(String refuelTimeDifference2) {
+		this.refuelTimeDifference2 = refuelTimeDifference2;
+	}
+
+	public String getOilConsume2() {
+		return oilConsume2;
+	}
+
+	public void setOilConsume2(String oilConsume2) {
+		this.oilConsume2 = oilConsume2;
+	}
+
+	public String getOilConsumeRate2() {
+		return oilConsumeRate2;
+	}
+
+	public void setOilConsumeRate2(String oilConsumeRate2) {
+		this.oilConsumeRate2 = oilConsumeRate2;
+	}
+
+	public String getRefuelOil3() {
+		return refuelOil3;
+	}
+
+	public void setRefuelOil3(String refuelOil3) {
+		this.refuelOil3 = refuelOil3;
+	}
+
+	public String getOilAddition3() {
+		return oilAddition3;
+	}
+
+	public void setOilAddition3(String oilAddition3) {
+		this.oilAddition3 = oilAddition3;
+	}
+
+	public String getRefuelTimeDifference3() {
+		return refuelTimeDifference3;
+	}
+
+	public void setRefuelTimeDifference3(String refuelTimeDifference3) {
+		this.refuelTimeDifference3 = refuelTimeDifference3;
+	}
+
+	public String getOilConsume3() {
+		return oilConsume3;
+	}
+
+	public void setOilConsume3(String oilConsume3) {
+		this.oilConsume3 = oilConsume3;
+	}
+
+	public String getOilConsumeRate3() {
+		return oilConsumeRate3;
+	}
+
+	public void setOilConsumeRate3(String oilConsumeRate3) {
+		this.oilConsumeRate3 = oilConsumeRate3;
+	}
+
+	public String getRefuelOil4() {
+		return refuelOil4;
+	}
+
+	public void setRefuelOil4(String refuelOil4) {
+		this.refuelOil4 = refuelOil4;
+	}
+
+	public String getOilAddition4() {
+		return oilAddition4;
+	}
+
+	public void setOilAddition4(String oilAddition4) {
+		this.oilAddition4 = oilAddition4;
+	}
+
+	public String getRefuelTimeDifference4() {
+		return refuelTimeDifference4;
+	}
+
+	public void setRefuelTimeDifference4(String refuelTimeDifference4) {
+		this.refuelTimeDifference4 = refuelTimeDifference4;
+	}
+
+	public String getOilConsume4() {
+		return oilConsume4;
+	}
+
+	public void setOilConsume4(String oilConsume4) {
+		this.oilConsume4 = oilConsume4;
+	}
+
+	public String getOilConsumeRate4() {
+		return oilConsumeRate4;
+	}
+
+	public void setOilConsumeRate4(String oilConsumeRate4) {
+		this.oilConsumeRate4 = oilConsumeRate4;
+	}
+
+	public String getEngVigilance() {
+		return engVigilance;
+	}
+
+	public void setEngVigilance(String engVigilance) {
+		this.engVigilance = engVigilance;
+	}
+
+	public String getApuOilAddition() {
+		return apuOilAddition;
+	}
+
+	public void setApuOilAddition(String apuOilAddition) {
+		this.apuOilAddition = apuOilAddition;
+	}
+
+	public String getApuOilConsumeRate() {
+		return apuOilConsumeRate;
+	}
+
+	public void setApuOilConsumeRate(String apuOilConsumeRate) {
+		this.apuOilConsumeRate = apuOilConsumeRate;
+	}
+
+	public String getApuOilConsumeVigilance() {
+		return apuOilConsumeVigilance;
+	}
+
+	public void setApuOilConsumeVigilance(String apuOilConsumeVigilance) {
+		this.apuOilConsumeVigilance = apuOilConsumeVigilance;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getCtime() {
+		return ctime;
+	}
+
+	public void setCtime(String ctime) {
+		this.ctime = ctime;
+	}
+
+}

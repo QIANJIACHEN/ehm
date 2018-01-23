@@ -1,0 +1,48 @@
+/*
+Navicat MySQL Data Transfer
+
+Source Server         : localhost_3306
+Source Server Version : 50096
+Source Host           : localhost:3306
+Source Database       : ehmtest
+
+Target Server Type    : MYSQL
+Target Server Version : 50096
+File Encoding         : 65001
+
+Date: 2017-11-29 20:02:20
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `user`
+-- ----------------------------
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+  `USERID` varchar(64) NOT NULL,
+  `USERNAME` varchar(64) NOT NULL,
+  `REALNAME` varchar(64) NOT NULL,
+  `PASSWORD` varchar(64) NOT NULL,
+  `POSITION` varchar(64) NOT NULL,
+  `ROLE` varchar(64) NOT NULL,
+  `PHONE` int(11) NOT NULL,
+  `CTIME` varchar(64) NOT NULL,
+  `DUTY` varchar(64) NOT NULL,
+  PRIMARY KEY  (`USERID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of user
+-- ----------------------------
+INSERT INTO `user` VALUES ('01', '工藤新一', '工藤新一', '123456', '日本', '高中生', '110', '20171129', '日本');
+INSERT INTO `user` VALUES ('02', '毛利兰', '毛利兰', '123456', '日本', '高中生', '110', '20171129', '日本');
+INSERT INTO `user` VALUES ('03', '圆子', '圆子', '123456', '日本', '高中生', '110', '20171129', '日本');
+INSERT INTO `user` VALUES ('04', '小五郎', '小五郎', '123456', '日本', '侦探', '110', '20171129', '日本');
+INSERT INTO `user` VALUES ('05', '柯南', '柯南', '123456', '日本', '侦探', '110', '20171129', '日本');
+INSERT INTO `user` VALUES ('06', '优作', '优作', '123456', '日本', '作家', '110', '20171129', '日本');
+INSERT INTO `user` VALUES ('07', '有希子', '有希子', '123456', '日本', '家庭主妇', '110', '20171129', '日本');
+INSERT INTO `user` VALUES ('08', '圆谷光彦', '圆谷光彦', '123456', '日本', '侦探', '110', '20171129', '日本');
+INSERT INTO `user` VALUES ('09', '吉田步美', '吉田步美', '123456', '日本', '侦探', '110', '20171129', '日本');
+INSERT INTO `user` VALUES ('10', '博士', '博士', '123456', '日本', '科学家', '110', '20171129', '日本');
+INSERT INTO `user` VALUES ('11', '怪盗基德', '怪盗基德', '123456', '日本', '盗圣', '110', '20171129', '日本');

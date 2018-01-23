@@ -1,0 +1,44 @@
+package com.cea.ehm.service;
+
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cea.ehm.bean.Hptb;
+import com.cea.ehm.bean.HptbHistory;
+import com.cea.ehm.dao.HptbMapper;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+@Service
+public class HptbService {
+	@Autowired
+	HptbMapper hptbMapper;
+	public PageList<Hptb> hptbinfo(Map<String, String>paramMap,PageBounds pageBounds){
+		return hptbMapper.hptbinfo(paramMap, pageBounds);
+	}
+	public void hptbadd(Hptb hptb) {
+		hptbMapper.hptbadd(hptb);
+	}
+	public void hptbupdate(Hptb hptb) {
+		hptbMapper.hptbupdate(hptb);
+	}
+	public void hptbdelete(Hptb hptb) {
+		hptbMapper.hptbdelete(hptb);
+	}
+	
+	
+	public PageList<HptbHistory> historyinfo(Map<String, String>paramMap,PageBounds pageBounds){
+		return hptbMapper.historyinfo(paramMap, pageBounds);
+	}
+	public void historyadd(HptbHistory hptbHistory) {
+		hptbMapper.historyadd(hptbHistory);
+	}
+	public void historyupdate(HptbHistory hptbHistory) {
+		hptbMapper.historyupdate(hptbHistory);
+	}
+	public void historydelete(HptbHistory hptbHistory) {
+		hptbMapper.historydelete(hptbHistory);
+	}
+}

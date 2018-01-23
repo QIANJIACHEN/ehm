@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.EngSpareMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.EngSpare">
+		<result column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="ENG_SN" jdbcType="VARCHAR" property="engSn" />
+		<result column="REMOVE_DATE" jdbcType="DATE" property="removeDate" />
+		<result column="REMOVAL_CAUSE" jdbcType="VARCHAR" property="removalCause" />
+		<result column="CONDITION_" jdbcType="VARCHAR" property="condition_" />
+		<result column="FACTORY" jdbcType="VARCHAR" property="factory" />
+		<result column="ARRIVED" jdbcType="DATE" property="arrived" />
+		<result column="INDUCTION" jdbcType="DATE" property="induction" />
+		<result column="COMPLETE_PLAN" jdbcType="DATE" property="completePlan" />
+		<result column="COMPLETE" jdbcType="DATE" property="complete" />
+		<result column="SHIP" jdbcType="VARCHAR" property="ship" />
+		<result column="TAT" jdbcType="VARCHAR" property="tat" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ID,ENG_SN,REMOVE_DATE,REMOVAL_CAUSE,CONDITION_,FACTORY,ARRIVED,INDUCTION,COMPLETE_PLAN,COMPLETE,SHIP,TAT
+	</sql>
+
+	<select id="select" parameterType="com.cea.ehm.bean.EngSpare"
+		resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_eng_spare
+		WHERE ID = #{id,jdbcType=VARCHAR} OR ENG_SN = #{engSn,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getEngSpareList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_eng_spare
+		
+		WHERE ENG_SN LIKE CONCAT('%',#{engSn,jdbcType=VARCHAR})
+		
+	</select>
+
+	<insert id="insert" parameterType="com.cea.ehm.bean.EngSpare">
+		INSERT INTO ehm_eng_spare
+		(
+			ID,ENG_SN,REMOVE_DATE,REMOVAL_CAUSE,CONDITION_,FACTORY,ARRIVED,INDUCTION,COMPLETE_PLAN,COMPLETE,SHIP,TAT
+		)
+		VALUES
+		(
+			#{id,jdbcType=VARCHAR},
+			#{engSn,jdbcType=INTEGER},
+			#{removeDate,jdbcType=DATE},
+			#{removalCause,jdbcType=VARCHAR},
+			#{condition_,jdbcType=VARCHAR},
+			#{factory,jdbcType=VARCHAR},
+			#{arrived,jdbcType=DATE},
+			#{induction,jdbcType=DATE},
+			#{completePlan,jdbcType=DATE},
+			#{complete,jdbcType=DATE},
+			#{ship,jdbcType=INTEGER},
+			#{tat,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="com.cea.ehm.bean.EngSpare">
+		DELETE FROM
+		ehm_eng_spare
+		WHERE
+		ID = #{id,jdbcType=VARCHAR}
+	</delete>
+
+	<update id="update" parameterType="com.cea.ehm.bean.EngSpare">
+		UPDATE ehm_eng_spare
+		<set>
+			<if test="engSn != null">
+				ENG_SN = #{engSn,jdbcType=VARCHAR},
+			</if>
+			<if test="removeDate != null">
+				REMOVE_DATE = #{removeDate,jdbcType=DATE},
+			</if>
+			<if test="removalCause != null">
+				REMOVAL_CAUSE = #{removalCause,jdbcType=VARCHAR},
+			</if>
+			<if test="condition_ != null">
+				CONDITION_ = #{condition_,jdbcType=VARCHAR},
+			</if>
+			<if test="factory != null">
+				FACTORY = #{factory,jdbcType=INTEGER},
+			</if>
+			<if test="arrived != null">
+				ARRIVED = #{arrived,jdbcType=DATE},
+			</if>
+			<if test="induction != null">
+				INDUCTION = #{induction,jdbcType=DATE},
+			</if>
+			<if test="completePlan != null">
+				COMPLETE_PLAN = #{completePlan,jdbcType=DATE},
+			</if>
+			<if test="complete != null">
+				COMPLETE = #{complete,jdbcType=DATE},
+			</if>
+			<if test="ship != null">
+				SHIP = #{ship,jdbcType=INTEGER},
+			</if>
+			<if test="tat != null">
+				TAT = #{tat,jdbcType=VARCHAR}
+			</if>
+			
+		</set>
+		WHERE ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

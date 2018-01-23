@@ -1,0 +1,538 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-head.jsp"/>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-script.jsp"/>
+    <script type="text/javascript" src="../../js/ocupload.js"></script>
+</head>
+<body class="hold-transition" >
+
+<!-- Content Wrapper. Contains page content -->
+<div class="wrapper">
+
+    <div class="box wrapper " style="overflow: auto;">
+
+        <div class="box-header with-border">
+            <div class="row">
+            
+                <div class="col-xs-2" style="min-width: 160px">
+                 
+                   机号： <input type="text" class=" form-control" id="search-tail" placeholder="机号">
+                
+                </div>
+                 <div class="col-xs-2" style="min-width: 160px">
+                 
+                   发动机编号： <input type="text" class=" form-control" id="search-engSn" placeholder="发动机编号">
+                
+                </div>
+                
+
+                <div class="col-xs-1" style="min-width: 160px">
+                	
+                    <button class="btn btn-block btn-default" onclick="searchUser()">
+                        <i class="fa fa-search"></i>
+                      	  查询
+                    </button>
+                    
+                </div>
+                <div class="col-xs-1 pull-right" style="min-width: 160px">
+                    <button id="export" class="btn btn-block btn-primary col-sm-1">
+                        <i class="fa fa-mail-forward"></i>
+                       	 导出数据
+                    </button>
+                </div>
+                <div class="col-xs-1 pull-right" style="min-width: 160px">
+                    <button id="inport" class="btn btn-block btn-primary">
+                        <i class="fa fa-mail-reply"></i>
+                       	 导入数据
+                    </button>
+                </div>
+                <div class="col-xs-1" style="min-width: 160px">
+                    <button class="btn btn-block btn-default col-sm-1" data-toggle="modal" data-target="#sapdailyreport-add-modal">
+                        <i class="fa fa-plus"></i>
+                       	 添加
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="box-body" style="padding-top:20px">
+
+            <div class="dataTables_wrapper form-inline dt-bootstrap">
+                <table id="table-list" class="table  table-hover">
+                    <thead>
+                    <tr>
+                    	<th>id</th>
+                    	<!-- 
+                        <th>基地ID</th>
+                         -->
+                        <th>机型</th>
+                        <th>机号</th>
+                        <th>发动机位置</th>
+                        <th>发动机序号</th>
+                        <th>LLP最小剩余寿命</th>
+                        <!--  
+                        <th>滑耗监控</th>
+                        <th>振动监控</th>
+                        <th>磁堵检查报告</th>
+                        <th>孔探报告</th>
+                        <th>CNR报告</th>
+                        <th>ACARS传输</th>
+                        <th>航线运行</th>
+                        <th>营运人</th>
+                        -->
+                        <th>性能月报编号</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<jsp:include page='sapdailyreportinfo.jsp'/>
+<jsp:include page='sapdailyreportadd.jsp'/>
+<jsp:include page="sapdailyreportupload.jsp" />
+
+
+<script type="text/javascript">
+
+
+$("#table-list").DataTable({
+    'dom': 'tr<"row"<"col-sm-5"l><"col-sm-7"p>>',
+    "serverSide": true,
+    ordering: false,
+    "type": "POST",
+    "ajax": {
+        "url": "${pageContext.request.contextPath}/manage/sapdailyreport/list.do",
+        "type": "POST",
+        "data": function (d) {
+        	// 条件查询参数
+        	d.tail = $("#search-tail").val();
+        	d.engSn = $("#search-engSn").val();
+        	// d.bzStatus = $("#search-bz-status").val();
+            // d.accountStatus = $("#search-account-status").val();
+        }
+    },
+    "columns": [
+    	{"data": "id"},
+        //{"data": "duty"},
+        {"data": "series"},
+        {"data": "tail"},
+       // {"data": "engPosit"},
+       	null,
+        {"data": "engSn"},
+        {"data": "minLlp"},
+        //{"data": "oilMonitoring"},
+       // {"data": "vibratopmMonitoring"},
+       // {"data": "magneticPluginSpectionReport"},
+       // {"data": "borescopeReport"},
+       // {"data": "cnrReport"},
+       // {"data": "acars"},
+       // {"data": "routeOperation"},
+        //{"data": "cntrOptr"},
+        {"data": "monPerformanceNo"},
+        {"data": "ctime"},
+        null
+    ],
+    "ordering": false,
+    "searching": false,
+    "columnDefs": [
+    	{
+    		"targets":3,
+    		"data": function (row, type, val, meta){
+    			if(row.engPosit=="1"){
+    				return "左发";
+    			}
+    			return "右发";
+    		}
+    	},
+        {
+            "targets": 8,
+            "data": function (row, type, val, meta) {
+                return row;
+            },
+            "render": function (data, type, full, meta) {
+                var table = $("#table-list").DataTable();
+                var result = '<div class="btn-group open">'
+                    + '<button class="btn btn-default btn-sm "'
+                    + ' data-toggle="modal" data-target="#sapdailyreport-info-modal">'
+                    + '<i class="fa fa-gear"></i>'
+                    + '</button><button class="btn btn-default btn-sm" onclick="deletesapdailyreport(' + data.id + ')">'
+                    + '<i class="fa fa-trash"></i>'
+                    + '</button><butoon class="btn btn-default btn-sm" onclick="jump('+data.id+')" ><i class="fa fa-space-shuttle" aria-hidden="true"></i>'
+                    +'</div>';
+                return result;
+            }
+        }
+    ],
+    "info": false,
+    "language": {
+        "lengthMenu": "显示 _MENU_ 条记录",
+        "paginate": {
+            "first": "首页",
+            "next": "下一页",
+            "previous": "上一页",
+            "last": "末页",
+        },
+        "zeroRecords": "",
+        "infoEmpty":"没有符合条件的数据",
+        "emptyTable":"没有符合条件的数据"
+    }
+});
+
+// 存储点击行的内容
+var cellWaterWashData = null;
+ $('#table-list tbody').on('click', 'td', function () {
+     var table = $('#table-list').DataTable();
+     cellWaterWashData = table.cell(this).data();
+ });
+
+// 编辑按钮 → 用户信息填充
+ $('#sapdailyreport-info-modal').on('show.bs.modal', function (event) {
+     var modal = $(this);
+     modal.find('#editid').val(cellWaterWashData.id);
+     modal.find('#editduty').val(cellWaterWashData.duty);
+     modal.find('#editseries').val(cellWaterWashData.series);
+     modal.find('#edittail').val(cellWaterWashData.tail);
+     modal.find('#editengPosit').val(cellWaterWashData.engPosit);
+     modal.find('#editengSn').val(cellWaterWashData.engSn);
+     modal.find('#editrating').val(cellWaterWashData.rating);
+     modal.find('#editconfig').val(cellWaterWashData.config);
+     modal.find('#editetsn').val(cellWaterWashData.etsn);
+     modal.find('#editecsn').val(cellWaterWashData.ecsn);
+     modal.find('#editegtm').val(cellWaterWashData.egtm);
+     modal.find('#editminLlp').val(cellWaterWashData.minLlp);
+     modal.find('#editremark').val(cellWaterWashData.remark);
+     modal.find('#editisNormal').val(cellWaterWashData.isNormal);
+     modal.find('#editdeliveryModeMonitoring').val(cellWaterWashData.deliveryModeMonitoring);
+     modal.find('#editoilMonitoring').val(cellWaterWashData.oilMonitoring);
+     modal.find('#editvibratopmMonitoring').val(cellWaterWashData.vibratopmMonitoring);
+     modal.find('#editmagneticPluginSpectionReport').val(cellWaterWashData.magneticPluginSpectionReport);
+     modal.find('#editborescopeReport').val(cellWaterWashData.borescopeReport);
+     modal.find('#editcnrReport').val(cellWaterWashData.cnrReport);
+     modal.find('#editacars').val(cellWaterWashData.acars);
+     modal.find('#editrouteOperation').val(cellWaterWashData.routeOperation);
+     modal.find('#editengOil').val(cellWaterWashData.engOil);
+     modal.find('#editetops').val(cellWaterWashData.etops);
+     modal.find('#edithHighLand').val(cellWaterWashData.hHighLand);
+     modal.find('#editcntrOptr').val(cellWaterWashData.cntrOptr);
+     modal.find('#editetime').val(cellWaterWashData.etime);
+     modal.find('#editetsr').val(cellWaterWashData.etsr);
+     modal.find('#editecsr').val(cellWaterWashData.ecsr);
+     modal.find('#editetsi').val(cellWaterWashData.etsi);
+     modal.find('#editecsi').val(cellWaterWashData.ecsi);
+     modal.find('#editetso').val(cellWaterWashData.etso);
+     modal.find('#editecso').val(cellWaterWashData.ecso);
+     modal.find('#editptime').val(cellWaterWashData.ptime);
+     modal.find('#editctime').val(cellWaterWashData.ctime);
+     modal.find('#editcUserId').val(cellWaterWashData.cUserId);
+     modal.find('#edituUserId').val(cellWaterWashData.uUserId);
+     modal.find('#editutime').val(cellWaterWashData.utime);
+     modal.find('#editauditor').val(cellWaterWashData.auditor);
+     modal.find('#editatime').val(cellWaterWashData.atime);
+     modal.find('#editmonPerformanceNo').val(cellWaterWashData.monPerformanceNo);
+     modal.find('#editisHisData').val(cellWaterWashData.isHisData);
+     modal.find('#editdoc').val(cellWaterWashData.doc);
+ }).on('hide.bs.modal', function (event) {
+     cellUserData = null;
+ });
+ 
+ // edit user
+ function editsapdailyreport() {
+	 	var id = $("editid").val();
+	 	var planeId = $("#editplaneId").val();
+	 	var engId = $("#editengId").val();
+	 	var engPn = $("#editengPn").val();
+	 	var duty = $("#editduty").val();
+	 	var series = $("#editseries").val();
+	 	var tail = $("#edittail").val();
+	 	var engPosit = $("#editengPosit").val();
+	 	var engSn = $("#editengSn").val();
+	 	var rating = $("#editrating").val();
+	 	var config = $("#editconfig").val();
+	 	var etsn = $("#editetsn").val();
+	 	var ecsn = $("#editecsn").val();
+	 	var egtm = $("#editegtm").val();
+	 	var minLlp = $("#editminLlp").val();
+	 	var remark = $("#editremark").val();
+	 	var isNormal = $("#editisNormal").val();
+	 	var deliveryModeMonitoring = $("#editdeliveryModeMonitoring").val();
+	 	var oilMonitoring = $("#editoilMonitoring").val();
+	 	var vibratopmMonitoring = $("#editvibratopmMonitoring").val();
+	 	var magneticPluginSpectionReport = $("#editmagneticPluginSpectionReport").val();
+	 	var borescopeReport =$("#editborescopeReport").val();
+	 	var cnrReport = $("#editcnrReport").val();
+	 	var acars = $("#editacars").val();
+	 	var routeOperation = $("#editrouteOperation").val();
+	 	var engOil = $("#editengOil").val();
+	 	var etops = $("#editetops").val();
+	 	var hHighLand = $("#edithHighLand").val();
+	 	var cntrOptr = $("#editcntrOptr").val();
+	 	var etime = $("#editetime").val();
+	 	var etsr = $("#editetsr").val();
+	 	var ecsr = $("#editecsr").val();
+	 	var etsi = $("#editetsi").val();
+	 	var ecsi = $("#editecsi").val();
+	 	var etso = $("#editetso").val();
+	 	var ecso = $("#editecso").val();
+	 	var ptime = $("#editptime").val();
+	 	var ctime = $("#editctime").val();
+	 	var cUserId = $("#editcUserId").val();
+	 	var uUserId = $("#edituUserId").val();
+	 	var utime = $("#editutime").val();
+	 	var auditor = $("#editauditor").val();
+	 	var atime = $("#editatime").val();
+	 	var monPerformanceNo = $("#editmonPerformanceNo").val();
+	 	var isHisData = $("#editisHisData").val();
+	 	var doc = $("#editdoc").val();
+		$.post(
+		    "${pageContext.request.contextPath}/manage/sapdailyreport/saveOrUpdate.do",
+		    {
+		        "id":id,
+		        "duty":duty,
+		        "planeId":planeId,
+		        "engId":engId,
+		        "engPn":engPn,
+		        "series":series,
+		        "tail":tail,
+		        "engPosit":engPosit,
+		        "engSn":engSn,
+		        "rating":rating,
+		        "config":config,
+		        "etsn":etsn,
+		        "ecsn":ecsn,
+		        "egtm":egtm,
+		        "minLlp":minLlp,
+		        "remark":remark,
+		        "isNormal":isNormal,
+		        "deliveryModeMonitoring":deliveryModeMonitoring,
+		        "oilMonitoring":oilMonitoring,
+		        "vibratopmMonitoring":vibratopmMonitoring,
+		        "magneticPluginSpectionReport":magneticPluginSpectionReport,
+		        "borescopeReport":borescopeReport,
+		        "cnrReport":cnrReport,
+		        "acars":acars,
+		        "routeOperation":routeOperation,
+		        "engOil":engOil,
+		        "etops":etops,
+		        "hHighLand":hHighLand,
+		        "cntrOptr":cntrOptr,
+		        "etime":etime,
+		        "etsr":etsr,
+		        "ecsr":ecsr,
+		        "etsi":etsi,
+		        "ecsi":ecsi,
+		        "etso":etso,
+		        "ecso":ecso,
+		        "ptime":ptime,
+		        "ctime":ctime,
+		        "cUserId":cUserId,
+		        "uUserId":uUserId,
+		        "utime":utime,
+		        "auditor":auditor,
+		        "atime":atime,
+		        "monPerformanceNo":monPerformanceNo,
+		        "isHisData":isHisData,
+		        "doc":doc,
+		    },
+		    function (res) {
+		    	 $('#sapdailyreport-info-modal').modal('hide');
+		         reloadTable(true);
+		    },
+		    "json"
+		);
+		$('#sapdailyreport-info-modal').modal('hide');
+        reloadTable(true);
+	}
+ 
+ // add sapdailyreport
+ function addsapdailyreport() {
+	 	var id = $("addid").val();
+	 	var planeId = $("#addplaneId").val();
+	 	var engId = $("#addengId").val();
+	 	var engPn = $("#addengPn").val();
+	 	var duty = $("#addduty").val();
+	 	var series = $("#addseries").val();
+	 	var tail = $("#addtail").val();
+	 	var engPosit = $("#addengPosit").val();
+	 	var engSn = $("#addengSn").val();
+	 	var rating = $("#addrating").val();
+	 	var config = $("#addconfig").val();
+	 	var etsn = $("#addetsn").val();
+	 	var ecsn = $("#addecsn").val();
+	 	var egtm = $("#addegtm").val();
+	 	var minLlp = $("#addminLlp").val();
+	 	var remark = $("#addremark").val();
+	 	var isNormal = $("#addisNormal").val();
+	 	var deliveryModeMonitoring = $("#adddeliveryModeMonitoring").val();
+	 	var oilMonitoring = $("#addoilMonitoring").val();
+	 	var vibratopmMonitoring = $("#addvibratopmMonitoring").val();
+	 	var magneticPluginSpectionReport = $("#addmagneticPluginSpectionReport").val();
+	 	var borescopeReport =$("#addborescopeReport").val();
+	 	var cnrReport = $("#addcnrReport").val();
+	 	var acars = $("#addacars").val();
+	 	var routeOperation = $("#addrouteOperation").val();
+	 	var engOil = $("#addengOil").val();
+	 	var etops = $("#addetops").val();
+	 	var hHighLand = $("#addhHighLand").val();
+	 	var cntrOptr = $("#addcntrOptr").val();
+	 	var etime = $("#addetime").val();
+	 	var etsr = $("#addetsr").val();
+	 	var ecsr = $("#addecsr").val();
+	 	var etsi = $("#addetsi").val();
+	 	var ecsi = $("#addecsi").val();
+	 	var etso = $("#addetso").val();
+	 	var ecso = $("#addecso").val();
+	 	var ptime = $("#addptime").val();
+	 	var ctime = $("#addctime").val();
+	 	var cUserId = $("#addcUserId").val();
+	 	var uUserId = $("#adduUserId").val();
+	 	var utime = $("#addutime").val();
+	 	var auditor = $("#addauditor").val();
+	 	var atime = $("#addatime").val();
+	 	var monPerformanceNo = $("#addmonPerformanceNo").val();
+	 	var isHisData = $("#addisHisData").val();
+	 	var doc = $("#adddoc").val();
+	 	
+	 	
+		$.post(
+		    "${pageContext.request.contextPath}/manage/sapdailyreport/saveOrUpdate.do",
+		    {
+		        "id":id,
+		        "duty":duty,
+		        "planeId":planeId,
+		        "engId":engId,
+		        "engPn":engPn,
+		        "series":series,
+		        "tail":tail,
+		        "engPosit":engPosit,
+		        "engSn":engSn,
+		        "rating":rating,
+		        "config":config,
+		        "etsn":etsn,
+		        "ecsn":ecsn,
+		        "egtm":egtm,
+		        "minLlp":minLlp,
+		        "remark":remark,
+		        "isNormal":isNormal,
+		        "deliveryModeMonitoring":deliveryModeMonitoring,
+		        "oilMonitoring":oilMonitoring,
+		        "vibratopmMonitoring":vibratopmMonitoring,
+		        "magneticPluginSpectionReport":magneticPluginSpectionReport,
+		        "borescopeReport":borescopeReport,
+		        "cnrReport":cnrReport,
+		        "acars":acars,
+		        "routeOperation":routeOperation,
+		        "engOil":engOil,
+		        "etops":etops,
+		        "hHighLand":hHighLand,
+		        "cntrOptr":cntrOptr,
+		        "etime":etime,
+		        "etsr":etsr,
+		        "ecsr":ecsr,
+		        "etsi":etsi,
+		        "ecsi":ecsi,
+		        "etso":etso,
+		        "ecso":ecso,
+		        "ptime":ptime,
+		        "ctime":ctime,
+		        "cUserId":cUserId,
+		        "uUserId":uUserId,
+		        "utime":utime,
+		        "auditor":auditor,
+		        "atime":atime,
+		        "monPerformanceNo":monPerformanceNo,
+		        "isHisData":isHisData,
+		        "doc":doc,
+		    },
+		    function (response) {
+		    	 //$('#sapdailyreport-add-modal').modal('hide');
+		         //reloadTable(true);
+		    },
+		    "date"
+		);
+	}
+ 
+//跳转
+ function jump(id){;
+ 	url="${pageContext.request.contextPath}/manage/sapdailyreport/sapdailyreportdetail.do?id="+id+"&title=1";
+ 	title = "SAP日报详情";
+	tab_url = self.frameElement.getAttribute('data_url');//iframe对应的data_url和tab对应的data_url是一致的
+	window.parent.changePage(title,tab_url);//调用父页面的方法
+	//跳转
+	window.location.href=url;
+ }
+ 
+ /**
+  * 重载列表
+  */
+ function reloadTable(reset) {
+     var table = $('#table-list').DataTable();
+     if (reset == true) {
+         table.ajax.reload(null, true);
+     } else {
+         table.ajax.reload();
+     }
+ }
+
+ // search 
+ function searchUser() {
+	 reloadTable(true);
+ }
+ 
+// delete
+ function deletesapdailyreport(id) {
+     if (confirm("你确定要删除吗？")) {
+         $.post(
+             "${pageContext.request.contextPath}/manage/sapdailyreport/delete.do",
+             {
+                 "id": id,
+             },
+             function (response) {
+                 $('#mood-modal').modal('hide');
+                 reloadTable(true);
+             },
+             "json"
+         );
+     };
+     $('#mood-modal').modal('hide');
+     reloadTable(true);
+ }
+ 
+ 
+ // excel 导出
+ $('#export').click(function(){
+	 window.location = '${pageContext.request.contextPath}/manage/sapdailyreport/export.do';
+ });
+ 
+// 调用OCUpload插件的方法
+$("#inport").upload({
+     action: "${pageContext.request.contextPath}/manage/sapdailyreport/inport.do", //表单提交的地址
+     name: "file",
+     onComplete: function (data) { //提交表单之后
+ 		var data = $.parseJSON(data);
+		if (data.code != 101) {
+			alert("导入失败！");
+		}
+		reloadTable(true);
+	},
+	onSelect : function() {//当用户选择了一个文件后触发事件
+		//当选择了文件后，关闭自动提交
+		this.autoSubmit = false;
+		//校验上传的文件名是否满足后缀为.xls或.xlsx
+		var regex = /^.*\.(?:xls|xlsx)$/i;
+		if (regex.test($("[name = '" + this.name() + "']").val())) {
+			//通过校验
+			this.submit();
+		} else {
+			//未通过
+			alert('文件格式不正确! ');
+		}
+	}
+});
+</script>
+</body>
+</html>

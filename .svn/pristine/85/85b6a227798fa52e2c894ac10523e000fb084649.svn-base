@@ -1,0 +1,184 @@
+package com.cea.ehm.bean;
+
+import java.io.Serializable;
+
+/**
+ * 计算规则
+ */
+public class RuleComputation implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	private Integer id;
+	/**
+	 * 检测规则ID
+	 */
+	private Integer inspectionId;
+	/**
+	 * 0：第一个条件；1：and；2：or
+	 */
+	private Integer type;
+	/**
+	 * 规则参数ID
+	 */
+	private Integer ruleId;
+	/**
+	 * 创建时间
+	 */
+	private String ctime;
+	/**
+	 * 1：区间；2：短期；3：中期；4：长期
+	 */
+	private Integer calculationType;
+	/**
+	 * 计算范围
+	 */
+	private Integer calculationRange;
+	/**
+	 * 1：点；2：天
+	 */
+	private Integer rangeType;
+	/**
+	 * 0：ALL；1：起飞；2：巡航
+	 */
+	private Integer flightPhase;
+	/**
+	 * 最小值
+	 */
+	private String min;
+	/**
+	 * 最大值
+	 */
+	private String max;
+	/**
+	 * 等于
+	 */
+	private String equal;
+	/**
+	 * 不等于
+	 */
+	private String unequal;
+
+	private Integer ruleType;
+	private String ruleName;
+
+	public String getRuleName() {
+		return ruleName;
+	}
+
+	public void setRuleName(String ruleName) {
+		this.ruleName = ruleName;
+	}
+
+	public Integer getRuleType() {
+		return ruleType;
+	}
+
+	public void setRuleType(Integer ruleType) {
+		this.ruleType = ruleType;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getInspectionId() {
+		return inspectionId;
+	}
+
+	public void setInspectionId(Integer inspectionId) {
+		this.inspectionId = inspectionId;
+	}
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
+
+	public Integer getRuleId() {
+		return ruleId;
+	}
+
+	public void setRuleId(Integer ruleId) {
+		this.ruleId = ruleId;
+	}
+
+	public String getCtime() {
+		return ctime;
+	}
+
+	public void setCtime(String ctime) {
+		this.ctime = ctime;
+	}
+
+	public Integer getCalculationType() {
+		return calculationType;
+	}
+
+	public void setCalculationType(Integer calculationType) {
+		this.calculationType = calculationType;
+	}
+
+	public Integer getCalculationRange() {
+		return calculationRange;
+	}
+
+	public void setCalculationRange(Integer calculationRange) {
+		this.calculationRange = calculationRange;
+	}
+
+	public Integer getRangeType() {
+		return rangeType;
+	}
+
+	public void setRangeType(Integer rangeType) {
+		this.rangeType = rangeType;
+	}
+
+	public Integer getFlightPhase() {
+		return flightPhase;
+	}
+
+	public void setFlightPhase(Integer flightPhase) {
+		this.flightPhase = flightPhase;
+	}
+
+	public String getMin() {
+		return min;
+	}
+
+	public void setMin(String min) {
+		this.min = min;
+	}
+
+	public String getMax() {
+		return max;
+	}
+
+	public void setMax(String max) {
+		this.max = max;
+	}
+
+	public String getEqual() {
+		return equal;
+	}
+
+	public void setEqual(String equal) {
+		this.equal = equal;
+	}
+
+	public String getUnequal() {
+		return unequal;
+	}
+
+	public void setUnequal(String unequal) {
+		this.unequal = unequal;
+	}
+
+}

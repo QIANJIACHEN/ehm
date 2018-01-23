@@ -1,0 +1,254 @@
+package com.cea.ehm.controller.manage;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.cea.ehm.bean.WaterWash;
+import com.cea.ehm.controller.BaseController;
+import com.cea.ehm.service.WaterWashService;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import com.google.common.collect.Maps;
+
+/**
+ * 用户信息
+ */
+@Controller
+@RequestMapping(value = "/manage/waterwash")
+public class WaterWashController extends BaseController {
+	private Logger logger = Logger.getLogger(WaterWashController.class);
+	@Autowired
+	private WaterWashService waterwashService;
+
+	/**
+	 * 显示水洗列表页面
+	 */
+	@RequestMapping(value = "/waterwashlist.do")
+	public ModelAndView waterwashlist() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/waterwash/waterwashlist");
+		return mv;
+	}
+	
+	/**
+	 * 显示水洗记录页面
+	 */
+	@RequestMapping(value = "/waterwashrecord.do")
+	public ModelAndView waterwashrecord() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/waterwash/waterwashrecord");
+		return mv;
+	}
+	
+	/**
+	 * 水洗详情页面
+	 */
+	@RequestMapping(value = "/waterwashdetail")
+	public ModelAndView waterwashdetail() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/waterwash/waterwashdetail");
+		return mv;
+	}
+	
+	/*
+	 * 根据id获取水洗详情内容
+	 */
+	@RequestMapping(value = "/detail.do")
+	@ResponseBody
+	public Map<String,Object> detail(@RequestParam Map<String, String> reqPara){
+		logger.info("页面请求参数: " + reqPara);
+		String id = reqPara.get("id");
+		Map<String, Integer> paramMap = Maps.newHashMap();
+		paramMap.put("id",Integer.parseInt(id));
+		List<WaterWash> data = waterwashService.getWaterWashById(paramMap);
+		Map<String, Object> map = Maps.newHashMap();
+		map.put("data", data);
+		return map;
+	}
+	
+	/**
+	 * 显示水洗信息页面
+	 */
+	@RequestMapping(value = "/waterwashinfo.do")
+	public ModelAndView waterwashinfo() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/waterwash/waterwashinfo");
+		return mv;
+	}
+
+	/**
+	 * 查询水洗→ 列表
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/list.do")
+	@ResponseBody
+	public Map<String, Object> list(@RequestParam Map<String, String> reqPara) {
+		logger.info("页面请求参数: " + reqPara);
+		PageBounds pageBounds = handlePageInfoForManage(reqPara);
+		// ？？
+		String sEcho = reqPara.get("draw");
+		// 条件参数
+		String key = reqPara.get("key");
+		Map<String, String> paramMap = Maps.newHashMap();
+		paramMap.put("weather", key);
+
+		PageList<WaterWash> pageList = (PageList<WaterWash>) waterwashService.getWaterWashList(paramMap, pageBounds);
+
+		Pageable page = new PageRequest(pageBounds.getPage(), pageBounds.getLimit());
+		Page<WaterWash> content = new PageImpl<>(pageList, page, pageList.getPaginator().getTotalCount());
+
+		Map<String, Object> map = Maps.newHashMap();
+		map.put("data", pageList);
+		map.put("iTotalRecords", content.getTotalElements());
+		map.put("iTotalDisplayRecords", content.getTotalElements());
+		map.put("sEcho", sEcho);
+		map.put("draw", sEcho);
+		return map;
+	}
+
+	/**
+	 * 保存或更新水洗信息
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/saveOrUpdate.do")
+	@ResponseBody
+	public Map<String, Object> saveOrUpdate(@RequestParam Map<String, String> reqPara) {
+		logger.info("待编辑用户信息: " + reqPara);
+		String id = reqPara.get("id");
+		String parameterApparatus = reqPara.get("parameterApparatus");
+		String userId = reqPara.get("userId");
+		String geographic = reqPara.get("geographic");
+		String weather = reqPara.get("weather");
+		String engId = reqPara.get("engId");
+		String engSn = reqPara.get("engSn");
+		String result = reqPara.get("result");
+		String level = reqPara.get("level");
+		String durationTime = reqPara.get("durationTime");
+		String date = LocalDateTime.now().toString().replace("T", " ");
+		String ctime = date.substring(0, date.indexOf("."));
+		WaterWash waterwash = new WaterWash();
+		if(id!=null) {
+			waterwash.setId(Integer.parseInt(id));
+		}
+		
+		waterwash.setParameterApparatus(parameterApparatus);
+		waterwash.setUserId(Integer.parseInt(userId));
+		waterwash.setGeographic(geographic);
+		waterwash.setWeather(weather);
+		waterwash.setEngId(Integer.parseInt(engId));
+		waterwash.setEngSn(engSn);
+		waterwash.setResult(result);
+		waterwash.setLevel(level);
+		waterwash.setDurationTime(durationTime);
+		waterwash.setCtime(ctime);
+		waterwashService.saveOrUpdate(waterwash);
+		return null;
+	}
+
+	/**
+	 * 删除水洗信息
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/delete.do")
+	@ResponseBody
+	public Map<String, Object> delete(@RequestParam Map<String, String> reqPara) {
+		logger.info("待删除水洗信息: " + reqPara);
+		String id = reqPara.get("id");
+		WaterWash waterwash = new WaterWash();
+		waterwash.setId(Integer.parseInt(id));
+
+		// 删除之前是不是要判断水洗是否存在？？
+
+		// 这里没做判断, 直接删除
+		waterwashService.delete(waterwash);
+		return null;
+	}
+	/**
+	 * excel 表格导出
+	 * 
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/export.do")
+	@ResponseBody
+	public String export(HttpServletResponse response) throws Exception {
+		/**
+		 * 实现页面下载框
+		 */
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+		waterwashService.createExcel().write(os);
+		
+		byte[] content = os.toByteArray();
+		InputStream is = new ByteArrayInputStream(content);
+		// 设置response参数，可以打开下载页面
+		response.reset();
+		response.setContentType("application/vnd.ms-excel;charset=utf-8");
+		String fileName = "水洗数据.xlsx";
+		response.setHeader("Content-Disposition",
+				"attachment;filename=" + new String(fileName.getBytes(), "iso-8859-1"));
+		ServletOutputStream out = response.getOutputStream();
+		BufferedInputStream bis = null;
+		BufferedOutputStream bos = null;
+		try {
+			bis = new BufferedInputStream(is);
+			bos = new BufferedOutputStream(out);
+			byte[] buff = new byte[2048];
+			int bytesRead;
+			// Simple read/write loop.
+			while (-1 != (bytesRead = bis.read(buff, 0, buff.length))) {
+				bos.write(buff, 0, bytesRead);
+			}
+		} catch (final IOException e) {
+			logger.debug(e);
+		} finally {
+			if (bis != null)
+				bis.close();
+			if (bos != null)
+				bos.close();
+		}
+		return null;
+	}
+
+	/**
+	 * excel表格 一键上传 处理水洗数据信息
+	 * 
+	 * @param file
+	 * @return
+	 */
+	@RequestMapping(value = "/inport.do")
+	@ResponseBody
+	public Map<String, Object> inport(MultipartFile file) {
+		waterwashService.process(file);
+		return getSuccessMessage();
+	}
+}

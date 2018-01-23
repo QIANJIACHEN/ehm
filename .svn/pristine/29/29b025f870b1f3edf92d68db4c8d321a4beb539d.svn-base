@@ -1,0 +1,57 @@
+package com.cea.ehm.service;
+
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cea.ehm.bean.User;
+import com.cea.ehm.dao.UserMapper;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+/**
+ * 用户服务层
+ */
+@Service
+public class UserService {
+	private Logger logger = Logger.getLogger(UserService.class);
+	@Autowired
+	private UserMapper userMapper;
+
+	/**
+	 * 查询用户列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	public PageList<User> getUserList(Map<String, String> paramMap, PageBounds pageBounds) {
+		logger.info("数据库查询参数：" + paramMap);
+		return userMapper.getUserList(paramMap, pageBounds);
+	}
+
+	/**
+	 * 保存或更新用户信息
+	 * 
+	 * @param user
+	 */
+	public void saveOrUpdate(User user) {
+		// 查询判断用户是否存在，再考虑保存还是更新
+
+		// 这里直接插入， 没做判断(没做用户信息非空处理)
+		userMapper.insert(user);
+	}
+
+	/**
+	 * 删除用户信息
+	 * 
+	 * @param user
+	 */
+	public void delete(User user) {
+		// 这里是物理删除，删除后用户信息从数据库消失
+		userMapper.delete(user);
+	}
+
+}

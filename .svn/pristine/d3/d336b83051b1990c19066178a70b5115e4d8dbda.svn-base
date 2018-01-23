@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.WaterWashMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.WaterWash">
+		<id column="ID" jdbcType="INTEGER" property="Id" />
+		<result column="PARAMETER_APPARATUS" jdbcType="VARCHAR" property="ParameterApparatus" />
+		<result column="USERID" jdbcType="VARCHAR" property="UserId" />
+		<result column="GEOGRAPHIC" jdbcType="VARCHAR" property="Geographic" />
+		<result column="WEATHER" jdbcType="VARCHAR" property="Weather" />
+		<result column="ENG_SN" jdbcType="VARCHAR" property="EngSn" />
+		<result column="RESULT" jdbcType="INTEGER" property="Result" />
+		<result column="LEVEL" jdbcType="VARCHAR" property="Level" />
+		<result column="DURATION_TIME" jdbcType="VARCHAR" property="DurationTime" />
+		<result column="CTIME" jdbcType="VARCHAR" property="CTime" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ID,PARAMETER_APPARATUS,USERID,GEOGRAPHIC,WEATHER,ENG_SN,RESULT,LEVEL,DURATION_TIME,CTIME
+	</sql>
+	
+	<select id="select" parameterType="com.cea.ehm.bean.WaterWash" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_water_wash_data
+		WHERE ID = #{Id,jdbcType=INTEGER}
+	</select>
+
+	<select id="getWaterWashList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_water_wash_data
+		<if test="weather != null">
+		WHERE WEATHER LIKE CONCAT('%',#{weather,jdbcType=VARCHAR})
+		</if>
+	</select>
+
+	<insert id="insert" parameterType="com.cea.ehm.bean.WaterWash">
+		INSERT INTO ehm_water_wash_data
+			(ID,PARAMETER_APPARATUS,USERID,GEOGRAPHIC,WEATHER,ENG_SN,RESULT,LEVEL,DURATION_TIME,CTIME)
+		VALUES
+		(
+			#{id,jdbcType=INTEGER},
+			#{ParameterApparatus,jdbcType=VARCHAR},
+			#{UserId,jdbcType=INTEGER},
+			#{Geographic,jdbcType=VARCHAR},
+			#{Weather,jdbcType=VARCHAR},
+			#{EngSn,jdbcType=VARCHAR},
+			#{Result,jdbcType=VARCHAR},
+			#{Level,jdbcType=VARCHAR},
+			#{DurationTime,jdbcType=VARCHAR},
+			#{CTime,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="com.cea.ehm.bean.WaterWash">
+		DELETE FROM
+			ehm_water_wash_data
+		WHERE
+			ID = #{Id,jdbcType=INTEGER}
+	</delete>
+
+	<update id="update" parameterType="com.cea.ehm.bean.WaterWash">
+		UPDATE ehm_water_wash_data
+		<set>
+			<if test="parameterApparatus != null">
+				PARAMETER_APPARATUS = #{ParameterApparatus,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+				USERID = #{UserId,jdbcType=VARCHAR},
+			</if>
+			<if test="geographic != null">
+				GEOGRAPHIC = #{Geographic,jdbcType=VARCHAR},
+			</if>
+			<if test="weather != null">
+				WEATHER = #{Weather,jdbcType=VARCHAR},
+			</if>
+			<if test="engSn != null">
+				ENG_SN = #{EngSn,jdbcType=VARCHAR},
+			</if>
+			<if test="result != null">
+				RESULT = #{Result,jdbcType=INTEGER},
+			</if>
+			<if test="CTime != null">
+				CTIME = #{CTime,jdbcType=VARCHAR},
+			</if>
+			<if test="level != null">
+				LEVEL = #{Level,jdbcType=VARCHAR},
+			</if>
+			<if test="durationTime != null">
+				DURATION_TIME = #{DurationTime,jdbcType=VARCHAR}
+			</if>
+		</set>
+		WHERE ID = #{Id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.RecordFailureMapper">
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.RecordFailure">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="DUTY" jdbcType="VARCHAR" property="duty" />
+		<result column="SERIES" jdbcType="VARCHAR" property="stries" />
+		<result column="TAIL" jdbcType="VARCHAR" property="tail" />
+		<result column="ENG_POSIT" jdbcType="VARCHAR" property="engPosit" />
+		<result column="ENG_SN" jdbcType="VARCHAR" property="engSn" />
+		<result column="STATUS" jdbcType="INTEGER" property="status" />
+		<result column="NAME" jdbcType="VARCHAR" property="name" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+	</resultMap>
+	<sql id="baseColumnList" >
+		id,DUTY,SERIES,TAIL,ENG_POSIT,ENG_SN,STATUS,NAME,REMARK
+	</sql>
+	<select id="recordinfo"   parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM data_sap_defect
+	</select>
+	<select id="recordadd" resultMap="baseResultMap">
+		INSERT  INTO data_sap_defect
+		(DUTY,SERIES,TAIL,ENG_POSIT,ENG_SN,STATUS,NAME,REMARK)
+		  VALUES
+		(
+			#{duty,jdbcType=VARCHAR},
+			#{stries,jdbcType=VARCHAR},
+			#{tail,jdbcType=VARCHAR},
+			#{engPosit,jdbcType=VARCHAR},
+			#{engSn,jdbcType=INTEGER},
+			#{status,jdbcType=INTEGER},
+			#{name,jdbcType=INTEGER},
+			#{remark,jdbcType=INTEGER}
+		)
+	</select>
+	<select id="recordupdate" resultMap="baseResultMap">
+		UPDATE data_sap_defect 
+		<set>
+			<if test="duty != null">
+				DUTY = #{duty,jdbcType=VARCHAR},
+			</if>
+			<if test="stries != null">
+				SERIES = #{stries,jdbcType=VARCHAR},
+			</if>
+			<if test="tail != null">
+				TAIL = #{tail,jdbcType=VARCHAR},
+			</if>
+			<if test="engPosit != null">
+				ENG_POSIT = #{engPosit,jdbcType=VARCHAR},
+			</if>
+			<if test="engSn != null">
+				ENG_SN = #{engSn,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				REMARK = #{remark,jdbcType=INTEGER},
+			</if>
+		</set>
+		WHERE id=#{id,jdbcType=INTEGER}
+	</select>
+	<select id="recorddelete" resultMap="baseResultMap">
+		DELETE FROM data_sap_defect WHERE id = #{id,jdbcType=INTEGER}
+	</select>
+</mapper>

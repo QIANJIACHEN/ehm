@@ -1,0 +1,101 @@
+//获取到这个DOM节点，然后初始化
+
+
+	var myChart = echarts.init(document.getElementById("leftcharts"));
+	var myChart1 = echarts.init(document.getElementById("rightcharts"));
+	
+	var option = {
+	    // 标题
+	    title: {
+	        text: '1发'
+	    },
+	    tooltip: {
+	        trigger: 'axis'
+	    },
+	    grid: {
+	        left: '3%',
+	        right: '4%',
+	        bottom: '3%',
+	        containLabel: true
+	    },
+	    //工具框，可以选择
+	    toolbox: {
+	        feature: {
+	            saveAsImage: {}
+	        }
+	    },
+	    //x轴信息样式
+	    xAxis: {
+	        type: 'category',
+	        boundaryGap: false,
+	        data: ['1','2','3','4','5','6','7','8','9','10'],
+	    },
+	    yAxis: {
+	        type: 'value'
+	    },
+	    series: [
+	        
+	        {
+	            name:'1发',
+	            type:'line',
+	            data:[46,47,43,45,49,46,50,52,53,55]
+	        },
+	        
+	        
+	
+	    ]
+	};
+	var option1 = {
+		    // 标题
+		    title: {
+		        text: '2发'
+		    },
+		    tooltip: {
+		        trigger: 'axis'
+		    },
+		    grid: {
+		        left: '3%',
+		        right: '4%',
+		        bottom: '3%',
+		        containLabel: true
+		    },
+		    //工具框，可以选择
+		    toolbox: {
+		        feature: {
+		            saveAsImage: {}
+		        }
+		    },
+		    //x轴信息样式
+		    xAxis: {
+		        type: 'category',
+		        boundaryGap: false,
+		        data: ['1','2','3','4','5','6','7','8','9','10'],
+		    },
+		    yAxis: {
+		        type: 'value'
+		    },
+		    series: [
+		        
+		        {
+		            name:'2发',
+		            type:'line',
+		            data:[44,46,43,45,42,46,48,52,51,54]
+		        },
+		        
+		        
+		
+		    ]
+		};
+	
+	
+	
+	
+	
+	myChart.setOption(option);
+	myChart1.setOption(option1);
+	
+	
+	
+	
+	
+	

@@ -1,0 +1,63 @@
+package com.cea.ehm.service;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cea.ehm.bean.ControlFleetEngSpare;
+import com.cea.ehm.dao.ControlFleetEngSpareMapper;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import java.util.Map;
+
+/**
+ * 
+ */
+@Service
+public class ControlFleetEngSpareService {
+	private Logger logger = Logger.getLogger(ControlFleetEngSpareService.class);
+	@Autowired
+	private ControlFleetEngSpareMapper controlfleetengspareMapper;
+	
+	/**
+	 * 查询发动机维修列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	public PageList<ControlFleetEngSpare> getdatacontrolfleetengspareList(Map<String, String> paramMap, PageBounds pageBounds)
+	{
+		logger.info("数据库查询参数：" + paramMap);
+		return controlfleetengspareMapper.getdatacontrolfleetengspareList(paramMap,pageBounds);
+	}
+	
+	/**
+	 * 保存发动机维修信息
+	 * 
+	 * @param controlFleetEngSpare
+	 */
+	public void save(ControlFleetEngSpare controlFleetEngSpare) {
+		controlfleetengspareMapper.insert(controlFleetEngSpare);
+	}
+	
+	/**
+	 * 更新发动机维修信息
+	 * 
+	 * @param controlFleetEngSpare
+	 */
+	public void update(ControlFleetEngSpare controlFleetEngSpare) {
+		controlfleetengspareMapper.update(controlFleetEngSpare);
+	}
+	
+	/*
+	 * 删除发动机维修信息
+	 * 
+	 * @param controlFleetEngSpare
+	 */
+	public void delete(ControlFleetEngSpare controlFleetEngSpare) {
+		controlfleetengspareMapper.delete(controlFleetEngSpare);
+	}
+	
+
+}

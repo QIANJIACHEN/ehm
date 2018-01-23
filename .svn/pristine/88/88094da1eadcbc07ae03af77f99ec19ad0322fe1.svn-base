@@ -1,0 +1,161 @@
+package com.cea.ehm.bean;
+
+import java.util.Date;
+
+/**
+ * 发动机故障记录表(record_eng_replace)
+ * @author RIT
+ *
+ */
+public class RecordEngReplace {
+	private static final long serialVersionUID = 1L;
+
+	private Integer id;
+	private Integer planeId;//发动机id
+	private String tail;//飞机号
+	private Integer engPosition;//发动机位置
+	private Integer engId;//发动机id
+	private String engSn;//发动机编号
+	private String engPn;//发动机设备号
+	private String usedCycle;//USED_CYCLE
+	private Date dateInstall;//安装时间
+	private String etsnInstall;//安装etsn
+	private String ecsnInstall;//安装ecsn
+	private Date dateRemoval;//拆发时间
+	private String etsnRemoval;//拆发etsn
+	private String ecsnRemoaval;//拆发ecsn
+	private String paln;//PLAN
+	private String sv;//SV
+	private String svGrade;//SV_GRADE
+	private String removalCause;//拆发原因
+	private String remark;//备注
+	private String factory;//工厂
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public Integer getPlaneId() {
+		return planeId;
+	}
+	public void setPlaneId(Integer planeId) {
+		this.planeId = planeId;
+	}
+	public String getTail() {
+		return tail;
+	}
+	public void setTail(String tail) {
+		this.tail = tail;
+	}
+	public Integer getEngPosition() {
+		return engPosition;
+	}
+	public void setEngPosition(Integer engPosition) {
+		this.engPosition = engPosition;
+	}
+	public Integer getEngId() {
+		return engId;
+	}
+	public void setEngId(Integer engId) {
+		this.engId = engId;
+	}
+	public String getEngSn() {
+		return engSn;
+	}
+	public void setEngSn(String engSn) {
+		this.engSn = engSn;
+	}
+	public String getEngPn() {
+		return engPn;
+	}
+	public void setEngPn(String engPn) {
+		this.engPn = engPn;
+	}
+	public String getUsedCycle() {
+		return usedCycle;
+	}
+	public void setUsedCycle(String usedCycle) {
+		this.usedCycle = usedCycle;
+	}
+	public Date getDateInstall() {
+		return dateInstall;
+	}
+	public void setDateInstall(Date dateInstall) {
+		this.dateInstall = dateInstall;
+	}
+	public String getEtsnInstall() {
+		return etsnInstall;
+	}
+	public void setEtsnInstall(String etsnInstall) {
+		this.etsnInstall = etsnInstall;
+	}
+	public String getEcsnInstall() {
+		return ecsnInstall;
+	}
+	public void setEcsnInstall(String ecsnInstall) {
+		this.ecsnInstall = ecsnInstall;
+	}
+	public Date getDateRemoval() {
+		return dateRemoval;
+	}
+	public void setDateRemoval(Date dateRemoval) {
+		this.dateRemoval = dateRemoval;
+	}
+	public String getEtsnRemoval() {
+		return etsnRemoval;
+	}
+	public void setEtsnRemoval(String etsnRemoval) {
+		this.etsnRemoval = etsnRemoval;
+	}
+	public String getEcsnRemoaval() {
+		return ecsnRemoaval;
+	}
+	public void setEcsnRemoaval(String ecsnRemoaval) {
+		this.ecsnRemoaval = ecsnRemoaval;
+	}
+	public String getPaln() {
+		return paln;
+	}
+	public void setPaln(String paln) {
+		this.paln = paln;
+	}
+	public String getSv() {
+		return sv;
+	}
+	public void setSv(String sv) {
+		this.sv = sv;
+	}
+	public String getSvGrade() {
+		return svGrade;
+	}
+	public void setSvGrade(String svGrade) {
+		this.svGrade = svGrade;
+	}
+	public String getRemovalCause() {
+		return removalCause;
+	}
+	public void setRemovalCause(String removalCause) {
+		this.removalCause = removalCause;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	public String getFactory() {
+		return factory;
+	}
+	public void setFactory(String factory) {
+		this.factory = factory;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
+	
+	
+	
+	
+}

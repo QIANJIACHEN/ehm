@@ -1,0 +1,275 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-head.jsp"/>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-script.jsp"/>
+    <style type="text/css">
+    	
+    	.nav_tabs > li{
+    		float:left;
+    	}
+    	.nav_tabs > li a{
+    		margin-right:2px;
+    		border-radius:4px 4px 0px 0px;
+    		color:#333;
+    	}
+    	.nav_tabs > li.active > a{
+    		color:#3399FF;
+    		border: 1px solid #3399FF;
+    		border-bottom-color: transparent;
+    	}
+    	span.mright{
+    		margin-right:15px;
+    		margin-left:15px;
+    	}
+    	input.formnew , select.formnew{
+    		padding:6px 12px;
+    		min-width:130px;
+    		max-width:160px;
+    		margin:0px 3px;
+    	}
+    	table.planetable{
+    		text-align:center;
+    	}
+    	table.planetable thead tr th {
+    		text-align:center;
+    	}
+    	table.planetable tbody td a.sz{
+    		color:#3399FF;
+    		margin:0px 3px;
+    	}
+    	.first{
+    		display:inline-block;
+    		min-width:120px;
+    	}
+    </style>
+</head>
+<body class="hold-transition" >
+
+<!-- Content Wrapper. Contains page content -->
+<div class="wrapper">
+
+    <div class="box wrapper " style="overflow: auto;">
+        <div class="box-body" style="padding-top:30px" style="min-width:970px">
+        	<div>
+
+			  <!-- Nav tabs -->
+			  
+			  <ul class="nav nav_tabs" role="tablist" style="border-bottom:1px solid #3399FF">
+			    <li role="presentation" class="active"><a href="#engineer" aria-controls="home" role="tab" data-toggle="tab">计算设置</a></li>
+			    <li role="presentation"><a href="#flight" role="tab" data-toggle="tab">已设置公式</a></li>
+			  </ul>
+			
+			  <!-- Tab panes -->
+			  <form method="post">
+				  <div class="tab-content">
+				    <div role="tabpanel" class="tab-pane active" id="engineer" style="padding-top:30px">
+				    	<div style="background-color:#e7f9ff;margin-bottom:20px">
+					    	<div class="row" style="padding:20px">
+					    		<span class="mright first">公式名称</span>
+					    		<input class="formnew" type="text" placeholder="滑油压力巡航" style="height:34px"/>
+					    		
+					    		<span class="mright">生产商</span>
+					    		<select class="formnew">
+					    			<option>AAA</option>
+					    			<option></option>
+					    		</select>
+					    		<span class="mright">发动机型号</span>
+					    		<select class="formnew">
+					    			<option>AAA</option>
+					    			<option></option>
+					    		</select>
+					    		<span class="mright">发动机类型</span>
+					    		<select class="formnew">
+					    			<option>AAA</option>
+					    			<option></option>
+					    		</select>
+					    		<span class="mright">发动机构型</span>
+					    		<select class="formnew">
+					    			<option>AAA</option>
+					    			<option></option>
+					    		</select>
+					    	</div>
+				    	</div>
+				    	
+				    	<div style="background-color:#f9edf9">
+					    	<div class="row" style="padding:20px">
+					    		<div class="col-xs-12"  style="margin-bottom:15px">
+					    			<span>选择条件</span>
+					    			<button class="btn btn-primaty pull-right" style="min-width:130px">删除</button>
+					    		</div>
+					    		<div style="margin-bottom:15px">
+					    			<span class="mright first">计算范围类型</span>
+						    		<select class="formnew">
+						    			<option>AAA</option>
+						    			<option></option>
+						    		</select>
+						    		<span class="mright">计算范围</span>
+						    		<input type="text" class="formnew" style="height:34px" />
+						    		<select style="padding:6px 15px">
+						    			<option>点</option>
+						    			<option>天</option>
+						    		</select>
+						    		<span class="mright">状态</span>
+						    		<select class="formnew">
+						    			<option>巡航</option>
+						    			<option>起飞</option>
+						    			<option>all</option>
+						    		</select>
+					    		</div>
+					    		<div>
+					    			<span class="mright first">选择参数</span>
+						    		<select class="formnew">
+						    			<option>N1震动</option>
+						    			<option></option>
+						    		</select>
+						    		<select class="formnew">
+						    			<option>左发</option>
+						    			<option>右发</option>
+						    		</select>
+						    		<select class="formnew">
+						    			<option>MAX</option>
+						    			<option>MIN</option>
+						    		</select>
+						    		<input class="formnew" type="text" placeholder="" style="height:34px"/>
+					    		</div>
+					    	</div>
+				    	</div>
+				    	
+				    	<div class="row" style="padding:10px 20px" >
+				    		<div class="col-xs-12">
+				    			<button class="btn btn-primaty pull-right" style="min-width:130px">添加条件</button>
+				    		</div>
+				    	</div>
+				    	<div style="background-color:#f9edf9;margin-bottom:20px">
+					    	<div class="row" style="padding:20px">
+					    		<div class="col-xs-12"  style="margin-bottom:15px">
+					    			<span class="mright first" style="margin-left:0px">与前一条件的关系</span>
+						    		<select class="formnew">
+						    			<option>AND</option>
+						    			<option>OR</option>
+						    		</select>
+					    			<button class="btn btn-primaty pull-right" style="min-width:130px">删除</button>
+					    		</div>
+					    		<div style="margin-bottom:15px">
+					    			<span class="mright first">计算范围类型</span>
+						    		<select class="formnew">
+						    			<option>AAA</option>
+						    			<option></option>
+						    		</select>
+						    		<span class="mright">计算范围</span>
+						    		<input type="text" class="formnew" style="height:34px" />
+						    		<select style="padding:6px 15px">
+						    			<option>点</option>
+						    			<option>天</option>
+						    		</select>
+						    		<span class="mright">状态</span>
+						    		<select class="formnew">
+						    			<option>巡航</option>
+						    			<option>起飞</option>
+						    			<option>all</option>
+						    		</select>
+					    		</div>
+					    		<div>
+					    			<span class="mright first">选择参数</span>
+						    		<select class="formnew">
+						    			<option>N1震动</option>
+						    			<option></option>
+						    		</select>
+						    		<select class="formnew">
+						    			<option>右发</option>
+						    			<option>左发</option>
+						    		</select>
+						    		<select class="formnew">
+						    			<option>MAX</option>
+						    			<option>MIN</option>
+						    		</select>
+						    		<input class="formnew" type="text" placeholder="" style="height:34px"/>
+					    		</div>
+					    		
+					    	</div>
+				    	</div>
+				    	<div style="background-color:#a5d2ff;margin-bottom:20px">
+					    	<div class="row" style="padding:20px">
+					    		
+					    			<p style="margin-left:15px">满足以上条件</p>
+						    		<div class="col-xs-12" style="margin-bottom:10px">
+						    			<input type="checkbox" />
+						    			<span class="first">发送警报给</span>
+						    			<select style="padding:6px 12px;margin:0px 3px;width:260px">
+							    			<option>基地A</option>
+							    			<option>基地B</option>
+							    		</select>
+						    		</div>
+						    		<div class="col-xs-12" style="margin-bottom:10px">
+						    			<input type="checkbox" />
+						    			<span class="first">添加到排故专家</span>
+						    			
+						    		</div>
+					    		
+					    	</div>
+				    	</div>
+				    	<div style="text-align:center">
+				    		<button class="btn btn-default" style="min-width:130px;margin-right:10px">取消</button>
+				    		<button class="btn btn-primary" style="min-width:130px">确定</button>
+				    	</div>
+				    
+				    </div>
+				    <div role="tabpanel" class="tab-pane" id="flight" style="padding-top:30px">
+				    	<div style="padding:0px 20px">
+					    	<div class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
+				                <table class="table  table-hover table-bordered planetable">
+				                	<thead>
+					                    <tr>
+					                        <th>公式名称</th>
+					                        <th>生产商</th>
+					                        <th>发动机型号</th>
+					                        <th>发动机类型</th>
+					                        <th>发动机构型</th>
+					                        <th>操作</th>
+					                    </tr>
+				                    </thead>
+				                   	<tbody>
+				                   		<tr>
+				                   			<td>滑油压力巡航</td>
+				                   			<td>GE</td>
+				                   			<td>QE</td>
+				                   			<td>FF</td>
+				                   			<td>3E</td>
+				                   			<td>
+				                   				<a class="sz">查看</a>
+				                   				<a class="sz">修改</a>
+				                   				<a class="sz">删除</a>
+				                   			</td>
+				                   		</tr>
+				                   		<tr>
+				                   			<td>EGTM预警</td>
+				                   			<td>RR</td>
+				                   			<td>ER</td>
+				                   			<td>DD</td>
+				                   			<td>34</td>
+				                   			<td>
+				                   				<a class="sz">查看</a>
+				                   				<a class="sz">修改</a>
+				                   				<a class="sz">删除</a>
+				                   			</td>
+				                   		</tr>
+				                   	</tbody>
+				                </table>
+		            		</div>
+	            		</div>
+	            
+				    </div>
+				  </div>
+				</form>
+			</div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</body>
+</html>

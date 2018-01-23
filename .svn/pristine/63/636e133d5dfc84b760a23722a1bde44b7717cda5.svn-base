@@ -1,0 +1,16 @@
+@CHARSET "UTF-8";
+ul.warning li{
+	color:red;
+}
+ul.warning li:first-child{
+	color:#000;
+	background-color:#F2F2F2;
+}
+ul.warning li:first-child span.badge{
+	background-color:#F2F2F2;
+	font-weight:normal;
+}
+ul.warning li:first-child span.badge a{
+	cursor:pointer;
+	color:#000;
+}

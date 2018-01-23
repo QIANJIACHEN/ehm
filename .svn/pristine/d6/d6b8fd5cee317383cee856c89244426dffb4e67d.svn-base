@@ -1,0 +1,309 @@
+//获取到这个DOM节点，然后初始化
+
+
+function zvb1chart(f0, f1, f2, f3, f4, f5, f6, f7, f8, f9){
+	 
+	var myChart = echarts.init(document.getElementById("top"));
+	var myChart1 = echarts.init(document.getElementById("bottom"));
+	var myChart2 = echarts.init(document.getElementById("top1"));
+	var myChart3 = echarts.init(document.getElementById("bottom1"));
+	var myChart4 = echarts.init(document.getElementById("mixrecord"));
+	
+	var option = {
+            // 标题
+            title: {
+                text: 'N1起飞'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            //图例名
+            legend: {
+                data:['前单点','后单点']
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            //工具框，可以选择
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            //x轴信息样式
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['1','2','3','4','5','6','7','8','9','10'],
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    name:'前单点',
+                    type:'line',
+                    color:['#cf8970'],
+                    data:[f0, 0.65, 0.61, 0.63, 0.62, 0.64, 0.61,0.66,0.63,0.65],
+                },
+                {
+                    name:'后单点',
+                    type:'line',
+                    color:['#639fa7'],
+                    data:[0.6, 0.67, 0.61, 0.69, 0.67, 0.67, 0.65,0.64,0.62,0.61]
+                }
+            ]
+        };
+	
+	var option1 = {
+			// 标题
+			title: {
+				text: 'N1巡航'
+			},
+			tooltip: {
+				trigger: 'axis'
+			},
+			//图例名
+			legend: {
+				data:['前单点','后单点']
+			},
+			grid: {
+				left: '3%',
+				right: '4%',
+				bottom: '3%',
+				containLabel: true
+			},
+			//工具框，可以选择
+			toolbox: {
+				feature: {
+					saveAsImage: {}
+				}
+			},
+			//x轴信息样式
+			xAxis: {
+				type: 'category',
+				boundaryGap: false,
+				data: ['1','2','3','4','5','6','7','8','9','10'],
+			},
+			yAxis: {
+				type: 'value'
+			},
+			series: [
+				{
+					name:'前单点',
+					type:'line',
+					color:['#cf8970'],
+					data:[0.5, 0.65, 0.61, 0.63, 0.62, 0.64, 0.61,0.66,0.63,0.65],
+				},
+				{
+					name:'后单点',
+					type:'line',
+					color:['#639fa7'],
+					data:[0.6, 0.67, 0.61, 0.69, 0.67, 0.67, 0.65,0.64,0.62,0.61]
+				}
+				
+			]
+	};
+	
+	var option2 = {
+			// 标题
+			title: {
+				text: 'N2起飞'
+			},
+			tooltip: {
+				trigger: 'axis'
+			},
+			//图例名
+			legend: {
+				data:['前单点','后单点']
+			},
+			grid: {
+				left: '3%',
+				right: '4%',
+				bottom: '3%',
+				containLabel: true
+			},
+			//工具框，可以选择
+			toolbox: {
+				feature: {
+					saveAsImage: {}
+				}
+			},
+			//x轴信息样式
+			xAxis: {
+				type: 'category',
+				boundaryGap: false,
+				data: ['1','2','3','4','5','6','7','8','9','10'],
+			},
+			yAxis: {
+				type: 'value'
+			},
+			series: [
+				{
+					name:'前单点',
+					type:'line',
+					color:['#cf8970'],
+					data:[0.5, 0.65, 0.61, 0.63, 0.62, 0.64, 0.61,0.66,0.63,0.65],
+				},
+				{
+					name:'后单点',
+					type:'line',
+					color:['#639fa7'],
+					data:[0.6, 0.67, 0.61, 0.69, 0.67, 0.67, 0.65,0.64,0.62,0.61]
+				}
+			]
+	};
+	
+	var option3 = {
+			// 标题
+			title: {
+				text: 'N2巡航'
+			},
+			tooltip: {
+				trigger: 'axis'
+			},
+			//图例名
+			legend: {
+				data:['前单点','后单点']
+			},
+			grid: {
+				left: '3%',
+				right: '4%',
+				bottom: '3%',
+				containLabel: true
+			},
+			//工具框，可以选择
+			toolbox: {
+				feature: {
+					saveAsImage: {}
+				}
+			},
+			//x轴信息样式
+			xAxis: {
+				type: 'category',
+				boundaryGap: false,
+				data: ['1','2','3','4','5','6','7','8','9','10'],
+			},
+			yAxis: {
+				type: 'value'
+			},
+			series: [
+				{
+					name:'前单点',
+					type:'line',
+					color:['#cf8970'],
+					data:[0.5, 0.65, 0.61, 0.63, 0.62, 0.64, 0.61,0.66,0.63,0.65],
+				},
+				{
+					name:'后单点',
+					type:'line',
+					color:['#639fa7'],
+					data:[0.6, 0.67, 0.61, 0.69, 0.67, 0.67, 0.65,0.64,0.62,0.61]
+				}
+				
+			]
+	};
+	
+	var option4 = {
+            // 标题
+            title: {
+                text: '变化趋势'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            //图例名
+            legend: {
+                data:['N1起飞前单点','N1起飞后单点',
+                	  'N1巡航前单点','N1巡航后单点',
+                	  'N2起飞前单点','N2起飞后单点',
+                	  'N2巡航前单点','N2巡航后单点']
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            //工具框，可以选择
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            //x轴信息样式
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['1','2','3','4','5','6','7','8','9','10'],
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    name:'N1起飞前单点',
+                    type:'line',
+                    color:['#cf8790'],
+                    data:[0.51, 0.65, 0.61, 0.63, 0.62, 0.64, 0.61,0.66,0.63,0.65],
+                },
+                {
+                    name:'N1起飞后单点',
+                    type:'line',
+                    color:['#639fa7'],
+                    data:[0.61, 0.67, 0.61, 0.69, 0.67, 0.67, 0.65,0.64,0.62,0.61]
+                },
+                {
+                	name:'N1巡航前单点',
+                	type:'line',
+                	color:['#3c8f1c'],
+                	data:[0.63, 0.63, 0.62, 0.67, 0.65, 0.67, 0.64,0.63,0.68,0.65]
+                },
+                {
+                	name:'N1巡航后单点',
+                	type:'line',
+                	color:['#c03700'],
+                	data:[0.64, 0.61, 0.67, 0.62, 0.66, 0.66, 0.65,0.64,0.63,0.67]
+                },
+                {
+                	name:'N2起飞前单点',
+                	type:'line',
+                	color:['#cf7770'],
+                	data:[0.55, 0.65, 0.61, 0.67, 0.62, 0.64, 0.61,0.66,0.63,0.65],
+                },
+                {
+                	name:'N2起飞后单点',
+                	type:'line',
+                	color:['#690fa7'],
+                	data:[0.68, 0.67, 0.61, 0.67, 0.67, 0.67, 0.65,0.64,0.62,0.61]
+                },
+                {
+                	name:'N2巡航前单点',
+                	type:'line',
+                	color:['#3c0f0c'],
+                	data:[0.72, 0.63, 0.62, 0.67, 0.65, 0.62, 0.67,0.63,0.68,0.65]
+                },
+                {
+                	name:'N2巡航后单点',
+                	type:'line',
+                	color:['#c03788'],
+                	data:[0.73, 0.61, 0.67, 0.62, 0.67, 0.66, 0.65,0.64,0.63,0.61]
+                }
+            ]
+        };
+	
+	
+	myChart.setOption(option);
+	myChart1.setOption(option1);
+	myChart2.setOption(option2);
+	myChart3.setOption(option3);
+	myChart4.setOption(option4);
+	
+	
+	
+}	
+	
+	

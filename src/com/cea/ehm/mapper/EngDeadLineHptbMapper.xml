@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.EngDeadLineHptbMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.EngDeadLineHptb">
+		<result column="ID" jdbcType="INTEGER" property="id" />
+		<result column="ENG_SN" jdbcType="VARCHAR" property="engSn" />
+		<result column="ENG_ID" jdbcType="INTEGER" property="engId" />
+		<result column="DEADLINE_HPTB" jdbcType="VARCHAR" property="deadLineHptb" />
+		<result column="DEADLINE_HPTB_EO" jdbcType="VARCHAR" property="deadLineHptbEo" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ID,ENG_SN,ENG_ID,DEADLINE_HPTB,DEADLINE_HPTB_EO
+	</sql>
+	
+	<select id="getAllEngDeadLineHptbInfo" parameterType="com.cea.ehm.bean.EngDeadLineHptb"
+		resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_eng_deadline_hptb
+	</select>
+	
+	<select id="select" parameterType="com.cea.ehm.bean.EngDeadLineHptb"
+		resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_eng_deadline_hptb
+		WHERE ID = #{id,jdbcType=INTEGER} 
+	</select>
+
+	<select id="getEngDeadLineHptbList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_eng_deadline_hptb
+		<if test="engSn != null">
+			WHERE ENG_SN LIKE CONCAT('%',#{engSn,jdbcType=VARCHAR})
+		</if>
+	</select>
+
+	<insert id="insert" parameterType="com.cea.ehm.bean.EngDeadLineHptb">
+		INSERT INTO ehm_eng_deadline_hptb
+		(
+			ID,ENG_SN,ENG_ID,DEADLINE_HPTB,DEADLINE_HPTB_EO
+		)
+		VALUES
+		(
+			#{id,jdbcType=INTEGER},
+			#{engSn,jdbcType=VARCHAR},
+			#{engId,jdbcType=INTEGER},
+			#{deadLineHptb,jdbcType=VARCHAR},
+			#{deadLineHptbEo,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="com.cea.ehm.bean.EngDeadLineHptb">
+		DELETE FROM
+		ehm_eng_deadline_hptb
+		WHERE
+		ID = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<update id="update" parameterType="com.cea.ehm.bean.EngDeadLineHptb">
+		UPDATE ehm_eng_deadline_hptb
+		<set>
+			<if test="engSn != null">
+				ENG_SN = #{engSn,jdbcType=VARCHAR},
+			</if>
+			<if test="engId != null">
+				ENG_ID = #{engId,jdbcType=INTEGER},
+			</if>
+			<if test="deadLineHptb != null">
+				DEADLINE_HPTB = #{deadLineHptb,jdbcType=VARCHAR},
+			</if>
+			<if test="deadLineHptbEo != null">
+				DEADLINE_HPTB_EO = #{deadLineHptbEo,jdbcType=VARCHAR},
+			</if>
+			
+		</set>
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</update>
+
+</mapper>

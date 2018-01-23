@@ -1,0 +1,196 @@
+package com.cea.ehm.service;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.cea.ehm.bean.DataEng;
+import com.cea.ehm.dao.DataEngMapper;
+import com.cea.ehm.util.ExcelUtil;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+/**
+ * 发动机信息服务层
+ */
+@Service
+public class DataEngService {
+	private Logger logger = Logger.getLogger(DataEngService.class);
+	@Autowired
+	private DataEngMapper dataengMapper;
+
+	/**
+	 * 查询发动机信息列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	public PageList<DataEng> getdataengList(Map<String, String> paramMap, PageBounds pageBounds) {
+		logger.info("数据库查询参数：" + paramMap);
+		return dataengMapper.getdataengList(paramMap, pageBounds);
+	}
+
+	/**
+	 * (ENG_SN)查询发动机信息
+	 * 
+	 * @param dataeng
+	 */
+	public DataEng select(DataEng dataeng) {
+		return dataengMapper.select(dataeng);
+	}
+
+	/**
+	 * (id)查询发动机信息
+	 * 
+	 * @param dataeng
+	 */
+	public DataEng selectTwo(DataEng dataeng) {
+		return dataengMapper.selectTwo(dataeng);
+	}
+
+	/**
+	 * 保存发动机信息
+	 * 
+	 * @param dataeng
+	 */
+	public void save(DataEng dataeng) {
+		dataengMapper.insert(dataeng);
+	}
+
+	/**
+	 * 更新发动机信息
+	 * 
+	 * @param dataeng
+	 */
+	public void update(DataEng dataeng) {
+		dataengMapper.update(dataeng);
+	}
+
+	/**
+	 * 删除发动机信息
+	 * 
+	 * @param dataeng
+	 */
+	public void delete(DataEng dataeng) {
+		dataengMapper.delete(dataeng);
+	}
+
+	/**
+	 * 获取所有的发动机信息
+	 * 
+	 * @return
+	 */
+	public List<DataEng> allDataEng() {
+		return dataengMapper.allDataEng();
+	}
+
+	/**
+	 * 创建 excel数据表格
+	 * 
+	 * @return
+	 */
+	public Workbook createExcel() {
+		List<DataEng> engs = dataengMapper.allDataEng();
+		// 创建一个Excel文件
+		Workbook workbook = new XSSFWorkbook();
+		// 创建一个工作表
+		Sheet sheet = workbook.createSheet("发动机数据");
+		// 添加表头行
+		Row row0 = sheet.createRow(0);
+		// 添加表头内容
+		row0.createCell(0).setCellValue("发动机SN");
+		row0.createCell(1).setCellValue("SAP平台显示的方式");
+		row0.createCell(2).setCellValue("发动机序列");
+		row0.createCell(3).setCellValue("发动机类型");
+		row0.createCell(4).setCellValue("发动机模型");
+		row0.createCell(5).setCellValue("发动机构型");
+		row0.createCell(6).setCellValue("原始厂商");
+		row0.createCell(7).setCellValue("所有人");
+		row0.createCell(8).setCellValue("CODE_CONFIG");
+		row0.createCell(9).setCellValue("发动机型号另一种标识");
+		row0.createCell(10).setCellValue("创建时间");
+		row0.createCell(11).setCellValue("发动机设备号");
+		row0.createCell(12).setCellValue("状态");
+		row0.createCell(13).setCellValue("备注");
+
+		// 添加数据内容
+		for (int i = 0; i < engs.size(); i++) {
+			Row row = sheet.createRow(i + 1);
+			row.createCell(0).setCellValue(engs.get(i).getEngSn() + "");
+			row.createCell(1).setCellValue(engs.get(i).getEngSnSap() + "");
+			row.createCell(2).setCellValue(engs.get(i).getEngSeries() + "");
+			row.createCell(3).setCellValue(engs.get(i).getEngType() + "");
+			row.createCell(4).setCellValue(engs.get(i).getEngModel() + "");
+			row.createCell(5).setCellValue(engs.get(i).getEngConfig() + "");
+			row.createCell(6).setCellValue(engs.get(i).getDeliveryMode() + "");
+			row.createCell(7).setCellValue(engs.get(i).getOwner() + "");
+			row.createCell(8).setCellValue(engs.get(i).getCodeConfig() + "");
+			row.createCell(9).setCellValue(engs.get(i).getEngConfigration() + "");
+			row.createCell(10).setCellValue(engs.get(i).getCtime() + "");
+			row.createCell(11).setCellValue(engs.get(i).getEngPn() + "");
+			row.createCell(12).setCellValue(engs.get(i).getCondition() + "");
+			row.createCell(13).setCellValue(engs.get(i).getRemark() + "");
+		}
+		return workbook;
+	}
+
+	/**
+	 * 处理发动机数据信息
+	 * 
+	 * @param file
+	 */
+	public void process(MultipartFile file) {
+		try {
+			// 这里得到的是一个集合，里面的每一个元素是String[]数组
+			List<String[]> list = ExcelUtil.readExcel(file);
+			for (String[] arr : list) {
+				DataEng eng = new DataEng();
+				eng.setEngSn(arr[0]);
+				eng.setEngSnSap(arr[1]);
+				eng.setEngSeries(arr[2]);
+				eng.setEngType(arr[3]);
+				eng.setEngModel(arr[4]);
+				eng.setEngConfig(arr[5]);
+				eng.setDeliveryMode(arr[6]);
+				eng.setOwner(arr[7]);
+				eng.setCodeConfig(arr[8]);
+				eng.setEngConfigration(arr[9]);
+				eng.setCtime(arr[10]);
+				eng.setEngPn(arr[11]);
+				eng.setCondition(arr[12]);
+				eng.setRemark(arr[13]);
+
+				DataEng isExistEng = dataengMapper.select(eng);
+				if (isExistEng == null) {
+					String date = LocalDateTime.now().toString().replace("T", " ");
+					String ctime = date.substring(0, date.indexOf("."));
+					eng.setCtime(ctime);
+					dataengMapper.insert(eng);
+				} else {
+					dataengMapper.updateTwo(eng);
+				}
+			}
+		} catch (IOException e) {
+			logger.debug(e);
+		}
+
+	}
+	
+	/**
+	 * 根据tail获取飞机信息
+	 */
+	public List<DataEng> engInfo(Map<String, String> paramMap){
+		return dataengMapper.engInfo(paramMap);
+	}
+}

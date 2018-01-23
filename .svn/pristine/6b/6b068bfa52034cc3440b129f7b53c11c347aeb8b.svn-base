@@ -1,0 +1,64 @@
+package com.cea.ehm.controller.manage;
+
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.cea.ehm.controller.BaseController;
+import com.cea.ehm.util.Constant;
+import com.cea.ehm.util.PropertiesUtil;
+import com.google.common.base.Strings;
+
+@Controller
+@RequestMapping(value = "/manage/auth")
+public class LoginController extends BaseController {
+
+	private static final Logger logger = Logger.getLogger(LoginController.class);
+
+	/**
+	 * 注销登录
+	 * 
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/logout")
+	@ResponseBody
+	public Map<String, Object> logout(HttpServletRequest request) throws Exception {
+		request.getSession().setAttribute(Constant.SESSION_USERNAME, null);
+		request.getSession().setAttribute(Constant.SESSION_PASSWORD, null);
+		return getSuccessMessage();
+	}
+
+	@RequestMapping(value = "/login.do")
+	@ResponseBody
+	public Map<String, Object> phoneLogin(@RequestParam Map<String, String> reqPara, HttpServletRequest request)
+			throws Exception {
+		String username = reqPara.get("username");
+		String password = reqPara.get("password");
+
+		if (Strings.isNullOrEmpty(username) || Strings.isNullOrEmpty(password)) {
+			return getFailureMessage("缺少参数", 3);
+		}
+		
+		String adminUser = PropertiesUtil.getFromLoginPro("USERNAME");
+		String adminPWD = PropertiesUtil.getFromLoginPro("PASSWORD");
+
+		if (adminUser.equals(username) && adminPWD.equals(password)) {
+			logger.info("用户名: " + username + " 密码: " + password);
+			request.getSession().setAttribute(Constant.SESSION_USERNAME, username);
+			request.getSession().setAttribute(Constant.SESSION_PASSWORD, password);
+			return getSuccessMessage();
+		} else {
+			return getFailureMessage("账号或密码错误", 201);
+		}
+
+	}
+
+}

@@ -1,0 +1,239 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<div class="modal fade" id="sapdailyreport-add-modal" tabindex="-1" role="dialog" aria-labelledby="sapdailyreport-add-modal-label">
+    <div class="modal-dialog" role="document">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">日报信息</h3>
+            </div>
+            <form id="form-sapdailyreport-add" method="post" enctype="multipart/form-data">
+                <div class="box-body">
+                        
+                    
+                    <div class="form-group">
+                        <label for="text-nickname">基地ID</label>
+                        <select id="addduty" name="duty" class="form-control">
+                        	<option value="">请选择</option>
+                        	<option value="1">真测试用的</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">机型</label>
+                        <input type="text" class="form-control" id="addseries" name="series"
+                               placeholder="机型">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">机号</label>
+                        <input type="text" class="form-control" id="addtail" name="tail"
+                               placeholder="机号">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="text-nickname">发动机位置</label>
+                        <input type="text" class="form-control" id="addengPosit" name="engPosit"
+                               placeholder="发动机位置">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">发动机序号</label>
+                        <input type="text" class="form-control" id="addengSn" name="addengSn"
+                               placeholder="发动机序号">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">Rating</label>
+                        <input type="text" class="form-control" id="addrating" name="rating"
+                               placeholder="Rating">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">Config</label>
+                        <input type="text" class="form-control" id="addconfig" name="config"
+                               placeholder="Config">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">当前ETSN</label>
+                        <input type="text" class="form-control" id="addetsn" name="etsn"
+                               placeholder="当前ETSN">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">当前ECSN</label>
+                        <input type="text" class="form-control" id="addecsn" name="ecsn"
+                               placeholder="当前ECSN">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">当前EGTM(℃)</label>
+                        <input type="text" class="form-control" id="addegtm" name="egtm"
+                               placeholder="当前EGTM(℃)">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">LLP最小剩余寿命</label>
+                        <input type="text" class="form-control" id="addminLlp" name="minLlp"
+                               placeholder="LLP最小剩余寿命">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">备注</label>
+                        <textarea rows="4" class="form-control" id="addremark" name="remark" placeholder="备注"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">是否正常</label>
+                        <select class="form-control" name="addisNormal" id="addisNormal" name="isNormal">
+                        	<option value="0">否</option>
+                        	<option value="1">是</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">厂家网站监控</label>
+                        <input type="text" class="form-control" id="adddeliveryModeMonitoring" name="deliveryModeMonitoring"
+                               placeholder="厂家网站监控">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">滑耗监控</label>
+                        <input type="text" class="form-control" id="addoilMonitoring" name="oilMonitoring"
+                               placeholder="滑耗监控">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">振动监控</label>
+                        <input type="text" class="form-control" id="addvibratopmMonitoring" name="vibratopmMonitoring"
+                               placeholder="振动监控">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">磁堵检查报告</label>
+                        <input type="text" class="form-control" id="addmagneticPluginSpectionReport" name="magneticPluginSpectionReport"
+                               placeholder="磁堵检查报告">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">孔探报告</label>
+                        <input type="text" class="form-control" id="addborescopeReport" name="borescopeReport"
+                               placeholder="孔探报告">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">CNR报告</label>
+                        <input type="text" class="form-control" id="addcnrReport" name="cnrReport"
+                               placeholder="CNR报告">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">ACARS传输</label>
+                        <input type="text" class="form-control" id="addacars" name="acars"
+                               placeholder="ACARS传输">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">航线运行</label>
+                        <input type="text" class="form-control" id="addrouteOperation" name="routeOperation"
+                               placeholder="航线运行">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">发动机滑耗</label>
+                        <input type="text" class="form-control" id="addengOil" name="engOil"
+                               placeholder="发动机滑耗">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">ETOPS能力</label>
+                        <input type="text" class="form-control" id="addetops" name="etops"
+                               placeholder="ETOPS能力">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">高高原能力</label>
+                        <input type="number" class="form-control" id="addhHighLand" name="hHighLand"
+                               placeholder="高高原能力">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">营运人</label>
+                        <input type="text" class="form-control" id="addcntrOptr" name="cntrOptr"
+                               placeholder="营运人">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">预计拆发日期</label>
+                        <input type="date" class="form-control" id="addetime" name="etime"
+                               placeholder="预计拆发日期">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">当前ETSR</label>
+                        <input type="text" class="form-control" id="addetsr" name="etsr"
+                               placeholder="当前ETSR">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">当前ECSR</label>
+                        <input type="text" class="form-control" id="addecsr" name="ecsr"
+                               placeholder="当前ECSR">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">当前ETSI</label>
+                        <input type="text" class="form-control" id="addetsi" name="etsi"
+                               placeholder="当前ETSI">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">当前ECSI</label>
+                        <input type="text" class="form-control" id="addecsi" name="ecsi"
+                               placeholder="当前ECSI">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">当前ETSO</label>
+                        <input type="text" class="form-control" id="addetso" name="etso"
+                               placeholder="当前ETSO">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">当前ECSO</label>
+                        <input type="text" class="form-control" id="addecso" name="ecso"
+                               placeholder="当前ECSO">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">装机日期</label>
+                        <input type="text" class="form-control" id="addptime" name="addptime"
+                               placeholder="装机日期" readonly >
+                    </div>
+                    <!-- 
+                    <div class="form-group">
+                        <label for="text-nickname">创建日期</label>
+                        <input type="text" class="form-control" id="addctime" name="addctime"
+                               placeholder="创建日期" readonly >
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">创建人ID</label>
+                        <input type="text" class="form-control" id="addcUserId" name="addcUserId"
+                               placeholder="创建人ID" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">更改人ID</label>
+                        <input type="text" class="form-control" id="adduUserId" name="adduUserId"
+                               placeholder="更改人ID" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">更改日期</label>
+                        <input type="text" class="form-control" id="addutime" name="addutime"
+                               placeholder="更改日期" readonly>
+                    </div>
+                    -->
+                    <div class="form-group">
+                        <label for="text-nickname">审核人ID</label>
+                        <input type="text" class="form-control" id="addauditor" name="addauditor"
+                               placeholder="审核人ID" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">审核日期</label>
+                        <input type="date" class="form-control" id="addatime" name="addatime"
+                               placeholder="审核日期" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="text-nickname">性能月报编号</label>
+                        <input type="text" class="form-control" id="addmonPerformanceNo" name="monPerformanceNo"
+                               placeholder="性能月报编号">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">是否历史数据</label>
+                        <select class="form-control" id="addisHisData" name="isHisData">
+                        	<option value="0">否</option>
+                        	<option value="1">是</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">DOC</label>
+                        <input type="text" class="form-control" id="adddoc" name="doc"
+                               placeholder="DOC">
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <button type="button" class="btn btn-primary pull-right" onclick="addsapdailyreport()">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

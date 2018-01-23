@@ -1,0 +1,52 @@
+package com.cea.ehm.service;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cea.ehm.bean.Duty;
+import com.cea.ehm.bean.EngOnwing;
+import com.cea.ehm.dao.DutyMapper;
+import com.cea.ehm.dao.EngOnwingMapper;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.google.common.collect.Maps;
+
+/**
+ * EngOnwing
+ */
+@Service
+public class EngOnwingService {
+	@Autowired
+	private EngOnwingMapper engOnwingMapper;
+	@Autowired
+	private DutyMapper dutyMapper;
+
+	/**
+	 * 获取 engOnwing 数据
+	 * 
+	 * @param pageBounds
+	 * @param paramMap
+	 * @return
+	 */
+	public List<EngOnwing> getList(Map<String, String> paramMap, PageBounds pageBounds) {
+		List<EngOnwing> engOnwings = engOnwingMapper.getList(paramMap, pageBounds);
+		List<Duty> dutys = dutyMapper.getAllDuty();
+		Map<Integer, String> map = Maps.newHashMap();
+		dutys.forEach(duty -> map.put(duty.getId(), duty.getName()));
+		engOnwings.forEach(engOnwing -> engOnwing.setDutyName(map.get(engOnwing.getDuty())));
+		return engOnwings;
+	}
+	
+	/**
+	 * 获取详情
+	 * 
+	 * @param paramMap
+	 * @return
+	 */
+	public List<EngOnwing> getInfo(Map<String,String> paramMap) {
+		return engOnwingMapper.getInfo(paramMap);
+	}
+
+}

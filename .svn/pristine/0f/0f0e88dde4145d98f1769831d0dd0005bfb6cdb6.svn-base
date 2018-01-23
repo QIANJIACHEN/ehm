@@ -1,0 +1,223 @@
+
+
+$("#table-list").DataTable({
+    'dom': 'tr<"row"<"col-sm-5"l><"col-sm-7"p>>',
+    "serverSide": true,
+    ordering: false,
+    "type": "POST",
+    "ajax": {
+        "url": "/manage/user/list.do",
+        "type": "POST",
+        "data": function (d) {
+            d.key = $("#search-key").val();
+            d.bzStatus = $("#search-bz-status").val();
+            d.accountStatus = $("#search-account-status").val();
+        }
+    },
+    "columns": [
+        {"data": "id"},
+        {"data": "avatar"},
+        {"data": "username"},
+        {"data": "nickname"},
+        null,
+        {"data": "integral"},
+        null,
+        {"data": "createdTime"},
+        null
+
+    ],
+    "ordering": false,
+    "searching": false,
+    "columnDefs": [
+        {
+            "targets": 1,
+            "render": function (data, type, full, meta) {
+                if (data == "") {
+                    var url = "${pageContext.request.contextPath}/manage/AdminLTE-2.3.0/dist/img/default_image.png";
+                    return '<img class="avatar-img" src="' + url + '"/>';
+                } else {
+                    return '<img class="avatar-img" src="' + data + '"/>';
+                }
+
+            }
+        },
+        {
+            "targets": 4,
+            "data": function (row, type, val, meta) {
+                if (row.bzStatus == 1000) {
+                    return "备孕";
+                } else if (row.bzStatus == 2000) {
+                    return "孕中";
+                }
+                else if (row.bzStatus == 3000) {
+                    return "孕后";
+                } else {
+                    return "孕前";
+                }
+            },
+            "render": function (data, type, full, meta) {
+                if (data == "备孕") {
+                    return '<small class="label label-primary" >' + data + '</small>';
+                } else if (data == "孕中") {
+                    return '<small class="label label-warning" >' + data + '</small>';
+                } else if (data == "孕后") {
+                    return '<small class="label label-success" >' + data + '</small>';
+                } else if (data == "孕前") {
+                    return '<small class="label label-info" >' + data + '</small>';
+                }
+
+            }
+        },
+        {
+            "targets": 6,
+            "data": function (row, type, val, meta) {
+                if (row.accountStatus == 0) {
+                    return "正常使用";
+                } else {
+                    return "已冻结";
+                }
+            },
+            "render": function (data, type, full, meta) {
+                if (data == "正常使用") {
+                    return '<small class="label label-success" >' + data + '</small>';
+                } else {
+                    return '<small class="label label-danger" >' + data + '</small>';
+                }
+
+            }
+        },
+        {
+            "targets": 8,
+            "data": function (row, type, val, meta) {
+                return row;
+            },
+            "render": function (data, type, full, meta) {
+                var table = $("#table-list").DataTable();
+                var result = '<div class="btn-group open">'
+                    + '<button class="btn btn-default btn-sm "'
+                    + ' data-toggle="modal" data-target="#user-info-modal"'
+                    + 'onclick="fileupload()"'
+                    +'>'
+                    + '<i class="fa fa-gear"></i>'
+                    + '</button></div>';
+
+
+                return result;
+
+
+            }
+        }
+
+    ],
+    "info": false,
+    "language": {
+        "lengthMenu": "显示 _MENU_ 条记录",
+        "paginate": {
+            "first": "首页",
+            "next": "下一页",
+            "previous": "上一页",
+            "last": "末页",
+        },
+        "zeroRecords": "",
+        "infoEmpty":"没有符合条件的数据",
+        "emptyTable":"没有符合条件的数据"
+    }
+});
+
+var cellUserData = null;
+$('#table-list tbody').on('click', 'td', function () {
+    var table = $('#table-list').DataTable();
+    cellUserData = table.cell(this).data();
+
+});
+
+
+$('#user-info-modal').on('show.bs.modal', function (event) {
+    var modal = $(this);
+    modal.find('#file_upload').val(cellUserData.avatar);
+    if(cellUserData.avatar==null || cellUserData.avatar==""){
+        document.getElementById("imge").innerHTML="<img style='max-width: 100px;max-height: 100px; height: auto;' src='${pageContext.request.contextPath}/manage/AdminLTE-2.3.0/dist/img/default_image.png'/>";
+    }else {
+        document.getElementById("imge").innerHTML="<img style='max-width: 100px;max-height: 100px; height: auto;' src='"+cellUserData.avatar+"'/>";
+
+    }
+    modal.find('#text-userid').val(cellUserData.id);
+    modal.find('#text-username').val(cellUserData.username);
+    modal.find('#text-nickname').val(cellUserData.nickname);
+    modal.find('#text-integral').val(cellUserData.integral);
+    var bzStatus = "孕前";
+    if (cellUserData.bzStatus == 1000) {
+        bzStatus = "备孕";
+    } else if (cellUserData.bzStatus == 2000) {
+        bzStatus = "孕中";
+    } else if (cellUserData.bzStatus == 3000) {
+        bzStatus = "孕后";
+    }
+    modal.find('#bz-status').val(bzStatus);
+
+
+    var accountStatus = "正常使用";
+    if (cellUserData.accountStatus > 0) {
+        accountStatus = "冻结";
+    }
+    modal.find('#account-status').val(accountStatus);
+
+
+}).on('hide.bs.modal', function (event) {
+    cellUserData = null;
+
+});
+
+
+//保存用户信息
+function saveUserInfo() {
+
+    var userId = $("#text-userid").val();
+    var nickname = $("#text-nickname").val();
+    var avatar= $("#file_upload").val();
+    var integral = $("#text-integral").val();
+    var bzStatus = $("#bz-status").val();
+    var accountStatus = $("#account-status").val();
+    var file = $("#file-avatar").val();
+
+    $.post(
+        "/beizhi/manage/user/saveUserInfo.do",
+        {
+            "userId": userId,
+            "nickname": nickname,
+            "avatar":avatar,
+            "integral": integral,
+            "bzStatus": bzStatus,
+            "accountStatus": accountStatus,
+            "file": file
+        },
+        function (response) {
+            $('#user-info-modal').modal('hide');
+            reloadTable(false);
+
+        },
+        "json"
+    );
+
+
+}
+
+/**
+ * 重载列表
+ * @param reset
+ */
+function reloadTable(reset) {
+    var table = $('#table-list').DataTable();
+    if (reset == true) {
+        table.ajax.reload(null, true);
+    } else {
+        table.ajax.reload();
+    }
+}
+
+function searchUser() {
+    reloadTable(true);
+}
+
+
+

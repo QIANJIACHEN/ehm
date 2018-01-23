@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.DataIdPlugMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.DataIdPlug">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="ENG_ID" jdbcType="INTEGER" property="engId" />
+		<result column="ENG_PN" jdbcType="VARCHAR" property="engPn" />
+		<result column="ENG_MODEL" jdbcType="VARCHAR" property="engModel" />
+		<result column="RATING" jdbcType="VARCHAR" property="rating" />
+		<result column="CONFIG" jdbcType="VARCHAR" property="config" />
+		<result column="PLANE_TYPE" jdbcType="VARCHAR" property="planeType" />
+		<result column="IDPLUG_PN" jdbcType="VARCHAR" property="idPlugPn" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ID,ENG_ID,ENG_PN,ENG_MODEL,RATING,CONFIG,PLANE_TYPE,IDPLUG_PN
+	</sql>
+
+	<select id="getDataIdPlugList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_data_idplug
+	</select>
+	
+	<select id="getAllDataIdPlug" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_data_idplug
+	</select>
+
+
+	<insert id="save" parameterType="com.cea.ehm.bean.DataIdPlug">
+		INSERT INTO ehm_data_idplug
+			(ENG_ID,ENG_PN,ENG_MODEL,RATING,CONFIG,PLANE_TYPE,IDPLUG_PN)
+		VALUES
+		(
+			#{engId,jdbcType=INTEGER},
+			#{engPn,jdbcType=VARCHAR},
+			#{engModel,jdbcType=VARCHAR},
+			#{rating,jdbcType=VARCHAR},
+			#{config,jdbcType=VARCHAR},
+			#{planeType,jdbcType=VARCHAR},
+			#{idPlugPn,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="com.cea.ehm.bean.DataIdPlug">
+		DELETE FROM
+			ehm_data_idplug
+		WHERE
+			ID = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<update id="update" parameterType="com.cea.ehm.bean.DataIdPlug">
+		UPDATE ehm_data_idplug
+		<set>
+			<if test="engId != null">
+				ENG_ID = #{engId,jdbcType=INTEGER},
+			</if>
+			<if test="engPn != null">
+				ENG_PN = #{engPn,jdbcType=VARCHAR},
+			</if>
+			<if test="engModel != null">
+				ENG_MODEL = #{engModel,jdbcType=VARCHAR},
+			</if>
+			<if test="rating != null">
+				RATING = #{rating,jdbcType=VARCHAR},
+			</if>
+			<if test="config != null">
+				CONFIG = #{config,jdbcType=VARCHAR},
+			</if>
+			<if test="planeType != null">
+				PLANE_TYPE = #{planeType,jdbcType=VARCHAR},
+			</if>
+			<if test="idPlugPn != null">
+				IDPLUG_PN = #{idPlugPn,jdbcType=VARCHAR},
+			</if>
+		</set>
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</update>
+
+</mapper>

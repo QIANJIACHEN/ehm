@@ -1,0 +1,44 @@
+package com.cea.ehm.dao;
+
+import java.util.Map;
+
+import com.cea.ehm.bean.RuleComputation;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+/**
+ * 计算规则持久层接口
+ */
+public interface RuleComputationMapper {
+
+	/**
+	 * 查询计算规则列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	PageList<RuleComputation> getRuleComputationList(Map<String, String> paramMap, PageBounds pageBounds);
+
+	/**
+	 * 保存计算规则信息
+	 * 
+	 * @param rulecomputation
+	 */
+	void insert(RuleComputation rulecomputation);
+
+	/**
+	 * 更新计算规则信息
+	 * 
+	 * @param rulecomputation
+	 */
+	void update(RuleComputation rulecomputation);
+
+	/**
+	 * 删除计算规则信息
+	 * 
+	 * @param rulecomputation
+	 */
+	void delete(RuleComputation rulecomputation);
+
+}

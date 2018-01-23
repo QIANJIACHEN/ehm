@@ -1,0 +1,60 @@
+package com.cea.ehm.service;
+
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cea.ehm.bean.EngConditionFleet;
+import com.cea.ehm.dao.EngConditionFleetMapper;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+/**
+ * 发动机状态简报服务层
+ */
+@Service
+public class EngConditionFleetService {
+	private Logger logger = Logger.getLogger(EngConditionFleetService.class);
+	@Autowired
+	private EngConditionFleetMapper engconditionfleetMapper;
+
+	/**
+	 * 查询发动机状态简报列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	public PageList<EngConditionFleet> getEngConditionFleetList(Map<String, String> paramMap, PageBounds pageBounds) {
+		logger.info("数据库查询参数：" + paramMap);
+		return engconditionfleetMapper.getEngConditionFleetList(paramMap, pageBounds);
+	}
+
+	/**
+	 * 保存或更新发动机状态简报信息
+	 * 
+	 * @param engconditionfleet
+	 */
+	public void saveOrUpdate(EngConditionFleet engconditionfleet) {
+		// 查询判断发动机状态简报信息是否存在，考虑保存还是更新
+		EngConditionFleet selectuser = engconditionfleetMapper.select(engconditionfleet);
+		if (selectuser == null) {
+			engconditionfleetMapper.insert(engconditionfleet);
+		} else {
+			engconditionfleetMapper.update(engconditionfleet);
+		}
+	}
+
+	/**
+	 * 删除发动机状态简报信息
+	 * 
+	 * @param engconditionfleet
+	 */
+	public void delete(EngConditionFleet engconditionfleet) {
+		// 这里是物理删除，删除后发动机状态简报信息从数据库消失
+		engconditionfleetMapper.delete(engconditionfleet);
+	}
+
+}

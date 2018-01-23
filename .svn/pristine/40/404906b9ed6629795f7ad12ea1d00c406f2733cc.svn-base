@@ -1,0 +1,165 @@
+package com.cea.ehm.controller.manage;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.cea.ehm.bean.RuleComputation;
+import com.cea.ehm.bean.RuleParameter;
+import com.cea.ehm.controller.BaseController;
+import com.cea.ehm.service.RuleComputationService;
+import com.cea.ehm.service.RuleParameterService;
+import com.google.common.base.Strings;
+
+/**
+ * 计算
+ */
+@Controller
+@RequestMapping(value = "/manage/calculate")
+public class CalculateController extends BaseController {
+	@Autowired
+	private RuleComputationService computationService;
+	@Autowired
+	private RuleParameterService parameterService;
+
+	/**
+	 * 显示计算设置
+	 */
+	@RequestMapping(value = "/settings.do")
+	public ModelAndView index() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/calculate/settings");
+		return mv;
+	}
+
+	/**
+	 * 显示计算设置规则 1213
+	 */
+	@RequestMapping(value = "/settings_new.do")
+	public ModelAndView settings_new() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/calculate/settings_new");
+		return mv;
+	}
+
+	/**
+	 * 具体计算规则查看修改
+	 */
+	@RequestMapping(value = "/settings_check.do")
+	public ModelAndView settings_check() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/calculate/settings_check");
+		return mv;
+	}
+
+	/**
+	 * 保存 computation
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/savecomputation.do")
+	@ResponseBody
+	public Map<String, Object> saveComputation(@RequestParam Map<String, String> reqPara) {
+		RuleComputation computation = getComputation(reqPara);
+		Integer id = computationService.saveComputation(computation);
+		return getSuccessData(id);
+	}
+
+	/**
+	 * 修改 computation
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/updatecomputation.do")
+	@ResponseBody
+	public Map<String, Object> updateComputation(@RequestParam Map<String, String> reqPara) {
+		RuleComputation computation = getComputation(reqPara);
+		computationService.updateComputation(computation);
+		return getSuccessMessage();
+	}
+
+	/**
+	 * 删除 computation
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/deletecomputation.do")
+	@ResponseBody
+	public Map<String, Object> deleteComputation(@RequestParam Map<String, String> reqPara) {
+		String id = reqPara.get("id");
+		computationService.deleteComputation(Integer.parseInt(id));
+		return getSuccessMessage();
+	}
+
+	/**
+	 * 获取页面传值(条件 computation)
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	public RuleComputation getComputation(Map<String, String> reqPara) {
+		String id = reqPara.get("id");
+		String type = reqPara.get("type");
+		String calculationType = reqPara.get("calculationType");
+		String calculationRange = reqPara.get("calculationRange");
+		String rangeType = reqPara.get("rangeType");
+		String flightPhase = reqPara.get("flightPhase");
+		String ruleId = reqPara.get("ruleId");
+		String max = reqPara.get("max");
+		String min = reqPara.get("min");
+		String equal = reqPara.get("equal");
+		String unequal = reqPara.get("unequal");
+
+		RuleComputation computation = new RuleComputation();
+		if (!Strings.isNullOrEmpty(id)) {
+			computation.setId(Integer.parseInt(id));
+		}
+		computation.setType(Integer.parseInt(type));
+		computation.setCalculationType(Integer.parseInt(calculationType));
+		computation.setCalculationRange(Integer.parseInt(calculationRange));
+		computation.setRangeType(Integer.parseInt(rangeType));
+		computation.setFlightPhase(Integer.parseInt(flightPhase));
+		computation.setRuleId(Integer.parseInt(ruleId));
+		computation.setMax(max);
+		computation.setMin(min);
+		computation.setEqual(equal);
+		computation.setUnequal(unequal);
+
+		return computation;
+	}
+
+	/**
+	 * 查询 第一个参数
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/firstParam.do")
+	@ResponseBody
+	public Map<String, Object> firstParam() {
+		List<RuleParameter> parameters = parameterService.firstParam();
+		return getSuccessData(parameters);
+	}
+
+	/**
+	 * 查询 第二个参数
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/secondParam.do")
+	@ResponseBody
+	public Map<String, Object> secondParam(@RequestParam Map<String, String> reqPara) {
+		String pId = reqPara.get("pId");
+		List<RuleParameter> parameters = parameterService.secondParam(Integer.parseInt(pId));
+		return getSuccessData(parameters);
+	}
+}

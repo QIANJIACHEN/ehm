@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.PlaneFlightMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.PlaneFlight">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="NUMBER_" jdbcType="VARCHAR" property="number" />
+		<result column="FLY_TIME" jdbcType="TIMESTAMP" property="flyTime" />
+		<result column="AIR_TIME" jdbcType="DOUBLE" property="airTime" />
+		<result column="FLOOR_TIME" jdbcType="DOUBLE" property="floorTime" />
+		<result column="S_TERMINAL" jdbcType="VARCHAR" property="sTerminal" />
+		<result column="E_TERMINAL" jdbcType="VARCHAR" property="eTerminal" />
+		<result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ID,NUMBER_,FLY_TIME,AIR_TIME,FLOOR_TIME,S_TERMINAL,E_TERMINAL,CTIME
+	</sql>
+	
+	<select id="getList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_plane_flight
+		WHERE NUMBER_ LIKE CONCAT(CONCAT('%',#{number,jdbcType=VARCHAR}),'%')
+		<if test="sTerminal != null and sTerminal != ''">
+			AND S_TERMINAL = #{sTerminal,jdbcType=VARCHAR}
+		</if>
+		<if test="eTerminal != null and eTerminal != ''">
+			AND E_TERMINAL = #{eTerminal,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	<select id="allFlight" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_plane_flight
+	</select>
+
+	<insert id="save" parameterType="com.cea.ehm.bean.PlaneFlight">
+		INSERT INTO ehm_plane_flight
+		(
+			NUMBER_,FLY_TIME,AIR_TIME,FLOOR_TIME,S_TERMINAL,E_TERMINAL,CTIME
+		)
+		VALUES
+		(
+			#{number,jdbcType=VARCHAR},
+			#{flyTime,jdbcType=TIMESTAMP},
+			#{airTime,jdbcType=DOUBLE},
+			#{floorTime,jdbcType=DOUBLE},
+			#{sTerminal,jdbcType=VARCHAR},
+			#{eTerminal,jdbcType=VARCHAR},
+			#{ctime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+
+	<delete id="delete">
+		DELETE FROM
+			ehm_plane_flight
+		WHERE
+			ID = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<update id="update" parameterType="com.cea.ehm.bean.PlaneFlight">
+		UPDATE ehm_plane_flight
+		<set>
+			<if test="number != null">
+				NUMBER_ = #{number,jdbcType=VARCHAR},
+			</if>
+			<if test="flyTime != null and flyTime != ''">
+				FLY_TIME = #{flyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="airTime != null">
+				AIR_TIME = #{airTime,jdbcType=DOUBLE},
+			</if>
+			<if test="floorTime != null">
+				FLOOR_TIME = #{floorTime,jdbcType=DOUBLE},
+			</if>
+			<if test="sTerminal != null">
+				S_TERMINAL = #{sTerminal,jdbcType=VARCHAR},
+			</if>
+			<if test="eTerminal != null">
+				E_TERMINAL = #{eTerminal,jdbcType=VARCHAR}
+			</if>
+		</set>
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

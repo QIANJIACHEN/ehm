@@ -1,0 +1,21 @@
+body {
+    margin: 0px;
+    font-size: 12px;
+    background-image: url(../images/login_main.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #A2D5F0;
+}
+
+#login * td {
+    color: white;
+}
+
+#login a {
+    color: white;
+    text-decoration: none;
+}
+
+#login .textbox {
+    width: 180px
+}

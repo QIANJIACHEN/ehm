@@ -1,0 +1,187 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-head.jsp"/>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-script.jsp"/>
+    <style type="text/css">
+    	.showblock div.row{
+    		margin-bottom:10px;
+    		line-height:34px;
+    		text-align:left;
+    		padding-left:20px;
+    	}
+    	.showblock div.row>div{
+    		min-width:160px;
+    	}
+    	#btncalc button {
+    		width:8%;
+    		min-width:100px;
+    		padding-bottom: 5px;
+    		margin:0px 15px;
+    	}
+    	#btncalc button:first-child{
+    		margin-left:0px;
+    	}
+    	.box-body .showblock{
+    		display:none;
+    	}
+    	.box-body .showblock:first-child{
+    		display:block;
+    	}
+    </style>
+</head>
+<body class="hold-transition" >
+
+<!-- Content Wrapper. Contains page content -->
+<div class="wrapper">
+
+    <div class="box wrapper " style="overflow: auto;">
+        <div class="box-header with-border">
+         
+            <div class="row" style="font-size:15px">
+            	<div class="col-xs-12">
+        			<span style="margin-right:20px;margin-left:12px">生产商</span>
+        			<select style="min-width: 130px;height: 34px;padding: 6px 12px;font-size: 15px;line-height: 1.42857143;">
+                    	<option></option>
+                    </select>
+                    <span style="margin:0px 20px">发动机型号</span>
+                    <select style="min-width: 130px;height: 34px;padding: 6px 12px;font-size: 15px;line-height: 1.42857143;">
+                    	<option></option>
+                    </select>
+        		</div>
+            	
+            </div>
+            <div class="row" style="margin:15px 0px" >
+            	<div class="col-xs-12" style="font-size:15px">计算参数</div>
+            </div>
+             
+            <div class="row" id="btncalc">
+            	<div class="col-xs-12" style="min-width:130px;padding-bottom:5px">
+        			<button class="btn">滑油压力巡航</button>
+        			<button class="btn">滑耗时限超限</button>
+        			<button class="btn">健康权重设置</button>
+        			<button class="btn">EGTM预警</button>
+        			<button class="btn">双发对比预警</button>
+        			<button class="btn">震动指示系统报警</button>
+        		</div>
+        	</div>
+        </div>
+        <div class="box-body" style="padding-top:30px">
+        	<!-- 滑油压力巡航 -->
+			<div class="showblock">
+				<div class="row">
+					<div class="col-xs-1">单点上限</div>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-1">单点下限</div>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-1">平滑上限</div>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-1">平滑下限</div>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-1">趋势上限</div>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-1">趋势下限</div>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" />
+					</div>
+				</div>
+			</div>
+            <!-- 滑耗时限超限 -->
+			<div class="showblock">
+				<div class="row">
+					<div class="col-xs-1">左发时间差</div>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-1">左发时间差上限</div>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-1">左发时间差下限</div>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-1">右发时间差</div>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-1">右发时间差上限</div>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-1">右发时间差下限</div>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" />
+					</div>
+				</div>
+			</div>
+			<!-- 健康权重设置 -->
+			<div class="showblock">
+				<div class="row">
+					<div class="col-xs-2">WEIGHT_EGTM</div>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" />
+					</div> 
+				</div>
+				<div class="row">
+					<div class="col-xs-2">WEIGHT_VIB</div>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-2">WEIGHT_OIL_CONSUMPTION</div>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" />
+					</div>
+				</div>
+			</div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+	var abtn=$("#btncalc button");
+	var adiv=$(".box-body .showblock");
+	abtn.eq(0).addClass("btn-primary");
+	abtn.click(function(){
+		var index=$(this).index();
+		abtn.removeClass("btn-primary").eq(index).addClass("btn-primary");
+		adiv.hide().eq(index).show();
+	});
+</script>
+
+</body>
+</html>

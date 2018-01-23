@@ -1,0 +1,197 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-head.jsp"/>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-script.jsp"/>
+    <style type="text/css">
+    	/* table.planetable{
+    		text-align:center;
+    	}
+    	table.planetable thead tr th {
+    		text-align:center;
+    	}
+    	table.planetable tbody tr td:last-child span{
+    		cursor:pointer;
+    		color:#199ED8;
+    	}
+    	.nav-tabs > li.active > a{
+    		    border: 1px solid #3399FF;
+    		    border-bottom-color: transparent;
+    	} */
+    	.table{
+    		border:none!important;
+    	}
+    	.table tr td{
+    		width:12.5%;
+    		vertical-align:middle!important;
+    		text-align:left;
+    		font-size:14px;
+    		border:none!important;
+    	}
+    	.table tr td:nth-of-type(2n+1){
+    		font-weight:bold;
+    	}
+    </style>
+</head>
+<body class="hold-transition" >
+
+<!-- Content Wrapper. Contains page content -->
+<div class="wrapper">
+
+    <div class="box wrapper " style="overflow: auto;">
+    	
+        <div class="box-header">
+            <h4>基础信息</h4>
+            <div class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
+                <table class="table  table-hover table-bordered planetable"> 
+                	<tr>
+                		<td>ID</td>
+                		<td>123</td>
+                		<td>型号1级</td>
+                		<td>Y</td>
+                		<td>VARIABLE</td>
+                		<td>11111</td>
+                		<td>引进方式</td>
+                		<td>授权引进</td>
+                	</tr>
+                	<tr>
+                		<td>TALL</td>
+                		<td>3343</td>
+                		<td>型号2级</td>
+                		<td>y</td>
+                		<td>MSN</td>
+                		<td>1234</td>
+                		<td>创建时间</td>
+                		<td>2017/12/11</td>
+                	</tr>
+                	<tr>
+                		<td>基地</td>
+                		<td>KM01</td>
+                		<td>型号3级</td>
+                		<td>y</td>
+                		<td>LINE</td>
+                		<td>8888</td>
+                		<td>状态</td>
+                		<td>777</td>
+                	</tr>
+                	<tr>
+                		<td>推力</td>
+                		<td>23</td>
+                		<td>属性</td>
+                		<td>哈哈</td>
+                		<td>适用性手册</td>
+                		<td>7777</td>
+                		<td>左发</td>
+                		<td>254558</td>
+                	</tr>
+                	<tr>
+                		<td>构型</td>
+                		<td>E</td>
+                		<td>ETOPS</td>
+                		<td>无</td>
+                		<td>运营人</td>
+                		<td>me</td>
+                		<td>右发</td>
+                		<td>25445</td>
+                	</tr>
+                	<tr>
+                		<td>发动机原始编码</td>
+                		<td>254892</td>
+                		<td>高高原</td>
+                		<td>Y</td>
+                		<td>所有人</td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                	</tr>
+                </table> 
+            </div>
+        </div>
+       <!--  <div class="box-body">
+
+            <div>
+
+			  Nav tabs
+			  <ul class="nav nav-tabs" role="tablist" style="border-bottom:1px solid #3399FF">
+			    <li role="presentation" class="active"><a href="#engineer" aria-controls="home" role="tab" data-toggle="tab">发动机</a></li>
+			    <li role="presentation"><a href="#flight" role="tab" data-toggle="tab">航班</a></li>
+			  </ul>
+			
+			  Tab panes
+			  <div class="tab-content">
+			    <div role="tabpanel" class="tab-pane active" id="engineer" style="padding-top:30px">
+			    	<div class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
+		                <table class="table  table-hover table-bordered planetable">
+		                	<thead>
+		                    <tr>
+		                        <th>签发日期</th>
+		                        <th>状态</th>
+		                        <th>发动机位置</th>
+		                        <th>发动机编号</th>
+		                        <th>CONFIG</th>
+		                        <th>RATTING</th>
+		                        <th>TSN</th>
+		                        <th>CSN</th>
+		                        <th>预计下发日期</th>
+		                        <th>备注</th>
+		                    </tr>
+		                    </thead>
+		                   	<tbody>
+		                   		<tr>
+		                   			<td>2017/11/19</td>
+		                   			<td></td>
+		                   			<td>1</td>
+		                   			<td>038211</td>
+		                   			<td>3</td>
+		                   			<td>24</td>
+		                   			<td>49.6857</td>
+		                   			<td>26</td>
+		                   			<td>2019/02/11</td>
+		                   			<td></td>
+		                   		</tr>
+		                   		
+		                   	</tbody>
+		                </table>
+            </div>
+			    </div>
+			    <div role="tabpanel" class="tab-pane" id="flight" style="padding-top:30px">
+			    	<div class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
+		                <table class="table  table-hover table-bordered planetable">
+		                	<thead>
+		                    <tr>
+		                        <th>飞行日期</th>
+		                        <th>空中时间</th>
+		                        <th>空地时间</th>
+		                        <th>起飞航站</th>
+		                        <th>到达航站</th>
+		                        <th>航班号</th>
+		                    </tr>
+		                    </thead>
+		                   	<tbody>
+		                   		<tr>
+		                   			<td>2017/11/19</td>
+		                   			<td>1.9615</td>
+		                   			<td>2.0</td>
+		                   			<td>CAN</td>
+		                   			<td>KMG</td>
+		                   			<td>MU5738</td>
+		                   		</tr>
+		                   		
+		                   	</tbody>
+		                </table>
+            		</div>
+			    </div>
+			  </div>
+			
+			</div>
+        </div> -->
+    </div>
+</div>
+
+<jsp:include page='dataplaneinfo.jsp'/>
+<jsp:include page='dataplaneadd.jsp'/>
+
+
+</body>
+</html>

@@ -1,0 +1,111 @@
+package com.cea.ehm.bean;
+
+import java.io.Serializable;
+
+/**
+ * 计算规则
+ */
+public class RuleComputation implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	private Integer id;
+	/**
+	 * 检测规则ID
+	 */
+	private Integer inspectionId;
+	/**
+	 * 检测规则名
+	 */
+	private String inspectionName;
+	private Integer type;
+	/**
+	 * 规则参数ID
+	 */
+	private Integer ruleId;
+	/**
+	 * 规则参数名
+	 */
+	private String ruleName;
+	/**
+	 * 最大值
+	 */
+	private String maxVal;
+	/**
+	 * 最小值
+	 */
+	private String minVal;
+	private String ctime;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getInspectionId() {
+		return inspectionId;
+	}
+
+	public void setInspectionId(Integer inspectionId) {
+		this.inspectionId = inspectionId;
+	}
+
+	public String getInspectionName() {
+		return inspectionName;
+	}
+
+	public void setInspectionName(String inspectionName) {
+		this.inspectionName = inspectionName;
+	}
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
+
+	public Integer getRuleId() {
+		return ruleId;
+	}
+
+	public void setRuleId(Integer ruleId) {
+		this.ruleId = ruleId;
+	}
+
+	public String getRuleName() {
+		return ruleName;
+	}
+
+	public void setRuleName(String ruleName) {
+		this.ruleName = ruleName;
+	}
+
+	public String getMaxVal() {
+		return maxVal;
+	}
+
+	public void setMaxVal(String maxVal) {
+		this.maxVal = maxVal;
+	}
+
+	public String getMinVal() {
+		return minVal;
+	}
+
+	public void setMinVal(String minVal) {
+		this.minVal = minVal;
+	}
+
+	public String getCtime() {
+		return ctime;
+	}
+
+	public void setCtime(String ctime) {
+		this.ctime = ctime;
+	}
+
+}

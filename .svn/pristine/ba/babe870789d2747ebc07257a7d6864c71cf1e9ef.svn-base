@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.DutyMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.Duty">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="PARENT_ID" jdbcType="INTEGER" property="parentId" />
+		<result column="NAME" jdbcType="VARCHAR" property="name" />
+		<result column="ROLE" jdbcType="INTEGER" property="role" />
+		<result column="LOCATION" jdbcType="VARCHAR" property="location" />
+		<result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
+		<result column="TYPE" jdbcType="INTEGER" property="type" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ID,PARENT_ID,NAME,ROLE,LOCATION,CTIME,TYPE
+	</sql>
+	
+	<select id="getDutyList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_duty
+		WHERE NAME LIKE CONCAT(CONCAT('%',#{name,jdbcType=VARCHAR}),'%')
+		<if test="role != null">
+			AND ROLE = #{role,jdbcType=INTEGER}
+		</if>
+	</select>
+	
+	<select id="getDutyById" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_duty
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</select>
+
+	<select id="getAllDuty" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_duty
+	</select>
+
+	<insert id="insert" parameterType="com.cea.ehm.bean.Duty">
+		INSERT INTO ehm_duty
+			(PARENT_ID,NAME,ROLE,LOCATION,CTIME,TYPE)
+		VALUES
+		(
+			#{parentId,jdbcType=INTEGER},
+			#{name,jdbcType=VARCHAR},
+			#{role,jdbcType=INTEGER},
+			#{location,jdbcType=VARCHAR},
+			#{ctime,jdbcType=TIMESTAMP},
+			#{type,jdbcType=INTEGER}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="com.cea.ehm.bean.Duty">
+		DELETE FROM
+			ehm_duty
+		WHERE
+			ID = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<update id="update" parameterType="com.cea.ehm.bean.Duty">
+		UPDATE ehm_duty
+		<set>
+			<if test="parentId != null">
+				PARENT_ID = #{parentId,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="role != null">
+				ROLE = #{role,jdbcType=INTEGER},
+			</if>
+			<if test="location != null">
+				LOCATION = #{location,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				TYPE = #{type,jdbcType=INTEGER},
+			</if>
+		</set>
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</update>
+
+</mapper>

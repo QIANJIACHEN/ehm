@@ -1,0 +1,51 @@
+package com.cea.ehm.dao;
+
+import java.util.Map;
+
+import com.cea.ehm.bean.DataCfmPerformance;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+/**
+ * 用户持久层接口
+ */
+public interface DataCfmPerformanceMapper {
+
+	/**
+	 * 查询用户列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	PageList<DataCfmPerformance> getData_cfm_performanceList(Map<String, String> paramMap, PageBounds pageBounds);
+
+	/**
+	 * 保存用户信息
+	 * 
+	 * @param user
+	 */
+	void insert(DataCfmPerformance data_cfm_performance);
+
+	/**
+	 * 更新用户信息
+	 * 
+	 * @param user
+	 */
+	void update(DataCfmPerformance data_cfm_performance);
+
+	/**
+	 * 删除用户信息
+	 * 
+	 * @param user
+	 */
+	void delete(DataCfmPerformance data_cfm_performance);
+
+	/**
+	 * 查询用户信息
+	 * 
+	 * @param user
+	 */
+	DataCfmPerformance select(DataCfmPerformance data_cfm_performance);
+
+}

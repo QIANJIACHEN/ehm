@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.FuncMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.Func">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="ROLE_ID" jdbcType="INTEGER" property="roleId" />
+		<result column="NAME" jdbcType="VARCHAR" property="name" />
+		<result column="URL" jdbcType="VARCHAR" property="url" />
+		<result column="FLAG" jdbcType="INTEGER" property="flag" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ID,ROLE_ID,NAME,URL,FLAG
+	</sql>
+	
+	<insert id="saveRoleFunc" parameterType="com.cea.ehm.bean.Func">
+		INSERT INTO ehm_role_func
+			(ROLE_ID,NAME,URL,FLAG)
+		VALUES
+		(
+			#{roleId,jdbcType=INTEGER},
+			#{name,jdbcType=VARCHAR},
+			#{url,jdbcType=VARCHAR},
+			#{flag,jdbcType=INTEGER}
+		)
+	</insert>
+	
+	<select id="getRoleFunc" parameterType="com.cea.ehm.bean.Func" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_role_func
+		WHERE ROLE_ID = #{roleId,jdbcType=INTEGER}
+	</select>
+	
+	<select id="getRoleFuncTwo" parameterType="com.cea.ehm.bean.Func" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_role_func
+		WHERE ROLE_ID = #{roleId,jdbcType=INTEGER}
+		AND FLAG = 1
+	</select>
+	
+	<update id="updateFlag" parameterType="com.cea.ehm.bean.Func">
+		UPDATE ehm_role_func
+		SET FLAG = 0
+		WHERE ROLE_ID = #{roleId,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateRoleFunc" parameterType="com.cea.ehm.bean.Func">
+		UPDATE ehm_role_func
+		SET FLAG = 1
+		WHERE ID = #{id,jdbcType=INTEGER}
+		AND ROLE_ID = #{roleId,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updataFuncName" parameterType="com.cea.ehm.bean.Func">
+		UPDATE ehm_role_func
+		<set>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR}
+			</if>
+		</set>
+		WHERE URL = #{url,jdbcType=VARCHAR}
+	</update>
+	
+</mapper>

@@ -1,0 +1,224 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+
+<title>飞机列表</title>
+<link rel="stylesheet" href="../css/jqueryui/weui.min.css">
+<link rel="stylesheet" href="../css/jqueryui/jquery-weui.css">
+<link rel="stylesheet" href="../css/jqueryui/demos.css">
+</head>
+<body ontouchstart>
+  		<div class="page__pd">
+		    <div class="weui-cell">
+	            <div class="weui-cell__bd">
+	              <p>报表查看</p>
+	            </div>
+	        </div>
+			<div class="weui-grids">
+		      <a href="" class="weui-grid js_grid">
+		        <div class="weui-grid__icon">
+		          <img src="../images/wechat/icon_nav_button.png" alt="">
+		        </div>
+		        <p class="weui-grid__label">
+		          	性能监控
+		        </p>
+		      </a>
+		      <a href="" class="weui-grid js_grid">
+		        <div class="weui-grid__icon">
+		          <img src="../images/wechat/icon_nav_cell.png" alt="">
+		        </div>
+		        <p class="weui-grid__label">
+		          	滑油监控
+		        </p>
+		      </a>
+		      <a href="" class="weui-grid js_grid">
+		        <div class="weui-grid__icon">
+		          <img src="../images/wechat/icon_nav_cell.png" alt="">
+		        </div>
+		        <p class="weui-grid__label">
+		          	水洗监控
+		        </p>
+		      </a>
+		      <a href="" class="weui-grid js_grid">
+		        <div class="weui-grid__icon">
+		          <img src="../images/wechat/icon_nav_cell.png" alt="">
+		        </div>
+		        <p class="weui-grid__label">
+		          	排故监控
+		        </p>
+		      </a>
+		    </div>
+		    <div class="weui-cell">
+	            <div class="weui-cell__bd">
+	              <p>基础信息查看</p>
+	            </div>
+	       	</div>
+			<div class="weui-grids">
+		      <a href="plainelist.do" class="weui-grid js_grid">
+		        <div class="weui-grid__icon">
+		          <img src="../images/wechat/icon_nav_button.png" alt="">
+		        </div>
+		        <p class="weui-grid__label">
+		          	飞机信息
+		        </p>
+		      </a>
+		      <a href="englist.do" class="weui-grid js_grid">
+		        <div class="weui-grid__icon">
+		          <img src="../images/wechat/icon_nav_cell.png" alt="">
+		        </div>
+		        <p class="weui-grid__label">
+		          	发动机信息
+		        </p>
+		      </a>
+		      <a href="flightlist.do" class="weui-grid js_grid">
+		        <div class="weui-grid__icon">
+		          	<img src="../images/wechat/icon_nav_cell.png" alt="">
+		        </div>
+		        <p class="weui-grid__label" style="height: 22px;">
+		          	航班信息
+		        </p>
+		      </a>
+		      <a href="engmaintenancelist.do" class="weui-grid js_grid">
+		        <div class="weui-grid__icon">
+		          	<img src="../images/wechat/icon_nav_cell.png" alt="">
+		        </div>
+		        <p class="weui-grid__label" style="height: 22px;">
+		          	发动机维修信息
+		        </p>
+		      </a>
+		      <a href="waterwashlist.do" class="weui-grid js_grid">
+		        <div class="weui-grid__icon">
+		          	<img src="../images/wechat/icon_nav_cell.png" alt="">
+		        </div>
+		        <p class="weui-grid__label" style="height: 22px;">
+		          	水洗列表信息
+		        </p>
+		      </a>
+		      <a href="engreadylist.do" class="weui-grid js_grid">
+		        <div class="weui-grid__icon">
+		          	<img src="../images/wechat/icon_nav_cell.png" alt="">
+		        </div>
+		        <p class="weui-grid__label" style="height: 22px;">
+		          	发动机备发表
+		        </p>
+		      </a>
+		      <a href="engreport.do" class="weui-grid js_grid">
+		        <div class="weui-grid__icon">
+		          	<img src="../images/wechat/icon_nav_cell.png" alt="">
+		        </div>
+		        <p class="weui-grid__label" style="height: 22px;">
+		          	发动机简报
+		        </p>
+		      </a>
+		      <a href="engstatusreport.do" class="weui-grid js_grid">
+		        <div class="weui-grid__icon">
+		          	<img src="../images/wechat/icon_nav_cell.png" alt="">
+		        </div>
+		        <p class="weui-grid__label" style="height: 22px;">
+		          	发动机状态简报
+		        </p>
+		      </a>
+		      <a href="engidpdata.do" class="weui-grid js_grid">
+		        <div class="weui-grid__icon">
+		          	<img src="../images/wechat/icon_nav_cell.png" alt="">
+		        </div>
+		        <p class="weui-grid__label" style="height: 22px;">
+		          	IDPLUG数据
+		        </p>
+		      </a>
+		      <a href="sapreport.do" class="weui-grid js_grid">
+		        <div class="weui-grid__icon">
+		          	<img src="../images/wechat/icon_nav_cell.png" alt="">
+		        </div>
+		        <p class="weui-grid__label" style="height: 22px;">
+		          	SAP日报表
+		        </p>
+		      </a>
+		      <a href="engperformance.do" class="weui-grid js_grid">
+		        <div class="weui-grid__icon">
+		          	<img src="../images/wechat/icon_nav_cell.png" alt="">
+		        </div>
+		        <p class="weui-grid__label" style="height: 22px;">
+		          	发动机性能数据表
+		        </p>
+		      </a>
+		      <a href="oilconsumereport.do" class="weui-grid js_grid">
+		        <div class="weui-grid__icon">
+		          	<img src="../images/wechat/icon_nav_cell.png" alt="">
+		        </div>
+		        <p class="weui-grid__label" style="height: 22px;">
+		          	滑油健康报告信息
+		        </p>
+		      </a>
+		      <a href="oilpressuremonitor.do" class="weui-grid js_grid">
+		        <div class="weui-grid__icon">
+		          	<img src="../images/wechat/icon_nav_cell.png" alt="">
+		        </div>
+		        <p class="weui-grid__label" style="height: 22px;">
+		          	滑油压力监控列表
+		        </p>
+		      </a>
+		      <a href="oilconsumemonitor.do" class="weui-grid js_grid">
+		        <div class="weui-grid__icon">
+		          	<img src="../images/wechat/icon_nav_cell.png" alt="">
+		        </div>
+		        <p class="weui-grid__label" style="height: 22px;">
+		          	滑耗监控列表
+		        </p>
+		      </a>
+		    </div>
+		    <div class="weui-cell">
+	            <div class="weui-cell__bd">
+	              <p>报警</p>
+	            </div>
+	       	</div>
+			<div class="weui-grids">
+		      <a href="" class="weui-grid js_grid">
+		        <div class="weui-grid__icon">
+		          <img src="../images/wechat/icon_nav_button.png" alt="">
+		        </div>
+		        <p class="weui-grid__label">
+		          	报警记录
+		        </p>
+		      </a>
+		      <a href="" class="weui-grid js_grid">
+		        <div class="weui-grid__icon">
+		          <!--<img src="../images/wechat/icon_nav_cell.png" alt="">-->
+		        </div>
+		        <p class="weui-grid__label" style="height: 22px;">
+		          	<!--发动机信息-->
+		        </p>
+		      </a>
+		      <a href="" class="weui-grid js_grid">
+		        <div class="weui-grid__icon">
+		          <!--<img src="../images/wechat/icon_nav_cell.png" alt="">-->
+		        </div>
+		        <p class="weui-grid__label" style="height: 22px;">
+		          	<!--发动机信息-->
+		        </p>
+		      </a>
+		      
+		    </div>
+		    <div style="height:53px"></div>
+		</div>
+    
+    <jsp:include page='footer.jsp'/>
+    
+    <script src="../../js/jqueryui/jquery-2.1.4.js"></script>
+	<script src="../../js/jqueryui/fastclick.js"></script>
+	<script>
+	  $(function() {
+	    FastClick.attach(document.body);
+	  });
+	</script>
+	<script src="../../js/jqueryui/jquery-weui.js"></script>
+	
+  </body>
+</html>

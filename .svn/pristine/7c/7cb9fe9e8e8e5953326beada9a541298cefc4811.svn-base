@@ -1,0 +1,55 @@
+package com.cea.ehm.controller.manage;
+
+import java.util.Map;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.cea.ehm.bean.Calculate;
+import com.cea.ehm.controller.BaseController;
+
+/**
+ * 计算
+ */
+@Controller
+@RequestMapping(value = "/manage/calculate")
+public class CalculateController extends BaseController {
+
+	/**
+	 * 显示计算设置
+	 */
+	@RequestMapping(value = "/settings.do")
+	public ModelAndView index() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/calculate/settings");
+		return mv;
+	}
+
+	/**
+	 * 显示计算设置规则 1213
+	 */
+	@RequestMapping(value = "/settings_new.do")
+	public ModelAndView settings_new() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/calculate/settings_new");
+		return mv;
+	}
+
+	/**
+	 * 具体计算规则查看修改
+	 */
+	@RequestMapping(value = "/settings_check.do")
+	public ModelAndView settings_check() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/calculate/settings_check");
+		return mv;
+	}
+
+	@RequestMapping(value = "/save.do")
+	@ResponseBody
+	public Map<String, Object> getParam(Calculate calculate) {
+		return getSuccessMessage();
+	}
+}

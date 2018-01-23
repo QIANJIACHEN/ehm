@@ -1,0 +1,44 @@
+package com.cea.ehm.dao;
+
+import java.util.Map;
+
+import com.cea.ehm.bean.OilConsumption;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+/**
+ * 滑耗数据 持久层接口
+ */
+public interface OilConsumptionMapper {
+
+	/**
+	 * 滑耗数据 保存
+	 * 
+	 * @param oil
+	 */
+	void save(OilConsumption oil);
+
+	/**
+	 * 查询滑耗数据
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	PageList<OilConsumption> getList(Map<String, String> paramMap, PageBounds pageBounds);
+
+	/**
+	 * 滑耗数据 删除
+	 * 
+	 * @param oil
+	 */
+	void delete(OilConsumption oil);
+
+	/**
+	 * 滑耗数据 修改
+	 * 
+	 * @param oil
+	 */
+	void update(OilConsumption oil);
+
+}

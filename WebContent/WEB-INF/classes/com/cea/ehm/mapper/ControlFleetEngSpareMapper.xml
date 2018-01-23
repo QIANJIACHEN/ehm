@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.ControlFleetEngSpareMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.ControlFleetEngSpare">
+		<id column="ID" jdbcType="INTEGER" property="id"/> 
+		<result column="ENG_ID" jdbcType="INTEGER" property="engId" />
+		<result column="ENG_SN" jdbcType="VARCHAR" property="engSn" />
+		<result column="REMOVE_DATE" jdbcType="TIMESTAMP" property="removeDate" />
+		<result column="CONDITION_" jdbcType="VARCHAR" property="condition" />
+		<result column="INSTALL_PLAN" jdbcType="VARCHAR" property="installPlan" />
+		<result column="LLP_SAP" jdbcType="VARCHAR" property="llpSap" />
+		<result column="CONFIG_ACCESS" jdbcType="VARCHAR" property="configAccess" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+	</resultMap>
+	
+	<sql id="baseColumnList">
+		ID, ENG_ID, ENG_SN, REMOVE_DATE,CONDITION_, INSTALL_PLAN, LLP_SAP,
+		CONFIG_ACCESS, REMARK
+	</sql>
+	
+	<select id="getdatacontrolfleetengspareList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_control_fleet_eng_spare
+		<if test="engSn != NULL">
+			WHERE ENG_SN LIKE CONCAT(CONCAT('%',#{engSn,jdbcType=VARCHAR}),'%')
+		</if>
+	</select>
+	
+	<insert id="insert" parameterType="com.cea.ehm.bean.ControlFleetEngSpare">
+		INSERT INTO ehm_control_fleet_eng_spare
+		(
+			ENG_ID, ENG_SN,REMOVE_DATE, CONDITION_,INSTALL_PLAN, LLP_SAP,
+			CONFIG_ACCESS,REMARK
+		)
+		VALUES
+		(
+			#{engId,jdbcType=INTEGER},
+			#{engSn,jdbcType=VARCHAR},
+			#{removeDate,jdbcType=TIMESTAMP},
+			#{condition,jdbcType=VARCHAR},
+			#{installPlan,jdbcType=VARCHAR},
+			#{llpSap,jdbcType=VARCHAR},
+			#{configAccess,jdbcType=VARCHAR},
+			#{remark,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<update id="update" parameterType="com.cea.ehm.bean.ControlFleetEngSpare">
+		UPDATE ehm_control_fleet_eng_spare
+		<set>
+			<if test="engId != null">
+				ENG_ID = #{engId,jdbcType=INTEGER},
+			</if>
+			<if test="engSn != null">
+				ENG_SN = #{engSn,jdbcType=VARCHAR},
+			</if>
+			<if test="removeDate != null">
+				REMOVE_DATE = #{removeDate,jdbcType=VARCHAR},
+			</if>
+			<if test="removeDate != null">
+				CONDITION_ = #{condition,jdbcType=VARCHAR},
+			</if>
+			<if test="removeDate != null">
+				INSTALL_PLAN = #{installPlan,jdbcType=VARCHAR},
+			</if>
+			<if test="removeDate != null">
+				LLP_SAP = #{llpSap,jdbcType=VARCHAR},
+			</if>
+			<if test="removeDate != null">
+				CONFIG_ACCESS = #{configAccess,jdbcType=VARCHAR},
+			</if>
+			<if test="removeDate != null">
+				REMARK = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<delete id="delete" parameterType="com.cea.ehm.bean.ControlFleetEngSpare">
+		DELETE FROM
+			ehm_control_fleet_eng_spare
+		WHERE
+			ID = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<select id="allFleetEngSpare" resultMap="baseResultMap">
+		SELECT
+			<include refid="baseColumnList" />
+			FROM ehm_control_fleet_eng_spare
+	</select>
+	
+
+
+</mapper>

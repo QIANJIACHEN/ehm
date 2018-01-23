@@ -1,0 +1,288 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-head.jsp"/>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-script.jsp"/>
+</head>
+<body class="hold-transition" >
+
+<!-- Content Wrapper. Contains page content -->
+<div class="wrapper">
+
+    <div class="box wrapper " style="overflow: auto;">
+
+        <div class="box-header with-border">
+            <div class="row">
+            	<div class="col-xs-1" style="min-width: 160px">
+                    <select class="form-control" id="search-bz-status">
+                    	<option disabled selected>部门</option>
+                        <option>AAA</option>
+                    </select>
+                </div>
+                <div class="col-xs-1" style="min-width: 160px">
+                    <input type="text" class=" form-control" id="search-key" placeholder="姓名">
+                </div>
+                
+                <div class="col-xs-1" style="min-width: 160px">
+                    <select class="form-control" id="search-account-status">
+                    	<option disabled selected>所属基地</option>
+                        <option>BBB</option>
+                    </select>
+                </div>
+
+                <div class="col-xs-1" style="min-width: 160px">
+                    <button class="btn btn-block btn-default" onclick="searchuser()">
+                        <i class="fa fa-search"></i>
+                      	  查询
+                    </button>
+                </div>
+                    <div class="col-xs-1 pull-right" style="min-width: 160px">
+                    <button class="btn btn-block btn-primary col-sm-1" data-toggle="modal" data-target="#user-add-modal">
+                        <i class="fa fa-plus"></i>
+                       	 添加成员
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="box-body">
+
+            <div class="dataTables_wrapper form-inline dt-bootstrap">
+                <table id="table-list" class="table  table-hover">
+                    <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>姓名</th>
+                        <th>部门</th>
+                        <th>所属基地</th>
+                        <th>手机号</th>
+                        <th>账号</th>
+                        <th>密码</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    	<tr>
+                    		<td>125532</td>
+                    		<td>来栖晓</td>
+                    		<td>AAA部门</td>
+                    		<td>上海</td>
+                    		<td>11212323456</td>
+                    		<td>125532</td>
+                    		<td>125532</td>
+                    		<td>
+                    			<div class="btn-group open">
+                    				<button class="btn btn-default btn-sm " data-toggle="modal" data-target="#user-info-modal">
+                    					<i class="fa fa-gear"></i>
+                    				</button>
+                    				<button class="btn btn-default btn-sm" onclick="deleteuser(01)">
+                    					<i class="fa fa-trash"></i>
+                    				</button>
+                    			</div>
+                    		</td>
+                    	</tr>
+                    	
+                    	
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<jsp:include page='userinfo.jsp'/>
+<jsp:include page='useradd.jsp'/>
+
+<script type="text/javascript">
+$("#table-list").DataTable({
+    'dom': 'tr<"row"<"col-sm-5"l><"col-sm-7"p>>',
+    "serverSide": true,
+    "ordering": false,
+    "type": "POST",
+    "ajax": {
+        "url": "${pageContext.request.contextPath}/manage/user/list.do",
+        "type": "POST",
+        "data": function (d) {
+        	// 条件查询参数
+        	d.key = $("#search-key").val();
+        	
+        	// d.bzStatus = $("#search-bz-status").val();
+            // d.accountStatus = $("#search-account-status").val();
+        }
+    },
+    "columns": [
+        {"data": "userId"},
+        {"data": "username"},
+        {"data": "realName"},
+        {"data": "password"},
+        {"data": "position"},
+        {"data": "role"},
+        {"data": "phone"},
+        {"data": "ctime"},
+        {"data": "duty"},
+        {"data": "departmentId"}
+    ],
+    "ordering": false,
+    "searching": false,
+     "columnDefs": [
+        {
+            "targets": 10,
+            "data": function (row, type, val, meta) {
+                return row;
+            },
+            "render": function (data, type, full, meta) {
+                var table = $("#table-list").DataTable();
+                var result = '<div class="btn-group open">'
+                    + '<button class="btn btn-default btn-sm "'
+                    + ' data-toggle="modal" data-target="#user-info-modal">'
+                    + '<i class="fa fa-gear"></i>'
+                    + '</button><button class="btn btn-default btn-sm" onclick="deleteuser(' + data.userId + ')">'
+                    + '<i class="fa fa-trash"></i></button></div>';
+                return result;
+            }
+        }
+    ],
+    "info": false,
+    "language": {
+        "lengthMenu": "显示 _MENU_ 条记录",
+        "paginate": {
+            "first": "首页",
+            "next": "下一页",
+            "previous": "上一页",
+            "last": "末页",
+        },
+        "zeroRecords": "",
+        "infoEmpty":"没有符合条件的数据",
+        "emptyTable":"没有符合条件的数据"
+    }
+});
+
+// 存储点击行的内容
+var cellUserData = null;
+ $('#table-list tbody').on('click', 'td', function () {
+     var table = $('#table-list').DataTable();
+     cellUserData = table.cell(this).data();
+ });
+
+// 编辑按钮 → 用户信息填充
+ $('#user-info-modal').on('show.bs.modal', function (event) {
+     var modal = $(this);
+     modal.find('#edituserId').val(cellUserData.userId);
+     modal.find('#editusername').val(cellUserData.username);
+     modal.find('#editrealName').val(cellUserData.realName);
+     modal.find('#editpassword').val(cellUserData.password);
+     modal.find('#editposition').val(cellUserData.position);
+     modal.find('#editrole').val(cellUserData.role);
+     modal.find('#editphone').val(cellUserData.phone);
+     modal.find('#editctime').val(cellUserData.ctime);
+     modal.find('#editduty').val(cellUserData.duty);
+     modal.find('#editdepartmentId').val(cellUserData.departmentId);
+ }).on('hide.bs.modal', function (event) {
+     cellUserData = null;
+ });
+ 
+ // edit user
+ function edituser() {
+		var userId = $("#edituserId").val();
+		var username = $("#editusername").val();
+		var realName = $("#editrealName").val();
+		var password= $("#editpassword").val();
+		var position = $("#editposition").val();
+		var role = $("#editrole").val();
+		var phone = $("#editphone").val();
+		var ctime = $("#editctime").val();
+		var duty = $("#editduty").val();
+		var departmentId = $("#editdepartmentId").val();
+		$.post(
+		    "${pageContext.request.contextPath}/manage/user/saveOrUpdate.do",
+		    {
+		        "userId": userId,
+		        "username": username,
+		        "realName": realName,
+		        "password": password,
+		        "position": position,
+		        "role": role,
+		        "phone": phone,
+		        "ctime": ctime,
+		        "duty": duty,
+		        "departmentId": departmentId
+		    },
+		    function (response) {
+		    	 $('#user-info-modal').modal('hide');
+		         reloadTable(true);
+		    },
+		    "json"
+		);
+	}
+ 
+ // add user
+ function adduser() {
+		var userId = $("#adduserId").val();
+		var username = $("#addusername").val();
+		var realName = $("#addrealName").val();
+		var password= $("#addpassword").val();
+		var position = $("#addposition").val();
+		var role = $("#addrole").val();
+		var phone = $("#addphone").val();
+		var ctime = $("#addctime").val();
+		var duty = $("#addduty").val();
+		var departmentId = $("#adddepartmentId").val();
+		$.post(
+		    "${pageContext.request.contextPath}/manage/user/saveOrUpdate.do",
+		    {
+		        "userId": userId,
+		        "username": username,
+		        "realName": realName,
+		        "password": password,
+		        "position": position,
+		        "role": role,
+		        "phone": phone,
+		        "ctime": ctime,
+		        "duty": duty,
+		        "departmentId": departmentId
+		    },
+		    function (response) {
+		    	 $('#user-add-modal').modal('hide');
+		         reloadTable(true);
+		    },
+		    "json"
+		);
+	}
+ 
+ /**
+  * 重载列表
+  */
+ function reloadTable(reset) {
+     var table = $('#table-list').DataTable();
+     if (reset == true) {
+         table.ajax.reload(null, true);
+     } else {
+         table.ajax.reload();
+     }
+ }
+
+ // search 
+ function searchuser() {
+	 reloadTable(true);
+ }
+ 
+// delete
+ function deleteuser(userId) {
+     if (confirm("你确定要删除吗？")) {
+         $.post(
+             "${pageContext.request.contextPath}/manage/user/delete.do",
+             {
+                 "userId": userId,
+             },
+             function (response) {
+                 $('#mood-modal').modal('hide');
+                 reloadTable(true);
+             },
+             "json"
+         );
+     };
+ }
+ 
+</script>
+</body>
+</html>

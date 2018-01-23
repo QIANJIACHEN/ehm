@@ -1,0 +1,148 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-head.jsp"/>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-script.jsp"/>
+    <style type="text/css">
+    	.box-body table.tableinfo th ,.box-body table.tableinfo td{
+    		text-align:center;
+    	}
+    </style>
+</head>
+<body class="hold-transition">
+
+<!-- Content Wrapper. Contains page content -->
+<div class="wrapper">
+
+    <div class="box wrapper " style="overflow: auto;">
+
+        <div class="box-header">
+        
+        	<div class="row">
+        		<div class="col-xs-1" style="min-width:130px;line-height:36px;padding-left:30px;padding-bottom:5px">
+        			发动机编号
+        		</div>
+        		<div class="col-xs-1" style="min-width:160px;padding-bottom:5px">
+        			<input type="text" placeholder="发动机编号" value="52250" style="width:100%;padding:6px 12px;"/>
+        		</div>
+        		<div class="col-xs-1" style="min-width:150px;padding-bottom:5px">
+        			<a href="dffimagereport.do" class="btn btn-block btn-primary">双发DFF报表</a>
+        		</div>
+        		<div class="col-xs-1" style="min-width:150px;padding-bottom:5px">
+        			<a href="degtimagereport.do" class="btn btn-block btn-primary">双发DEGT报表</a>
+        		</div>
+        		<div class="col-xs-1" style="min-width:150px;padding-bottom:5px">
+        			<a href="egtmimagereport.do" class="btn btn-block btn-primary">双发EGTM报表</a>
+        		</div>
+        		<div class="col-xs-1" style="min-width:150px;padding-bottom:5px">
+        			<a href="dcsimagereport.do" class="btn btn-block btn-primary">双发DCS报表</a>
+        		</div>
+        		<div class="col-xs-1" style="min-width:150px;padding-bottom:5px">
+        			<a href="performanceimagereport.do" class="btn btn-block btn-primary">双发性能报表</a>
+        		</div>
+        		<div class="col-xs-1" style="min-width:150px;padding-bottom:5px">
+        			<button class="btn btn-block btn-primary">导入</button>
+        		</div>
+        		
+        		
+        	</div>
+        	
+        		
+        </div>
+        <div class="box-body" style="padding-top:30px">
+			<table class="table table-bordered table-hover tableinfo">
+				<thead>
+					<tr>
+						<th style="min-width:50px;">机号</th>
+						<th style="min-width:100px;">发动机位置</th>
+						<th style="min-width:100px;">发动机编号</th>
+						<th>FLIGHT_PHASE</th>
+						<th style="min-width:85px;">飞行日期</th>
+						<th style="min-width:120px;">发动机类型</th>
+						<th>ZPHSR</th>
+						<th>GPCN25_SMOOTHED</th>
+						<th>DEGT_SMOOTHED</th>
+						<th>ZPHSF</th>
+						<th>EGTHDM_D</th>
+						<th>ZVB1F_SMOOTHED</th>
+						<th>GWFM</th>
+						<th>EGTHDM</th>
+						<th>GWFM_D</th>
+						<th>ZVB1R</th>
+						<th>EGTHDM_D_SMOOTHED</th>
+						<th>ZTOIL</th>
+						<th>ZVB2F</th>
+						<th>ZVB2R</th>
+						<th>ZVB1F</th>
+						<th>ZVB2R_SMOOTHED</th>
+						<th>DEGT_D_SMOOTHED</th>
+						<th>GPCN25_D</th>
+						<th>ZVB1R_SMOOTHED</th>
+						<th>ZTOIL_SMOOTHED</th>
+						<th>GWFM_SMOOTHED</th>
+						<th>GPCN25</th>
+						<th>GWFM_D_SMOOTHED</th>
+						<th>GPCN25_D_SMOOTHED</th>
+						<th>ZVB2F_SMOOTHED</th>
+						<th>ZPOIL_SMOOTHED</th>
+						<th>EGTHDM_SMOOTHED</th>
+						<th>DEGT_D</th>
+						<th>ZPOIL</th>
+						<th>ZT49</th>
+						<th>DEGT</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>B5130</td>
+						<td>1</td>
+						<td>862798</td>
+						<td>CRUISE</td>
+						<td>2017/10/20</td>
+						<td>CFM56-7B26E</td>
+						<td>32</td>
+						<td>-0.632</td>
+						<td>11.5826</td>
+						<td>329</td>
+						<td></td>
+						<td>0.1427</td>
+						<td>-0.2206</td>
+						<td></td>
+						<td>-0.6834</td>
+						<td>0.16</td>
+						<td></td>
+						<td>106</td>
+						<td>0.04</td>
+						<td>0.06</td>
+						<td>0.12</td>
+						<td>0.04</td>
+						<td>-10.593</td>
+						<td>-0.1065</td>
+						<td>0.1477</td>
+						<td>105.9982</td>
+						<td>-0.7227</td>
+						<td>-0.6669</td>
+						<td>-0.7437</td>
+						<td>-0.1068</td>
+						<td>0.0429</td>
+						<td>43.4332</td>
+						<td></td>
+						<td>-11.5</td>
+						<td>44</td>
+						<td>615</td>
+						<td>12.5271</td>
+					</tr>
+				</tbody>
+			</table>
+			
+
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+
+</html>

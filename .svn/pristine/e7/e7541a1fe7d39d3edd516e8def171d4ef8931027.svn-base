@@ -1,0 +1,153 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-head.jsp"/>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-script.jsp"/>
+    <style type="text/css">
+    	table.tablerecord th ,table.tablerecord td{
+    		text-align:center;
+    		border:1px solid #d7d7d7 !important;
+    	}
+    	table.tablerecord th{
+    		background-color:#f2f2f2;
+    	}
+    	table.tablerecord td a{
+    		text-decoration:underline;
+    	}
+    	.basicinfo p span{
+    		display:inline-block;
+    		width:40%;
+    		padding-left:10px;
+    		box-sizing:border-box;
+    		font-size:15px;
+    	}
+    	.basicinfo p span.key{
+    		width:45%;
+    		padding-left:0px;
+    		font-weight:bold;
+    	}
+    	.basicinfo p span a{
+    		text-decoration:underline;
+    	}
+    </style>
+</head>
+<body class="hold-transition" >
+
+<div class="wrapper">
+
+    <div class="box wrapper " style="overflow: auto;">
+		 
+		<button type="button" onclick="back()" style="margin:20px;padding:20px;" class="btn btn-default">返回</button>
+        <div class="box-header">
+        	<h4>基础信息</h4><br>
+        	<div class="row basicinfo">
+        		<div class="col-md-3 col-xs-3">
+        			
+        			<p>
+        				<span class="key">TAIL</span>
+        				<span class="val"><a id="tail" tail="" title1="4" onclick="jumpPlane(this)" href="javascript:void(0)" ></a></span>
+        			</p>
+        			<p>
+        				<span class="key">型号</span>
+        				<span class="val" id="model"></span>
+        			</p>
+        			<p>
+        				<span class="key">ETOPS</span>
+        				<span class="val" id="etops"></span>
+        			</p>
+        			<p>
+        				<span class="key">高高原</span>
+        				<span class="val" id="hHighland"></span>
+        			</p>
+        			<p>
+        				<span class="key">基地</span>
+        				<span class="val"><a href="javascript:void(0)" title1="4" id="duty" onclick="jumpDuty(this)" ></a></span>
+        			</p>
+        		</div>
+        		<div class="col-md-3 col-xs-3">
+        			<p>
+        				<span class="key">航空公司</span>
+        				<span class="val" id="operater"></span>
+        			</p>
+        			<p>
+        				<span class="key">发动机位置</span>
+        				<span class="val" id="engPosition"></span>
+        			</p>
+        			<p>
+        				<span class="key">发动机编号</span>
+        				<span class="val"><a href="javascript:void(0)" title1="4" id="engSn" onclick="jumpEng(this)"></a></span>
+        			</p>
+        			<p>
+        				<span class="key">发动机设备号</span>
+        				<span class="val" id="engPn"></span>
+        			</p>
+        			<p>
+        				<span class="key">IDPLUG_PN</span>
+        				<span class="val" id="idplugPn"></span>
+        			</p>
+        		</div>
+        		
+        	</div>
+        	
+        	
+        </div>
+        
+    </div>
+</div>
+<script type="text/javascript">	
+	var Request = new Object(); 
+	Request = getRequest(); 
+	var id = Request['id']; 
+	$.post("${pageContext.request.contextPath}/manage/engonwing/info.do",{id:id},function(res){
+		if(res!=null){
+			$("#tail").html(res.data[0].tail);
+			$("#tail").attr("tail",res.data[0].tail);
+			$("#model").html(res.data[0].model);
+			$("#etops").html(res.data[0].etops);
+			if(res.data[0].hHighLand=="1"){
+				$("#hHighland").html("否");
+			}else if(res.data[0].hHighLand=="0"){
+				$("#hHighland").html("是");
+			}
+			
+			$("#duty").html(res.data[0].dutyName);
+			$("#duty").attr("duty",res.data[0].duty);
+			$("#operater").html(res.data[0].operater);
+			if(res.data[0].engPosition=="1"){
+				$("#engPosition").html("左发");
+			}else if(res.data[0].engPosition=="2"){
+				$("#engPosition").html("右发");
+			}
+			
+			$("#engSn").html(res.data[0].engSn);
+			$("#engSn").attr("engSn",res.data[0].engSn);
+			$("#engPn").html(res.data[0].engPn);
+			$("#idplugPn").html(res.data[0].idPlugPn);
+		}
+		
+	},"json");
+	
+	//返回
+	function back(){
+		var Request = new Object(); 
+		Request = getRequest();
+		title1 = Request['title'];
+		if(title1=="1"){
+			title = "onwing发动机";
+		}else if(title1=="2"){
+			
+		}else if(title1=="3"){
+			
+		}
+		
+		tab_url = self.frameElement.getAttribute('data_url');//iframe对应的data_url和tab对应的data_url是一致的
+		window.parent.changePage(title,tab_url);//调用父页面的方法
+		//跳转
+		window.history.back();
+	}
+	
+	
+</script>
+</body>
+</html>

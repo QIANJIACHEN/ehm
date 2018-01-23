@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.HptnMapper">
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.HptnActivity">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="ENG_SN" jdbcType="VARCHAR" property="engSn" />
+		<result column="HPTN_PN" jdbcType="VARCHAR" property="hptnPn" />
+		<result column="HPTN_SN" jdbcType="VARCHAR" property="hptnSn" />
+		<result column="ENG_PN" jdbcType="VARCHAR" property="engPn" />
+		<result column="ON_DATE" jdbcType="VARCHAR" property="onDate" />
+		<result column="ON_ETSN" jdbcType="VARCHAR" property="onEtsn" />
+		<result column="ON_ECSN" jdbcType="VARCHAR" property="onEcsn" />
+		<result column="ON_PTSN" jdbcType="VARCHAR" property="onPtsn" />
+		<result column="ON_PCSN" jdbcType="VARCHAR" property="onPcsn" />
+		<result column="LIMIT_SPECIAL" jdbcType="VARCHAR" property="limitSpecial" />
+		<result column="CODE" jdbcType="VARCHAR" property="code" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+		<result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ID,ENG_SN,HPTN_PN,HPTN_SN,ENG_PN,ON_DATE,ON_ETSN,ON_ECSN,ON_PTSN,ON_PCSN,LIMIT_SPECIAL,CODE,REMARK,CTIME
+	</sql>
+
+	<select id="getHptnActivityList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_hptn_activity
+		WHERE ENG_SN LIKE CONCAT(CONCAT('%',#{engSn,jdbcType=VARCHAR}),'%')
+	</select>
+	
+	<select id="selectHptnActivity" parameterType="com.cea.ehm.bean.HptnActivity" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_hptn_activity
+		WHERE ENG_SN = #{engSn,jdbcType=VARCHAR}
+	</select>
+
+	<insert id="saveHptnActivity" parameterType="com.cea.ehm.bean.HptnActivity">
+		INSERT INTO ehm_hptn_activity
+			(ENG_SN,HPTN_PN,HPTN_SN,ENG_PN,ON_DATE,ON_ETSN,ON_ECSN,ON_PTSN,ON_PCSN,LIMIT_SPECIAL,CODE,REMARK,CTIME)
+		VALUES
+		(
+			#{engSn,jdbcType=VARCHAR},
+			#{hptnPn,jdbcType=VARCHAR},
+			#{hptnSn,jdbcType=VARCHAR},
+			#{engPn,jdbcType=VARCHAR},
+			#{onDate,jdbcType=VARCHAR},
+			#{onEtsn,jdbcType=VARCHAR},
+			#{onEcsn,jdbcType=VARCHAR},
+			#{onPtsn,jdbcType=VARCHAR},
+			#{onPcsn,jdbcType=VARCHAR},
+			#{limitSpecial,jdbcType=VARCHAR},
+			#{code,jdbcType=VARCHAR},
+			#{remark,jdbcType=VARCHAR},
+			#{ctime,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="updateHptnActivity"  parameterType="com.cea.ehm.bean.HptnActivity">
+		UPDATE ehm_hptn_activity
+		<set>
+			<if test="engSn != null">
+				ENG_SN = #{engSn,jdbcType=VARCHAR},
+			</if>
+			<if test="hptnPn != null">
+				HPTN_PN = #{hptnPn,jdbcType=VARCHAR},
+			</if>
+			<if test="hptnSn != null">
+				HPTN_SN = #{hptnSn,jdbcType=VARCHAR},
+			</if>
+			<if test="engPn != null">
+				ENG_PN = #{engPn,jdbcType=VARCHAR},
+			</if>
+			<if test="onDate != null">
+				ON_DATE = #{onDate,jdbcType=VARCHAR},
+			</if>
+			<if test="onEtsn != null">
+				ON_ETSN = #{onEtsn,jdbcType=VARCHAR},
+			</if>
+			<if test="onEcsn != null">
+				ON_ECSN = #{onEcsn,jdbcType=VARCHAR},
+			</if>
+			<if test="onPtsn != null">
+				ON_PTSN = #{onPtsn,jdbcType=VARCHAR},
+			</if>
+			<if test="onPcsn != null">
+				ON_PCSN = #{onPcsn,jdbcType=VARCHAR},
+			</if>
+			<if test="limitSpecial != null">
+				LIMIT_SPECIAL = #{limitSpecial,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+				CODE = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				REMARK = #{remark,jdbcType=VARCHAR}
+			</if>
+		</set>
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</update>
+
+	<delete id="deleteHptnActivity" parameterType="com.cea.ehm.bean.HptnActivity">
+		DELETE FROM ehm_hptn_activity
+		WHERE ID= #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<!-- hptn_history -->
+	
+	<resultMap id="baseResultMapHistory" type="com.cea.ehm.bean.HptnHistory">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="ENG_SN_USED" jdbcType="VARCHAR" property="engSnUsed" />
+		<result column="HPTN_PN" jdbcType="VARCHAR" property="hptnPn" />
+		<result column="HPTN_SN" jdbcType="VARCHAR" property="hptnSn" />
+		<result column="ENG_PN" jdbcType="VARCHAR" property="engPn" />
+		<result column="ON_DATE" jdbcType="VARCHAR" property="onDate" />
+		<result column="ON_ETSN" jdbcType="VARCHAR" property="onEtsn" />
+		<result column="ON_ECSN" jdbcType="VARCHAR" property="onEcsn" />
+		<result column="ON_PTSN" jdbcType="VARCHAR" property="onPtsn" />
+		<result column="ON_PCSN" jdbcType="VARCHAR" property="onPcsn" />
+		<result column="OFF_DATE" jdbcType="VARCHAR" property="offDate" />
+		<result column="OFF_ETSN" jdbcType="VARCHAR" property="offEtsn" />
+		<result column="OFF_ECSN" jdbcType="VARCHAR" property="offEcsn" />
+		<result column="OFF_PTSN" jdbcType="VARCHAR" property="offPtsn" />
+		<result column="OFF_PCSN" jdbcType="VARCHAR" property="offPcsn" />
+		<result column="LIMIT_SPECIAL" jdbcType="VARCHAR" property="limitSpecial" />
+		<result column="CODE" jdbcType="VARCHAR" property="code" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+		<result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
+	</resultMap>
+
+	<sql id="baseColumnListHistory">
+		ID,ENG_SN_USED,HPTN_PN,HPTN_SN,ENG_PN,ON_DATE,ON_ETSN,ON_ECSN,ON_PTSN,ON_PCSN,
+		OFF_DATE,OFF_ETSN,OFF_ECSN,OFF_PTSN,OFF_PCSN,LIMIT_SPECIAL,CODE,REMARK,CTIME
+	</sql>
+
+	<select id="getHptnHistoryList" parameterType="map" resultMap="baseResultMapHistory">
+		SELECT
+		<include refid="baseColumnListHistory" />
+		FROM ehm_hptn_history
+		WHERE ENG_SN_USED LIKE CONCAT(CONCAT('%',#{engSnUsed,jdbcType=VARCHAR}),'%')
+	</select>
+
+	<select id="selectHptnHistory" parameterType="com.cea.ehm.bean.HptnHistory" resultMap="baseResultMapHistory">
+		SELECT
+		<include refid="baseColumnListHistory" />
+		FROM ehm_hptn_history
+		WHERE ENG_SN_USED = #{engSnUsed,jdbcType=VARCHAR}
+	</select>
+	
+	<insert id="saveHptnHistory" parameterType="com.cea.ehm.bean.HptnHistory">
+		INSERT INTO ehm_hptn_history
+			(ENG_SN_USED,HPTN_PN,HPTN_SN,ENG_PN,ON_DATE,ON_ETSN,ON_ECSN,ON_PTSN,ON_PCSN,OFF_DATE,OFF_ETSN,OFF_ECSN,OFF_PTSN,OFF_PCSN,LIMIT_SPECIAL,CODE,REMARK,CTIME)
+		VALUES
+		(
+			#{engSnUsed,jdbcType=VARCHAR},
+			#{hptnPn,jdbcType=VARCHAR},
+			#{hptnSn,jdbcType=VARCHAR},
+			#{engPn,jdbcType=VARCHAR},
+			#{onDate,jdbcType=VARCHAR},
+			#{onEtsn,jdbcType=VARCHAR},
+			#{onEcsn,jdbcType=VARCHAR},
+			#{onPtsn,jdbcType=VARCHAR},
+			#{onPcsn,jdbcType=VARCHAR},
+			#{offDate,jdbcType=VARCHAR},
+			#{offEtsn,jdbcType=VARCHAR},
+			#{offEcsn,jdbcType=VARCHAR},
+			#{offPtsn,jdbcType=VARCHAR},
+			#{offPcsn,jdbcType=VARCHAR},
+			#{limitSpecial,jdbcType=VARCHAR},
+			#{code,jdbcType=VARCHAR},
+			#{remark,jdbcType=VARCHAR},
+			#{ctime,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="updateHptnHistory"  parameterType="com.cea.ehm.bean.HptnHistory">
+		UPDATE ehm_hptn_history
+		<set>
+			<if test="engSnUsed != null">
+				ENG_SN_USED = #{engSnUsed,jdbcType=VARCHAR},
+			</if>
+			<if test="hptnPn != null">
+				HPTN_PN = #{hptnPn,jdbcType=VARCHAR},
+			</if>
+			<if test="hptnSn != null">
+				HPTN_SN = #{hptnSn,jdbcType=VARCHAR},
+			</if>
+			<if test="engPn != null">
+				ENG_PN = #{engPn,jdbcType=VARCHAR},
+			</if>
+			<if test="onDate != null">
+				ON_DATE = #{onDate,jdbcType=VARCHAR},
+			</if>
+			<if test="onEtsn != null">
+				ON_ETSN = #{onEtsn,jdbcType=VARCHAR},
+			</if>
+			<if test="onEcsn != null">
+				ON_ECSN = #{onEcsn,jdbcType=VARCHAR},
+			</if>
+			<if test="onPtsn != null">
+				ON_PTSN = #{onPtsn,jdbcType=VARCHAR},
+			</if>
+			<if test="onPcsn != null">
+				ON_PCSN = #{onPcsn,jdbcType=VARCHAR},
+			</if>
+			<if test="offDate != null">
+				OFF_DATE = #{offDate,jdbcType=VARCHAR},
+			</if>
+			<if test="offEtsn != null">
+				OFF_ETSN = #{offEtsn,jdbcType=VARCHAR},
+			</if>
+			<if test="offEcsn != null">
+				OFF_ECSN = #{offEcsn,jdbcType=VARCHAR},
+			</if>
+			<if test="offPtsn != null">
+				OFF_PTSN = #{offPtsn,jdbcType=VARCHAR},
+			</if>
+			<if test="offPcsn != null">
+				OFF_PCSN = #{offPcsn,jdbcType=VARCHAR},
+			</if>
+			<if test="limitSpecial != null">
+				LIMIT_SPECIAL = #{limitSpecial,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+				CODE = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				REMARK = #{remark,jdbcType=VARCHAR}
+			</if>
+		</set>
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</update>
+
+	<delete id="deleteHptnHistory" parameterType="com.cea.ehm.bean.HptnHistory">
+		DELETE FROM ehm_hptn_history
+		WHERE ID= #{id,jdbcType=INTEGER}
+	</delete>
+</mapper>

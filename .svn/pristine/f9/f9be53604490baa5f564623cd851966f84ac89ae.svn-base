@@ -1,0 +1,134 @@
+package com.cea.ehm.bean;
+
+import java.io.Serializable;
+
+public class History implements Serializable {
+		private Integer id ;
+		private String engSnUsed;
+		private String hptnPn;
+		private String hptnSn;
+		private String engPn;
+		private Integer onDate;
+		private Integer onEtsn;
+		private Integer onEcsn;
+		private Integer onPtsn;
+		private Integer onPcsn;
+		private Integer offDate;
+		private Integer offEtsn;
+		private Integer offEcsn;
+		private Integer offPtsn;
+		private Integer offPcsn;
+		private String limitSpecial;
+		private String code;
+		private String remark;
+		public Integer getId() {
+			return id;
+		}
+		public void setId(Integer id) {
+			this.id = id;
+		}
+		public String getEngSnUsed() {
+			return engSnUsed;
+		}
+		public void setEngSnUsed(String engSnUsed) {
+			this.engSnUsed = engSnUsed;
+		}
+		public String getHptnPn() {
+			return hptnPn;
+		}
+		public void setHptnPn(String hptnPn) {
+			this.hptnPn = hptnPn;
+		}
+		public String getHptnSn() {
+			return hptnSn;
+		}
+		public void setHptnSn(String hptnSn) {
+			this.hptnSn = hptnSn;
+		}
+		public String getEngPn() {
+			return engPn;
+		}
+		public void setEngPn(String engPn) {
+			this.engPn = engPn;
+		}
+		public Integer getOnDate() {
+			return onDate;
+		}
+		public void setOnDate(Integer onDate) {
+			this.onDate = onDate;
+		}
+		public Integer getOnEtsn() {
+			return onEtsn;
+		}
+		public void setOnEtsn(Integer onEtsn) {
+			this.onEtsn = onEtsn;
+		}
+		public Integer getOnEcsn() {
+			return onEcsn;
+		}
+		public void setOnEcsn(Integer onEcsn) {
+			this.onEcsn = onEcsn;
+		}
+		public Integer getOnPtsn() {
+			return onPtsn;
+		}
+		public void setOnPtsn(Integer onPtsn) {
+			this.onPtsn = onPtsn;
+		}
+		public Integer getOnPcsn() {
+			return onPcsn;
+		}
+		public void setOnPcsn(Integer onPcsn) {
+			this.onPcsn = onPcsn;
+		}
+		public Integer getOffDate() {
+			return offDate;
+		}
+		public void setOffDate(Integer offDate) {
+			this.offDate = offDate;
+		}
+		public Integer getOffEtsn() {
+			return offEtsn;
+		}
+		public void setOffEtsn(Integer offEtsn) {
+			this.offEtsn = offEtsn;
+		}
+		public Integer getOffEcsn() {
+			return offEcsn;
+		}
+		public void setOffEcsn(Integer offEcsn) {
+			this.offEcsn = offEcsn;
+		}
+		public Integer getOffPtsn() {
+			return offPtsn;
+		}
+		public void setOffPtsn(Integer offPtsn) {
+			this.offPtsn = offPtsn;
+		}
+		public Integer getOffPcsn() {
+			return offPcsn;
+		}
+		public void setOffPcsn(Integer offPcsn) {
+			this.offPcsn = offPcsn;
+		}
+		public String getLimitSpecial() {
+			return limitSpecial;
+		}
+		public void setLimitSpecial(String limitSpecial) {
+			this.limitSpecial = limitSpecial;
+		}
+		public String getCode() {
+			return code;
+		}
+		public void setCode(String code) {
+			this.code = code;
+		}
+		public String getRemark() {
+			return remark;
+		}
+		public void setRemark(String remark) {
+			this.remark = remark;
+		}
+
+		
+}

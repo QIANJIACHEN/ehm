@@ -1,0 +1,154 @@
+package com.cea.ehm.controller.manage;
+
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.cea.ehm.bean.DataCfmPerformance;
+import com.cea.ehm.controller.BaseController;
+import com.cea.ehm.service.DataCfmPerformanceService;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import com.google.common.collect.Maps;
+
+/**
+ * 发动机监控参数
+ */
+@Controller
+@RequestMapping(value = "/manage/data_cfm_performance")
+public class DataCfmPerformanceController extends BaseController {
+	private Logger logger = Logger.getLogger(DataCfmPerformanceController.class);
+	@Autowired
+	private DataCfmPerformanceService Data_cfm_performanceService;
+
+	/**
+	 * 显示发动机监测参数列表页面
+	 */
+	@RequestMapping(value = "/data_cfm_performancelist.do")
+	public ModelAndView Data_cfm_performancelist() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/data_cfm_performance/data_cfm_performancelist");
+		return mv;
+	}
+	
+	/**
+	 * 显示发动机监测参数信息页面
+	 */
+	@RequestMapping(value = "/data_cfm_performanceinfo.do")
+	public ModelAndView userinfo() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/data_cfm_performance/data_cfm_performanceinfo");
+		return mv;
+	}
+
+	/**
+	 * 查询用户
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/list.do")
+	@ResponseBody
+	public Map<String, Object> list(@RequestParam Map<String, String> reqPara) {
+		logger.info("页面请求参数: " + reqPara);
+		PageBounds pageBounds = handlePageInfoForManage(reqPara);
+		// ？？
+		String sEcho = reqPara.get("draw");
+		// 条件参数
+		String key = reqPara.get("key");
+		Map<String, String> paramMap = Maps.newHashMap();
+		paramMap.put("engine_type", key);
+		PageList<DataCfmPerformance> pageList = (PageList<DataCfmPerformance>) Data_cfm_performanceService.getData_cfm_performanceList(paramMap, pageBounds);
+
+		Pageable page = new PageRequest(pageBounds.getPage(), pageBounds.getLimit());
+		Page<DataCfmPerformance> content = new PageImpl<>(pageList, page, pageList.getPaginator().getTotalCount());
+
+		Map<String, Object> map = Maps.newHashMap();
+		map.put("data", pageList);
+		map.put("iTotalRecords", content.getTotalElements());
+		map.put("iTotalDisplayRecords", content.getTotalElements());
+		map.put("sEcho", sEcho);
+		map.put("draw", sEcho);
+		return map;
+	}
+
+	/**
+	 * 保存或更新用户信息
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/saveOrUpdate.do")
+	@ResponseBody
+	public Map<String, Object> saveOrUpdate(@RequestParam Map<String, String> reqPara) {
+		logger.info("待保存用户信息: " + reqPara);
+		String userId = reqPara.get("userId");
+		String username = reqPara.get("username");
+		String realName = reqPara.get("realName");
+		String password = reqPara.get("password");
+		String position = reqPara.get("position");
+		String role = reqPara.get("role");
+		Integer phone = Integer.parseInt(reqPara.get("phone"));
+		String ctime = reqPara.get("ctime");
+		String duty = reqPara.get("duty");
+
+		DataCfmPerformance data_cfm_performance = new DataCfmPerformance();
+//		data_cfm_performance.setUserId(userId);
+//		data_cfm_performance.setUsername(username);
+//		data_cfm_performance.setRealName(realName);
+//		data_cfm_performance.setPassword(password);
+//		data_cfm_performance.setPosition(position);
+//		data_cfm_performance.setRole(role);
+//		data_cfm_performance.setPhone(phone);
+//		data_cfm_performance.setCtime(ctime);
+//		data_cfm_performance.setDuty(duty);
+
+		Data_cfm_performanceService.saveOrUpdate(data_cfm_performance);
+		return null;
+	}
+
+	/**
+	 * 删除用户信息
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/delete.do")
+	@ResponseBody
+	public Map<String, Object> delete(@RequestParam Map<String, String> reqPara) {
+		logger.info("待删除用户信息: " + reqPara);
+		String userId = reqPara.get("userId");
+		DataCfmPerformance data_cfm_performance = new DataCfmPerformance();
+//		Data_cfm_performance.setUserId(userId);
+
+		// 删除之前是不是要判断用户是否存在？？
+
+		Data_cfm_performanceService.delete(data_cfm_performance);
+		return null;
+	}
+	
+	
+	/**
+	 * 修改用户信息
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/edit.do")
+	@ResponseBody
+	public Map<String, Object> edit(@RequestParam Map<String, String> reqPara) {
+		
+		return null;
+	}
+
+}

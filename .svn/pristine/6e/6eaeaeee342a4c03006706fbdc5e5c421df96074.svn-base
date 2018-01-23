@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.DataCaseMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.DataCase">
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="CASE_" jdbcType="VARCHAR" property="case_" />
+		<result column="RESOURCE" jdbcType="VARCHAR" property="resource" />
+		<result column="CTIME" jdbcType="DATE" property="ctime" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ID,CASE_,RESOURCE,CTIME
+	</sql>
+	
+	<select id="select" parameterType="com.cea.ehm.bean.DataCase" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_data_case
+		WHERE ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getDataCaseList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_data_case
+	</select>
+
+	<insert id="insert" parameterType="com.cea.ehm.bean.DataCase">
+		INSERT INTO ehm_data_case
+			(ID,CASE_,RESOURCE,CTIME)
+		VALUES
+		(
+			#{id,jdbcType=VARCHAR},
+			#{case_,jdbcType=VARCHAR},
+			#{resource,jdbcType=VARCHAR},
+			#{ctime,jdbcType=DATE}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="com.cea.ehm.bean.DataCase">
+		DELETE FROM
+			ehm_data_case
+		WHERE
+			ID = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<update id="update" parameterType="com.cea.ehm.bean.DataCase">
+		UPDATE ehm_data_case
+		<set>
+			<if test="case_ != null">
+				CASE_ = #{case_,jdbcType=VARCHAR},
+			</if>
+			<if test="resource != null">
+				RESOURCE = #{resource,jdbcType=VARCHAR},
+			</if>
+		</set>
+		WHERE ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

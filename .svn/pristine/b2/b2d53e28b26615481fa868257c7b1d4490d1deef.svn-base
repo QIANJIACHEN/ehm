@@ -1,0 +1,83 @@
+package com.cea.ehm.service;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cea.ehm.bean.ControlFleetPlane;
+import com.cea.ehm.bean.DataPlane;
+import com.cea.ehm.dao.ControlFleetPlaneMapper;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+/**
+ * 飞机发动机关联服务层
+ */
+@Service
+public class ControlFleetPlaneService {
+	private Logger logger = Logger.getLogger(ControlFleetPlaneService.class);
+	@Autowired
+	private ControlFleetPlaneMapper controlfleetplaneMapper;
+
+	/**
+	 * 查询飞机发动机关联列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	public PageList<ControlFleetPlane> getControlFleetPlaneList(Map<String, String> paramMap, PageBounds pageBounds) {
+		logger.info("数据库查询参数：" + paramMap);
+		return controlfleetplaneMapper.getControlFleetPlaneList(paramMap, pageBounds);
+	}
+	
+	/**
+	 * 保存或更新飞机发动机关联信息
+	 * 
+	 * @param controlfleetplane
+	 */
+	public void saveOrUpdate(ControlFleetPlane controlfleetplane) {
+		// 查询判断飞机发动机关联信息是否存在，考虑保存还是更新
+		ControlFleetPlane selectuser = controlfleetplaneMapper.select(controlfleetplane);
+		if (selectuser == null) {
+			controlfleetplaneMapper.insert(controlfleetplane);
+		} else {
+			controlfleetplaneMapper.update(controlfleetplane);
+		}
+	}
+
+	/**
+	 * 删除飞机发动机关联信息
+	 * 
+	 * @param controlfleetplane
+	 */
+	public void delete(ControlFleetPlane controlfleetplane) {
+		// 这里是物理删除，删除后飞机发动机关联信息从数据库消失
+		controlfleetplaneMapper.delete(controlfleetplane);
+	}
+
+	/**
+	 * 获取所有飞机
+	 * @return 
+	 * 
+	 */
+	public  List<DataPlane> getPlane() {
+		return controlfleetplaneMapper.getPlane();
+		
+	}
+	
+	/**
+	 * 查询飞机发动机关联列表通过tail
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	public List<ControlFleetPlane> getlistbyplane(Map<String, String> paramMap) {
+		logger.info("数据库查询参数：" + paramMap);
+		return controlfleetplaneMapper.getlistbyplane(paramMap);
+	}
+}

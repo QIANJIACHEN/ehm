@@ -1,0 +1,757 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-head.jsp"/>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-script.jsp"/>
+    <style type="text/css">
+    	
+    	.nav_tabs > li{
+    		float:left;
+    	}
+    	.nav_tabs > li a{
+    		margin-right:2px;
+    		border-radius:4px 4px 0px 0px;
+    		color:#333;
+    	}
+    	.nav_tabs > li.active > a{
+    		color:#3399FF;
+    		border: 1px solid #3399FF;
+    		border-bottom-color: transparent;
+    	}
+    	span.mright{
+    		margin-right:15px;
+    		margin-left:15px;
+    	}
+    	input.formnew , select.formnew{
+    		padding:6px 12px;
+    		min-width:130px;
+    		max-width:160px;
+    		margin:0px 3px;
+    	}
+    	table.planetable{
+    		text-align:center;
+    	}
+    	table.planetable thead tr th {
+    		text-align:center;
+    	}
+    	table.planetable tbody td a.sz{
+    		color:#3399FF;
+    		margin:0px 3px;
+    	}
+    	.first{
+    		display:inline-block;
+    		min-width:120px;
+    	}
+    	.box_a{
+    		clear:both;
+    		width:100%;
+    		
+    		
+    	}
+    	.box_a .choose_a{
+    		margin:0 20px;
+    		padding:30px 20px;
+    		background:#E7F9FF;
+    		overflow:hidden;
+    		position:relative;
+    	}
+    	.form-control{
+    		display:inline-block!important;
+    		min-width:150px!important;
+    		width:auto!important;
+    		margin-right:15px;
+    	}
+    	.buttons{
+    		width:200px;
+    		float:right;
+    	}
+    	.xiugai{
+    		margin-bottom:2px;
+    	}
+    	.save{
+    		margin-top:2px;
+    	}
+    	.xiugai,.save{
+    		width:160px;
+    		height:30px;
+    		border:1px solid #5f5c5c;
+    		border-radius:5px;
+    		background:#f7f7f7;
+    		
+    	}
+    	.left{
+    		/* width:85%; */
+    		float:left;
+    	}
+    	.box_a:nth-of-type(2){
+    		margin-top:20px;
+    		
+    	}
+    
+    </style>
+</head>
+<body class="hold-transition" >
+
+<!-- Content Wrapper. Contains page content -->
+<div class="wrapper">
+	<button style="margin-right:10px;overflow:hidden;width:140px;height:45px;border-radius:5px;line-height:45px;background:#4671F7;color:white;float:right;">清空</button>
+	<div class="box_a">
+		<div class="choose_a">
+			<div class="left">
+				<span>公式名称</span>
+				<select class="form-control">
+					<option>滑油压力巡航</option>
+				</select>
+				<span>生产商</span>
+				<select class="form-control">
+					<option>GE</option>
+				</select>
+				<span>发动机型号</span>
+				<select class="form-control">
+					<option>7B</option>
+				</select>
+				<span>发动机类型</span>
+				<select class="form-control">
+					<option>F</option>
+				</select>
+				<span>发动机构型</span>
+				<select class="form-control">
+					<option>3F</option>
+				</select>
+			</div>
+			
+			
+			
+			<div class="buttons">
+				<button class="xiugai">修改</button>
+				<button class="save">保存</button>
+			</div>
+			
+		</div>
+	</div>
+	
+	
+	<div class="box_a">
+		<div class="choose_a" style="background:#F9EDF9;	">
+			<div class="left">
+				<p>选择条件1</p>
+				<span>计算范围类型</span>
+				<select class="form-control">
+					<option>短期</option>
+				</select>
+				<span>计算范围</span>
+				<select class="form-control">
+					<option>30点</option>
+				</select>
+				<span>状态</span>
+				<select class="form-control">
+					<option>巡航</option>
+				</select>
+				<span>选择参数</span>
+				<select class="form-control">
+					<option>N1震动</option>
+				</select>
+				<span>发动机</span>
+				<select class="form-control">
+					<option>左发</option>
+				</select>
+				<span>最大值</span>
+				<input type="text">
+				<span>最小值</span>
+				<input type="text">
+			</div>
+			
+			
+			
+			<div class="buttons">
+				<button class="xiugai">修改</button>
+				<button class="save">保存</button>
+			</div>
+			
+		</div>
+	</div>
+
+<!--以下是之前的版本  -->
+   <!--  <div class="box wrapper " style="overflow: auto;">
+        <div class="box-body" style="padding-top:30px" style="min-width:970px">
+        	<div>
+
+			  <div style="min-width: 160px;display:inline-block;vertical-align:bottom;float:right">
+                    <button onclick="history.go(-1)" class="btn btn-block btn-primary col-sm-1">
+                       	 返回
+                    </button>
+              </div>
+			  Nav tabs
+			  <ul class="nav nav_tabs" role="tablist" style="border-bottom:1px solid #3399FF">
+			    <li role="presentation"  class="active"><a href="#engineer" aria-controls="home" role="tab" data-toggle="tab">公式详细</a></li>
+			  </ul>
+			
+			  Tab panes
+			 <form id="form" method="post" class="form-horizontal">
+				<div class="tab-content">
+				
+				    
+				    <div role="tabpanel" class="tab-pane active" style="padding-top:30px" id="engineer">
+				    	<div style="background-color:#e7f9ff;margin-bottom:20px">
+					    	<div class="row" style="padding:20px">
+					    		<span class="mright">公式名称</span>
+					    		<input class="formnew" type="text" style="height:34px" id="name"/>
+					    		
+					    		<span class="mright">发动机序列</span>
+					    		<span class="mright" id="engSeries"></span>
+					    		<select class="formnew" id="engSeries">
+					    		</select>
+					    	</div>
+					    	<div class="row" style="padding:20px">
+					    		<span class="mright">发动机类型</span>
+					    		<span class="mright" id="engType"></span>
+					    		<select class="formnew" id="engType">
+					    		</select>
+					    		
+					    		<span class="mright">发动机模型</span>
+					    		<span class="mright" id="engModel"></span>
+					    		<select class="formnew" id="engModel">
+					    		</select>
+					    		
+					    		<span class="mright">发动机构型</span>
+					    		<span class="mright" id="engConfig"></span>
+					    		<select class="formnew" id="engConfig">
+					    		</select>
+					    		
+					    		<span class="mright">优先级</span>
+					    		<input class="formnew" type="text" style="height:34px" id="orderId"/>
+					    	</div>
+				    	</div>
+				    	
+				    	<div id="before" class="row" style="padding:10px 20px" >
+				    		<div class="col-xs-12">
+				    			<button onclick="firstParam()" type="button" data-toggle="modal" data-target="#add-modal" class="btn btn-primaty pull-right" style="min-width:130px">添加条件</button>
+				    		</div>
+				    	</div>
+
+				    	
+				    	<div style="background-color:#a5d2ff;margin-bottom:20px">
+					    	<div class="row" style="padding:20px">
+					    			<p style="margin-left:15px">满足以上条件</p>
+						    		<div class="col-xs-12" style="margin-bottom:10px">
+						    			<input type="checkbox" />
+						    			<span class="first">发送警报给</span>
+						    			<select name="inspectionUser.duty" style="padding:6px 12px;margin:0px 3px;width:160px">
+							    			<option value="0">基地A</option>
+							    			<option value="1">基地B</option>
+							    		</select>
+						    		</div>
+						    		<div class="col-xs-12" style="margin-bottom:10px">
+						    			<span class="first" style="padding:6px 12px;margin:0px 3px;width:130px">警告内容</span>
+						    			<input id="content" class="formnew" type="text" style="height:34px"/>
+						    		</div>
+					    	</div>
+				    	</div>
+				    	
+					    <div style="text-align:center">
+					    	<button type="button" class="btn btn-default" style="min-width:130px;margin-right:10px">取消</button>
+					    	<button type="button" class="btn btn-primary" style="min-width:130px" onclick="finish()">确定</button>
+					    </div>
+				    
+				    </div>
+				    
+				  </div>
+			 </form>
+			 
+				
+			</div>
+        </div>
+    </div> -->
+</div>
+</body>
+
+<jsp:include page='computationadd.jsp'/>
+<jsp:include page='computationinfo.jsp'/>
+
+<%
+	Integer	id = (Integer)request.getAttribute("id");
+%>
+
+<script type="text/javascript">
+	$.ajaxSetup({  
+	    async : false  
+	}); 
+	
+	 var id = '${id}';
+	 var engSeries;
+	 var engType;
+	 var engModel;
+	 var engConfig;
+	 $.post(
+	         "${pageContext.request.contextPath}/manage/calculate/oneinspec.do",
+	          {"id": id},
+	          function (response) {
+	          		$('#name').val(response.data.name);
+	          		engSeries = response.data.engSeries;
+	          		engType = response.data.engType;
+	          		engModel = response.data.engModel;
+	          		engConfig = response.data.engConfig;
+	          		$('#orderId').val(response.data.orderId);
+	          },
+	          "json"
+	 );
+	 
+	  // 加载发动机序列
+	  $(function(){
+		     $.post(
+		             "${pageContext.request.contextPath}/manage/dataeng/allEngSeries.do",
+		             {},
+		             function (response) {
+		            	 $('#engSeries').html('');
+		            	 for(var i in response.data){
+		            		 if (response.data[i] == engSeries) {
+		            	 	 	$('#engSeries').append('<option value="'+response.data[i]+'" selected>'+response.data[i]+'</option>');
+							 }else {
+		            	 		$('#engSeries').append('<option value="'+response.data[i]+'">'+response.data[i]+'</option>');
+							 }
+		            	 }
+		             },
+		             "json"
+		         );
+	  });
+	  
+	  // 加载发动机类型
+	  $(function(){
+		     $.post(
+		             "${pageContext.request.contextPath}/manage/dataeng/allEngType.do",
+		             {},
+		             function (response) {
+		            	 $('#engType').html('');
+		            	 for(var i in response.data){
+		            	 	 if (response.data[i] == engType) {
+		            	 	 	$('#engType').append('<option value="'+response.data[i]+'" selected>'+response.data[i]+'</option>');
+							 }else {
+		            	 		$('#engType').append('<option value="'+response.data[i]+'">'+response.data[i]+'</option>');
+							 }
+		            	 }
+		            	 
+		             },
+		             "json"
+		         );
+	  });
+	  
+	  // 加载发动机模型
+	  $(function(){
+		     $.post(
+		             "${pageContext.request.contextPath}/manage/dataeng/allEngModel.do",
+		             {},
+		             function (response) {
+		            	 $('#engModel').html('');
+		            	 for(var i in response.data){
+		            	 	 if (response.data[i] == engModel) {
+		            	 	 	$('#engModel').append('<option value="'+response.data[i]+'"selected>'+response.data[i]+'</option>');
+							 }else {
+		            	 		$('#engModel').append('<option value="'+response.data[i]+'">'+response.data[i]+'</option>');
+							 }
+		            	 }
+		             },
+		             "json"
+		         );
+	  });
+	  
+	  // 加载发动机构型
+	  $(function(){
+		     $.post(
+		             "${pageContext.request.contextPath}/manage/dataeng/allEngConfig.do",
+		             {},
+		             function (response) {
+		            	 $('#engConfig').html('');
+		            	 for(var i in response.data){
+		            	 	 if (response.data[i] == engConfig) {
+		            	 	 	$('#engConfig').append('<option value="'+response.data[i]+'"selected>'+response.data[i]+'</option>');
+							 }else {
+		            	 		$('#engConfig').append('<option value="'+response.data[i]+'">'+response.data[i]+'</option>');
+							 }
+		            	 }
+		             },
+		             "json"
+		         );
+	  });
+	 
+	 var arr = [];
+	 $.post(
+	         "${pageContext.request.contextPath}/manage/calculate/compu.do",
+	          {"id": id},
+	          function (response) {
+	        	  for (var i in response.data) {
+					 var cArr = [];
+					 cArr.push(response.data[i].id);
+					 cArr.push(response.data[i].type);
+					 cArr.push(response.data[i].calculationType);
+					 cArr.push(response.data[i].calculationRange);
+					 cArr.push(response.data[i].rangeType);
+					 cArr.push(response.data[i].flightPhase);
+					 cArr.push(response.data[i].max);
+					 cArr.push(response.data[i].min);
+					 cArr.push(response.data[i].equal);
+					 cArr.push(response.data[i].unequal);
+					 cArr.push(response.data[i].ruleId);
+					 
+					 arr.push(cArr);
+				  }
+	          },
+	          "json"
+	 );
+	 
+	 for (var i = 0; i < arr.length; i++) {
+			 var ruleId = arr[i][10];
+			 $.post(
+	        		  "${pageContext.request.contextPath}/manage/calculate/param.do",
+		          	  {"ruleId": ruleId},
+			          function (response) {
+			        	 var pVal = response.data[0].val;
+			        	 var cVal = response.data[1].val;
+			 			 showcomputation(arr[i][0], arr[i][1], arr[i][2], arr[i][3], arr[i][4], arr[i][5], pVal, cVal, arr[i][6], arr[i][7], arr[i][8], arr[i][9]);
+			          },
+			          "json"
+			  )
+	 }
+
+	// 获取所有条件id（computation）
+	function getCompuIds() {
+		var compuIds = [];
+		$('.del').each(function(){
+			compuIds.push($(this).data('id'));
+		});
+		return compuIds;
+	}
+
+	// 确定按钮点击事件
+	function finish(){
+		if (getCompuIds().length == 0) {
+			alert("最少一个条件！ ");
+		}else{
+			var id = '${id}';
+			// 数组转json格式
+			var compuIds = JSON.stringify(getCompuIds());
+			var name = $('#name').val();
+			var engSeries = $('#engSeries').val();
+			var engType = $('#engType').val();
+			var engModel = $('#engModel').val();
+			var engConfig = $('#engConfig').val();
+			var orderId = $('#orderId').val();
+			var content = $('#content').val();
+			$.post(
+				    "${pageContext.request.contextPath}/manage/calculate/updateall.do",
+				    {
+				    	"id": id,
+				    	"compuIds": compuIds,
+				        "name": name,
+				        "engSeries": engSeries,
+				        "engType": engType,
+				        "engModel": engModel,
+				        "engConfig": engConfig,
+				        "orderId": orderId,
+				        "content": content
+				    },
+				    function (response) {
+				    	if (response.code == 101) {
+							alert('成功');
+						}
+				    },
+				    "json"
+				);
+		}
+	}
+	
+	// addcomputation
+	function addcomputation() {
+		var inspecId = '${id}';
+		var type = $("#type").val();
+		var calculationType = $("#calculationType").val();
+		var calculationRange= $("#calculationRange").val();
+		var rangeType = $("#rangeType").val();
+		var flightPhase = $("#flightPhase").val();
+		var pVal = $("#pVal").val();
+		var cVal = $("#cVal").val();
+		var cId = $("#cVal").find("option:selected").data("id");
+		var max = $("#max").val();
+		var min = $("#min").val();
+		var equal = $("#equal").val();
+		var unequal = $("#unequal").val();
+		$.post(
+		    "${pageContext.request.contextPath}/manage/calculate/savecomputation.do",
+		    {
+		        "inspecId": inspecId,
+		        "type": type,
+		        "calculationType": calculationType,
+		        "calculationRange": calculationRange,
+		        "rangeType": rangeType,
+		        "flightPhase": flightPhase,
+		        "ruleId": cId,
+		        "max": max,
+		        "min": min,
+		        "equal": equal,
+		        "unequal": unequal
+		    },
+		    function (response) {
+		    	$('#add-modal').modal('hide');
+		    	var id = response.data;
+		    	showcomputation(id, type, calculationType, calculationRange, rangeType, flightPhase, pVal, cVal, max, min, equal, unequal);
+		    },
+		    "json"
+		);
+	}
+	
+	 // 清除弹窗原数据
+	 $("#add-modal").on("hidden.bs.modal", function() {
+	     $('#reset').click();
+	 });
+	 
+	 // 页面显示条件参数
+	  function showcomputation(id, type, calculationType, calculationRange, rangeType, flightPhase, pVal, cVal, max, min, equal, unequal){
+		 $('#before').before('<div id="'+id+'" style="background-color:#f9edf9;margin-bottom:20px">'
+				 +'<div class="row" style="padding:20px">'
+				 +'<div class="col-xs-12"  style="margin-bottom:15px">'
+				 +'	<span class="mright" style="margin-left:0px">与前一条件的关系</span>'
+				 +'	<span class="mright type" data-value="'+type+'">'+getType(type)+'</span>'
+				 +'		<button type="button" class="btn btn-primaty pull-right edit" data-id="'+id+'" style="min-width:130px" data-toggle="modal" data-target="#info-modal">修改</button>'
+				 +'  	<button type="button" class="btn btn-primaty pull-right del" data-id="'+id+'" style="min-width:130px">删除</button>'
+				 +'		</div>'
+				 +'		<div style="margin-bottom:15px">'
+				 +'  			<span class="mright">计算范围类型</span>'
+				 +'   			<span class="mright calculationType" data-value="'+calculationType+'">'+getCalculationType(calculationType)+'</span>'
+				 +'	    		<span class="mright">计算范围</span>'
+				 +'	    		<span class="mright calculationRange">'+calculationRange+'</span>'
+				 +'	    		<span class="mright rangeType" data-value="'+rangeType+'">'+getRangeType(rangeType)+'</span>'
+				 +'	    		<span class="mright">状态</span>'
+				 +'	    		<span class="mright flightPhase" data-value="'+flightPhase+'">'+getFlightPhase(flightPhase)+'</span>'
+				 +'    		</div>'
+				 +'    		<div style="margin-bottom:15px">'
+				 +'    			<span class="mright">选择参数</span>'
+				 +'    			<span class="mright pVal">'+pVal+'</span>'
+				 +'    			<span class="mright cVal">'+cVal+'</span>'
+				 +'	    		<span class="mright">MAX</span>'
+				 +'	    		<span class="mright max">'+max+'</span>'
+				 +'    			<span class="mright">MIN</span>'
+				 +'    			<span class="mright min">'+min+'</span>'
+				 +'    			<span class="mright">等于</span>'
+				 +'    			<span class="mright equal">'+equal+'</span>'
+				 +'    			<span class="mright">不等于</span>'
+				 +'    			<span class="mright unequal">'+unequal+'</span>'
+				 +'  		</div>'
+				 +'    	</div>'
+				 +'</div>');
+	 } 
+	 
+	  // 删除条件
+	  $("#engineer").on("click",".del", function(){
+		   if (confirm("你确定要删除吗？")) {
+				$(this).parent().parent().parent().remove();
+				var id =  $(this).data('id');
+				$.post(
+			             "${pageContext.request.contextPath}/manage/calculate/deletecomputation.do",
+			             {"id": id},
+			             function (response) {
+			             },
+			             "json"
+			         );
+		   }
+	  });
+	  
+	  var pVal;
+	  var cVal;
+	  // 条件修改弹窗数据填充
+	  $("#engineer").on("click",".edit", function(){
+		  var id =  $(this).data('id');
+		  var type = $('#'+id+'').find('.type').data('value');
+		  var calculationType = $('#'+id+'').find('.calculationType').data('value');
+		  var calculationRange = $('#'+id+'').find('.calculationRange').html();
+		  var rangeType = $('#'+id+'').find('.rangeType').data('value');
+		  var flightPhase = $('#'+id+'').find('.flightPhase').data('value');
+		  pVal = $('#'+id+'').find('.pVal').html();
+		  cVal = $('#'+id+'').find('.cVal').html();
+		  var max = $('#'+id+'').find('.max').html();
+		  var min = $('#'+id+'').find('.min').html();
+		  var equal = $('#'+id+'').find('.equal').html();
+		  var unequal = $('#'+id+'').find('.unequal').html();
+		  
+		  $('#eid').val(id);
+		  $('#etype').val(type);
+		  $('#ecalculationType').val(calculationType);
+		  $('#ecalculationRange').val(calculationRange);
+		  $('#erangeType').val(rangeType);
+		  $('#eflightPhase').val(flightPhase);
+		  $('#emax').val(max);
+		  $('#emin').val(min);
+		  $('#eequal').val(equal);
+		  $('#eunequal').val(unequal);
+		  
+		  firstParam();
+	  }); 
+	  
+	  
+		// 第一个参数
+	    function firstParam(){
+	    	$.post(
+		             "${pageContext.request.contextPath}/manage/calculate/firstParam.do",
+		             {},
+		             function (response) {
+		            	 secondParam(response.data[0].id);
+		            	 $('#pVal').html('');
+		            	 $('#epVal').html('');
+		            	 for(var i in response.data){
+		            	 	$('#pVal').append('<option value="'+response.data[i].val+'" data-id="'+response.data[i].id+'">'+response.data[i].val+'</option>');
+		            	 	if (pVal == response.data[i].val) {
+		            	 		$('#epVal').append('<option value="'+response.data[i].val+'" data-id="'+response.data[i].id+'" selected>'+response.data[i].val+'</option>');
+		            	 		secondParam(response.data[i].id);
+							} else {
+		            	 		$('#epVal').append('<option value="'+response.data[i].val+'" data-id="'+response.data[i].id+'">'+response.data[i].val+'</option>');
+							}
+		            	 }
+		             },
+		             "json"
+		         );
+	    }
+	 	
+	 	function getPId(){
+		    var pId = $("#pVal").find("option:selected").data("id");
+		    secondParam(pId);
+	 	}
+	 	
+	 	function getePId(){
+		    var pId = $("#epVal").find("option:selected").data("id");
+		    secondParam(pId);
+	 	}
+	 	
+	 	// 第二个参数
+	    function secondParam(pId){
+	    	$.post(
+		             "${pageContext.request.contextPath}/manage/calculate/secondParam.do",
+		             {"pId": pId},
+		             function (response) {
+		            	 $('#cVal').html('');
+		            	 $('#ecVal').html('');
+		            	 for(var i in response.data){
+		            	 	$('#cVal').append('<option value="'+response.data[i].val+'" data-id="'+response.data[i].id+'">'+response.data[i].val+'</option>');
+		            	 	if (response.data[i].val == cVal) {
+		            	 		$('#ecVal').append('<option value="'+response.data[i].val+'" data-id="'+response.data[i].id+'" selected>'+response.data[i].val+'</option>');
+							} else {
+		            	 		$('#ecVal').append('<option value="'+response.data[i].val+'" data-id="'+response.data[i].id+'">'+response.data[i].val+'</option>');
+							}
+		            	 }
+		             },
+		             "json"
+		         );
+	    }
+	 	
+	  
+	    // 修改条件
+		function editcomputation() {
+			var id = $("#eid").val();
+			var type = $("#etype").val();
+			var calculationType = $("#ecalculationType").val();
+			var calculationRange= $("#ecalculationRange").val();
+			var rangeType = $("#erangeType").val();
+			var flightPhase = $("#eflightPhase").val();
+			var pVal = $("#epVal").val();
+			var cVal = $("#ecVal").val();
+			var cId = $("#ecVal").find("option:selected").data("id");
+			var max = $("#emax").val();
+			var min = $("#emin").val();
+			var equal = $("#eequal").val();
+			var unequal = $("#eunequal").val();
+			$.post(
+			    "${pageContext.request.contextPath}/manage/calculate/updatecomputation.do",
+			    {
+			        "id": id,
+			        "type": type,
+			        "calculationType": calculationType,
+			        "calculationRange": calculationRange,
+			        "rangeType": rangeType,
+			        "flightPhase": flightPhase,
+			        "ruleId": cId,
+			        "max": max,
+			        "min": min,
+			        "equal": equal,
+			        "unequal": unequal
+			    },
+			    function (response) {
+			    	$('#info-modal').modal('hide');
+			    	  // 修改页面值
+				  	  $('#'+id+'').find('.type').attr('data-value', type);
+				  	  $('#'+id+'').find('.type').html(getType(type));
+					  $('#'+id+'').find('.calculationType').attr('data-value', calculationType);
+					  $('#'+id+'').find('.calculationType').html(getCalculationType(calculationType));
+					  $('#'+id+'').find('.calculationRange').html(calculationRange);
+					  $('#'+id+'').find('.rangeType').attr('data-value', rangeType);
+					  $('#'+id+'').find('.rangeType').html(getRangeType(rangeType));
+					  $('#'+id+'').find('.flightPhase').attr('data-value', flightPhase);
+					  $('#'+id+'').find('.flightPhase').html(getFlightPhase(flightPhase));
+					  $('#'+id+'').find('.pVal').html(pVal);
+					  $('#'+id+'').find('.cVal').html(cVal);
+					  $('#'+id+'').find('.max').html(max);
+					  $('#'+id+'').find('.min').html(min);
+					  $('#'+id+'').find('.equal').html(equal);
+					  $('#'+id+'').find('.unequal').html(unequal);
+			    },
+			    "json"
+			);
+		}
+	    
+	 	
+	  // 与前一条件的关系
+	  function getType(type){
+		  var str1;
+		  if (type == 0) {
+			  str1 = "第一个条件";
+		  }
+		  if (type == 1) {
+			  str1 = "AND";
+		  }
+		  if (type == 2) {
+			  str1 = "OR";
+		  }
+		  return str1;
+	  }
+	  
+	  function getCalculationType(calculationType){
+		  var str2;
+		  if (calculationType == 1) {
+			  str2 = "区间";
+		  }
+		  if (calculationType == 2) {
+			  str2 = "短期";
+		  }
+		  if (calculationType == 3) {
+			  str2 = "中期";
+		  }
+		  if (calculationType == 4) {
+			  str2 = "长期";
+		  }
+		  return str2;
+	  }
+	  
+	  function getRangeType(rangeType){
+		  var str3;
+		  if (rangeType == 1) {
+			  str3 = "点";
+		  }
+		  if (rangeType == 2) {
+			  str3 = "天";
+		  }
+		  return str3;
+	  }
+	 
+	  function getFlightPhase(flightPhase){
+		  var str4 = 'ALL';
+		  if (flightPhase == 0) {
+			  tr4 = "ALL";
+		  }
+		  if (flightPhase == 1) {
+			  str4 = "起飞";
+		  }
+		  if (flightPhase == 2) {
+			  str4 = "巡航";
+		  }
+		  return str4;
+	  }
+
+</script>
+</html>

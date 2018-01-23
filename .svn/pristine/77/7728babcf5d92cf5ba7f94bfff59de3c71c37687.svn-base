@@ -1,0 +1,43 @@
+package com.cea.ehm.interceptor;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.cea.ehm.util.Constant;
+import com.google.common.base.Strings;
+
+public class ManageInterceptor implements HandlerInterceptor {
+	@Override
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object obj) throws Exception {
+		String sessionusername = (String) request.getSession().getAttribute(Constant.SESSION_USERNAME);
+		String sessionpassword = (String) request.getSession().getAttribute(Constant.SESSION_PASSWORD);
+		String uri = request.getRequestURI();
+		if (uri.contains("manage/auth/login.do")) {
+			return true;
+		}
+		if (Strings.isNullOrEmpty(sessionusername) || Strings.isNullOrEmpty(sessionpassword)) {
+			response.sendRedirect(request.getContextPath() + "/manage/login/login.jsp");
+		}
+		/**
+		 * 拦截无权限的用户
+		 */
+//		String type = (String) request.getSession().getAttribute(Constant.SESSION_TYPE);
+//		if ("admin_1".equals(type)) {
+//			response.sendRedirect(request.getContextPath() + "/manage/login/login.jsp");
+//		}
+		return true;
+	}
+
+	@Override
+	public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o,
+			ModelAndView modelAndView) throws Exception {
+	}
+
+	@Override
+	public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
+			Object o, Exception e) throws Exception {
+	}
+}

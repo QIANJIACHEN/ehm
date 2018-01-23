@@ -1,0 +1,23 @@
+html,body{background:#fff;font-family:arial,sans-serif;color:#666;font-size:12px;}
+
+/*閾炬帴鏍峰紡 start*/
+
+a:link,a:visited{text-decoration:none;color:#666;}
+a:hover,a:active{text-decoration:none;color:#666;}
+/*閾炬帴鏍峰紡 end*/
+
+b,strong{font-weight:bold;}
+
+/*杈撳叆妗嗘牱寮� start*/
+input[type=text],input[type=password],input[type=search]{height:25px;line-height:25px;border:1px solid #F2F0F1;width:188px;}
+input[type=button],input[type=submit],input[type=reset],input[type=image],button{border:0 none;}
+/*杈撳叆妗嗘牱寮� end*/
+/* input.Wdate[type=text]{background:url(imgs/time_logo.png) no-repeat right 0;cursor:pointer;padding-left:20px;} */
+input.search{background:url(imgs/search-btn.png) no-repeat right 0;}
+input.export{background:url(imgs/export.png);overflow:hidden;height:27px;line-height:27px;width:78px;}
+input.export:hover{background:url(imgs/export_on.png);}
+
+input.autocomplete[type=search]{width: 110px; height: 18px; line-height: 18px; border: 1px solid lightgray;margin:5px 0;}
+ 
+tr {height: 30px;}
+ 

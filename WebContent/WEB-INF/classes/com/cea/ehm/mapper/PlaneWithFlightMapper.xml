@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.PlaneWithFlightMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.PlaneWithFlight">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="PLANE_ID" jdbcType="INTEGER" property="planeId" />
+		<result column="FLIGHT_ID" jdbcType="INTEGER" property="flightId" />
+		<result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ID, PLANE_ID, FLIGHT_ID, CTIME
+	</sql>
+	
+	<insert id="save" parameterType="com.cea.ehm.bean.PlaneWithFlight">
+		INSERT INTO ehm_flight_with_plane
+			(PLANE_ID, FLIGHT_ID, CTIME)
+		VALUES
+		(
+			#{planeId,jdbcType=INTEGER},
+			#{flightId,jdbcType=INTEGER},
+			#{ctime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	
+	<select id="getList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_flight_with_plane
+		WHERE 1 = 1
+		<if test="planeId != null">
+			AND PLANE_ID = #{planeId,jdbcType=INTEGER}
+		</if>
+		<if test="flightId != null">
+			AND FLIGHT_ID = #{flightId,jdbcType=INTEGER}
+		</if>
+	</select>
+
+	<delete id="delete" parameterType="com.cea.ehm.bean.PlaneWithFlight">
+		DELETE FROM
+			ehm_flight_with_plane
+		WHERE
+			ID = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<update id="update" parameterType="com.cea.ehm.bean.PlaneWithFlight">
+		UPDATE ehm_flight_with_plane
+		<set>
+			<if test="planeId != null">
+				PLANE_ID = #{planeId,jdbcType=INTEGER},
+			</if>
+			<if test="flightId != null">
+				FLIGHT_ID = #{flightId,jdbcType=INTEGER},
+			</if>
+		</set>
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</update>
+
+</mapper>

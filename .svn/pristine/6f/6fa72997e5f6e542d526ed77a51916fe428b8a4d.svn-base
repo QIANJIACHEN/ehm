@@ -1,0 +1,129 @@
+package com.cea.ehm.bean;
+
+import java.io.Serializable;
+
+/**
+ * (计算管理)获取页面传值总的字段
+ */
+public class Calculate implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 监测规则(ehm_rule_inspection)
+	 */
+
+	/**
+	 * 名称
+	 */
+	private String name;
+	/**
+	 * 0：开启；1：关闭
+	 */
+	private Integer typeInspection;
+	/**
+	 * 警告提示内容
+	 */
+	private String content;
+	/**
+	 * 发动机序列
+	 */
+	private String engSeries;
+	/**
+	 * 发动机类型
+	 */
+	private String engType;
+	/**
+	 * 发动机模型
+	 */
+	private String engModel;
+	/**
+	 * 发动机构型
+	 */
+	private String engConfig;
+	/**
+	 * 优先级
+	 */
+	private Integer orderId;
+
+	/**
+	 * 规则参数(ehm_rule_parameter)
+	 */
+
+	/**
+	 * 上级ID
+	 */
+	private Integer parentId;
+	/**
+	 * 0：表；1：字段
+	 */
+	private Integer typeParameter;
+	/**
+	 * 值
+	 */
+	private String val;
+	/**
+	 * 注释
+	 */
+	private String annotation;
+	/**
+	 * 是否加入计算；0：否；1：是
+	 */
+	private Integer isCalculate;
+
+	/**
+	 * 计算规则(ehm_rule_computation)
+	 */
+
+	/**
+	 * 检查表ID
+	 */
+	private Integer inspectionId;
+	/**
+	 * 0：第一个条件；1：and；2：or
+	 */
+	private Integer typeComputation;
+	/**
+	 * 规则参数ID
+	 */
+	private Integer ruleId;
+	/**
+	 * 1：区间；2：短期；3：中期；4：长期
+	 */
+	private Integer calculationType;
+	/**
+	 * 计算范围
+	 */
+	private Integer calculationRange;
+	/**
+	 * 1：点；2：天
+	 */
+	private Integer rangeType;
+	/**
+	 * 0：ALL；1：起飞；2：巡航
+	 */
+	private Integer flightPhase;
+	/**
+	 * 最小值
+	 */
+	private String min;
+	/**
+	 * 最大值
+	 */
+	private String max;
+	/**
+	 * 等于
+	 */
+	private String equal;
+	/**
+	 * 不等于
+	 */
+	private String unequal;
+
+	/**
+	 * 监测推送人员(ehm_rule_inspection_user)
+	 */
+	/**
+	 * 基地
+	 */
+	private Integer duty;
+}

@@ -1,0 +1,47 @@
+package com.cea.ehm.dao;
+
+
+import java.util.Map;
+
+import com.cea.ehm.bean.EngConditionFleet;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+/**
+ * 发动机状态简报持久层接口
+ */
+public interface EngConditionFleetMapper {
+	/**
+	 * 查询发动机状态简报列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	PageList<EngConditionFleet> getEngConditionFleetList(Map<String, String> paramMap, PageBounds pageBounds);
+
+	/**
+	 * 保存发动机状态简报信息
+	 * 
+	 * @param engconditionfleet
+	 */
+	void insert(EngConditionFleet engconditionfleet);
+
+	/**
+	 * 更新发动机状态简报信息
+	 * 
+	 * @param engconditionfleet
+	 */
+	void update(EngConditionFleet engconditionfleet);
+
+	/**
+	 * 删除发动机状态简报信息
+	 * 
+	 * @param engconditionfleet
+	 */
+	void delete(EngConditionFleet engconditionfleet);
+
+	EngConditionFleet select(EngConditionFleet engconditionfleet);
+	
+
+}

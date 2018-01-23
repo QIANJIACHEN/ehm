@@ -1,0 +1,431 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-head.jsp"/>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-script.jsp"/>
+    <style type="text/css">
+    	table.planetable{
+    		text-align:center;
+    	}
+    	table.planetable thead tr th {
+    		text-align:center;
+    	}
+    	table.planetable tbody tr td:last-child span{
+    		cursor:pointer;
+    		color:#199ED8;
+    	}
+    </style>
+</head>
+<body class="hold-transition" >
+
+<!-- Content Wrapper. Contains page content -->
+<div class="wrapper">
+
+    <div class="box wrapper " style="overflow: auto;">
+    	<!-- by liangkui -->
+		<!--  
+        <div class="box-header with-border">
+            <div class="row">
+                <div class="col-xs-2" style="min-width: 160px">
+                    <input type="text" class=" form-control" id="search-key" placeholder="planeId">
+                </div>
+                <div class="col-xs-1" style="min-width: 160px">
+                    <select class="form-control" id="search-bz-status">
+                        <option>全部</option>
+                    </select>
+                </div>
+                <div class="col-xs-1" style="min-width: 160px">
+                    <select class="form-control" id="search-account-status">
+                        <option>全部</option>
+                    </select>
+                </div>
+
+                <div class="col-xs-1" style="min-width: 160px">
+                    <button class="btn btn-block btn-default" onclick="searchdataplane()">
+                        <i class="fa fa-search"></i>
+                      	  搜索
+                    </button>
+                </div>
+                    <div class="col-xs-1" style="min-width: 160px">
+                    <button class="btn btn-block btn-default col-sm-1" data-toggle="modal" data-target="#dataplane-add-modal">
+                        <i class="fa fa-plus"></i>
+                       	 添加飞机
+                    </button>
+                </div>
+            </div>
+        </div>
+        -->
+        <div class="box-header with-border">
+            <div class="row">
+            	<div class="col-xs-1" style="text-align:center">
+        			<label style="line-height:34px;font-size:22px">机号</label>
+        		</div>
+                <div class="col-xs-2" style="min-width: 160px">
+                    <input type="text" class=" form-control" id="search-key" placeholder="planeId">
+                </div>
+                <div class="col-xs-1" style="min-width: 160px">
+        			<button type="submit" class="btn btn-block btn-default" style="margin:0px 15px;">查询</button>
+        		</div>
+                <div class="col-xs-1 pull-right" style="min-width: 160px">
+                    <button class="btn btn-block btn-primary col-sm-1" data-toggle="modal" data-target="#dataplane-add-modal">
+                        <i class="fa fa-plus"></i>
+                       	 添加飞机
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="box-body">
+
+            <div class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
+            <!-- by liangkui -->
+               <!--  <table id="table-list" class="table  table-hover">
+                    <thead>
+                    <tr>
+                        <th>planeId</th>
+                        <th>某个点飞机的唯一标识</th>
+                        <th>基地</th>
+                        <th>推力</th>
+                        <th>构型</th>
+                        <th>原始的发动机编码</th>
+                        <th>型号1级</th>
+                        <th>型号2级</th>
+                        <th>型号3级</th>
+                        <th>属性</th>
+                        <th>ETOPS</th>
+                        <th>高高原</th>
+                        <th>VARIABLE</th>
+                        <th>MSN</th>
+                        <th>LINE</th>
+                        <th>MANUAL</th>
+                        <th>航空公司（品牌）</th>
+                        <th>所有人</th>
+                        <th>备注</th>
+                        <th>引进方式</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                --> 
+                <table class="table  table-hover table-bordered planetable">
+                	<thead>
+                    <tr>
+                        <th>运营人</th>
+                        <th>执管基地</th>
+                        <th>机型</th>
+                        <th>机号</th>
+                        <th>CONFIG</th>
+                        <th>RATTING</th>
+                        <th>机身TSN</th>
+                        <th>机身CSN</th>
+                        <th>高高原能力</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                   	<tbody>
+                   		<tr>
+                   			<td>上航</td>
+                   			<td>SH12</td>
+                   			<td>B737-800</td>
+                   			<td>B1310</td>
+                   			<td>E</td>
+                   			<td>26</td>
+                   			<td>49.4667</td>
+                   			<td>26</td>
+                   			<td></td>
+                   			<td>
+                   				<span>发动机</span>
+                   				<span>航班</span>
+                   			</td>
+                   		</tr>
+                   		<tr>
+                   			<td>云航</td>
+                   			<td>KM01</td>
+                   			<td>B737-800</td>
+                   			<td>B1310</td>
+                   			<td>E/B2</td>
+                   			<td>26</td>
+                   			<td>49.4667</td>
+                   			<td>26</td>
+                   			<td></td>
+                   			<td>
+                   				<span>发动机</span>
+                   				<span>航班</span>
+                   			</td>
+                   		</tr>
+                   	</tbody>
+                </table>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<jsp:include page='dataplaneinfo.jsp'/>
+<jsp:include page='dataplaneadd.jsp'/>
+
+<script type="text/javascript">
+$("#table-list").DataTable({
+    'dom': 'tr<"row"<"col-sm-5"l><"col-sm-7"p>>',
+    "serverSide": true,
+    ordering: false,
+    "type": "POST",
+    "ajax": {
+        "url": "${pageContext.request.contextPath}/manage/dataplane/list.do",
+        "type": "POST",
+        "data": function (d) {
+        	// 条件查询参数
+        	d.key = $("#search-key").val();
+
+        	// d.bzStatus = $("#search-bz-status").val();
+            // d.accountStatus = $("#search-account-status").val();
+        }
+    },
+    "columns": [
+        {"data": "planeId"},
+        {"data": "tail"},
+        {"data": "duty"},
+        {"data": "ratingPlane"},
+        {"data": "configPlane"},
+        {"data": "egsnOriginal"},
+        {"data": "series"},
+        {"data": "type"},
+        {"data": "model"},
+        {"data": "attribute"},
+        {"data": "etops"},
+        {"data": "hHighLand"},
+        {"data": "variable"},
+        {"data": "serial"},
+        {"data": "line"},
+        {"data": "manual"},
+        {"data": "operater"},
+        {"data": "owner"},
+        {"data": "remark"},
+        {"data": "importWay"},
+        {"data": "ctime"}
+    ],
+    "ordering": false,
+    "searching": false,
+     "columnDefs": [
+        {
+            "targets": 21,
+            "data": function (row, type, val, meta) {
+                return row;
+            },
+            "render": function (data, type, full, meta) {
+                var table = $("#table-list").DataTable();
+                var result = '<div class="btn-group open">'
+                    + '<button class="btn btn-default btn-sm "'
+                    + ' data-toggle="modal" data-target="#dataplane-info-modal">'
+                    + '<i class="fa fa-gear"></i>'
+                    + '</button><button class="btn btn-default btn-sm" onclick="deletedataplane(' + data.planeId + ')">'
+                    + '<i class="fa fa-trash"></i></button></div>';
+                return result;
+            }
+        }
+    ],
+    "info": false,
+    "language": {
+        "lengthMenu": "显示 _MENU_ 条记录",
+        "paginate": {
+            "first": "首页",
+            "next": "下一页",
+            "previous": "上一页",
+            "last": "末页",
+        },
+        "zeroRecords": "",
+        "infoEmpty":"没有符合条件的数据",
+        "emptyTable":"没有符合条件的数据"
+    }
+});
+
+// 存储点击行的内容
+var cellUserData = null;
+ $('#table-list tbody').on('click', 'td', function () {
+     var table = $('#table-list').DataTable();
+     cellUserData = table.cell(this).data();
+ });
+
+// 编辑按钮 → 信息填充
+ $('#dataplane-info-modal').on('show.bs.modal', function (event) {
+     var modal = $(this);
+     modal.find('#editplaneId').val(cellUserData.planeId);
+     modal.find('#edittail').val(cellUserData.tail);
+     modal.find('#editduty').val(cellUserData.duty);
+     modal.find('#editratingPlane').val(cellUserData.ratingPlane);
+     modal.find('#editconfigPlane').val(cellUserData.configPlane);
+     modal.find('#editegsnOriginal').val(cellUserData.egsnOriginal);
+     modal.find('#editseries').val(cellUserData.series);
+     modal.find('#edittype').val(cellUserData.type);
+     modal.find('#editmodel').val(cellUserData.model);
+     modal.find('#editattribute').val(cellUserData.attribute);
+     modal.find('#editetops').val(cellUserData.etops);
+     modal.find('#edithHighLand').val(cellUserData.hHighLand);
+     modal.find('#editvariable').val(cellUserData.variable);
+     modal.find('#editserial').val(cellUserData.serial);
+     modal.find('#editline').val(cellUserData.line);
+     modal.find('#editmanual').val(cellUserData.manual);
+     modal.find('#editoperater').val(cellUserData.operater);
+     modal.find('#editowner').val(cellUserData.owner);
+     modal.find('#editremark').val(cellUserData.remark);
+     modal.find('#editimportWay').val(cellUserData.importWay);
+     modal.find('#editctime').val(cellUserData.ctime);
+ }).on('hide.bs.modal', function (event) {
+     cellUserData = null;
+ });
+ 
+ // edit
+ function editdataplane() {
+		var	planeId = $('#editplaneId').val();
+		var	tail = $('#edittail').val();
+		var	duty = $('#editduty').val();
+		var	ratingPlane = $('#editratingPlane').val();
+		var	configPlane = $('#editconfigPlane').val();
+		var egsnOriginal = $('#editegsnOriginal').val();
+		var series = $('#editseries').val();
+		var type = $('#edittype').val();
+		var model = $('#editmodel').val();
+		var attribute = $('#editattribute').val();
+		var etops = $('#editetops').val();
+		var hHighLand = $('#edithHighLand').val();
+		var variable = $('#editvariable').val();
+		var serial = $('#editserial').val();
+		var	line = $('#editline').val();
+		var manual = $('#editmanual').val();
+		var operater = $('#editoperater').val();
+		var owner = $('#editowner').val();
+		var remark = $('#editremark').val();
+		var	importWay = $('#editimportWay').val();
+		var	ctime = $('#editctime').val();
+		$.post(
+		    "${pageContext.request.contextPath}/manage/dataplane/saveOrUpdate.do",
+		    {
+		        "planeId": planeId,
+		        "tail": tail,
+		        "duty": duty,
+		        "ratingPlane": ratingPlane,
+		        "configPlane": configPlane,
+		        "egsnOriginal": egsnOriginal,
+		        "series": series,
+		        "type": type,
+		        "model": model,
+		        "attribute": attribute,
+		        "etops": etops,
+		        "hHighLand": hHighLand,
+		        "variable": variable,
+		        "serial": serial,
+		        "line": line,
+		        "manual": manual,
+		        "operater": operater,
+		        "owner": owner,
+		        "remark": remark,
+		        "importWay": importWay,
+		        "ctime": ctime
+		    },
+		    function (response) {
+		    	 $('#dataplane-info-modal').modal('hide');
+		         reloadTable(true);
+		    },
+		    "json"
+		);
+	}
+ 
+ // add
+ function adddataplane() {
+	 	var planeId = $('#addplaneId').val();
+	 	var tail = $('#addtail').val();
+		var	duty = $('#addduty').val();
+		var	ratingPlane = $('#addratingPlane').val();
+		var	configPlane = $('#addconfigPlane').val();
+		var egsnOriginal = $('#addegsnOriginal').val();
+		var series = $('#addseries').val();
+		var type = $('#addtype').val();
+		var model = $('#addmodel').val();
+		var attribute = $('#addattribute').val();
+		var etops = $('#addetops').val();
+		var hHighLand = $('#addhHighLand').val();
+		var variable = $('#addvariable').val();
+		var serial = $('#addserial').val();
+		var	line = $('#addline').val();
+		var manual = $('#addmanual').val();
+		var operater = $('#addoperater').val();
+		var owner = $('#addowner').val();
+		var remark = $('#addremark').val();
+		var	importWay = $('#addimportWay').val();
+		var	ctime = $('#addctime').val();
+		$.post(
+		    "${pageContext.request.contextPath}/manage/dataplane/saveOrUpdate.do",
+		    {
+		    	"planeId": planeId,
+		    	"tail": tail,
+		        "duty": duty,
+		        "ratingPlane": ratingPlane,
+		        "configPlane": configPlane,
+		        "egsnOriginal": egsnOriginal,
+		        "series": series,
+		        "type": type,
+		        "model": model,
+		        "attribute": attribute,
+		        "etops": etops,
+		        "hHighLand": hHighLand,
+		        "variable": variable,
+		        "serial": serial,
+		        "line": line,
+		        "manual": manual,
+		        "operater": operater,
+		        "owner": owner,
+		        "remark": remark,
+		        "importWay": importWay,
+		        "ctime": ctime
+		    },
+		    function (response) {
+		    	 $('#dataplane-add-modal').modal('hide');
+		         reloadTable(true);
+		    },
+		    "json"
+		);
+	}
+ 
+ /**
+  * 重载列表
+  */
+ function reloadTable(reset) {
+     var table = $('#table-list').DataTable();
+     if (reset == true) {
+         table.ajax.reload(null, true);
+     } else {
+         table.ajax.reload();
+     }
+ }
+
+ // search 
+ function searchdataplane() {
+	 reloadTable(true);
+ }
+ 
+// delete
+ function deletedataplane(planeId) {
+     if (confirm("你确定要删除吗？")) {
+         $.post(
+             "${pageContext.request.contextPath}/manage/dataplane/delete.do",
+             {
+                 "planeId": planeId,
+             },
+             function (response) {
+                 $('#mood-modal').modal('hide');
+                 reloadTable(true);
+             },
+             "json"
+         );
+     };
+ }
+ 
+</script>
+</body>
+</html>

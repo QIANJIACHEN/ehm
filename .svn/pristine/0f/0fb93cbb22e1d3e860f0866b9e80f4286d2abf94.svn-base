@@ -1,0 +1,119 @@
+package com.cea.ehm.controller.manage;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.cea.ehm.bean.OilConsume;
+import com.cea.ehm.controller.BaseController;
+import com.cea.ehm.service.OilConsumeService;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import com.google.common.collect.Maps;
+
+/**
+ * 滑耗数据
+ */
+@Controller
+@RequestMapping(value = "/manage/oilconsume")
+public class OilConsumeController extends BaseController {
+	@Autowired
+	private OilConsumeService oilService;
+
+	/**
+	 * 显示滑耗监控页面
+	 */
+	@RequestMapping(value = "/oilconsumelist.do")
+	public ModelAndView oilConsumeList() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/oilconsumption/oilconsumelist");
+		return mv;
+	}
+
+	/**
+	 * 显示滑油压力监控页面
+	 */
+	@RequestMapping(value = "/oilpressurelist.do")
+	public ModelAndView oilPressureList() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/oilconsumption/oilpressurelist");
+		return mv;
+	}
+
+	/**
+	 * 显示滑耗监控报表
+	 */
+	@RequestMapping(value = "/oilconsumereport.do")
+	public ModelAndView imagereport() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/oilconsumption/oilconsumereport");
+		return mv;
+	}
+
+	/**
+	 * 显示滑油压力监控报表
+	 */
+	@RequestMapping(value = "/oilpressurereport.do")
+	public ModelAndView pressurereport() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/oilconsumption/oilpressurereport");
+		return mv;
+	}
+
+	/**
+	 * 查询滑耗数据 → 列表
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@PostMapping(value = "/list.do")
+	@ResponseBody
+	public Map<String, Object> list(@RequestParam Map<String, String> reqPara) {
+		PageBounds pageBounds = handlePageInfoForManage(reqPara);
+		String sEcho = reqPara.get("draw");
+		// 条件参数
+		Map<String, String> paramMap = Maps.newHashMap();
+		String operater = reqPara.get("operater");
+		String duty = reqPara.get("duty");
+		paramMap.put("operater", operater);
+		paramMap.put("duty", duty);
+		PageList<OilConsume> pageList = (PageList<OilConsume>) oilService.list(paramMap, pageBounds);
+		Pageable page = new PageRequest(pageBounds.getPage(), pageBounds.getLimit());
+		Page<OilConsume> content = new PageImpl<>(pageList, page, pageList.getPaginator().getTotalCount());
+		Map<String, Object> map = Maps.newHashMap();
+		map.put("data", pageList);
+		map.put("iTotalRecords", content.getTotalElements());
+		map.put("iTotalDisplayRecords", content.getTotalElements());
+		map.put("sEcho", sEcho);
+		map.put("draw", sEcho);
+		return map;
+	}
+
+	/**
+	 * 获取所有滑耗数据
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/all.do")
+	@ResponseBody
+	public Map<String, Object> all(@RequestParam Map<String, String> reqPara) {
+		String tail = reqPara.get("tail");
+		Map<String, String> paramMap = Maps.newHashMap();
+		paramMap.put("tail", tail);
+		List<OilConsume> oilConsumes = oilService.all(paramMap);
+		return getSuccessData(oilConsumes);
+	}
+
+}

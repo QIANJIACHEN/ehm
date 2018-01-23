@@ -1,0 +1,146 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%
+Object user = request.getSession().getAttribute("SESSION_USER");
+Object userType = request.getSession().getAttribute("SESSION_USER_TYPE");
+if (user != null && userType != null) {
+	request.getRequestDispatcher("index-backup.jsp").forward(request, response);
+}
+%>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
+<LINK href="../css/public_login.css" type=text/css rel=stylesheet>
+<LINK href="../css/login.css" type=text/css rel=stylesheet>
+<META content="MSHTML 6.00.2900.5848" name=GENERATOR>
+<script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="../js/jquery.cookie.1.3.1.js"></script> 
+<script type="text/javascript">
+function reloadValidCode(o) { 
+    o.src = "${pageContext.request.contextPath }/authServlet?timed=" + new Date().getMilliseconds(); 
+}
+
+function refresh() {
+   document.getElementById("authImg").src = "${pageContext.request.contextPath }/authServlet?timed=" + new Date().getMilliseconds(); 
+} 
+
+function submit(){
+	var username = $("#username").val();
+	var password = $("#password").val();
+	var codeValue = $("#codeValue").val();
+	var managerUserType = $("#managerUserType").val();
+	if(username && password && codeValue) {
+		$.post(
+			"${pageContext.request.contextPath }/ManagerAuth/login.do",
+			{
+				username: username,
+				password: password,
+				codeValue: codeValue,
+				managerUserType: managerUserType
+			},
+			function(data){
+				if(data.code != 0) {
+					alert("登录失败");
+					refresh(); 
+					return;
+				}
+//				var id = data.data.id;
+				location = "index-backup.jsp";
+			},
+			"json"
+		)
+	} else {
+		alert("请输入帐号密码和验证码");
+	}
+}
+ 
+/* document.onkeydown = function(evt){
+ 　 var evt = window.event?window.event:evt;
+  　if (evt.keyCode==13) {
+	  	submit();
+  　}
+ }  */
+ 
+
+</script>
+</HEAD>
+<BODY>
+<DIV id=div1>
+  <TABLE id=login height="100%" cellSpacing=0 cellPadding=0 width=800 
+align=center cellspacing="0">
+    <TBODY>
+      <TR id=main>
+        <TD>
+          <TABLE height="100%" cellSpacing=0 cellPadding=0 width="100%">
+            <TBODY>
+              <TR height=50%>
+                <TD colSpan=4>&nbsp;</TD>
+              </TR>
+              <TR height=30>
+                <TD width=380>&nbsp;</TD>
+                <TD>&nbsp;</TD>
+                <TD>&nbsp;</TD>
+                <TD>&nbsp;</TD>
+              </TR>
+              
+              <TR height=3%>
+                <TD rowSpan=5>&nbsp;</TD>
+                <!-- <TD>用户类型：</TD>
+                <TD>
+                  <select id="managerUserType">
+                  	<option value="1">系统管理</option>
+                  </select>
+                </TD>
+                <TD width=120>&nbsp;</TD>-->
+              </TR> 
+              
+              <TR height=4%>
+                <TD>用户名：</TD>
+                <TD>
+                  <INPUT class=textbox id="username" name="username">
+                </TD>
+                <TD width=120>&nbsp;</TD>
+              </TR>
+              
+              <TR height=4%>
+                <TD>密　码：</TD>
+                <TD>
+                  <INPUT class=textbox id="password" type=password 
+            name="password">
+                </TD>
+                <TD width=120>&nbsp;</TD>
+              </TR>
+              <TR height=4%>
+                <TD>验证码：</TD>
+                <TD vAlign=center colSpan=2>
+                  <INPUT id="codeValue" size=4 name=txtSN onFocus="this.select();" >
+                  &nbsp; <IMG id="authImg" src="${pageContext.request.contextPath }/authServlet"  onclick="reloadValidCode(this)" border=0>
+                   <A id=LinkButton1 href="#" onclick="refresh();">不清楚，再来一张</A></TD>
+              </TR>
+              <TR height=4%>
+                <TD></TD>
+                <TD align=right>
+                  <INPUT id=btnLogin onclick="submit()" type=button value=" 登 录 " name=btnLogin>
+                </TD>
+                <TD width=120>&nbsp;</TD>
+              </TR>
+              <TR height=30%>
+                <TD colSpan=4>&nbsp;</TD>
+              </TR>
+            </TBODY>
+          </TABLE>
+        </TD>
+      </TR>
+      <TR id=root height=104>
+        <TD>&nbsp;</TD>
+      </TR>
+    </TBODY>
+  </TABLE>
+</DIV>
+<DIV id=div2 style="DISPLAY: none"></DIV>
+
+</BODY>
+</HTML>

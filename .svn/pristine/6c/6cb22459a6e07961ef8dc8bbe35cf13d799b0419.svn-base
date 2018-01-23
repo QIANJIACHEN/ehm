@@ -1,0 +1,19 @@
+package com.cea.ehm.dao;
+
+import java.util.Map;
+import com.cea.ehm.bean.Hptb;
+import com.cea.ehm.bean.HptbHistory;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+public interface HptbMapper {
+	PageList<Hptb> hptbinfo(Map<String, String> paramMap, PageBounds pageBounds);
+	public void hptbadd(Hptb hptb);
+	public void hptbupdate(Hptb hptb);
+	public void hptbdelete(Hptb hptb);
+	
+	PageList<HptbHistory> historyinfo(Map<String, String> paramMap, PageBounds pageBounds);
+	public void historyadd(HptbHistory hptbHistory);
+	public void historyupdate(HptbHistory hptbHistory);
+	public void historydelete(HptbHistory hptbHistory);
+}

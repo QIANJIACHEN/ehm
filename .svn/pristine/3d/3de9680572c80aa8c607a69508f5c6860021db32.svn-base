@@ -1,0 +1,75 @@
+package com.cea.ehm.controller.manage;
+
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.cea.ehm.bean.Activity;
+import com.cea.ehm.controller.BaseController;
+import com.cea.ehm.service.ActivityService;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import com.google.common.collect.Maps;
+
+@Controller
+@RequestMapping(value = "/manage/activity")
+public class ActivityController extends BaseController {
+	@Autowired
+	ActivityService activityService;
+	private Logger logger = Logger.getLogger(ActivityController.class);
+
+	/**
+	 * 活动列表
+	 **/
+	@RequestMapping(value = "activityList.do")
+	public ModelAndView activitylist() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/activity/activityList");
+		return mv;
+	}
+
+	/**
+	 * 活动列表数据
+	 **/
+	@RequestMapping(value = "activityinfo.do")
+	@ResponseBody
+	public Map<String, Object> list(@RequestParam Map<String, String> reqPara) {
+		PageBounds pageBounds = handlePageInfoForManage(reqPara);
+		// ？？
+		String sEcho = reqPara.get("draw");
+		// 条件参数
+		String key = reqPara.get("key");
+		Map<String, String> paramMap = Maps.newHashMap();
+		//paramMap.put("username", key);
+
+		PageList<Activity> pageList = (PageList<Activity>) activityService.getActivityList(paramMap, pageBounds);
+		Pageable page = new PageRequest(pageBounds.getPage(), pageBounds.getLimit());
+		Page<Activity> content = new PageImpl<>(pageList, page, pageList.getPaginator().getTotalCount());
+
+		Map<String, Object> map = Maps.newHashMap();
+		map.put("data", pageList);
+		map.put("iTotalRecords", content.getTotalElements());
+		map.put("iTotalDisplayRecords", content.getTotalElements());
+		map.put("sEcho", sEcho);
+		map.put("draw", sEcho);
+		return map;
+	}
+
+	@RequestMapping(value = "activityHistory.do")
+	public ModelAndView activityHistory() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/activity/activityList");
+		return mv;
+	}
+
+}

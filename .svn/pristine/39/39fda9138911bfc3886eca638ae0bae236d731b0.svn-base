@@ -1,0 +1,60 @@
+package com.cea.ehm.service;
+
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cea.ehm.bean.RecordDataPlane;
+import com.cea.ehm.dao.RecordDataPlaneMapper;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+/**
+ * 飞机属性更变记录服务层
+ */
+@Service
+public class RecordDataPlaneService {
+	private Logger logger = Logger.getLogger(RecordDataPlaneService.class);
+	@Autowired
+	private RecordDataPlaneMapper recorddataplaneMapper;
+
+	/**
+	 * 查询飞机属性更变记录列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	public PageList<RecordDataPlane> getRecordDataPlaneList(Map<String, String> paramMap, PageBounds pageBounds) {
+		logger.info("数据库查询参数：" + paramMap);
+		return recorddataplaneMapper.getRecordDataPlaneList(paramMap, pageBounds);
+	}
+
+	/**
+	 * 保存或更新飞机属性更变记录信息
+	 * 
+	 * @param recorddataplane
+	 */
+	public void saveOrUpdate(RecordDataPlane recorddataplane) {
+		// 查询判断飞机属性更变记录信息是否存在，考虑保存还是更新
+		RecordDataPlane selectuser = recorddataplaneMapper.select(recorddataplane);
+		if (selectuser == null) {
+			recorddataplaneMapper.insert(recorddataplane);
+		} else {
+			recorddataplaneMapper.update(recorddataplane);
+		}
+	}
+
+	/**
+	 * 删除飞机属性更变记录信息
+	 * 
+	 * @param recorddataplane
+	 */
+	public void delete(RecordDataPlane recorddataplane) {
+		// 这里是物理删除，删除后飞机属性更变记录信息从数据库消失
+		recorddataplaneMapper.delete(recorddataplane);
+	}
+
+}

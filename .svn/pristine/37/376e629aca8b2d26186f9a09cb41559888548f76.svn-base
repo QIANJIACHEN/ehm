@@ -1,0 +1,230 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-head.jsp"/>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-script.jsp"/>
+    <style type="text/css">
+    	table.planetable{
+    		text-align:center;
+    	}
+    	table.planetable thead tr th {
+    		text-align:center;
+    	}
+    	table.planetable tbody tr td:last-child span{
+    		cursor:pointer;
+    		color:#199ED8;
+    	}
+    	.nav-tabs > li.active > a{
+    		    border: 1px solid #3399FF;
+    		    border-bottom-color: transparent;
+    	}
+    </style>
+</head>
+<body class="hold-transition" >
+
+<!-- Content Wrapper. Contains page content -->
+<div class="wrapper">
+
+    <div class="box wrapper " style="overflow: auto;">
+
+        <div class="box-header with-border">
+            <div class="row">
+                <div class="col-xs-1" style="min-width: 160px">
+                    <select class="form-control" id="search-bz-status">
+                    	<option disabled selected >执管基地</option>
+                        <option>AAA</option>
+                    </select>
+                </div>
+ 
+                <div class="col-xs-1" style="min-width: 160px">
+                    <select class="form-control" id="search-bz-status">
+                    	<option disabled selected >发动机编号</option>
+                        <option>全部</option>
+                    </select>
+                </div>
+
+                <div class="col-xs-1" style="min-width: 160px">
+                    <button class="btn btn-block btn-default" onclick="searchUser()">
+                        <i class="fa fa-search"></i>
+                      	  查询
+                    </button>
+                </div>
+                <div class="col-xs-1 pull-right" style="min-width: 160px">
+                    <button class="btn btn-block btn-primary col-sm-1" data-toggle="modal" data-target="#waterwash-add-modal">
+                       	 生成报表
+                    </button>
+                </div>
+                <div class="col-xs-1 pull-right" style="min-width: 160px">
+                    <button class="btn btn-block btn-primary col-sm-1" data-toggle="modal" data-target="#waterwash-add-modal">
+                       	 导入数据
+                    </button>
+                </div>
+                
+            </div>
+        </div>
+        <div class="box-body" style="padding-top:20px">
+			<div>
+
+			  <!-- Nav tabs -->
+			  <ul class="nav nav-tabs" role="tablist" style="border-bottom:1px solid #3399FF">
+			    <li role="presentation" class="active"><a href="#engineer" aria-controls="home" role="tab" data-toggle="tab">起飞</a></li>
+			    <li role="presentation"><a href="#flight" role="tab" data-toggle="tab">巡航</a></li>
+			  </ul>
+			
+			  <!-- Tab panes -->
+			  <div class="tab-content">
+			    <div role="tabpanel" class="tab-pane active" id="engineer" style="padding-top:30px">
+			    	<div class="row" style="margin-bottom:30px">
+			    		<div class="col-xs-1" style="text-align:center;line-height:34px">震动模型</div>
+			    		<div class="col-xs-2">
+			    			<select class="form-control">
+			    				<option>N1震动突变预警</option>
+			    				<option>N2震动突变预警</option>
+			    			</select>
+			    		</div>
+			    	</div>
+		                <table id="table-engineer" class="table  table-hover table-bordered planetable">
+		                	<thead>
+			                    <tr>
+			                        <th>运营人</th>
+			                        <th>执管基地</th>
+			                        <th>机号</th>
+			                        <th>发动机位置</th>
+			                        <th>发动机编号</th>
+			                        <th>状态</th>
+			                        <th>起飞时间</th>
+			                        <th>前单点</th>
+			                        <th>后单点</th>
+			                        <th>前平滑</th>
+			                        <th>后平滑</th>
+			                        <th>前趋势</th>
+			                        <th>后趋势</th>
+			                    </tr>
+		                    </thead>
+		                   	<tbody>
+		                   		<tr>
+		                   			<td>云航</td>
+		                   			<td>KM01</td>
+		                   			<td>B1702</td>
+		                   			<td>2</td>
+		                   			<td>660272</td>
+		                   			<td>起飞</td>
+		                   			<td>2017/10/17 0:05</td>
+		                   			<td>0.81</td>
+		                   			<td>1.46</td>
+		                   			<td>0.56</td>
+		                   			<td>0.83</td>
+		                   			<td>0.25</td>
+		                   			<td>0.63</td>
+		                   		</tr>
+		                   		
+		                   	</tbody>
+		                </table>
+			    </div>
+			    <div role="tabpanel" class="tab-pane" id="flight" style="padding-top:30px">
+			    	<div class="row" style="margin-bottom:30px">
+			    		<div class="col-xs-1" style="text-align:center;line-height:34px">震动模型</div>
+			    		<div class="col-xs-2">
+			    			<select class="form-control">
+			    				<option>N1震动突变预警</option>
+			    				<option>N2震动突变预警</option>
+			    			</select>
+			    		</div>
+			    	</div>
+			    	<div class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
+		                <table class="table  table-hover table-bordered planetable">
+		                	<thead>
+			                    <tr>
+			                        <th>运营人</th>
+			                        <th>执管基地</th>
+			                        <th>机号</th>
+			                        <th>发动机位置</th>
+			                        <th>发动机编号</th>
+			                        <th>状态</th>
+			                        <th>起飞时间</th>
+			                        <th>前单点</th>
+			                        <th>后单点</th>
+			                        <th>前平滑</th>
+			                        <th>后平滑</th>
+			                        <th>前趋势</th>
+			                        <th>后趋势</th>
+			                    </tr>
+		                    </thead>
+		                   	<tbody>
+		                   		<tr>
+		                   			<td>云航</td>
+		                   			<td>KM01</td>
+		                   			<td>B1702</td>
+		                   			<td>2</td>
+		                   			<td>660272</td>
+		                   			<td>巡航</td>
+		                   			<td>2017/10/17 0:05</td>
+		                   			<td>0.81</td>
+		                   			<td>1.46</td>
+		                   			<td>0.56</td>
+		                   			<td>0.83</td>
+		                   			<td>0.25</td>
+		                   			<td>0.63</td>
+		                   		</tr>
+		                   		
+		                   	</tbody>
+		                </table>
+            		</div>
+			    </div>
+			  </div>
+			
+			</div>
+            
+        </div>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript">
+	$("#table-engineer").DataTable({
+	    'dom': 'tr<"row"<"col-sm-5"l><"col-sm-7"p>>',
+	    "serverSide": true,
+	    ordering: false,
+	    "type": "POST",
+	    "ajax": {
+	        "url": "${pageContext.request.contextPath}/manage/datacfmperformance/listOne.do",
+	        "type": "POST",
+	        "data": function (search) {
+	        	// 条件查询参数
+	        	search.key = $("#search-key").val();
+	        }
+	    },
+	    "columns": [
+	        {"data": "tail"},
+	        {"data": "eposition"},
+	        {"data": "esn"},
+	        {"data": "flightPhase"},
+	        {"data": "flightDateTime"},
+	        {"data": "engineType"},
+	        {"data": "zphsr"},
+	        {"data": "gpcn25Smoothed"},
+	        {"data": "degtSmoothed"},
+	        {"data": "zphsf"},
+	        {"data": "egthdmD"},
+	        {"data": "egthdmD"}
+	    ],
+	    "ordering": false,
+	    "searching": false,
+	    "info": false,
+	    "language": {
+	        "lengthMenu": "显示 _MENU_ 条记录",
+	        "paginate": {
+	            "first": "首页",
+	            "next": "下一页",
+	            "previous": "上一页",
+	            "last": "末页",
+	        },
+	        "zeroRecords": "",
+	        "infoEmpty":"没有符合条件的数据",
+	        "emptyTable":"没有符合条件的数据"
+	    }
+	});
+
+</script>
+</html>

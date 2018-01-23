@@ -1,0 +1,60 @@
+package com.cea.ehm.service;
+
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cea.ehm.bean.WaterWash;
+import com.cea.ehm.dao.WaterWashMapper;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+/**
+ * 水洗服务层
+ */
+@Service
+public class WaterWashService {
+	private Logger logger = Logger.getLogger(UserService.class);
+	@Autowired
+	private WaterWashMapper waterwashMapper;
+
+	/**
+	 * 查询水洗列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	public PageList<WaterWash> getWaterWashList(Map<String, String> paramMap, PageBounds pageBounds) {
+		logger.info("数据库查询参数：" + paramMap);
+		return waterwashMapper.getWaterWashList(paramMap, pageBounds);
+	}
+
+	/**
+	 * 保存或更新水洗信息
+	 * 
+	 * @param user
+	 */
+	public void saveOrUpdate(WaterWash waterwash) {
+		// 查询判断水洗信息是否存在，考虑保存还是更新
+		WaterWash selectuser = waterwashMapper.select(waterwash);
+		if (selectuser == null) {
+			waterwashMapper.insert(waterwash);
+		} else {
+			waterwashMapper.update(waterwash);
+		}
+	}
+
+	/**
+	 * 删除水洗信息
+	 * 
+	 * @param user
+	 */
+	public void delete(WaterWash waterwash) {
+		// 这里是物理删除，删除后水洗信息从数据库消失
+		waterwashMapper.delete(waterwash);
+	}
+
+}

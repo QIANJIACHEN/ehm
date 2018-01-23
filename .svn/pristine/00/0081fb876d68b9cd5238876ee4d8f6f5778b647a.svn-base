@@ -1,0 +1,37 @@
+package com.cea.ehm.dao;
+
+import java.util.Map;
+
+import com.cea.ehm.bean.RecordEngReplace;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+public interface RecordEngReplaceMapper {
+	/**
+	 * 查询发动机故障列表
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	PageList<RecordEngReplace> recordinfos(Map<String, String> paramMap, PageBounds pageBounds);
+	/**
+	 * 添加发动机故障信息
+	 * 
+	 * @param recordEngReplace
+	 */
+	void recordadd(RecordEngReplace recordEngReplace);
+	
+	/**
+	 * 更新发动机故障信息
+	 * 
+	 * @param recordEngReplace
+	 */
+	void recordupdate(RecordEngReplace recordEngReplace);
+	
+	/**
+	 * 删除发动机故障信息
+	 * 
+	 * @param recordEngReplace
+	 */
+	void delete(RecordEngReplace recordEngReplace);
+}

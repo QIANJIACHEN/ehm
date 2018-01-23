@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.AuthRuleMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.AuthRule">
+		<id column="ROLE_ID" jdbcType="VARCHAR" property="roleId" />
+		<result column="RULE_NAME" jdbcType="VARCHAR" property="ruleName" />
+		<result column="TYPE" jdbcType="VARCHAR" property="type" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ROLE_ID,RULE_NAME,TYPE
+	</sql>
+	
+	<select id="select" parameterType="com.cea.ehm.bean.AuthRule" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM auth_rule
+		WHERE ROLE_ID = #{roleId,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getAuthRuleList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM auth_rule
+		WHERE ROLE_ID LIKE CONCAT('%',#{roleId,jdbcType=VARCHAR})
+	</select>
+
+	<insert id="insert" parameterType="com.cea.ehm.bean.AuthRule">
+		INSERT INTO auth_rule
+			(ROLE_ID,RULE_NAME,TYPE)
+		VALUES
+		(
+			#{roleId,jdbcType=VARCHAR},
+			#{ruleName,jdbcType=VARCHAR},
+			#{type,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="com.cea.ehm.bean.AuthRule">
+		DELETE FROM
+			auth_rule
+		WHERE
+			ROLE_ID = #{roleId,jdbcType=VARCHAR}
+	</delete>
+
+	<update id="update" parameterType="com.cea.ehm.bean.AuthRule">
+		UPDATE auth_rule
+		<set>
+			<if test="ruleName != null">
+				RULE_NAME = #{ruleName,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				TYPE = #{type,jdbcType=VARCHAR}
+			</if>
+		</set>
+		WHERE ROLE_ID = #{roleId,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

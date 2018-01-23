@@ -1,0 +1,294 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-head.jsp"/>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-script.jsp"/>
+    <style type="text/css">
+    	
+    	.table{
+    		border:none!important;
+    	}
+    	.table tr td{
+    		width:12.5%;
+    		vertical-align:middle!important;
+    		text-align:left;
+    		font-size:14px;
+    		border:none!important;
+    	}
+    	.table tr td:nth-of-type(2n+1){
+    		font-weight:bold;
+    	}
+    	a {
+		    color: blue!important;
+		    text-decoration: underline!important;
+		}
+    </style>
+</head>
+<body class="hold-transition" >
+
+<!-- Content Wrapper. Contains page content -->
+<div class="wrapper">
+
+    <div class="box wrapper " style="overflow: auto;">
+    	<button type="button" onclick="back()"  class="return">返回</button>
+        <div class="box-header">
+            <h4>基础信息</h4>
+            <div class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
+                <table style="margin-bottom:60px;" class="table  table-hover table-bordered planetable"> 
+                	<tr>
+                		<td><span class="key">ID</span></td>
+                		<td><span class="val" id="planeId"></span></td>
+                		<td><span class="key">型号1级</span></td>
+                		<td><span class="val" id="series"></span></td>
+                		<td><span class="key">VARIABLE</span></td>
+                		<td><span class="val" id="variable"></span></td>
+                		<td><span class="key" >引进方式</span></td>
+                		<td><span class="val" id="importWay"></span></td>
+                	</tr>
+                	<tr>
+                		<td><span class="key">TAIL</span></td>
+                		<td><span class="val" id="tail"></span></td>
+                		<td><span class="key">型号2级</span></td>
+                		<td><span class="val" id="type"></span></td>
+                		<td><span class="key">MSN</span></td>
+                		<td><span class="val" id="msn"></span></td>
+                		<td><span class="key">创建时间</span></td>
+                		<td><span class="val" id="ctime"></span></td>
+                	</tr>
+                	<tr>
+                		<td><span class="key">基地</span></td>
+                		<td><span class="val"><a id="duty" title1="2" href="javascript:void(0)"  onclick="jumpDuty(this)" >1</a></span></td>
+                		<td><span class="key">型号3级</span></td>
+                		<td><span class="val" id="model"></span></td>
+                		<td><span class="key">LINE</span></td>
+                		<td><span class="val" id="line"></span></td>
+                		<td><span class="key">状态</span></td>
+                		<td><span class="val" id="condition"></span></td>
+                	</tr>
+                	<tr>
+                		<td><span class="key">推力</span></td>
+                		<td><span class="val" id="ratingPlane"></span></td>
+                		<td><span class="key">属性</span></td>
+                		<td><span class="val" id="attribute"></span></td>
+                		<td><span class="key">适用性手册</span></td>
+                		<td><span class="val" id="effectivity"></span></td>
+                		
+                		<td><a></a></td>
+                	</tr>
+                	<tr>
+                		<td><span class="key">构型</span></td>
+                		<td><span class="val" id="configPlane"></span></td>
+                		<td><span class="key">ETOPS</span></td>
+                		<td><span class="val" id="etops"></span></td>
+                		<td><span class="key">运营人</span></td>
+                		<td><span class="val" id="operater"></span></td>
+                		<td><span class="key">左发</span></td>
+                		<td><span class="val" ><a id="engSn1" href="javascript:void(0)" title1="2" engSn="" onclick="jumpEng(this)" ></a></span></td>
+                	</tr>
+                	<tr>
+                		<td><span class="key">发动机原始编码</span></td>
+                		<td><span class="val" id="engSnOriginal"></span></td>
+                		<td><span class="key">高高原</span></td>
+                		<td><span class="val" id="hHighLand"></span></td>
+                		<td><span class="key">所有人</span></td>
+                		<td><span class="val" id="owner"></span></td>
+                		
+                		<td><span class="key">右发</span></td>
+                		<td><span class="val" ><a id="engSn2" href="javascript:void(0)" title1="2" engSn="" onclick="jumpEng(this)" ></a></span></td>
+                	</tr>
+                </table> 
+                <h4>备注</h4>
+                <div id="remark" style="width: 100%;height: 300px;border: none;">2014-06-30</div>
+            </div>
+        </div>
+       <!--  <div class="box-body">
+
+            <div>
+
+			  Nav tabs
+			  <ul class="nav nav-tabs" role="tablist" style="border-bottom:1px solid #3399FF">
+			    <li role="presentation" class="active"><a href="#engineer" aria-controls="home" role="tab" data-toggle="tab">发动机</a></li>
+			    <li role="presentation"><a href="#flight" role="tab" data-toggle="tab">航班</a></li>
+			  </ul>
+			
+			  Tab panes
+			  <div class="tab-content">
+			    <div role="tabpanel" class="tab-pane active" id="engineer" style="padding-top:30px">
+			    	<div class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
+		                <table class="table  table-hover table-bordered planetable">
+		                	<thead>
+		                    <tr>
+		                        <th>签发日期</th>
+		                        <th>状态</th>
+		                        <th>发动机位置</th>
+		                        <th>发动机编号</th>
+		                        <th>CONFIG</th>
+		                        <th>RATTING</th>
+		                        <th>TSN</th>
+		                        <th>CSN</th>
+		                        <th>预计下发日期</th>
+		                        <th>备注</th>
+		                    </tr>
+		                    </thead>
+		                   	<tbody>
+		                   		<tr>
+		                   			<td>2017/11/19</td>
+		                   			<td></td>
+		                   			<td>1</td>
+		                   			<td>038211</td>
+		                   			<td>3</td>
+		                   			<td>24</td>
+		                   			<td>49.6857</td>
+		                   			<td>26</td>
+		                   			<td>2019/02/11</td>
+		                   			<td></td>
+		                   		</tr>
+		                   		
+		                   	</tbody>
+		                </table>
+            </div>
+			    </div>
+			    <div role="tabpanel" class="tab-pane" id="flight" style="padding-top:30px">
+			    	<div class="dataTables_wrapper form-inline dt-bootstrap table-responsive">
+		                <table class="table  table-hover table-bordered planetable">
+		                	<thead>
+		                    <tr>
+		                        <th>飞行日期</th>
+		                        <th>空中时间</th>
+		                        <th>空地时间</th>
+		                        <th>起飞航站</th>
+		                        <th>到达航站</th>
+		                        <th>航班号</th>
+		                    </tr>
+		                    </thead>
+		                   	<tbody>
+		                   		<tr>
+		                   			<td>2017/11/19</td>
+		                   			<td>1.9615</td>
+		                   			<td>2.0</td>
+		                   			<td>CAN</td>
+		                   			<td>KMG</td>
+		                   			<td>MU5738</td>
+		                   		</tr>
+		                   		
+		                   	</tbody>
+		                </table>
+            		</div>
+			    </div>
+			  </div>
+			
+			</div>
+        </div> -->
+    </div>
+</div>
+
+
+
+</body>
+<script>
+var Request = new Object(); 
+Request = getRequest(); 
+var tail = Request['tail']; 
+$.post("${pageContext.request.contextPath}/manage/dataplane/info.do",{tail:tail},function(res){
+	if(res!=null&&res!=""){
+		$('#planeId').html(res.data[0].id);
+		$("#tail").html(res.data[0].tail);
+		$("#duty").html(res.data[0].dutyName);
+		$("#duty").attr("duty",res.data[0].duty);
+		$("#ratingPlane").html(res.data[0].ratingPlane);
+		$("#configPlane").html(res.data[0].configPlane);
+		$("#engSnOriginal").html(res.data[0].engSnOriginal);
+		$("#series").html(res.data[0].series);
+		$("#type").html(res.data[0].type);
+		$("#model").html(res.data[0].model);
+		$("#attribute").html(res.data[0].attribute);
+		$("#etops").html(res.data[0].etops);
+		if(res.data[0].hHighLand=="1"){
+			$("#hHighLand").html("N");
+		}else if(res.data[0].hHighLand=="0"){
+			$("#hHighLand").html("Y");
+		}
+		$("#variable").html(res.data[0].variable);
+		$("#msn").html(res.data[0].serial);
+		$("#line").html(res.data[0].line);
+		$("#effectivity").html(res.data[0].effectivity);
+		$("#operater").html(res.data[0].operater);
+		$("#owner").html(res.data[0].owner);
+		$("#importWay").html(res.data[0].importWay);
+		$("#ctime").html(res.data[0].ctime);
+		$("#condition").html(res.data[0].condition);
+		$("#remark").html(res.data[0].remark);
+	}
+},"json");
+
+//飞机发动机关联	
+$.post("${pageContext.request.contextPath}/manage/controlfleetplane/getlistbyplane.do",{tail:tail},function(res){
+res=JSON.parse(res);
+$("#table-body").empty();
+if(res.data!=null&&res.data!=""&&res.data!="undefined"){
+	$.each(res.data,function(index,item){
+		if(item.engPosition=="2"){
+			//position = "右发";
+			$("#engSn2").html(item.engSn);
+			$("#engSn2").attr("engSn",item.engSn);
+		}else if(item.engPosition=="1"){
+			//position = "左发";
+			$("#engSn1").html(item.engSn);
+			$("#engSn1").attr("engSn",item.engSn);
+		}
+		//$("#table-body").append("<tr><td>"+position+"</td><td><a href='javascript:void(0)' title1='2' onclick='jump2(this)' engSn='"+item.engSn+"'>"+item.engSn+"</a></td><td>"+item.engPn+"</td><td>"+item.codePosition+"</td>"
+		//		+"<td>"+item.remark+"</td></tr>");
+	
+	})
+}else{
+	$("#table-body").append("<p>暂无数据</p>");
+}
+})
+//返回
+function back(){
+	var Request = new Object(); 
+	Request = getRequest();
+	title1 = Request['title'];
+	if(title1=="1"){
+		title = "飞机列表";
+	}else if(title1=="2"){
+		
+	}else if(title1=="3"){
+		title="飞机属性更变记录详情";
+	}else if(title1=="4"){
+		title="onwing发动机详情";
+	}else if(title1=="5"){
+		
+	}else if(title1=="6"){
+		title="SAP日报详情";
+	}else if(title1=="7"){
+		title = "滑油数据详情";
+	}else if(title1=="8"){
+		title = "发动机详情	";
+	}else if(title1=="9"){
+		title="机队清单";
+	}else if(title1=="10"){
+		title="飞机航班关联";
+	}else if(title1=="11"){
+		title="SAP日报";
+	}else if(title1=="12"){
+		title="发动机性能数据";
+	}else if(title1=="13"){
+		title="滑油数据";
+	}else if(title1=="14"){
+		title="滑耗监控";
+	}else if(title1=="15"){
+		title="故障记录列表";
+	}else if(title1=="16"){
+		title="";
+	}
+	tab_url = self.frameElement.getAttribute('data_url');//iframe对应的data_url和tab对应的data_url是一致的
+	window.parent.changePage(title,tab_url);//调用父页面的方法
+	//跳转
+	window.history.back();
+}
+
+
+</script>
+</html>

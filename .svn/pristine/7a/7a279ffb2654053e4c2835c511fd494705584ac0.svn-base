@@ -1,0 +1,131 @@
+package com.cea.ehm.bean;
+
+import java.io.Serializable;
+
+/*
+ * 发动机维修记录表
+ */
+public class RecordEngSvSchedule implements Serializable {
+	private static final long serialVersionUID = 1L;
+	/**
+	 * 主键id
+	 */
+	private Integer id;
+	/**
+	 * 拆发时间
+	 */
+	private String removeDate;
+	/**
+	 * 工厂
+	 */
+	private String factory;
+	/**
+	 * 到达时间
+	 */
+	private String arrived;
+	/**
+	 * INDUCTION
+	 */
+	private String induction;
+	/**
+	 * 计划完成时间
+	 */
+	private String completePlan;
+	/**
+	 * 完成时间
+	 */
+	private String complete;
+	/**
+	 * 送还时间
+	 */
+	private String ship;
+	/**
+	 * 费用
+	 */
+	private String cost;
+	/**
+	 * 耗时
+	 */
+	private String tat;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getRemoveDate() {
+		return removeDate;
+	}
+
+	public void setRemoveDate(String removeDate) {
+		this.removeDate = removeDate;
+	}
+
+	public String getFactory() {
+		return factory;
+	}
+
+	public void setFactory(String factory) {
+		this.factory = factory;
+	}
+
+	public String getArrived() {
+		return arrived;
+	}
+
+	public void setArrived(String arrived) {
+		this.arrived = arrived;
+	}
+
+	public String getInduction() {
+		return induction;
+	}
+
+	public void setInduction(String induction) {
+		this.induction = induction;
+	}
+
+	public String getCompletePlan() {
+		return completePlan;
+	}
+
+	public void setCompletePlan(String completePlan) {
+		this.completePlan = completePlan;
+	}
+
+	public String getComplete() {
+		return complete;
+	}
+
+	public void setComplete(String complete) {
+		this.complete = complete;
+	}
+
+	public String getShip() {
+		return ship;
+	}
+
+	public void setShip(String ship) {
+		this.ship = ship;
+	}
+
+	public String getCost() {
+		return cost;
+	}
+
+	public void setCost(String cost) {
+		this.cost = cost;
+	}
+
+	public String getTat() {
+		return tat;
+	}
+
+	public void setTat(String tat) {
+		this.tat = tat;
+	}
+
+}

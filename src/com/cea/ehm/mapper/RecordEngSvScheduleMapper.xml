@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.RecordEngSvScheduleMapper">
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.RecordEngSvSchedule">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="REMOVE_DATE" jdbcType="TIMESTAMP" property="removeDate" />
+		<result column="FACTORY" jdbcType="VARCHAR" property="factory" />
+		<result column="ARRIVED" jdbcType="TIMESTAMP" property="arrived" />
+		<result column="INDUCTION" jdbcType="VARCHAR" property="induction" />
+		<result column="COMPLETE_PLAN" jdbcType="TIMESTAMP" property="completePlan" />
+		<result column="COMPLETE" jdbcType="TIMESTAMP" property="complete" />
+		<result column="SHIP" jdbcType="TIMESTAMP" property="ship" />
+		<result column="COST" jdbcType="VARCHAR" property="cost" />
+		<result column="TAT" jdbcType="INTEGER" property="tat" />
+	</resultMap>
+	<sql id="baseColumnList" >
+		ID,REMOVE_DATE,FACTORY,ARRIVED,INDUCTION,COMPLETE_PLAN,COMPLETE,SHIP,COST,TAT
+	</sql>
+	<select id="getRecordEngSvScheduleList" parameterType="com.cea.ehm.bean.RecordEngSvSchedule" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_record_eng_sv_schedule
+		<if test="factory != null ">
+			WHERE FACTORY LIKE CONCAT(CONCAT('%',#{factory,jdbcType=VARCHAR}),'%')
+		</if>
+	</select>
+	<insert id="insert" parameterType="com.cea.ehm.bean.RecordEngSvSchedule">
+		INSERT INTO ehm_record_eng_sv_schedule
+		(
+			REMOVE_DATE,FACTORY,ARRIVED,INDUCTION,
+			COMPLETE_PLAN,COMPLETE,SHIP,COST,TAT
+		)
+		VALUES
+		(
+			#{removeDate,jdbcType=VARCHAR},
+			#{factory,jdbcType=VARCHAR},
+			#{arrived,jdbcType=TIMESTAMP},
+			#{induction,jdbcType=VARCHAR},
+			#{completePlan,jdbcType=TIMESTAMP},
+			#{complete,jdbcType=TIMESTAMP},
+			#{ship,jdbcType=TIMESTAMP},
+			#{cost,jdbcType=VARCHAR},
+			#{tat,jdbcType=INTEGER}
+		)
+	</insert>
+	
+	<update id="update" parameterType="com.cea.ehm.bean.RecordEngSvSchedule">
+		UPDATE ehm_record_eng_sv_schedule
+		<set>
+			<if test="removeDate != null" >
+				REMOVE_DATE = #{removeDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="factory != null" >
+				FACTORY = #{factory,jdbcType=VARCHAR},
+			</if>
+			<if test="arrived != null" >
+				ARRIVED = #{arrived,jdbcType=TIMESTAMP},
+			</if>
+			<if test="induction != null" >
+				INDUCTION = #{induction,jdbcType=VARCHAR},
+			</if>
+			<if test="completePlan != null" >
+				COMPLETE_PLAN = #{completePlan,jdbcType=TIMESTAMP},
+			</if>
+			<if test="complete != null" >
+				COMPLETE = #{complete,jdbcType=TIMESTAMP},
+			</if>
+			<if test="ship != null" >
+				SHIP = #{ship,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cost != null" >
+				COST = #{cost,jdbcType=VARCHAR},
+			</if>
+			<if test="tat != null" >
+				TAT = #{tat,jdbcType=INTEGER},
+			</if>
+		</set>
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<delete id="delete" parameterType="com.cea.ehm.bean.RecordEngSvSchedule">
+		DELETE FROM
+			ehm_record_eng_sv_schedule
+		WHERE
+			ID = #{id,jdbcType=INTEGER}
+	</delete>
+	
+</mapper>

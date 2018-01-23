@@ -1,0 +1,51 @@
+package com.cea.ehm.service;
+
+import java.time.LocalDateTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cea.ehm.bean.RuleComputation;
+import com.cea.ehm.dao.RuleComputationMapper;
+
+/**
+ * 计算
+ */
+@Service
+public class RuleComputationService {
+	@Autowired
+	private RuleComputationMapper computationMapper;
+
+	/**
+	 * 保存 computation
+	 * 
+	 * @param computation
+	 */
+	public Integer saveComputation(RuleComputation computation) {
+		String date = LocalDateTime.now().toString().replace("T", " ");
+		String ctime = date.substring(0, date.indexOf("."));
+		computation.setCtime(ctime);
+		computation.setInspectionId(0);
+		computationMapper.saveComputation(computation);
+		return computation.getId();
+	}
+
+	/**
+	 * 删除 computation
+	 * 
+	 * @param id
+	 */
+	public void deleteComputation(Integer id) {
+		computationMapper.deleteComputation(id);
+	}
+
+	/**
+	 * 修改 computation
+	 * 
+	 * @param computation
+	 */
+	public void updateComputation(RuleComputation computation) {
+		computationMapper.updateComputation(computation);
+	}
+
+}

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.ShakeMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.Shake">
+		<result column="OPERATER" jdbcType="VARCHAR" property="operater" />
+		<result column="DUTYNAME" jdbcType="VARCHAR" property="dutyName" />
+		<result column="TAIL" jdbcType="VARCHAR" property="tail" />
+		<result column="EPOSITION" jdbcType="VARCHAR" property="ePosition" />
+		<result column="ENG_SN" jdbcType="VARCHAR" property="engSn" />
+		<result column="FLIGHT_PHASE" jdbcType="VARCHAR" property="flightPhase" />
+		<result column="FLIGHT_DATETIME" jdbcType="TIMESTAMP" property="flightDateTime" />
+		<result column="ZVB1F" jdbcType="VARCHAR" property="zvb1f" />
+		<result column="ZVB1R" jdbcType="VARCHAR" property="zvb1r" />
+		<result column="ZVB1F_SMOOTHED" jdbcType="VARCHAR" property="zvb1fSmoothed" />
+		<result column="ZVB1R_SMOOTHED" jdbcType="VARCHAR" property="zvb1rSmoothed" />
+		<result column="ZPHSF" jdbcType="VARCHAR" property="zphsf" />
+		<result column="ZPHSR" jdbcType="VARCHAR" property="zphsr" />
+	</resultMap>
+
+	<select id="listOne" parameterType="map" resultMap="baseResultMap">
+		SELECT
+			c.EPOSITION EPOSITION,
+			c.FLIGHT_PHASE FLIGHT_PHASE,
+			c.FLIGHT_DATETIME FLIGHT_DATETIME,
+			c.ZVB1F ZVB1F,
+			c.ZVB1R ZVB1R,
+			c.ZVB1F_SMOOTHED ZVB1F_SMOOTHED,
+			c.ZVB1R_SMOOTHED ZVB1R_SMOOTHED,
+			c.ZPHSF ZPHSF,
+			c.ZPHSR ZPHSR,
+			e.ENG_SN ENG_SN,
+			p.OPERATER OPERATER,
+			p.TAIL TAIL,
+			d.NAME DUTYNAME
+		FROM ehm_data_cfm_performance c
+			LEFT JOIN ehm_data_eng e on c.ENG_ID = e.ID
+			LEFT JOIN ehm_data_plane p on c.PLANE_ID = p.ID
+			LEFT JOIN ehm_duty d on p.DUTY = d.ID
+		WHERE c.FLIGHT_PHASE = 1
+			AND e.ENG_SN LIKE CONCAT(CONCAT('%',#{engSn,jdbcType=VARCHAR}),'%')
+		<if test="dutyId != null and dutyId != ''">
+			AND d.ID = #{dutyId, jdbcType=INTEGER}
+		</if>
+	</select>
+	
+	<select id="listTwo" parameterType="map" resultMap="baseResultMap">
+		SELECT
+			c.EPOSITION EPOSITION,
+			c.FLIGHT_PHASE FLIGHT_PHASE,
+			c.FLIGHT_DATETIME FLIGHT_DATETIME,
+			c.ZVB1F ZVB1F,
+			c.ZVB1R ZVB1R,
+			c.ZVB1F_SMOOTHED ZVB1F_SMOOTHED,
+			c.ZVB1R_SMOOTHED ZVB1R_SMOOTHED,
+			c.ZPHSF ZPHSF,
+			c.ZPHSR ZPHSR,
+			e.ENG_SN ENG_SN,
+			p.OPERATER OPERATER,
+			p.TAIL TAIL,
+			d.NAME DUTYNAME
+		FROM ehm_data_cfm_performance c
+			LEFT JOIN ehm_data_eng e on c.ENG_ID = e.ID
+			LEFT JOIN ehm_data_plane p on c.PLANE_ID = p.ID
+			LEFT JOIN ehm_duty d on p.DUTY = d.ID
+		WHERE c.FLIGHT_PHASE = 2
+			AND e.ENG_SN LIKE CONCAT(CONCAT('%',#{engSn,jdbcType=VARCHAR}),'%')
+		<if test="dutyId != null and dutyId != ''">
+			AND d.ID = #{dutyId, jdbcType=INTEGER}
+		</if>
+	</select>
+
+</mapper>

@@ -1,0 +1,108 @@
+package com.cea.ehm.bean;
+
+import java.io.Serializable;
+
+/**
+ * 角色表(role)
+ */
+public class Role implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 角色 id
+	 */
+	private String id;
+	/**
+	 * 角色名称
+	 */
+	private String name;
+	/**
+	 * 上级ID
+	 */
+	private String pId;
+	/**
+	 * 0：无效；1：有效
+	 */
+	private String status;
+	/**
+	 * 备注
+	 */
+	private String remark;
+	/**
+	 * 创建时间
+	 */
+	private String ctime;
+	/**
+	 * 修改时间
+	 */
+	private String utime;
+	/**
+	 * 排序
+	 */
+	private String listorder;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getpId() {
+		return pId;
+	}
+
+	public void setpId(String pId) {
+		this.pId = pId;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public String getCtime() {
+		return ctime;
+	}
+
+	public void setCtime(String ctime) {
+		this.ctime = ctime;
+	}
+
+	public String getUtime() {
+		return utime;
+	}
+
+	public void setUtime(String utime) {
+		this.utime = utime;
+	}
+
+	public String getListorder() {
+		return listorder;
+	}
+
+	public void setListorder(String listorder) {
+		this.listorder = listorder;
+	}
+
+}

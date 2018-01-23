@@ -1,0 +1,653 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-head.jsp"/>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-script.jsp"/>
+    <style type="text/css">
+    	
+    	.nav_tabs > li{
+    		float:left;
+    	}
+    	.nav_tabs > li a{
+    		margin-right:2px;
+    		border-radius:4px 4px 0px 0px;
+    		color:#333;
+    	}
+    	.nav_tabs > li.active > a{
+    		color:#3399FF;
+    		border: 1px solid #3399FF;
+    		border-bottom-color: transparent;
+    	}
+    	span.mright{
+    		margin-right:15px;
+    		margin-left:15px;
+    	}
+    	input.formnew , select.formnew{
+    		padding:6px 12px;
+    		min-width:130px;
+    		max-width:160px;
+    		margin:0px 3px;
+    	}
+    	table.planetable{
+    		text-align:center;
+    	}
+    	table.planetable thead tr th {
+    		text-align:center;
+    	}
+    	table.planetable tbody td a.sz{
+    		color:#3399FF;
+    		margin:0px 3px;
+    	}
+    	.first{
+    		display:inline-block;
+    		min-width:120px;
+    	}
+    </style>
+</head>
+<body class="hold-transition" >
+
+<!-- Content Wrapper. Contains page content -->
+<div class="wrapper">
+
+    <div class="box wrapper " style="overflow: auto;">
+        <div class="box-body" style="padding-top:30px" style="min-width:970px">
+        	<div>
+
+			  <!-- Nav tabs -->
+			  
+			  <ul class="nav nav_tabs" role="tablist" style="border-bottom:1px solid #3399FF">
+			    <li role="presentation"  class="active"><a href="#flight" aria-controls="home" role="tab" data-toggle="tab">已设置公式</a></li>
+			    <li role="presentation"><a href="#engineer" role="tab" data-toggle="tab">计算设置</a></li>
+			  </ul>
+			
+			  <!-- Tab panes -->
+			 <form id="form" method="post" class="form-horizontal">
+				<div class="tab-content">
+				
+					<div role="tabpanel" class="tab-pane active" id="flight" style="padding-top:30px">
+				    	<div style="padding:0px 20px">
+				                <table id="table-list" class="table  table-hover table-bordered planetable">
+				                	<thead>
+					                    <tr>
+					                        <th style="display: none;">ID</th>
+					                        <th>公式名称</th>
+					                        <th>发动机序列</th>
+					                        <th>发动机类型</th>
+					                        <th>发动机模型</th>
+					                        <th>发动机构型</th>
+					                        <th>操作</th>
+					                    </tr>
+				                    </thead>
+				                   	<tbody>
+				                   	</tbody>
+				                </table>
+	            		</div>
+	            
+				    </div>
+				    
+				    <div role="tabpanel" class="tab-pane" style="padding-top:30px" id="engineer">
+				    	<div style="background-color:#e7f9ff;margin-bottom:20px">
+					    	<div class="row" style="padding:20px">
+					    		<span class="mright">公式名称:</span>
+					    		<input class="formnew" type="text" style="height:34px" id="name"/>
+					    		
+					    		<span class="mright">发动机序列:</span>
+					    		<select class="formnew" id="engSeries">
+					    			<option>AAA</option>
+					    			<option></option>
+					    		</select>
+					    	</div>
+					    	<div class="row" style="padding:20px">
+					    		<span class="mright">发动机类型:</span>
+					    		<select class="formnew" id="engType">
+					    			<option>AAA</option>
+					    			<option></option>
+					    		</select>
+					    		
+					    		<span class="mright">发动机模型:</span>
+					    		<select class="formnew" id="engModel">
+					    			<option>AAA</option>
+					    			<option></option>
+					    		</select>
+					    		
+					    		<span class="mright">发动机构型:</span>
+					    		<select class="formnew" id="engConfig">
+					    			<option>AAA</option>
+					    			<option></option>
+					    		</select>
+					    		
+					    		<span class="mright">优先级:</span>
+					    		<input class="formnew" type="text" style="height:34px" id="orderId"/>
+					    	</div>
+				    	</div>
+				    	
+				    	<div id="before" class="row" style="padding:10px 20px" >
+				    		<div class="col-xs-12">
+				    			<button onclick="firstParam()" type="button" data-toggle="modal" data-target="#add-modal" class="btn btn-primaty pull-right" style="min-width:130px">添加条件</button>
+				    		</div>
+				    	</div>
+				    	
+
+				    	<!-- <div style="display: none; background-color:#f9edf9;margin-bottom:20px">
+					    	<div class="row" style="padding:20px">
+					    		<div class="col-xs-12"  style="margin-bottom:15px">
+					    			<span class="mright" style="margin-left:0px">与前一条件的关系</span>
+					    			<span class="mright type" style="margin-left:0px">关系</span>
+						    		<select name="computation.type" class="formnew">
+						    			<option value="0">第一个条件</option>
+						    			<option value="1">AND</option>
+						    			<option value="2">OR</option>
+						    		</select>
+						    		<button class="btn btn-primaty pull-right" style="min-width:130px">修改</button>
+						    		<button class="btn btn-primaty pull-right" style="min-width:130px">删除</button>
+					    		</div>
+					    		<div style="margin-bottom:15px">
+					    			<span class="mright">计算范围类型</span>
+					    			<span class="mright calculationType">短期</span>
+						    		<select name="computation.calculationType" class="formnew">
+						    			<option value="1">区间</option>
+						    			<option value="2">短期</option>
+						    			<option value="3">中期</option>
+						    			<option value="4">长期</option>
+						    		</select>
+						    		<span class="mright">计算范围</span>
+						    		<span class="mright calculationRange">10</span>
+						    		<span class="mright rangeType">点</span>
+						    		<input name="computation.calculationRange" type="text" class="formnew" style="height:34px" />
+						    		<select name="computation.rangeType" style="padding:6px 15px">
+						    			<option value="1">点</option>
+						    			<option value="2">天</option>
+						    		</select>
+						    		<span class="mright">状态</span>
+						    		<span class="mright flightPhase">ALL</span>
+						    		<select name="computation.flightPhase" class="formnew">
+						    			<option value="0">ALL</option>
+						    			<option value="1">起飞</option>
+						    			<option value="2">巡航</option>
+						    		</select>
+					    		</div>
+					    		<div style="margin-bottom:15px">
+					    			<span class="mright">选择参数</span>
+					    			<span class="mright">N1震动</span>
+						    		<select class="formnew">
+						    			<option>N1震动</option>
+						    			<option></option>
+						    		</select>
+					    			<span class="mright">左发</span>
+						    		<select class="formnew">
+						    			<option>左发</option>
+						    			<option>右发</option>
+						    		</select>
+						    		<span class="mright">MAX</span>
+						    		<span class="mright max">1</span>
+					    			<input name="computation.max" class="formnew" type="text" style="height:34px"/>
+					    			<span class="mright">MIN</span>
+					    			<span class="mright min">0</span>
+					    			<input name="computation.min" class="formnew" type="text" style="height:34px"/>
+					    			<span class="mright">等于</span>
+					    			<span class="mright equal">2</span>
+					    			<input name="computation.equal" class="formnew" type="text" style="height:34px"/>
+					    			<span class="mright">不等于</span>
+					    			<span class="mright unequal">3</span>
+					    			<input name="computation.unequal" class="formnew" type="text" style="height:34px"/>
+					    		</div>
+					    	</div>
+				    	</div> -->
+				    	
+				    	
+				    	<div style="background-color:#a5d2ff;margin-bottom:20px">
+					    	<div class="row" style="padding:20px">
+					    			<p style="margin-left:15px">满足以上条件</p>
+						    		<div class="col-xs-12" style="margin-bottom:10px">
+						    			<input type="checkbox" />
+						    			<span class="first">发送警报给</span>
+						    			<select name="inspectionUser.duty" style="padding:6px 12px;margin:0px 3px;width:160px">
+							    			<option value="0">基地A</option>
+							    			<option value="1">基地B</option>
+							    		</select>
+						    		</div>
+						    		<div class="col-xs-12" style="margin-bottom:10px">
+						    			<span class="first" style="padding:6px 12px;margin:0px 3px;width:130px">警告内容</span>
+						    			<input id="content" class="formnew" type="text" style="height:34px"/>
+						    		</div>
+					    	</div>
+				    	</div>
+				    	
+					    <div style="text-align:center">
+					    	<button type="button" class="btn btn-default" style="min-width:130px;margin-right:10px">取消</button>
+					    	<button type="button" class="btn btn-primary" style="min-width:130px" onclick="finish()">确定</button>
+					    </div>
+				    
+				    </div>
+				    
+				  </div>
+			 </form>
+			 
+				
+			</div>
+        </div>
+    </div>
+</div>
+</body>
+
+<jsp:include page='computationadd.jsp'/>
+<jsp:include page='computationinfo.jsp'/>
+
+<script type="text/javascript">
+	$("#table-list").DataTable({
+	    'dom': 'tr<"row"<"col-sm-5"l><"col-sm-7"p>>',
+	    "serverSide": true,
+	    "ordering": false,
+	    "type": "POST",
+	    "ajax": {
+	        "url": "${pageContext.request.contextPath}/manage/calculate/list.do",
+	        "type": "POST",
+	        "data": function (search) {
+	        	// 条件查询参数
+	        }
+	    },
+	    "columns": [
+	        {"data": "id","visible": false},
+	        {"data": "name"},
+	        {"data": "engSeries"},
+	        {"data": "engType"},
+	        {"data": "engModel"},
+	        {"data": "engConfig"}
+	    ],
+	    "ordering": false,
+	    "searching": false,
+	     "columnDefs": [
+	    	 {
+	          	"targets" : 1,
+	  			"render" : function(data, type, row) {
+	  				return "<a href='javascript:openView(\"" + row.id
+	  						+ "\")'>" + (data == null ? '-' : data)
+	  						+ "</a>";
+	  			}
+	  		 },
+	         {
+	            "targets": 6,
+	            "data": function (row, type, val, meta) {
+	                return row;
+	            },
+	            "render": function (data, type, full, meta) {
+	                var table = $("#table-list").DataTable();
+	                var result = '<div class="btn-group open">'
+	                    + '<button type="button" class="btn btn-default btn-sm" onclick="deleteInspec(' + data.id + ')">'
+	                    + '<i class="fa fa-trash"></i></button></div>';
+	                return result;
+	            }
+	         }
+	    ],
+	    "info": false,
+	    "language": {
+	        "lengthMenu": "显示 _MENU_ 条记录",
+	        "paginate": {
+	            "first": "首页",
+	            "next": "下一页",
+	            "previous": "上一页",
+	            "last": "末页",
+	        },
+	        "zeroRecords": "",
+	        "infoEmpty":"没有符合条件的数据",
+	        "emptyTable":"没有符合条件的数据"
+	    }
+	});
+	
+	 // 跳转详细页面
+	 function openView(id){
+		 window.location = '${pageContext.request.contextPath}/manage/calculate/detail.do?id='+ id;
+	 }
+	 
+	 // 删除公式
+	 function deleteInspec(id){
+		 $.post(
+				"${pageContext.request.contextPath}/manage/calculate/deleteInspec.do",
+				{"id": id},
+				function (response) {
+				},
+				"json"
+		 	);
+	 }
+	
+	// 获取所有条件id（computation）
+	function getCompuIds() {
+		var compuIds = [];
+		$('.del').each(function(){
+			compuIds.push($(this).data('id'));
+		});
+		return compuIds;
+	}
+
+	// 确定按钮点击事件
+	function finish(){
+		if (getCompuIds().length == 0) {
+			alert("最少一个条件！ ");
+		}else{
+			// 数组转json格式
+			var compuIds = JSON.stringify(getCompuIds());
+			var name = $('#name').val();
+			var engSeries = $('#engSeries').val();
+			var engType = $('#engType').val();
+			var engModel = $('#engModel').val();
+			var engConfig = $('#engConfig').val();
+			var orderId = $('#orderId').val();
+			var content = $('#content').val();
+			$.post(
+				    "${pageContext.request.contextPath}/manage/calculate/saveall.do",
+				    {
+				    	"compuIds": compuIds,
+				        "name": name,
+				        "engSeries": engSeries,
+				        "engType": engType,
+				        "engModel": engModel,
+				        "engConfig": engConfig,
+				        "orderId": orderId,
+				        "content": content
+				    },
+				    function (response) {
+				    	
+				    },
+				    "json"
+				);
+		}
+	}
+	
+	// addcomputation
+	function addcomputation() {
+		var type = $("#type").val();
+		var calculationType = $("#calculationType").val();
+		var calculationRange= $("#calculationRange").val();
+		var rangeType = $("#rangeType").val();
+		var flightPhase = $("#flightPhase").val();
+		var pVal = $("#pVal").val();
+		var cVal = $("#cVal").val();
+		var cId = $("#cVal").find("option:selected").data("id");
+		var max = $("#max").val();
+		var min = $("#min").val();
+		var equal = $("#equal").val();
+		var unequal = $("#unequal").val();
+		$.post(
+		    "${pageContext.request.contextPath}/manage/calculate/savecomputation.do",
+		    {
+		        "type": type,
+		        "calculationType": calculationType,
+		        "calculationRange": calculationRange,
+		        "rangeType": rangeType,
+		        "flightPhase": flightPhase,
+		        "ruleId": cId,
+		        "max": max,
+		        "min": min,
+		        "equal": equal,
+		        "unequal": unequal
+		    },
+		    function (response) {
+		    	$('#add-modal').modal('hide');
+		    	var id = response.data;
+		    	showcomputation(id, type, calculationType, calculationRange, rangeType, flightPhase, pVal, cVal, max, min, equal, unequal);
+		    },
+		    "json"
+		);
+	}
+	
+	 // 清除弹窗原数据
+	 $("#add-modal").on("hidden.bs.modal", function() {
+	     $('#reset').click();
+	 });
+	 
+	 // 页面显示条件参数
+	  function showcomputation(id, type, calculationType, calculationRange, rangeType, flightPhase, pVal, cVal, max, min, equal, unequal){
+		 $('#before').before('<div id="'+id+'" style="background-color:#f9edf9;margin-bottom:20px">'
+				 +'<div class="row" style="padding:20px">'
+				 +'<div class="col-xs-12"  style="margin-bottom:15px">'
+				 +'	<span class="mright" style="margin-left:0px">与前一条件的关系</span>'
+				 +'	<span class="mright type" data-value="'+type+'">'+getType(type)+'</span>'
+				 +'		<button type="button" class="btn btn-primaty pull-right edit" data-id="'+id+'" style="min-width:130px" data-toggle="modal" data-target="#info-modal">修改</button>'
+				 +'  	<button type="button" class="btn btn-primaty pull-right del" data-id="'+id+'" style="min-width:130px">删除</button>'
+				 +'		</div>'
+				 +'		<div style="margin-bottom:15px">'
+				 +'  			<span class="mright">计算范围类型</span>'
+				 +'   			<span class="mright calculationType" data-value="'+calculationType+'">'+getCalculationType(calculationType)+'</span>'
+				 +'	    		<span class="mright">计算范围</span>'
+				 +'	    		<span class="mright calculationRange">'+calculationRange+'</span>'
+				 +'	    		<span class="mright rangeType" data-value="'+rangeType+'">'+getRangeType(rangeType)+'</span>'
+				 +'	    		<span class="mright">状态</span>'
+				 +'	    		<span class="mright flightPhase" data-value="'+flightPhase+'">'+getFlightPhase(flightPhase)+'</span>'
+				 +'    		</div>'
+				 +'    		<div style="margin-bottom:15px">'
+				 +'    			<span class="mright">选择参数</span>'
+				 +'    			<span class="mright pVal">'+pVal+'</span>'
+				 +'    			<span class="mright cVal">'+cVal+'</span>'
+				 +'	    		<span class="mright">MAX</span>'
+				 +'	    		<span class="mright max">'+max+'</span>'
+				 +'    			<span class="mright">MIN</span>'
+				 +'    			<span class="mright min">'+min+'</span>'
+				 +'    			<span class="mright">等于</span>'
+				 +'    			<span class="mright equal">'+equal+'</span>'
+				 +'    			<span class="mright">不等于</span>'
+				 +'    			<span class="mright unequal">'+unequal+'</span>'
+				 +'  		</div>'
+				 +'    	</div>'
+				 +'</div>');
+	 } 
+	 
+	  // 删除条件
+	  $("#engineer").on("click",".del", function(){
+			$(this).parent().parent().parent().remove();
+			var id =  $(this).data('id');
+			$.post(
+		             "${pageContext.request.contextPath}/manage/calculate/deletecomputation.do",
+		             {"id": id},
+		             function (response) {
+		             },
+		             "json"
+		         );
+	  });
+	  
+	  // 条件修改弹窗数据填充
+	  $("#engineer").on("click",".edit", function(){
+		  firstParam();
+		  
+		  var id =  $(this).data('id');
+		  var type = $('#'+id+'').find('.type').data('value');
+		  var calculationType = $('#'+id+'').find('.calculationType').data('value');
+		  var calculationRange = $('#'+id+'').find('.calculationRange').html();
+		  var rangeType = $('#'+id+'').find('.rangeType').data('value');
+		  var flightPhase = $('#'+id+'').find('.flightPhase').data('value');
+		  var pVal = $('#'+id+'').find('.pVal').html();
+		  var cVal = $('#'+id+'').find('.cVal').html();
+		  var max = $('#'+id+'').find('.max').html();
+		  var min = $('#'+id+'').find('.min').html();
+		  var equal = $('#'+id+'').find('.equal').html();
+		  var unequal = $('#'+id+'').find('.unequal').html();
+		  
+		  $('#eid').val(id);
+		  $('#etype').val(type);
+		  $('#ecalculationType').val(calculationType);
+		  $('#ecalculationRange').val(calculationRange);
+		  $('#erangeType').val(rangeType);
+		  $('#eflightPhase').val(flightPhase);
+		  $('#epVal').val(pVal);
+		  $('#ecVal').val(cVal);
+		  $('#emax').val(max);
+		  $('#emin').val(min);
+		  $('#eequal').val(equal);
+		  $('#eunequal').val(unequal);
+	  }); 
+	  
+	    // 修改条件
+		function editcomputation() {
+			var id = $("#eid").val();
+			var type = $("#etype").val();
+			var calculationType = $("#ecalculationType").val();
+			var calculationRange= $("#ecalculationRange").val();
+			var rangeType = $("#erangeType").val();
+			var flightPhase = $("#eflightPhase").val();
+			var pVal = $("#epVal").val();
+			var cVal = $("#ecVal").val();
+			var cId = $("#ecVal").find("option:selected").data("id");
+			var max = $("#emax").val();
+			var min = $("#emin").val();
+			var equal = $("#eequal").val();
+			var unequal = $("#eunequal").val();
+			$.post(
+			    "${pageContext.request.contextPath}/manage/calculate/updatecomputation.do",
+			    {
+			        "id": id,
+			        "type": type,
+			        "calculationType": calculationType,
+			        "calculationRange": calculationRange,
+			        "rangeType": rangeType,
+			        "flightPhase": flightPhase,
+			        "ruleId": cId,
+			        "max": max,
+			        "min": min,
+			        "equal": equal,
+			        "unequal": unequal
+			    },
+			    function (response) {
+			    	$('#info-modal').modal('hide');
+			    	  // 修改页面值
+				  	  $('#'+id+'').find('.type').attr('data-value', type);
+				  	  $('#'+id+'').find('.type').html(getType(type));
+					  $('#'+id+'').find('.calculationType').attr('data-value', calculationType);
+					  $('#'+id+'').find('.calculationType').html(getCalculationType(calculationType));
+					  $('#'+id+'').find('.calculationRange').html(calculationRange);
+					  $('#'+id+'').find('.rangeType').attr('data-value', rangeType);
+					  $('#'+id+'').find('.rangeType').html(getRangeType(rangeType));
+					  $('#'+id+'').find('.flightPhase').attr('data-value', flightPhase);
+					  $('#'+id+'').find('.flightPhase').html(getFlightPhase(flightPhase));
+					  $('#'+id+'').find('.pVal').html(pVal);
+					  $('#'+id+'').find('.cVal').html(cVal);
+					  $('#'+id+'').find('.max').html(max);
+					  $('#'+id+'').find('.min').html(min);
+					  $('#'+id+'').find('.equal').html(equal);
+					  $('#'+id+'').find('.unequal').html(unequal);
+			    },
+			    "json"
+			);
+		}
+	    
+	 	// 第一个参数
+	    function firstParam(){
+	    	$.post(
+		             "${pageContext.request.contextPath}/manage/calculate/firstParam.do",
+		             {},
+		             function (response) {
+		            	 secondParam(response.data[0].id);
+		            	 $('#pVal').html('');
+		            	 $('#epVal').html('');
+		            	 for(var i in response.data){
+		            	 	$('#pVal').append('<option value="'+response.data[i].val+'" data-id="'+response.data[i].id+'">'+response.data[i].val+'</option>');
+		            	 	$('#epVal').append('<option value="'+response.data[i].val+'" data-id="'+response.data[i].id+'">'+response.data[i].val+'</option>');
+		            	 }
+		             },
+		             "json"
+		         );
+	    }
+	 	
+	 	function getPId(){
+		    var pId = $("#pVal").find("option:selected").data("id");
+		    secondParam(pId);
+	 	}
+	 	
+	 	function getePId(){
+		    var pId = $("#epVal").find("option:selected").data("id");
+		    secondParam(pId);
+	 	}
+	 	
+	 	// 第二个参数
+	    function secondParam(pId){
+	    	$.post(
+		             "${pageContext.request.contextPath}/manage/calculate/secondParam.do",
+		             {"pId": pId},
+		             function (response) {
+		            	 $('#cVal').html('');
+		            	 $('#ecVal').html('');
+		            	 for(var i in response.data){
+		            	 	$('#cVal').append('<option value="'+response.data[i].val+'" data-id="'+response.data[i].id+'">'+response.data[i].val+'</option>');
+		            	 	$('#ecVal').append('<option value="'+response.data[i].val+'" data-id="'+response.data[i].id+'">'+response.data[i].val+'</option>');
+		            	 }
+		             },
+		             "json"
+		         );
+	    }
+	 	
+	    
+	  // 与前一条件的关系
+	  function getType(type){
+		  var str;
+		  switch (type) {
+			  case '0':
+				str = "第一个条件";
+			    break;
+			  case '1':
+				str = "AND";
+			    break;
+			  case '2':
+				str = "OR";
+			    break;
+			  default:
+				str = "-";
+			    break;
+		  }
+		  return str;
+	  }
+	  
+	  function getCalculationType(calculationType){
+		  var str;
+		  switch (calculationType) {
+			  case '1':
+				str = "区间";
+			    break;
+			  case '2':
+				str = "短期";
+			    break;
+			  case '3':
+				str = "中期";
+			    break;
+			  default:
+				str = "长期";
+			    break;
+		  }
+		  return str;
+	  }
+	  
+	  function getRangeType(rangeType){
+		  var str;
+		  switch (rangeType) {
+			  case '1':
+				str = "点";
+			    break;
+			  case '2':
+				str = "天";
+			    break;
+			  default:
+				str = "-";
+			    break;
+		  }
+		  return str;
+	  }
+	 
+	  function getFlightPhase(flightPhase){
+		  var str;
+		  switch (flightPhase) {
+			  case '0':
+				str = "ALL";
+			    break;
+			  case '1':
+				str = "起飞";
+			    break;
+			  case '2':
+				str = "巡航";
+			    break;
+			  default:
+				str = "-";
+			    break;
+		  }
+		  return str;
+	  }
+	
+</script>
+</html>

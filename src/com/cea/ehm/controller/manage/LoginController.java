@@ -1,0 +1,74 @@
+package com.cea.ehm.controller.manage;
+
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.cea.ehm.bean.User;
+import com.cea.ehm.controller.BaseController;
+import com.cea.ehm.service.UserService;
+import com.cea.ehm.util.ConstantUtil;
+import com.cea.ehm.util.MD5Util;
+import com.google.common.base.Strings;
+
+/**
+ * 登陆处理
+ */
+@Controller
+@RequestMapping(value = "/manage/auth")
+public class LoginController extends BaseController {
+	private static final Logger logger = Logger.getLogger(LoginController.class);
+	@Autowired
+	private UserService userService;
+
+	/**
+	 * 注销登录
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/logout")
+	@ResponseBody
+	public Map<String, Object> logout(HttpServletRequest request) {
+		request.getSession().setAttribute(ConstantUtil.SESSION_LOGIN_USER, null);
+		return getSuccessMessage();
+	}
+
+	/**
+	 * 登录验证
+	 * 
+	 * @param reqPara
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/login.do")
+	@ResponseBody
+	public Map<String, Object> login(@RequestParam Map<String, String> reqPara, HttpServletRequest request) {
+		String username = reqPara.get("username");
+		String password = reqPara.get("password");
+		logger.info("用户名: " + username + " 密码: " + password);
+
+		if (Strings.isNullOrEmpty(username) || Strings.isNullOrEmpty(password)) {
+			return getFailureMessage("请输入账号和密码！", ConstantUtil.RES_CODE_301);
+		}
+
+		User user = new User();
+		user.setUsername(username);
+		user.setPassword(MD5Util.getCode(password));
+		User selectuser = userService.getUserByUsernameAndPassword(user);
+		if (selectuser != null) {
+			request.getSession().setAttribute(ConstantUtil.SESSION_LOGIN_USER, selectuser);
+			return getSuccessMessage();
+		} else {
+			return getFailureMessage("账号或密码错误！", ConstantUtil.RES_CODE_201);
+		}
+	}
+
+}

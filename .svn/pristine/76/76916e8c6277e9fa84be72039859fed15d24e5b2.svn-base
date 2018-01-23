@@ -1,0 +1,72 @@
+/*
+Navicat MySQL Data Transfer
+
+Source Server         : localhost_3306
+Source Server Version : 50096
+Source Host           : localhost:3306
+Source Database       : ehmtest
+
+Target Server Type    : MYSQL
+Target Server Version : 50096
+File Encoding         : 65001
+
+Date: 2017-11-30 21:51:58
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
+
+DROP TABLE IF EXISTS `data_eng`;
+CREATE TABLE `data_eng` (
+  `ENG_SN` varchar(64) NOT NULL,
+  `ENG_SN_SAP` varchar(64) NOT NULL,
+  `ENG_SERIES` varchar(64) NOT NULL,
+  `ENG_TYPE` varchar(64) NOT NULL,
+  `ENG_MODEL` varchar(64) NOT NULL,
+  `ENG_CONFIG` varchar(64) NOT NULL,
+  `DELIVERY_MODE` varchar(64) NOT NULL,
+  `OWNER` varchar(64) NOT NULL,
+  `CODE_CONFIG` varchar(64) NOT NULL,
+  `ENG_CONFIGRATION` varchar(64) NOT NULL,
+  `CTIME` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `data_plane`;
+CREATE TABLE `data_plane` (
+  `PLANEID` varchar(64) NOT NULL,
+  `TAIL` varchar(64) NOT NULL,
+  `DUTY` varchar(64) NOT NULL,
+  `RATING_PLANE` varchar(64) NOT NULL,
+  `CONFIG_PLANE` varchar(64) NOT NULL,
+  `ENG_SN_ORIGINAL` varchar(64) NOT NULL,
+  `SERIES` varchar(64) NOT NULL,
+  `TYPE` varchar(64) NOT NULL,
+  `MODEL` varchar(64) NOT NULL,
+  `ATTRIBUTE` varchar(64) NOT NULL,
+  `ETOPS` varchar(64) NOT NULL,
+  `H_HIGHLAND` varchar(64) NOT NULL,
+  `VARIABLE` varchar(64) NOT NULL,
+  `SERIAL` varchar(64) NOT NULL,
+  `LINE` varchar(64) NOT NULL,
+  `MANUAL` varchar(64) NOT NULL,
+  `OPERATER` varchar(64) NOT NULL,
+  `OWNER` varchar(64) NOT NULL,
+  `REMARK` varchar(64) NOT NULL,
+  `IMPORT_WAY` varchar(64) NOT NULL,
+  `CTIME` varchar(64) NOT NULL,
+  PRIMARY KEY  (`PLANEID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+  `USERID` varchar(64) NOT NULL,
+  `USERNAME` varchar(64) NOT NULL,
+  `REALNAME` varchar(64) NOT NULL,
+  `PASSWORD` varchar(64) NOT NULL,
+  `POSITION` varchar(64) NOT NULL,
+  `ROLE` varchar(64) NOT NULL,
+  `PHONE` int(11) NOT NULL,
+  `CTIME` varchar(64) NOT NULL,
+  `DUTY` varchar(64) NOT NULL,
+  PRIMARY KEY  (`USERID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

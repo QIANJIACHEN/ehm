@@ -1,0 +1,165 @@
+package com.cea.ehm.controller.manage;
+
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.cea.ehm.bean.ControlFleetEngSpare;
+import com.cea.ehm.controller.BaseController;
+import com.cea.ehm.service.ControlFleetEngSpareService;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
+
+
+/* *
+ * 发动机维修控制器
+ */
+@Controller
+@RequestMapping(value = "manage/controlfleetengspare")
+public class ControlFleetEngSpareController extends BaseController {
+	private Logger logger = Logger.getLogger(ControlFleetPlaneController.class);
+	
+	@Autowired
+	private ControlFleetEngSpareService controlfleetengspareService;
+	/* *
+	 * 显示发动机维修列表界面
+	 */
+	@RequestMapping(value = "/fleetengsparelist.do")
+	public ModelAndView controFleetEngSpareList()
+	{
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("manage/controlfleetengspare/controfleetengsparelist");
+		return mv;
+	}
+	
+	/**
+	 * 查询发动机维修
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/list.do")
+	@ResponseBody
+	public Map<String, Object> list(@RequestParam Map<String, String> reqPara)
+	{
+		logger.info("页面请求参数：" + reqPara);
+		PageBounds pageBounds = handlePageInfoForManage(reqPara);
+		String sEcho = reqPara.get("draw");
+		
+		//条件参数
+		String engSn = reqPara.get("engSn");
+		Map<String, String> paraMap = Maps.newHashMap();
+		paraMap.put("engSn", engSn);
+		
+		PageList<ControlFleetEngSpare>  pageList = (PageList<ControlFleetEngSpare>) controlfleetengspareService.getdatacontrolfleetengspareList(paraMap, pageBounds);
+		
+		Pageable page = new PageRequest(pageBounds.getPage(), pageBounds.getLimit());
+		Page<ControlFleetEngSpare> content = new PageImpl<>(pageList, page, pageList.getPaginator().getTotalCount());
+		Map<String, Object> map = Maps.newHashMap();
+		map.put("data", pageList);
+		map.put("iTotalRecords", content.getTotalElements());
+		map.put("iTotalDisplayRecords", content.getTotalElements());
+		map.put("sEcho", sEcho);
+		map.put("draw", sEcho);
+		return map;
+	}
+	
+	/*
+	 * 获取发动机维修的数据
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	public ControlFleetEngSpare getControlFleetEngSpare(Map<String, String> reqPara) {
+		logger.info("获取到的发动机维修信息：" + reqPara);
+		
+		String id = reqPara.get("id");
+		String engId = reqPara.get("engId");
+		String engSn = reqPara.get("engSn");
+		String removeDate = reqPara.get("removeDate");
+		String condition= reqPara.get("condition");
+		String installPlan= reqPara.get("installPlan");
+		String llpSap= reqPara.get("llpSap");
+		String configAccess= reqPara.get("configAccess");
+		String remark= reqPara.get("remark");
+		
+		ControlFleetEngSpare controlFleetEngSpare = new ControlFleetEngSpare();
+		
+		if (!Strings.isNullOrEmpty(id)) {
+			controlFleetEngSpare.setId(Integer.parseInt(id));
+		}
+		if (!Strings.isNullOrEmpty(engId)) {
+			controlFleetEngSpare.setEngId(Integer.parseInt(engId));
+		}
+		controlFleetEngSpare.setEngSn(engSn);
+		controlFleetEngSpare.setRemoveDate(removeDate);
+		controlFleetEngSpare.setCondition(condition);
+		controlFleetEngSpare.setInstallPlan(installPlan);
+		controlFleetEngSpare.setLlpSap(llpSap);
+		controlFleetEngSpare.setConfigAccess(configAccess);
+		controlFleetEngSpare.setRemark(remark);
+		return controlFleetEngSpare;
+	}
+	
+	/*
+	 * 保存发动机维修信息
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/save.do")
+	@ResponseBody
+	public Map<String, Object> save(@RequestParam Map<String, String> reqPara) {
+		ControlFleetEngSpare controlFleetEngSpare = getControlFleetEngSpare(reqPara);
+		//ControlFleetEngSpare selectControlFleetEngSpare = controlfleetengspareService.select(controlFleetEngSpare);
+		controlfleetengspareService.save(controlFleetEngSpare);
+		return getSuccessMessage();
+	}
+	
+	/**
+	 * 更新发动机维修数据信息
+	 * 
+	 *  @param reqPara
+	 *  @return
+	 */
+	@RequestMapping(value = "/update.do" )
+	@ResponseBody
+	public Map<String, Object> update(@RequestParam Map<String, String> reqPara) {
+		ControlFleetEngSpare controlFleetEngSpare = getControlFleetEngSpare(reqPara);
+		controlfleetengspareService.update(controlFleetEngSpare);
+		return getSuccessMessage();
+	}
+	
+	/*
+	 * 删除发动机维修信息
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/delete.do")
+	@ResponseBody
+	public Map<String, Object> delete(@RequestParam Map<String, String> reqPara) {
+		logger.info("待删除飞机发动机关联信息: " + reqPara);
+		String id = reqPara.get("id");
+		ControlFleetEngSpare controlFleetEngSpare = new ControlFleetEngSpare();
+		controlFleetEngSpare.setId(Integer.parseInt(id));
+		// 这里没做判断, 直接删除
+		controlfleetengspareService.delete(controlFleetEngSpare);
+		return null;
+	}
+	
+	
+	
+
+}

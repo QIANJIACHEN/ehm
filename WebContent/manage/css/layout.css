@@ -1,0 +1,73 @@
+header{background:#2c354b;height:86px;height:112px\9;width:100%;}
+
+header  .tips{width:100%;height:26px;line-height:26px;color:#c30;background: #fbe954;text-align:center;vertical-align:middle;}
+header  .tips div.txt{}
+header  .tips div.txt a.chrome:link,
+header  .tips div.txt a.chrome:visited,
+header  .tips div.txt a.chrome:hover
+header  .tips div.txt a.chrome:active{height:16px;line-height:16px;padding-right:16px;font-weight:bold;text-decoration:underline;color:red;background:url("https://dataservice.24money.com/cube/report/css/imgs/chrome.gif") right center no-repeat;overflow:hidden;display:inline-block;position:relative;top:3px;}
+
+header .inner{margin:0 50px;color:#FFF;}
+header .inner .left{}
+ header .inner .left .logo{display:block;float:left;height:86px;width:356px;top:30px; position: relative;} 
+/* header .inner .left .logo{background:url("imgs/logo.png") no-repeat #2c354b;display:block;float:left;height:86px;width:356px;} */
+
+header .inner .right{background: #2c354b;}
+header .inner .right .headlist{background:#2c354b;margin-top:17px}
+header .inner .right .headlist .list-name{float:left;height:33px;line-height:33px;padding:10px;}
+header .inner .right .headlist ul{float:left;}
+header .inner .right .headlist ul li.seperator{border-left:1px solid #E56A17;display:inline;float:left;height:33px;margin:10px 0;text-align:center;width:0;}
+header .inner .right .headlist ul li.item{padding-right:20px;background:url("https://dataservice.24money.com/cube/report/css/imgs/headlist.png") #f60 no-repeat;border-bottom:1px solid #E56A17;border-top:1px solid #E56A17;color:#FFE8D9;cursor:pointer;display:inline;float:left;height:31px;line-height:31px;margin:10px 0;position:relative;text-align:right;width:58px;}
+header .inner .right .headlist ul li.item a,header .inner .right .headlist ul li.item a:hover{color:white;}
+header .inner .right .headlist ul li.profile{width:auto;text-align:left;background-position:10px -419px;padding-left:30px;}
+header .inner .right .headlist ul li.profile label.name{font-weight: bold;font-size:16px;margin-right:10px;}
+header .inner .right .headlist ul li.profile a.logout:hover{text-decoration: underline;}
+header .inner .right .headlist ul li.help{background-position:10px -51px;}
+
+footer{background:url("https://dataservice.24money.com/cube/report/css/imgs/footer_bg.png") repeat-x;width:100%;height:60px;color:white;}
+footer a:link,
+footer a:visited,
+footer a:hover,
+footer a:active{color:white;text-decoration:none;}
+footer .inner{width:1180px;margin:0 50px;padding-top:15px;}
+
+
+#loading_bg, #loading_container{width:100%;position:fixed;}
+#loading_bg{display:none;background:#000;z-index:999;top:0;height:100%;opacity:0;filter:alpha(opacity=0);-ms-filter:alpha(opacity=0);}
+#loading_bg iframe{width:100%;height:100%;border:0 none;background:transparent;filter:alpha(opacity=0);-ms-filter:alpha(opacity=0);}
+#loading_container{z-index:1000;top:50%;margin-top:-35px;}
+#loading_container .loading_box{width:220px;margin:0 auto;}
+
+.wrap{width:100%;height:480px;}
+.wrap .nav{width:150px;}
+.wrap .content{padding:5px;background:#eee;}
+
+#inqu{height:auto;}
+#inqu #tb{padding:5px;height:auto}
+#inqu #tb > li{margin:0 0 5px 20px;width:300px;float:left;display:inline-block}
+#inqu #tb > li.hidden{display:none}
+#inqu #tb > li label{width:100px;}
+#inqu #tb > .btn{width:870px;padding-left:100px;clear:both;}
+#inqu #tb > .btn a{margin-right:10px}
+#inqu #tb > .btn label{width:auto;}
+
+.plot_container{width:1000px;height:332px;margin:30px 0 0 20px}
+.plot_container .chart{float:left;width:85%;height:100%}
+.plot_container .radio_list{float:left;width:15%; height:100%;}
+
+section.start-page{margin:20px;height:800px;}
+section.start-page h2{font-weight: bold;font-size: 20px;}
+section.start-page section.history,
+section.start-page section.welcome{margin-right:50px;padding:20px;}
+section.start-page section.history ul{overflow:hidden;border-radius:10px;background:#CCE6FF;width:1000px;}
+section.start-page section.history ul > li{box-shadow: 0 15px 10px -10px rgba(0, 0, 0, .5), 0 1px 4px rgba(0, 0, 0, .3), 0 0 40px rgba(0, 0, 0, .1) inset;
+width:180px;height:165px;background:#F8F7B6;margin:10px;-webkit-user-select:none;float:left;cursor: pointer;}
+section.start-page section.history ul > li:hover{width:176px;height:161px;border:2px dashed #DA3500;} 
+section.start-page section.history ul > li ol.crumb{text-align: center}
+section.start-page section.history ul > li ol.crumb li{height:30px;line-height:30px;}
+section.start-page section.history ul > li ol.crumb li.arrow{height:20px;line-height:20px;}
+section.start-page section.history ul > li ol.crumb li.channel{}
+section.start-page section.history ul > li ol.crumb li.tab{}
+section.start-page section.history ul > li ol.crumb li.item{}
+section.start-page section.history ul > li ol.crumb li.item a{font-size:14px;font-weight:bold;width:90%;display: inline-block;}
+section.start-page section.history ul > li ol.crumb li.time{font-size:12px;border-top:1px dotted gray;}

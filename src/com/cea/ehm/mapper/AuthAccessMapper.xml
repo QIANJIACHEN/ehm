@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.AuthAccessMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.AuthAccess">
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="MODULE" jdbcType="VARCHAR" property="module" />
+		<result column="TYPE" jdbcType="VARCHAR" property="type" />
+		<result column="NAME" jdbcType="VARCHAR" property="name" />
+		<result column="PARAM" jdbcType="VARCHAR" property="param" />
+		<result column="TITLE" jdbcType="INTEGER" property="title" />
+		<result column="STATUS" jdbcType="VARCHAR" property="status" />
+		<result column="CONDITION" jdbcType="VARCHAR" property="condition" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ID,MODULE,TYPE,NAME,PARAM,TITLE,STATUS,CONDITION
+	</sql>
+	
+	<select id="select" parameterType="com.cea.ehm.bean.AuthAccess" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM auth_access
+		WHERE ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getAuthAccessList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM auth_access
+		WHERE ID LIKE CONCAT('%',#{id,jdbcType=VARCHAR})
+	</select>
+
+	<insert id="insert" parameterType="com.cea.ehm.bean.AuthAccess">
+		INSERT INTO auth_access
+			(ID,MODULE,TYPE,NAME,PARAM,TITLE,STATUS,CONDITION)
+		VALUES
+		(
+			#{id,jdbcType=VARCHAR},
+			#{module,jdbcType=VARCHAR},
+			#{type,jdbcType=VARCHAR},
+			#{name,jdbcType=VARCHAR},
+			#{param,jdbcType=VARCHAR},
+			#{title,jdbcType=VARCHAR},
+			#{status,jdbcType=INTEGER},
+			#{condition,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="com.cea.ehm.bean.AuthAccess">
+		DELETE FROM
+			auth_access
+		WHERE
+			ID = #{id,jdbcType=VARCHAR}
+	</delete>
+
+	<update id="update" parameterType="com.cea.ehm.bean.AuthAccess">
+		UPDATE auth_access
+		<set>
+			<if test="module != null">
+				MODULE = #{module,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				TYPE = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="param != null">
+				PARAM = #{param,jdbcType=VARCHAR},
+			</if>
+			<if test="title != null">
+				TITLE = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="condition != null">
+				CONDITION = #{condition,jdbcType=VARCHAR},
+			</if>
+		</set>
+		WHERE ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

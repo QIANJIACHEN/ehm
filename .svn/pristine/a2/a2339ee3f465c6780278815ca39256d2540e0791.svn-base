@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.SapDailyReportMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.SapDailyReport">
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="DUTY" jdbcType="INTEGER" property="duty" />
+		<result column="SERIES" jdbcType="VARCHAR" property="series" />
+		<result column="TAIL" jdbcType="VARCHAR" property="tail" />
+		<result column="ENG_POSIT" jdbcType="VARCHAR" property="engPosit" />
+		<result column="ENG_SN" jdbcType="VARCHAR" property="engSn" />
+		<result column="Rating" jdbcType="INTEGER" property="rating" />
+		<result column="Config" jdbcType="INTEGER" property="config" />
+		<result column="ETSN" jdbcType="VARCHAR" property="etsn" />
+		<result column="ECSN" jdbcType="VARCHAR" property="ecsn" />
+		<result column="EGTM" jdbcType="VARCHAR" property="egtm" />
+		<result column="MIN_LLP" jdbcType="VARCHAR" property="minLlp" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+		<result column="IS_NORMAL" jdbcType="INTEGER" property="isNormal" />
+		<result column="DELIVERY_MODE_MONITORING" jdbcType="VARCHAR" property="deliveryModeMonitoring" />
+		<result column="OIL_MONITORING" jdbcType="VARCHAR" property="oilMonitoring" />
+		<result column="VIBRATOPM_MONITORING" jdbcType="VARCHAR" property="vibratopmMonitoring" />
+		<result column="MAGNETIC_PLUGIN_SPECTION_REPORT" jdbcType="VARCHAR" property="magneticPluginSpectionReport" />
+		<result column="BORESCOPE_REPORT" jdbcType="VARCHAR" property="borescopeReport" />
+		<result column="CNR_REPORT" jdbcType="VARCHAR" property="cnrReport" />
+		<result column="ACARS" jdbcType="VARCHAR" property="acars" />
+		<result column="ROUTE_OPERATION" jdbcType="VARCHAR" property="routeOperation" />
+		<result column="ENG_OIL" jdbcType="VARCHAR" property="engOil" />
+		<result column="ETOPS" jdbcType="VARCHAR" property="etops" />
+		<result column="H_HIGHLAND" jdbcType="INTEGER" property="hHighLand" />
+		<result column="CNTR_OPTR" jdbcType="VARCHAR" property="cntrOptr" />
+		<result column="ETIME" jdbcType="VARCHAR" property="etime" />
+		<result column="ETSR" jdbcType="VARCHAR" property="etsr" />
+		<result column="ECSR" jdbcType="VARCHAR" property="ecsr" />
+		<result column="ETSI" jdbcType="VARCHAR" property="etsi" />
+		<result column="ECSI" jdbcType="VARCHAR" property="ecsi" />
+		<result column="ETSO" jdbcType="VARCHAR" property="etso" />
+		<result column="ECSO" jdbcType="VARCHAR" property="ecso" />
+		<result column="PTIME" jdbcType="VARCHAR" property="ptime" />
+		<result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
+		<result column="C_USERID" jdbcType="INTEGER" property="cUserId" />
+		<result column="U_USERID" jdbcType="INTEGER" property="uUserId" />
+		<result column="UTIME" jdbcType="TIMESTAMP" property="utime" />
+		<result column="AUDITOR" jdbcType="VARCHAR" property="auditor" />
+		<result column="ATIME" jdbcType="VARCHAR" property="atime" />
+		<result column="MON_PERFORMANCE_NO" jdbcType="VARCHAR" property="monPerformanceNo" />
+		<result column="IS_HIS_DATA" jdbcType="INTEGER" property="isHisData" />
+		<result column="DOC" jdbcType="VARCHAR" property="doc" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ID,DUTY,SERIES,TAIL,ENG_POSIT,ENG_SN,Rating,Config,ETSN,ECSN,EGTM,MIN_LLP,REMARK,IS_NORMAL,DELIVERY_MODE_MONITORING,OIL_MONITORING,
+		VIBRATOPM_MONITORING,MAGNETIC_PLUGIN_SPECTION_REPORT,BORESCOPE_REPORT,CNR_REPORT,ACARS,ROUTE_OPERATION,ENG_OIL,ETOPS,H_HIGHLAND,
+		CNTR_OPTR,ETIME,ETSR,ECSR,ETSI,ECSI,ETSO,ECSO,PTIME,CTIME,C_USERID,U_USERID,UTIME,AUDITOR,ATIME,MON_PERFORMANCE_NO,IS_HIS_DATA,DOC
+	</sql>
+	
+	<select id="select" parameterType="com.cea.ehm.bean.SapDailyReport" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_sap_dailyreport
+		WHERE ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getRuleParameterList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_sap_dailyreport
+		
+	</select>
+
+	<insert id="insert" parameterType="com.cea.ehm.bean.SapDailyReport">
+		INSERT INTO ehm_sap_dailyreport
+			(ID,DUTY,SERIES,TAIL,ENG_POSIT,ENG_SN,Rating,Config,ETSN,ECSN,EGTM,MIN_LLP,REMARK,IS_NORMAL,DELIVERY_MODE_MONITORING,OIL_MONITORING,
+		VIBRATOPM_MONITORING,MAGNETIC_PLUGIN_SPECTION_REPORT,BORESCOPE_REPORT,CNR_REPORT,ACARS,ROUTE_OPERATION,ENG_OIL,ETOPS,H_HIGHLAND,
+		CNTR_OPTR,ETIME,ETSR,ECSR,ETSI,ECSI,ETSO,ECSO,PTIME,CTIME,C_USERID,U_USERID,UTIME,AUDITOR,ATIME,MON_PERFORMANCE_NO,IS_HIS_DATA,DOC)
+		VALUES
+		(
+			#{id,jdbcType=VARCHAR},
+			#{duty,jdbcType=INTEGER},
+			#{series,jdbcType=VARCHAR},
+			#{tail,jdbcType=VARCHAR},
+			#{engPosit,jdbcType=VARCHAR},
+			#{engSn,jdbcType=VARCHAR},
+			#{rating,jdbcType=VARCHAR},
+			#{config,jdbcType=VARCHAR},
+			#{etsn,jdbcType=VARCHAR},
+			#{ecsn,jdbcType=VARCHAR},
+			#{egtm,jdbcType=VARCHAR},
+			#{minLlp,jdbcType=VARCHAR},
+			#{remark,jdbcType=VARCHAR},
+			#{isNormal,jdbcType=INTEGER},
+			#{deliveryModeMonitoring,jdbcType=VARCHAR},
+			#{oilMonitoring,jdbcType=VARCHAR},
+			#{vibratopmMonitoring,jdbcType=VARCHAR},
+			#{magneticPluginSpectionReport,jdbcType=VARCHAR},
+			#{borescopeReport,jdbcType=VARCHAR},
+			#{cnrReport,jdbcType=VARCHAR},
+			#{acars,jdbcType=VARCHAR},
+			#{routeOperation,jdbcType=VARCHAR},
+			#{engOil,jdbcType=VARCHAR},
+			#{etops,jdbcType=VARCHAR},
+			#{hHighLand,jdbcType=VARCHAR},
+			#{cntrOptr,jdbcType=VARCHAR},
+			#{etime,jdbcType=VARCHAR},
+			#{etsr,jdbcType=VARCHAR},
+			#{ecsr,jdbcType=VARCHAR},
+			#{etsi,jdbcType=VARCHAR},
+			#{ecsi,jdbcType=VARCHAR},
+			#{etso,jdbcType=VARCHAR},
+			#{ecso,jdbcType=VARCHAR},
+			#{ptime,jdbcType=VARCHAR},
+			#{ctime,jdbcType=TIMESTAMP},
+			#{cUserId,jdbcType=INTEGER},
+			#{uUserId,jdbcType=INTEGER},
+			#{utime,jdbcType=TIMESTAMP},
+			#{auditor,jdbcType=VARCHAR},
+			#{ctime,jdbcType=VARCHAR},
+			#{auditor,jdbcType=INTEGER},
+			#{atime,jdbcType=VARCHAR},
+			#{monPerformanceNo,jdbcType=VARCHAR},
+			#{isHisData,jdbcType=INTEGER},
+			#{doc,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="com.cea.ehm.bean.SapDailyReport">
+		DELETE FROM
+			ehm_sap_dailyreport
+		WHERE
+			ID = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<update id="update" parameterType="com.cea.ehm.bean.SapDailyReport">
+		UPDATE ehm_sap_dailyreport
+		<set>
+			<if test="duty != null">
+				DUTY = #{duty,jdbcType=INTEGER},
+			</if>
+			<if test="series != null">
+				SERIES = #{series,jdbcType=VARCHAR},
+			</if>
+			<if test="tail != null">
+				TAIL = #{tail,jdbcType=VARCHAR},
+			</if>
+			<if test="engPosit != null">
+				ENG_POSIT = #{engPosit,jdbcType=VARCHAR},
+			</if>
+			<if test="engSn != null">
+				ENG_SN = #{engSn,jdbcType=VARCHAR},
+			</if>
+			<if test="rating != null">
+				Rating = #{rating,jdbcType=VARCHAR},
+			</if>
+			<if test="config != null">
+				Config = #{config,jdbcType=VARCHAR},
+			</if>
+			<if test="etsn != null">
+				ETSN = #{etsn,jdbcType=VARCHAR},
+			</if>
+			<if test="ecsn != null">
+				ECSN = #{ecsn,jdbcType=VARCHAR},
+			</if>
+			<if test="egtm != null">
+				EGTM = #{egtm,jdbcType=VARCHAR},
+			</if>
+			<if test="minLlp != null">
+				MIN_LLP = #{rating,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				REMARK = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="isNormal != null">
+				IS_NORMAL = #{isNormal,jdbcType=VARCHAR},
+			</if>
+			<if test="deliveryModeMonitoring != null">
+				DELIVERY_MODE_MONITORING = #{deliveryModeMonitoring,jdbcType=VARCHAR},
+			</if>
+			<if test="oilMonitoring != null">
+				OIL_MONITORING = #{oilMonitoring,jdbcType=VARCHAR},
+			</if>
+			<if test="vibratopmMonitoring != null">
+				VIBRATOPM_MONITORING = #{vibratopmMonitoring,jdbcType=VARCHAR},
+			</if>
+			<if test="magneticPluginSpectionReport != null">
+				MAGNETIC_PLUGIN_SPECTION_REPORT = #{magneticPluginSpectionReport,jdbcType=VARCHAR},
+			</if>
+			<if test="borescopeReport != null">
+				BORESCOPE_REPORT = #{borescopeReport,jdbcType=VARCHAR},
+			</if>
+			<if test="cnrReport != null">
+				CNR_REPORT = #{rating,jdbcType=VARCHAR},
+			</if>
+			<if test="acars != null">
+				ACARS = #{acars,jdbcType=VARCHAR},
+			</if>
+			<if test="routeOperation != null">
+				ROUTE_OPERATION = #{routeOperation,jdbcType=VARCHAR},
+			</if>
+			<if test="engOil != null">
+				ENG_OIL = #{engOil,jdbcType=VARCHAR},
+			</if>
+			<if test="etops != null">
+				ETOPS = #{etops,jdbcType=VARCHAR},
+			</if>
+			<if test="hHighLand != null">
+				H_HIGHLAND = #{hHighLand,jdbcType=INTEGER},
+			</if>
+			<if test="cntrOptr != null">
+				CNTR_OPTR = #{cntrOptr,jdbcType=VARCHAR},
+			</if>
+			<if test="etime != null">
+				ETIME = #{etime,jdbcType=VARCHAR},
+			</if>
+			<if test="etsr != null">
+				ETSR = #{etsr,jdbcType=VARCHAR},
+			</if>
+			<if test="ecsr != null">
+				ECSR = #{ecsr,jdbcType=VARCHAR},
+			</if>
+			<if test="etsi != null">
+				ETSI = #{etsi,jdbcType=VARCHAR},
+			</if>
+			<if test="ecsi != null">
+				ECSI = #{ecsi,jdbcType=VARCHAR},
+			</if>
+			<if test="etso != null">
+				ETSO = #{etso,jdbcType=VARCHAR},
+			</if>
+			<if test="ecso != null">
+				ECSO = #{ecso,jdbcType=VARCHAR},
+			</if>
+			<if test="ptime != null">
+				PTIME = #{ptime,jdbcType=VARCHAR},
+			</if>
+			
+			<if test="cUserId != null">
+				C_USERID = #{cUserId,jdbcType=INTEGER},
+			</if>
+			<if test="uUserId != null">
+				U_USERID = #{uUserId,jdbcType=INTEGER},
+			</if>
+			<if test="utime != null">
+				UTIME = #{utime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="auditor != null">
+				AUDITOR = #{auditor,jdbcType=INTEGER},
+			</if>
+			<if test="atime != null">
+				ATIME = #{atime,jdbcType=VARCHAR},
+			</if>
+			<if test="monPerformanceNo != null">
+				MON_PERFORMANCE_NO = #{monPerformanceNo,jdbcType=VARCHAR},
+			</if>
+			<if test="isHisData != null">
+				IS_HIS_DATA = #{isHisData,jdbcType=INTEGER},
+			</if>
+			<if test="doc != null">
+				DOC = #{doc,jdbcType=VARCHAR}
+			</if>
+		</set>
+		WHERE ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

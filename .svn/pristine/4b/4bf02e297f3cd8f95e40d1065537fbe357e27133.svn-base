@@ -1,0 +1,198 @@
+package com.cea.ehm.service;
+
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.cea.ehm.bean.DataEng;
+import com.cea.ehm.bean.DataPlane;
+import com.cea.ehm.bean.RecordEngReplace;
+import com.cea.ehm.dao.RecordEngReplaceMapper;
+import com.cea.ehm.dao.DataEngMapper;
+import com.cea.ehm.dao.DataPlaneMapper;
+import com.cea.ehm.util.ExcelUtil;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import com.google.common.collect.Maps;
+
+@Service
+public class RecordEngReplaceService {
+	private Logger logger = Logger.getLogger(RecordEngReplaceService.class);
+	@Autowired
+	RecordEngReplaceMapper recordEngReplaceMapper;
+	@Autowired
+	private DataEngMapper dataengMapper;
+	@Autowired
+	private DataPlaneMapper dataplaneMapper;
+	public PageList<RecordEngReplace> recordinfo(Map<String, String>paramMap,PageBounds pageBounds){
+		return recordEngReplaceMapper.recordinfos(paramMap, pageBounds);
+	}
+	
+	/**
+	 * 创建 excel数据表格
+	 * 
+	 * @return
+	 */
+	public Workbook createExcel() {
+		List<RecordEngReplace> recordengreplace = recordEngReplaceMapper.getAllRecordEngReplace();
+
+		// 创建一个Excel文件
+		Workbook workbook = new XSSFWorkbook();
+		// 创建一个工作表
+		Sheet sheet = workbook.createSheet("水洗数据");
+		// 添加表头行
+		Row row0 = sheet.createRow(0);
+		// 添加表头内容
+		row0.createCell(0).setCellValue("TAIL");
+		row0.createCell(1).setCellValue("ENG_POSITION");
+		row0.createCell(2).setCellValue("ENG_SN");
+		row0.createCell(3).setCellValue("ENG_PN");
+		row0.createCell(4).setCellValue("DATE_INSTALL");
+		row0.createCell(5).setCellValue("ETSN_INSTALL");
+		row0.createCell(6).setCellValue("ECSN_INSTALL");
+		row0.createCell(7).setCellValue("DATE_REMOVAL");
+		row0.createCell(8).setCellValue("ETSN_REMOVAL");
+		row0.createCell(9).setCellValue("ECSN_REMOVAL");
+		row0.createCell(10).setCellValue("PLAN");
+		row0.createCell(11).setCellValue("SV");
+		row0.createCell(12).setCellValue("SV_GRADE");
+		row0.createCell(13).setCellValue("REMOVAL_CAUSE");
+		row0.createCell(14).setCellValue("USED_CYCLE");
+		row0.createCell(15).setCellValue("REMARK");
+		row0.createCell(16).setCellValue("FACTORY");
+		// 添加数据内容
+		for (int i = 0; i < recordengreplace.size(); i++) {
+			Row row = sheet.createRow(i + 1);
+			row.createCell(0).setCellValue(recordengreplace.get(i).getTail() + "");
+			if(recordengreplace.get(i).getEngPosition()==1) {
+				row.createCell(1).setCellValue("左" + "");
+			}else if(recordengreplace.get(i).getEngPosition()==2) {
+				row.createCell(1).setCellValue("右" + "");
+			}
+			row.createCell(2).setCellValue(recordengreplace.get(i).getEngSn() + "");
+			row.createCell(3).setCellValue(recordengreplace.get(i).getEngPn() + "");
+			row.createCell(4).setCellValue(recordengreplace.get(i).getDateInstall() + "");
+			row.createCell(5).setCellValue(recordengreplace.get(i).getEtsnInstall() + "");
+			row.createCell(6).setCellValue(recordengreplace.get(i).getEcsnInstall() + "");
+			row.createCell(7).setCellValue(recordengreplace.get(i).getDateRemoval() + "");
+			row.createCell(8).setCellValue(recordengreplace.get(i).getEtsnRemoval() + "");
+			row.createCell(9).setCellValue(recordengreplace.get(i).getEcsnRemoaval() + "");
+			row.createCell(10).setCellValue(recordengreplace.get(i).getPaln() + "");
+			row.createCell(11).setCellValue(recordengreplace.get(i).getSv() + "");
+			row.createCell(12).setCellValue(recordengreplace.get(i).getSvGrade() + "");
+			row.createCell(13).setCellValue(recordengreplace.get(i).getRemovalCause() + "");
+			row.createCell(14).setCellValue(recordengreplace.get(i).getUsedCycle() + "");
+			row.createCell(15).setCellValue(recordengreplace.get(i).getRemark() + "");
+			row.createCell(16).setCellValue(recordengreplace.get(i).getFactory() + "");
+			
+		}
+
+		return workbook;
+	}
+
+	/**
+	 * 处理发动机故障记录信息
+	 * 
+	 * @param file
+	 */
+	public void process(MultipartFile file) {
+		List<DataEng> alleng = dataengMapper.allDataEng();
+		Map<String, Integer> engMap = Maps.newHashMap();
+		alleng.forEach(eng -> engMap.put(eng.getEngSn(), eng.getId()));
+		List<DataPlane> allplane = dataplaneMapper.allPlane();
+		Map<String, Integer> planeMap = Maps.newHashMap();
+		allplane.forEach(plane -> planeMap.put(plane.getTail(), plane.getId()));
+		try {
+			// 这里得到的是一个集合，里面的每一个元素是String[]数组
+			List<String[]> list = ExcelUtil.readExcel(file);
+			for (String[] arr : list) {
+				int length = arr.length;
+				RecordEngReplace recordengreplace = new RecordEngReplace();
+				if(length>=1) {
+					Integer planeId = planeMap.get(arr[0]);
+					recordengreplace.setPlaneId(Optional.ofNullable(planeId).orElse(0));
+					recordengreplace.setTail(arr[0]);
+				}
+				if(length>=2) {
+					if(arr[1]!=null) {
+						if(StringUtils.isNumeric(arr[1])) {
+							recordengreplace.setEngPosition(Integer.parseInt(arr[1]));
+						}else {
+							//记录出错的
+							logger.info("动机拆换履历错误数据："+arr[0]+","+arr[1]+","+arr[2]+",只记录前三个字段");
+							continue;
+						}
+						
+					}else {
+						recordengreplace.setEngPosition(0);
+					}
+				}
+				if(length>=3) {
+					Integer engId = engMap.get(arr[2]);
+					recordengreplace.setEngId(Optional.ofNullable(engId).orElse(0));
+					recordengreplace.setEngSn(arr[2]);
+				}
+				if(length>=4) {
+					recordengreplace.setEngPn(arr[3]);
+				}
+				if(length>=5) {
+					Calendar cal = Calendar.getInstance();  
+			        cal.set(1900,0,1);
+			        cal.add(Calendar.DAY_OF_MONTH, Integer.parseInt(arr[4])-2);
+			        String date = cal.get(Calendar.YEAR)+"-"+(cal.get(Calendar.MONTH)+1)+"-"+cal.get(Calendar.DAY_OF_MONTH);
+			       //date = sdf.parse(ctime);
+					recordengreplace.setDateInstall(date); 
+					
+				}
+				if(length>=6) {
+					recordengreplace.setEtsnInstall(arr[5]);
+				}
+				if(length>=7) {
+					recordengreplace.setEcsnInstall(arr[6]);
+				}
+				if(length>=8) {
+					recordengreplace.setPaln(arr[7]);
+				}
+				if(length>=9) {
+					recordengreplace.setSv(arr[8]);
+				}
+				if(length>=10) {
+					recordengreplace.setSvGrade(arr[9]);
+				}
+				if(length>=11) {
+					recordengreplace.setRemovalCause(arr[10]);
+				}
+				if(length>=12) {
+					recordengreplace.setUsedCycle(arr[11]);
+				}
+				if(length>=13) {
+					recordengreplace.setRemark(arr[12]);
+				}
+				if(length>=14) {
+					recordengreplace.setFactory(arr[13]);
+				}
+				recordEngReplaceMapper.recordadd(recordengreplace);
+			}
+		} catch (IOException e) {
+			logger.debug(e);
+		}
+
+	}
+
+	private boolean isNumeric(String string) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+}

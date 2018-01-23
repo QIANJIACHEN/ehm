@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.ShakeMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.Shake">
+		<result column="OPERATER" jdbcType="VARCHAR" property="operater" />
+		<result column="DUTYNAME" jdbcType="VARCHAR" property="dutyName" />
+		<result column="TAIL" jdbcType="VARCHAR" property="tail" />
+		<result column="EPOSITION" jdbcType="VARCHAR" property="ePosition" />
+		<result column="ENG_SN" jdbcType="VARCHAR" property="engSn" />
+		<result column="FLIGHT_PHASE" jdbcType="VARCHAR" property="flightPhase" />
+		<result column="FLIGHT_DATETIME" jdbcType="TIMESTAMP" property="flightDateTime" />
+		<result column="ZVB1F" jdbcType="VARCHAR" property="zvb1f" />
+		<result column="ZVB1F_SMOOTHED" jdbcType="VARCHAR" property="zvb1fSmoothed" />
+		<result column="ZVB1R" jdbcType="VARCHAR" property="zvb1r" />
+		<result column="ZVB1R_SMOOTHED" jdbcType="VARCHAR" property="zvb1rSmoothed" />
+		<result column="ZPHSF" jdbcType="VARCHAR" property="zphsf" />
+		<result column="ZPHSR" jdbcType="VARCHAR" property="zphsr" />
+	</resultMap>
+
+	
+
+</mapper>

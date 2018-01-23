@@ -1,0 +1,50 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<div class="modal fade" id="user-add-modal" tabindex="-1" role="dialog" aria-labelledby="user-add-modal-label">
+    <div class="modal-dialog" role="document">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">新建用户</h3>
+            </div>
+            <form id="form-userinfo" method="post" enctype="multipart/form-data">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="text-name">姓名</label>
+                        <input type="text" class="form-control" id="addrealName"
+                               placeholder="姓名">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-phone">手机号</label>
+                        <input type="text" class="form-control" id="addphone"
+                               placeholder="手机号">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-jd">所属基地</label>
+                        <input type="text" class="form-control" id="addduty"
+                               placeholder="所属基地">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-teamname">所属部门</label>
+                        <input type="text" class="form-control" id="adddepartmentId"
+                               placeholder="所属部门">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-account">账号</label>
+                        <input type="text" class="form-control" id="addusername"
+                               placeholder="账号">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="text-pwd">密码</label>
+                        <input type="password" class="form-control" id="addpassword"
+                               placeholder="密码">
+                    </div>
+                </div>
+                <div class="box-footer" style="text-align:right">
+                    <button type="button" class="btn btn-primary" onclick="adduser()">确定</button>
+                    <button type="button" class="btn btn-default"  data-dismiss="modal" >取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

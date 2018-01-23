@@ -1,0 +1,70 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-head.jsp"/>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-script.jsp"/>
+    <style type="text/css">
+    	table.table , table.table tr th{
+    		text-align:center;
+    	}
+    </style>
+</head>
+<body class="hold-transition" >
+
+<!-- Content Wrapper. Contains page content -->
+<div class="wrapper">
+
+    <div class="box wrapper " style="overflow: auto;">
+        <div class="box-header with-border" style="border-bottom:none;">
+         
+            <div class="row" style="margin:15px 0px" >
+            	<div class="col-xs-1 col-xs-offset-10" style="min-width: 160px">
+                    <button class="btn btn-block btn-primary col-sm-1">
+                        <i class="fa fa-plus"></i>
+                       	 保存
+                    </button>
+                </div>
+            </div>
+            
+            
+        </div>
+        <div class="box-body">
+			<table class="table table-hover table-bordered">
+			  	<thead>
+			  		<tr>
+			  			<th><input type="checkbox" name="choosebox" /></th>
+				  		<th>运营人</th>
+				  		<th>执管基地</th>
+				  		<th>机号</th>
+				  		<th>发动机编号</th>
+				  		<th>H_HIGHLAND</th>
+				  		<th>发动机位置</th>
+				  		<th>OIL_CONSUMPTION</th>
+				  		<th>SCORE_OIL_CONSUMPTION</th>
+			  		</tr>
+			  	</thead>
+			  	<tbody>
+			  		<tr>
+			  			<td><input type="checkbox" name="choosebox1" /></td>
+			  			<td>联行</td>
+			  			<td>5001</td>
+			  			<td>B1752</td>
+			  			<td>521555</td>
+			  			<td>N</td>
+			  			<td>1</td>
+			  			<td>0.3509</td>
+			  			<td>60.00</td>
+			  		</tr>
+			  	</tbody>
+			</table>
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+</body>
+</html>

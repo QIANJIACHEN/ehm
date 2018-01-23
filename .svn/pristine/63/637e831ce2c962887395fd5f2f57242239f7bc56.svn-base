@@ -1,0 +1,393 @@
+package com.cea.ehm.bean;
+
+import java.io.Serializable;
+
+/**
+ * 发动机性能数据
+ */
+public class DataCfmPerformance implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	private Integer id;
+
+	private Integer planeId;
+	// 某个点飞机的唯一标识 表之间一般使用这个字段进行关联
+	private String tail;
+	// EPOSITION
+	private String eposition;
+
+	private Integer engId;
+	// ESN
+	private String esn;
+	// FLIGHT_PHASE
+	private String flightPhase;
+	// 飞行时间
+	private String flightDateTime;
+	// 发动机类型
+	private String engineType;
+	private String zphsr;
+	private String gpcn25Smoothed;
+	private String degtSmoothed;
+	private String zphsf;
+	private String egthdmD;
+	private String zvb1fSmoothed;
+	private String gwfm;
+	private String egthdm;
+	private String gwfmD;
+	private String zvb1r;
+	private String egthdmDSmoothed;
+	private String ztoil;
+	private String zvb2f;
+	private String zvb2r;
+	private String zvb1f;
+	private String zvb2rSmoothed;
+	private String degtDSmoothed;
+	private String gpcn25D;
+	private String zvb1rSmoothed;
+	private String ztoilSmoothed;
+	private String gwfmSmoothed;
+	private String gpcn25;
+	private String gwfmDSmoothed;
+	private String gpcn25DSmoothed;
+	private String zvb2fSmoothed;
+	private String zpoilSmoothed;
+	private String egthdmSmoothed;
+	private String degtD;
+	// Oil Pressure
+	private String zpoil;
+	// EGT
+	private String zt49;
+	// Delta EGT
+	private String degt;
+	// 创建时间
+	private String ctime;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getPlaneId() {
+		return planeId;
+	}
+
+	public void setPlaneId(Integer planeId) {
+		this.planeId = planeId;
+	}
+
+	public String getTail() {
+		return tail;
+	}
+
+	public void setTail(String tail) {
+		this.tail = tail;
+	}
+
+	public String getEposition() {
+		return eposition;
+	}
+
+	public void setEposition(String eposition) {
+		this.eposition = eposition;
+	}
+
+	public Integer getEngId() {
+		return engId;
+	}
+
+	public void setEngId(Integer engId) {
+		this.engId = engId;
+	}
+
+	public String getEsn() {
+		return esn;
+	}
+
+	public void setEsn(String esn) {
+		this.esn = esn;
+	}
+
+	public String getFlightPhase() {
+		return flightPhase;
+	}
+
+	public void setFlightPhase(String flightPhase) {
+		this.flightPhase = flightPhase;
+	}
+
+	public String getFlightDateTime() {
+		return flightDateTime;
+	}
+
+	public void setFlightDateTime(String flightDateTime) {
+		this.flightDateTime = flightDateTime;
+	}
+
+	public String getEngineType() {
+		return engineType;
+	}
+
+	public void setEngineType(String engineType) {
+		this.engineType = engineType;
+	}
+
+	public String getZphsr() {
+		return zphsr;
+	}
+
+	public void setZphsr(String zphsr) {
+		this.zphsr = zphsr;
+	}
+
+	public String getGpcn25Smoothed() {
+		return gpcn25Smoothed;
+	}
+
+	public void setGpcn25Smoothed(String gpcn25Smoothed) {
+		this.gpcn25Smoothed = gpcn25Smoothed;
+	}
+
+	public String getDegtSmoothed() {
+		return degtSmoothed;
+	}
+
+	public void setDegtSmoothed(String degtSmoothed) {
+		this.degtSmoothed = degtSmoothed;
+	}
+
+	public String getZphsf() {
+		return zphsf;
+	}
+
+	public void setZphsf(String zphsf) {
+		this.zphsf = zphsf;
+	}
+
+	public String getEgthdmD() {
+		return egthdmD;
+	}
+
+	public void setEgthdmD(String egthdmD) {
+		this.egthdmD = egthdmD;
+	}
+
+	public String getZvb1fSmoothed() {
+		return zvb1fSmoothed;
+	}
+
+	public void setZvb1fSmoothed(String zvb1fSmoothed) {
+		this.zvb1fSmoothed = zvb1fSmoothed;
+	}
+
+	public String getGwfm() {
+		return gwfm;
+	}
+
+	public void setGwfm(String gwfm) {
+		this.gwfm = gwfm;
+	}
+
+	public String getEgthdm() {
+		return egthdm;
+	}
+
+	public void setEgthdm(String egthdm) {
+		this.egthdm = egthdm;
+	}
+
+	public String getGwfmD() {
+		return gwfmD;
+	}
+
+	public void setGwfmD(String gwfmD) {
+		this.gwfmD = gwfmD;
+	}
+
+	public String getZvb1r() {
+		return zvb1r;
+	}
+
+	public void setZvb1r(String zvb1r) {
+		this.zvb1r = zvb1r;
+	}
+
+	public String getEgthdmDSmoothed() {
+		return egthdmDSmoothed;
+	}
+
+	public void setEgthdmDSmoothed(String egthdmDSmoothed) {
+		this.egthdmDSmoothed = egthdmDSmoothed;
+	}
+
+	public String getZtoil() {
+		return ztoil;
+	}
+
+	public void setZtoil(String ztoil) {
+		this.ztoil = ztoil;
+	}
+
+	public String getZvb2f() {
+		return zvb2f;
+	}
+
+	public void setZvb2f(String zvb2f) {
+		this.zvb2f = zvb2f;
+	}
+
+	public String getZvb2r() {
+		return zvb2r;
+	}
+
+	public void setZvb2r(String zvb2r) {
+		this.zvb2r = zvb2r;
+	}
+
+	public String getZvb1f() {
+		return zvb1f;
+	}
+
+	public void setZvb1f(String zvb1f) {
+		this.zvb1f = zvb1f;
+	}
+
+	public String getZvb2rSmoothed() {
+		return zvb2rSmoothed;
+	}
+
+	public void setZvb2rSmoothed(String zvb2rSmoothed) {
+		this.zvb2rSmoothed = zvb2rSmoothed;
+	}
+
+	public String getDegtDSmoothed() {
+		return degtDSmoothed;
+	}
+
+	public void setDegtDSmoothed(String degtDSmoothed) {
+		this.degtDSmoothed = degtDSmoothed;
+	}
+
+	public String getGpcn25D() {
+		return gpcn25D;
+	}
+
+	public void setGpcn25D(String gpcn25d) {
+		gpcn25D = gpcn25d;
+	}
+
+	public String getZvb1rSmoothed() {
+		return zvb1rSmoothed;
+	}
+
+	public void setZvb1rSmoothed(String zvb1rSmoothed) {
+		this.zvb1rSmoothed = zvb1rSmoothed;
+	}
+
+	public String getZtoilSmoothed() {
+		return ztoilSmoothed;
+	}
+
+	public void setZtoilSmoothed(String ztoilSmoothed) {
+		this.ztoilSmoothed = ztoilSmoothed;
+	}
+
+	public String getGwfmSmoothed() {
+		return gwfmSmoothed;
+	}
+
+	public void setGwfmSmoothed(String gwfmSmoothed) {
+		this.gwfmSmoothed = gwfmSmoothed;
+	}
+
+	public String getGpcn25() {
+		return gpcn25;
+	}
+
+	public void setGpcn25(String gpcn25) {
+		this.gpcn25 = gpcn25;
+	}
+
+	public String getGwfmDSmoothed() {
+		return gwfmDSmoothed;
+	}
+
+	public void setGwfmDSmoothed(String gwfmDSmoothed) {
+		this.gwfmDSmoothed = gwfmDSmoothed;
+	}
+
+	public String getGpcn25DSmoothed() {
+		return gpcn25DSmoothed;
+	}
+
+	public void setGpcn25DSmoothed(String gpcn25dSmoothed) {
+		gpcn25DSmoothed = gpcn25dSmoothed;
+	}
+
+	public String getZvb2fSmoothed() {
+		return zvb2fSmoothed;
+	}
+
+	public void setZvb2fSmoothed(String zvb2fSmoothed) {
+		this.zvb2fSmoothed = zvb2fSmoothed;
+	}
+
+	public String getZpoilSmoothed() {
+		return zpoilSmoothed;
+	}
+
+	public void setZpoilSmoothed(String zpoilSmoothed) {
+		this.zpoilSmoothed = zpoilSmoothed;
+	}
+
+	public String getEgthdmSmoothed() {
+		return egthdmSmoothed;
+	}
+
+	public void setEgthdmSmoothed(String egthdmSmoothed) {
+		this.egthdmSmoothed = egthdmSmoothed;
+	}
+
+	public String getDegtD() {
+		return degtD;
+	}
+
+	public void setDegtD(String degtD) {
+		this.degtD = degtD;
+	}
+
+	public String getZpoil() {
+		return zpoil;
+	}
+
+	public void setZpoil(String zpoil) {
+		this.zpoil = zpoil;
+	}
+
+	public String getZt49() {
+		return zt49;
+	}
+
+	public void setZt49(String zt49) {
+		this.zt49 = zt49;
+	}
+
+	public String getDegt() {
+		return degt;
+	}
+
+	public void setDegt(String degt) {
+		this.degt = degt;
+	}
+
+	public String getCtime() {
+		return ctime;
+	}
+
+	public void setCtime(String ctime) {
+		this.ctime = ctime;
+	}
+
+}

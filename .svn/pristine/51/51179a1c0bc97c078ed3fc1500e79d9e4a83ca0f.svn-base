@@ -1,0 +1,60 @@
+package com.cea.ehm.service;
+
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cea.ehm.bean.SapDailyReport;
+import com.cea.ehm.dao.SapDailyReportMapper;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+/**
+ * 规则参数服务层
+ */
+@Service
+public class SapDailyReportService {
+	private Logger logger = Logger.getLogger(SapDailyReportService.class);
+	@Autowired
+	private SapDailyReportMapper sapdailyreportMapper;
+
+	/**
+	 * 查询规则参数列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	public PageList<SapDailyReport> getSapDailyReportList(Map<String, String> paramMap, PageBounds pageBounds) {
+		logger.info("数据库查询参数：" + paramMap);
+		return sapdailyreportMapper.getSapDailyReportList(paramMap, pageBounds);
+	}
+
+	/**
+	 * 保存或更新规则参数信息
+	 * 
+	 * @param sapdailyreport
+	 */
+	public void saveOrUpdate(SapDailyReport sapdailyreport) {
+		// 查询判断规则参数信息是否存在，考虑保存还是更新
+		SapDailyReport selectuser = sapdailyreportMapper.select(sapdailyreport);
+		if (selectuser == null) {
+			sapdailyreportMapper.insert(sapdailyreport);
+		} else {
+			sapdailyreportMapper.update(sapdailyreport);
+		}
+	}
+
+	/**
+	 * 删除规则参数信息
+	 * 
+	 * @param sapdailyreport
+	 */
+	public void delete(SapDailyReport sapdailyreport) {
+		// 这里是物理删除，删除后规则参数信息从数据库消失
+		sapdailyreportMapper.delete(sapdailyreport);
+	}
+
+}

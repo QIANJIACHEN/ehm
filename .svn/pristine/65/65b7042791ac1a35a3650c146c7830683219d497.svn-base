@@ -1,0 +1,29 @@
+package com.cea.ehm.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import com.cea.ehm.bean.EngOnwing;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+
+/**
+ * eng_onwing
+ */
+public interface EngOnwingMapper {
+	/**
+	 * 获取 engOnwing 数据
+	 * 
+	 * @param pageBounds
+	 * @param paramMap
+	 * @return
+	 */
+	List<EngOnwing> getList(Map<String, String> paramMap, PageBounds pageBounds);
+	
+	/**
+	 * 获取详情数据
+	 * 
+	 * @param paramMap
+	 * @return
+	 */
+	List<EngOnwing> getInfo(Map<String, String> paramMap);
+}

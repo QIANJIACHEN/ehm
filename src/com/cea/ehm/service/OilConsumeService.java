@@ -1,0 +1,43 @@
+package com.cea.ehm.service;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cea.ehm.bean.OilConsume;
+import com.cea.ehm.dao.OilConsumeMapper;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+/**
+ * 滑耗数据 服务层
+ */
+@Service
+public class OilConsumeService {
+	@Autowired
+	private OilConsumeMapper oilMapper;
+
+	/**
+	 * 查询滑耗数据
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	public PageList<OilConsume> list(Map<String, String> paramMap, PageBounds pageBounds) {
+		return oilMapper.list(paramMap, pageBounds);
+	}
+
+	/**
+	 * 获取所有滑耗数据
+	 * 
+	 * @param paramMap
+	 * @return
+	 */
+	public List<OilConsume> all(Map<String, String> paramMap) {
+		return oilMapper.all(paramMap);
+	}
+
+}

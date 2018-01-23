@@ -1,0 +1,359 @@
+package com.cea.ehm.service;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.cea.ehm.bean.SapDailyReport;
+import com.cea.ehm.bean.Duty;
+import com.cea.ehm.bean.User;
+import com.cea.ehm.bean.DataPlane;
+import com.cea.ehm.bean.DataEng;
+import com.cea.ehm.dao.SapDailyReportMapper;
+import com.cea.ehm.dao.DutyMapper;
+import com.cea.ehm.dao.UserMapper;
+import com.cea.ehm.dao.DataPlaneMapper;
+import com.cea.ehm.dao.DataEngMapper;
+import com.cea.ehm.util.ExcelUtil;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import com.google.common.collect.Maps;
+
+/**
+ * 规则参数服务层
+ */
+@Service
+public class SapDailyReportService {
+	private Logger logger = Logger.getLogger(SapDailyReportService.class);
+	@Autowired
+	private SapDailyReportMapper sapdailyreportMapper;
+	@Autowired
+	private DutyMapper dutyMapper;
+	@Autowired
+	private UserMapper userMapper;
+	@Autowired
+	private DataPlaneMapper planeMapper;
+	@Autowired 
+	private DataEngMapper engMapper;
+	/**
+	 * 查询规则参数列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	public PageList<SapDailyReport> getSapDailyReportList(Map<String, String> paramMap, PageBounds pageBounds) {
+		logger.info("数据库查询参数：" + paramMap);
+		return sapdailyreportMapper.getSapDailyReportList(paramMap, pageBounds);
+	}
+
+	/**
+	 * 保存或更新规则参数信息
+	 * 
+	 * @param sapdailyreport
+	 */
+	public void saveOrUpdate(SapDailyReport sapdailyreport) {
+		// 查询判断规则参数信息是否存在，考虑保存还是更新
+		SapDailyReport selectuser = sapdailyreportMapper.select(sapdailyreport);
+		if (selectuser == null) {
+			sapdailyreportMapper.insert(sapdailyreport);
+		} else {
+			sapdailyreportMapper.update(sapdailyreport);
+		}
+	}
+
+	/**
+	 * 删除规则参数信息
+	 * 
+	 * @param sapdailyreport
+	 */
+	public void delete(SapDailyReport sapdailyreport) {
+		// 这里是物理删除，删除后规则参数信息从数据库消失
+		sapdailyreportMapper.delete(sapdailyreport);
+	}
+
+
+	/**
+	 * 创建 excel数据表格
+	 * 
+	 * @return
+	 */
+	public Workbook createExcel() {
+		List<SapDailyReport> daily = sapdailyreportMapper.getAllSapDaily();
+		// 提取所有的基地ID 和基地名
+		List<Duty> allDuty = dutyMapper.getAllDuty();
+		List<User> allUser = userMapper.getAllUser();
+		Map<Integer, String> dutyMap = Maps.newHashMap();
+		Map<Integer,String> userMap = Maps.newHashMap();
+		allDuty.forEach(duty -> dutyMap.put(duty.getId(), duty.getName()));
+		allUser.forEach(user->userMap.put(user.getUserId(), user.getUsername()));
+		daily.forEach(data -> {
+			String dutyName = dutyMap.get(data.getDuty());
+			data.setDutyName(Optional.ofNullable(dutyName).orElse("-"));
+			String cUserName = userMap.get(data.getcUserId());
+			data.setcUserName(Optional.ofNullable(cUserName).orElse("-"));
+			String uUserName = userMap.get(data.getuUserId());
+			data.setuUserName(Optional.ofNullable(uUserName).orElse("-"));
+			String auditorName = userMap.get(data.getAuditor());
+			data.setAuditorName(Optional.ofNullable(auditorName).orElse("-"));
+		});
+		
+		// 创建一个Excel文件
+		Workbook workbook = new XSSFWorkbook();
+		// 创建一个工作表
+		Sheet sheet = workbook.createSheet("日报数据");
+		// 添加表头行
+		Row row0 = sheet.createRow(0);
+		// 添加表头内容
+		row0.createCell(0).setCellValue("ID");
+		row0.createCell(1).setCellValue("基地");
+		row0.createCell(2).setCellValue("机型");
+		row0.createCell(3).setCellValue("机号");
+		row0.createCell(4).setCellValue("发动机位置");
+		row0.createCell(5).setCellValue("发动机序号");
+		row0.createCell(6).setCellValue("Rating");
+		row0.createCell(7).setCellValue("Config");
+		row0.createCell(8).setCellValue("当前ETSN");
+		row0.createCell(9).setCellValue("当前ECSN");
+		row0.createCell(10).setCellValue("当前EGTM");
+		row0.createCell(11).setCellValue("LLP最小剩余寿命（循环）");
+		row0.createCell(12).setCellValue("备注");
+		row0.createCell(13).setCellValue("是否正常");
+		row0.createCell(14).setCellValue("厂家网站监控");
+		row0.createCell(15).setCellValue("滑耗监控");
+		row0.createCell(16).setCellValue("振动监控");
+		row0.createCell(17).setCellValue("磁堵检查报告");
+		row0.createCell(18).setCellValue("孔探报告");
+		row0.createCell(19).setCellValue("CNR报告");
+		row0.createCell(20).setCellValue("ACARS传输");
+		row0.createCell(21).setCellValue("航线运行");
+		row0.createCell(22).setCellValue("发动机滑耗");
+		row0.createCell(23).setCellValue("ETOPS能力");
+		row0.createCell(24).setCellValue("高高原能力");
+		row0.createCell(25).setCellValue("营运人");
+		row0.createCell(26).setCellValue("预计拆发日期");
+		row0.createCell(27).setCellValue("当前ETSR");
+		row0.createCell(28).setCellValue("当前ECSR");
+		row0.createCell(29).setCellValue("当前ETSI");
+		row0.createCell(30).setCellValue("当前ECSI");
+		row0.createCell(31).setCellValue("当前ETSO");
+		row0.createCell(32).setCellValue("当前ECSO");
+		row0.createCell(33).setCellValue("装机日期");
+		row0.createCell(34).setCellValue("创建日期");
+		row0.createCell(35).setCellValue("创建人");
+		row0.createCell(36).setCellValue("更改人");
+		row0.createCell(37).setCellValue("更改日期");
+		row0.createCell(38).setCellValue("审核人");
+		row0.createCell(39).setCellValue("审核日期");
+		row0.createCell(40).setCellValue("性能月报编号");
+		row0.createCell(41).setCellValue("发动机设备号");
+		row0.createCell(42).setCellValue("是否历史数据");
+		row0.createCell(43).setCellValue("文档");
+		
+		// 添加数据内容
+		for (int i = 0; i < daily.size(); i++) {
+			Row row = sheet.createRow(i + 1);
+			row.createCell(0).setCellValue(daily.get(i).getId() + "");
+			row.createCell(1).setCellValue(daily.get(i).getDutyName() + "");
+			row.createCell(2).setCellValue(daily.get(i).getSeries() + "");
+			row.createCell(3).setCellValue(daily.get(i).getTail() + "");
+			row.createCell(4).setCellValue(daily.get(i).getEngPosit() + "");
+			row.createCell(5).setCellValue(daily.get(i).getEngSn() + "");
+			row.createCell(6).setCellValue(daily.get(i).getRating() + "");
+			row.createCell(7).setCellValue(daily.get(i).getConfig() + "");
+			row.createCell(8).setCellValue(daily.get(i).getEtsn() + "");
+			row.createCell(9).setCellValue(daily.get(i).getEcsn() + "");
+			row.createCell(10).setCellValue(daily.get(i).getEgtm() + "");
+			row.createCell(11).setCellValue(daily.get(i).getMinLlp() + "");
+			row.createCell(12).setCellValue(daily.get(i).getRemark() + "");
+			if(daily.get(i).getIsNormal()=='1') {
+				row.createCell(13).setCellValue("是" + "");
+			}else {
+				row.createCell(13).setCellValue("否" + "");
+			}
+			
+			
+			row.createCell(14).setCellValue(daily.get(i).getDeliveryModeMonitoring() + "");
+			row.createCell(15).setCellValue(daily.get(i).getOilMonitoring() + "");
+			row.createCell(16).setCellValue(daily.get(i).getVibratopmMonitoring() + "");
+			row.createCell(17).setCellValue(daily.get(i).getMagneticPluginSpectionReport() + "");
+			row.createCell(18).setCellValue(daily.get(i).getBorescopeReport() + "");
+			row.createCell(19).setCellValue(daily.get(i).getCnrReport() + "");
+			row.createCell(20).setCellValue(daily.get(i).getAcars() + "");
+			row.createCell(21).setCellValue(daily.get(i).getRouteOperation() + "");
+			row.createCell(22).setCellValue(daily.get(i).getEngOil() + "");
+			row.createCell(23).setCellValue(daily.get(i).getEtops() + "");
+			if(daily.get(i).gethHighLand()=='1') {
+				row.createCell(24).setCellValue("否" + "");
+			}else {
+				row.createCell(24).setCellValue("是" + "");
+			}
+			
+			
+			row.createCell(25).setCellValue(daily.get(i).getCntrOptr() + "");
+			row.createCell(26).setCellValue(daily.get(i).getEtime() + "");
+			row.createCell(27).setCellValue(daily.get(i).getEtsr() + "");
+			row.createCell(28).setCellValue(daily.get(i).getEcsr() + "");
+			row.createCell(29).setCellValue(daily.get(i).getEtsi() + "");
+			row.createCell(30).setCellValue(daily.get(i).getEcsi() + "");
+			row.createCell(31).setCellValue(daily.get(i).getEtso() + "");
+			row.createCell(32).setCellValue(daily.get(i).getEcso() + "");
+			row.createCell(33).setCellValue(daily.get(i).getPtime() + "");
+			row.createCell(34).setCellValue(daily.get(i).getCtime() + "");
+			row.createCell(35).setCellValue(daily.get(i).getcUserName() + "");//等会改
+			row.createCell(36).setCellValue(daily.get(i).getuUserName() + "");
+			row.createCell(37).setCellValue(daily.get(i).getUtime() + "");
+			row.createCell(38).setCellValue(daily.get(i).getAuditorName() + "");
+			row.createCell(39).setCellValue(daily.get(i).getAtime() + "");
+			row.createCell(40).setCellValue(daily.get(i).getMonPerformanceNo() + "");
+			row.createCell(41).setCellValue(daily.get(i).getEngPn() + "");
+			if(daily.get(i).getIsHisData()=='1') {
+				row.createCell(42).setCellValue("是" + "");
+			}else {
+				row.createCell(42).setCellValue("否" + "");
+			}
+			
+			row.createCell(43).setCellValue(daily.get(i).getDoc() + "");
+		}
+
+		return workbook;
+	}
+
+	/**
+	 * 处理日报数据信息
+	 * 
+	 * @param file
+	 */
+	public void process(MultipartFile file) {
+		// 提取所有的基地ID 和基地名
+		List<Duty> allDuty = dutyMapper.getAllDuty();
+		List<User> allUser = userMapper.getAllUser();
+		List<DataPlane> allPlane = planeMapper.allPlane();
+		List<DataEng> allEng = engMapper.allDataEng();
+		Map<String, Integer> dutyMap = Maps.newHashMap();
+		Map<String,Integer> userMap = Maps.newHashMap();
+		Map<String,Integer> planeMap = Maps.newHashMap();
+		Map<String,Integer> engMap = Maps.newHashMap();
+		allDuty.forEach(duty -> dutyMap.put(duty.getName(), duty.getId()));
+		allUser.forEach(user-> userMap.put( user.getUsername(),user.getUserId()));
+		allPlane.forEach(plane->planeMap.put(plane.getTail(),plane.getId()));
+		allEng.forEach(eng->engMap.put(eng.getEngSn(),eng.getId()));
+		try {
+			// 这里得到的是一个集合，里面的每一个元素是String[]数组
+			List<String[]> list = ExcelUtil.readExcel(file);
+			for (String[] arr : list) {
+				SapDailyReport sapdailyreport = new SapDailyReport();
+				
+				Integer duty = dutyMap.get(arr[1]);
+				sapdailyreport.setDuty(Optional.ofNullable(duty).orElse(0));
+				sapdailyreport.setSeries(arr[2]);
+				Integer planeId = planeMap.get(arr[3]);
+				sapdailyreport.setPlaneId(Optional.ofNullable(planeId).orElse(0));
+				
+				sapdailyreport.setTail(arr[3]);
+				
+				sapdailyreport.setEngPosit(arr[4]);
+				Integer engId = engMap.get(arr[5]);
+				sapdailyreport.setEngId(Optional.ofNullable(engId).orElse(0));
+				sapdailyreport.setEngSn(arr[5]);
+				
+				sapdailyreport.setRating(arr[6]);
+				sapdailyreport.setConfig(arr[7]);
+				sapdailyreport.setEtsn(arr[8]);
+				sapdailyreport.setEcsn(arr[9]);
+				sapdailyreport.setEgtm(arr[10]);
+				sapdailyreport.setMinLlp(arr[11]);
+				sapdailyreport.setRemark(arr[12]);
+				if(arr[13]=="是") {
+					sapdailyreport.setIsNormal(1);
+				}else if(arr[13]=="否") {
+					sapdailyreport.setIsNormal(0);
+				}else {
+					sapdailyreport.setIsNormal(0);
+				}
+				
+				sapdailyreport.setDeliveryModeMonitoring(arr[14]);
+				sapdailyreport.setOilMonitoring(arr[15]);
+				sapdailyreport.setVibratopmMonitoring(arr[16]);
+				sapdailyreport.setMagneticPluginSpectionReport(arr[17]);
+				sapdailyreport.setBorescopeReport(arr[18]);
+				sapdailyreport.setCnrReport(arr[19]);
+				sapdailyreport.setAcars(arr[20]);
+				sapdailyreport.setRouteOperation(arr[21]);
+				sapdailyreport.setEngOil(arr[22]);
+				sapdailyreport.setEtops(arr[23]);
+				if(arr[24]=="是") {
+					sapdailyreport.sethHighLand(1);
+				}else if(arr[24]=="否") {
+					sapdailyreport.sethHighLand(0);
+				}else {
+					sapdailyreport.sethHighLand(0);
+				}
+				
+				sapdailyreport.setCntrOptr(arr[25]);
+				sapdailyreport.setEtime(arr[26]);
+				sapdailyreport.setEtsr(arr[27]);
+				sapdailyreport.setEcsr(arr[28]);
+				sapdailyreport.setEtsi(arr[29]);
+				sapdailyreport.setEcsi(arr[30]);
+				sapdailyreport.setEtso(arr[31]);
+				sapdailyreport.setEcso(arr[32]);
+				sapdailyreport.setPtime(arr[33]);
+				sapdailyreport.setCtime(arr[34]);
+				Integer cUserId = userMap.get(arr[35]);
+				sapdailyreport.setcUserId(Optional.ofNullable(cUserId).orElse(0));
+				Integer uUserId = userMap.get(arr[36]);
+				sapdailyreport.setuUserId(Optional.ofNullable(uUserId).orElse(0));
+				sapdailyreport.setUtime(arr[37]);
+				Integer auditor = userMap.get(arr[38]);
+				sapdailyreport.setAuditor(Optional.ofNullable(auditor).orElse(0));
+				sapdailyreport.setAtime(arr[39]);
+				sapdailyreport.setMonPerformanceNo(arr[40]);
+				sapdailyreport.setEngPn(arr[41]);
+				if(arr[42]=="是") {
+					sapdailyreport.setIsHisData(1);
+				}else if(arr[42]=="否") {
+					sapdailyreport.setIsHisData(0);
+				}else {
+					sapdailyreport.setIsHisData(0);
+				}
+				
+				
+				sapdailyreport.setDoc(arr[43]);
+
+				//SapDailyReport isExistdaily = sapdailyreportMapper.select(sapdailyreport);
+				//if (isExistdaily == null) {
+					
+					sapdailyreportMapper.insert(sapdailyreport);
+				//} else {
+					//sapdailyreportMapper.updateTwo(sapdailyreport);
+				//}
+			}
+		} catch (IOException e) {
+			logger.debug(e);
+		}
+
+	}
+	
+	/**
+	 * 详情
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public List<SapDailyReport> getSapDailyDetail(Map<String, String> paramMap) {
+		logger.info("数据库查询参数：" + paramMap);
+		return sapdailyreportMapper.getSapDailyDetail(paramMap); 
+	}
+	
+}

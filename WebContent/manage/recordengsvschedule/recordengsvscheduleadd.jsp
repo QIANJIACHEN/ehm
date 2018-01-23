@@ -1,0 +1,61 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<div class="modal fade" id="recordEngSvSchedule-add-modal" tabindex="-1" role="dialog" aria-labelledby="recordEngSvSchedule-add-modal-label">
+    <div class="modal-dialog" role="document">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">发动机维修记录</h3>
+            </div>
+            <form id="form-controlfleetplaneadd" method="post" enctype="multipart/form-data">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="text-nickname">拆发时间</label>
+                         <input type="text" onClick="WdatePicker({el:this,dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="form-control" id="addremoveDate"
+                               placeholder="拆发时间">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">工厂</label>
+                        <input type="text" class="form-control" id="addfactory"
+                               placeholder="工厂" >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="text-nickname">到达时间</label>
+                        <input type="text" onClick="WdatePicker({el:this,dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="form-control" id="addarrived"
+                               placeholder="到达时间">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">INDUCTION</label>
+                        <input type="text" class="form-control" id="addinduction"
+                               placeholder="INDUCTION">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">计划完成时间</label>
+                        <input type="text" onClick="WdatePicker({el:this,dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="form-control" id="addcompletePlan"
+                               placeholder="计划完成时间">
+                    </div>
+                     <div class="form-group">
+                        <label for="text-nickname">实际完成时间</label>
+                        <input type="text" onClick="WdatePicker({el:this,dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="form-control" id="addcomplete"
+                               placeholder="计划完成时间">
+                    </div>
+                    <div>
+                    	<label for="text-nickname">送还时间</label>
+                    	<input type="text" onClick="WdatePicker({el:this,dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="form-control" id="addship" placeholder="送还时间">
+                    </div>
+                    <div>
+                    	<label for="text-nickname">花费</label>
+                    	<input class="form-control" id="addcost" placeholder="花费（精确到小数点后两位）">
+                    </div>
+                    <div>
+                    	<label for="text-nickname">耗时（秒为单位）</label>
+                    	<input class="form-control" id="addtat" placeholder="耗时（秒为单位）">
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <button type="button" class="btn btn-primary pull-right" onclick="addrecordengsvschedule()">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

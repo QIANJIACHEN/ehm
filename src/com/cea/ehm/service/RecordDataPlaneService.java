@@ -1,0 +1,142 @@
+package com.cea.ehm.service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cea.ehm.bean.DataPlane;
+import com.cea.ehm.bean.Duty;
+import com.cea.ehm.bean.RecordDataPlane;
+import com.cea.ehm.bean.User;
+import com.cea.ehm.dao.DutyMapper;
+import com.cea.ehm.dao.RecordDataPlaneMapper;
+import com.cea.ehm.dao.UserMapper;
+import com.cea.ehm.util.ConstantUtil;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import com.google.common.collect.Maps;
+
+/**
+ * 飞机属性更变记录服务层
+ */
+@Service
+public class RecordDataPlaneService {
+	private Logger logger = Logger.getLogger(RecordDataPlaneService.class);
+	@Autowired
+	private RecordDataPlaneMapper recordMapper;
+	@Autowired
+	private DutyMapper dutyMapper;
+	@Autowired
+	private UserMapper userMapper;
+
+	/*
+	 * 根据id查询记录
+	 */
+	
+	public List<RecordDataPlane> getRecordDataPlaneById(Map<String, Integer> paramMap){
+		logger.info("数据库查询参数：" + paramMap);
+		List<RecordDataPlane> data = recordMapper.getRecordDataPlaneById(paramMap);
+		return data;
+	}
+	
+	
+	/**
+	 * 查询飞机属性更变记录列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	public PageList<RecordDataPlane> getRecordDataPlaneList(Map<String, String> paramMap, PageBounds pageBounds) {
+		logger.info("数据库查询参数：" + paramMap);
+		
+		// 提取所有的基地ID 和基地名
+		List<Duty> allDuty = dutyMapper.getAllDuty();
+		Map<Integer, String> dutyMap = Maps.newHashMap();
+		allDuty.forEach(duty -> dutyMap.put(duty.getId(), duty.getName()));
+		// 提取所有的用户ID 和用户名
+		List<User> allUser = userMapper.getAllUser();
+		Map<Integer, String> userMap = Maps.newHashMap();
+		allUser.forEach(user -> userMap.put(user.getUserId(), user.getUsername()));
+
+		PageList<RecordDataPlane> records = recordMapper.getRecordDataPlaneList(paramMap, pageBounds);
+		records.forEach(record -> {
+			record.setDutyName(dutyMap.get(record.getDuty()));
+			String username = userMap.get(record.getUserId());
+			record.setUsername(Optional.ofNullable(username).orElse("admin"));
+		});
+		return records;
+	}
+
+	/**
+	 * 保存飞机属性更变记录信息
+	 * 
+	 * @param plane
+	 * @param request
+	 */
+	public void save(DataPlane plane, HttpServletRequest request) {
+		RecordDataPlane record = new RecordDataPlane();
+		record.setTail(plane.getTail());
+		record.setDuty(plane.getDuty());
+		record.setRatingPlane(plane.getRatingPlane());
+		record.setConfigPlane(plane.getConfigPlane());
+		record.setEgsnOriginal(plane.getEgsnOriginal());
+		record.setSeries(plane.getSeries());
+		record.setType(plane.getType());
+		record.setModel(plane.getModel());
+		record.setAttribute(plane.getAttribute());
+		record.setEtops(plane.getEtops());
+		record.sethHighLand(plane.gethHighLand());
+		record.setVariable(plane.getVariable());
+		record.setSerial(plane.getSerial());
+		record.setLine(plane.getLine());
+		record.setOperater(plane.getOperater());
+		record.setOwner(plane.getOwner());
+		record.setRemark(plane.getRemark());
+		record.setImportWay(plane.getImportWay());
+
+		User user = (User) request.getSession().getAttribute(ConstantUtil.SESSION_LOGIN_USER);
+		int userId = (user != null) ? user.getUserId() : 0;
+		record.setUserId(userId);
+		String date = LocalDateTime.now().toString().replace("T", " ");
+		String ctime = date.substring(0, date.indexOf("."));
+		record.setCtime(ctime);
+
+		recordMapper.insert(record);
+	}
+
+	/**
+	 * 保存或更新飞机属性更变记录信息
+	 * 
+	 * @param recorddataplane
+	 */
+	@Deprecated
+	public void saveOrUpdate(RecordDataPlane recorddataplane) {
+		// 查询判断飞机属性更变记录信息是否存在，考虑保存还是更新
+		RecordDataPlane selectuser = recordMapper.select(recorddataplane);
+		if (selectuser == null) {
+			recordMapper.insert(recorddataplane);
+		} else {
+			recordMapper.update(recorddataplane);
+		}
+	}
+
+	/**
+	 * 删除飞机属性更变记录信息
+	 * 
+	 * @param recorddataplane
+	 */
+	@Deprecated
+	public void delete(RecordDataPlane recorddataplane) {
+		// 这里是物理删除，删除后飞机属性更变记录信息从数据库消失
+		recordMapper.delete(recorddataplane);
+	}
+
+}

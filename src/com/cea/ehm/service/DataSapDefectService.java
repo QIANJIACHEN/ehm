@@ -1,0 +1,223 @@
+package com.cea.ehm.service;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+
+import com.cea.ehm.bean.DataEng;
+import com.cea.ehm.bean.DataPlane;
+import com.cea.ehm.bean.DataSapDefect;
+import com.cea.ehm.bean.Duty;
+import com.cea.ehm.dao.DataEngMapper;
+import com.cea.ehm.dao.DataPlaneMapper;
+import com.cea.ehm.dao.DataSapDefectMapper;
+import com.cea.ehm.dao.DutyMapper;
+import com.cea.ehm.util.ExcelUtil;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import com.google.common.collect.Maps;
+
+/**
+ * 发动机备发服务层
+ */
+@Service
+public class DataSapDefectService {
+	private Logger logger = Logger.getLogger(DataSapDefectService.class);
+	@Autowired
+	private DataSapDefectMapper datasapdefectMapper;
+	@Autowired
+	private DutyMapper dutyMapper;
+	@Autowired
+	private DataPlaneMapper dataplaneMapper;
+	@Autowired
+	private DataEngMapper dataengMapper;
+	/**
+	 * 查询发动机备发列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	public PageList<DataSapDefect> getDataSapDefectList(Map<String, String> paramMap, PageBounds pageBounds) {
+		logger.info("数据库查询参数：" + paramMap);
+		return datasapdefectMapper.getDataSapDefectList(paramMap, pageBounds);
+	}
+
+	/**
+	 * 保存或更新机队清单
+	 * 
+	 * @param datasapdefect
+	 */
+	public void saveOrUpdate(DataSapDefect datasapdefect) {
+		// 查询判断机队清单是否存在，考虑保存还是更新
+		DataSapDefect selectuser = datasapdefectMapper.select(datasapdefect);
+		if (selectuser == null) {
+			datasapdefectMapper.insert(datasapdefect);
+		} else {
+			datasapdefectMapper.update(datasapdefect);
+		}
+	}
+
+	/**
+	 * 删除机队清单
+	 * 
+	 * @param datasapdefect
+	 */
+	public void delete(DataSapDefect datasapdefect) {
+		// 这里是物理删除，删除后机队清单从数据库消失
+		datasapdefectMapper.delete(datasapdefect);
+	}
+
+	/**
+	 * 创建 excel数据表格
+	 * 
+	 * @return
+	 */
+	public Workbook createExcel() {
+		List<DataSapDefect> allInfo = datasapdefectMapper.getAllDataSapDefectInfo();
+		// 创建一个Excel文件
+		Workbook workbook = new XSSFWorkbook();
+		// 创建一个工作表
+		Sheet sheet = workbook.createSheet("ENG_DEADLINE_HPTB");
+		// 添加表头行
+		Row row0 = sheet.createRow(0);
+		// 添加表头内容
+		row0.createCell(0).setCellValue("执管单位");
+		row0.createCell(1).setCellValue("机型");
+		row0.createCell(2).setCellValue("机号");
+		row0.createCell(3).setCellValue("位置");
+		row0.createCell(4).setCellValue("发动机序号");
+		row0.createCell(5).setCellValue("是否重点监控");
+		row0.createCell(6).setCellValue("故障件名称");
+		row0.createCell(7).setCellValue("监控间隔及措施");
+		
+		// 添加数据内容
+		for (int i = 0; i < allInfo.size(); i++) {
+			Row row = sheet.createRow(i + 1);
+			row.createCell(0).setCellValue(allInfo.get(i).getDutyName() + "");
+			row.createCell(1).setCellValue(allInfo.get(i).getSeries() + "");
+			row.createCell(2).setCellValue(allInfo.get(i).getTail() + "");
+			if(allInfo.get(i).getEngPosit()==1) {
+				row.createCell(3).setCellValue("左" + "");
+			}else if(allInfo.get(i).getEngPosit()==2){
+				row.createCell(3).setCellValue("右" + "");
+			}
+			
+			row.createCell(4).setCellValue(allInfo.get(i).getEngSn() + "");
+			if(allInfo.get(i).getStatus() ==1) {
+				row.createCell(5).setCellValue("是"+ "");
+			}else {
+				row.createCell(5).setCellValue("否"+ "");
+			}
+			row.createCell(6).setCellValue(allInfo.get(i).getName() + "");
+			row.createCell(7).setCellValue(allInfo.get(i).getRemark() + "");
+		}
+		return workbook;
+	}
+
+	/**
+	 * 处理发动机数据信息
+	 * 
+	 * @param file
+	 */
+	public void process(MultipartFile file) {
+		List<Duty> allduty = dutyMapper.getAllDuty();
+		Map<String, Integer> dutyMap = Maps.newHashMap();
+		allduty.forEach(duty -> dutyMap.put(duty.getName(), duty.getId()));
+		List<DataPlane> allplane = dataplaneMapper.allPlane();
+		Map<String,Integer> planeMap = Maps.newHashMap();
+		allplane.forEach(plane->planeMap.put(plane.getTail(), plane.getId()));
+		List<DataEng> alleng = dataengMapper.allDataEng();
+		Map<String,Integer> engMap = Maps.newHashMap();
+		alleng.forEach(eng->engMap.put(eng.getEngSn(), eng.getId()));
+		try {
+			// 这里得到的是一个集合，里面的每一个元素是String[]数组
+			List<String[]> list = ExcelUtil.readExcel(file);
+			
+			for (String[] arr : list) {
+				
+				int length = arr.length;
+				
+				DataSapDefect datasapdefect = new DataSapDefect();
+				
+				if(length>=1) {
+					Integer duty = dutyMap.get(arr[0]);
+					if(duty==null) {
+						Duty dutyinfo = new Duty();
+						dutyinfo.setName(arr[0]);
+						dutyinfo.setParentId(0);//新增的都默认为0，即父级
+						dutyinfo.setType(3);//此处为执管单位，excel数据对应的就是执管单位
+						dutyinfo.setLocation("");//不知道填啥好，就空吧
+						dutyinfo.setRole(0);//不清楚具体值，以后应该会有默认值的吧，到时候再改，别忘了就好
+						String date = LocalDateTime.now().toString().replace("T", " ");
+						String ctime1 = date.substring(0, date.indexOf("."));
+						dutyinfo.setCtime(ctime1);
+						if(dutyMapper.selectByName(dutyinfo)==null) {
+							dutyMapper.insert(dutyinfo);
+						}
+						
+						//获取id，dutyname对应的
+						Duty duty2 = new Duty();
+						duty2.setName(arr[0]);	
+						Integer dutyId=dutyMapper.selectIdByName(duty2);
+						datasapdefect.setDuty(dutyId);
+					}else {
+						datasapdefect.setDuty(Optional.ofNullable(duty).orElse(0));
+					}
+					
+				}
+				if(length>=2) {
+					datasapdefect.setSeries(Optional.ofNullable(arr[1]).orElse(""));
+				}
+				if(length>=3) {
+					datasapdefect.setTail(arr[2]);
+					Integer planeId = planeMap.get(arr[2]);
+					datasapdefect.setPlaneId(Optional.ofNullable(planeId).orElse(0));
+				}
+				if(length>=4) {
+					if(arr[3]==null||arr[3].equals("")) {
+						datasapdefect.setEngPosit(0);
+					}else {
+						datasapdefect.setEngPosit(Optional.ofNullable(Integer.parseInt(arr[3])).orElse(0));
+					}
+					
+				}
+				if(length>=5) {
+					datasapdefect.setEngSn(arr[4]);
+					Integer engId = engMap.get(arr[4]);
+					datasapdefect.setEngId(Optional.ofNullable(engId).orElse(0));
+				}
+				if(length>=6) {
+					if(arr[5].equals("N")) {
+						datasapdefect.setStatus(0);
+					}else {
+						datasapdefect.setStatus(1);
+					}
+				}
+				if(length>=7) {
+					datasapdefect.setName(arr[6]);
+				}
+				if(length>=8) {
+					datasapdefect.setRemark(arr[7]);
+				}
+				datasapdefectMapper.insert(datasapdefect);
+				
+			}
+		} catch (IOException e) {
+			logger.debug(e);
+		}
+
+	}
+}

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.RoleMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.Role">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="NAME" jdbcType="VARCHAR" property="name" />
+		<result column="PID" jdbcType="INTEGER" property="pId" />
+		<result column="STATUS" jdbcType="INTEGER" property="status" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+		<result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
+		<result column="UTIME" jdbcType="TIMESTAMP" property="utime" />
+		<result column="LISTORDER" jdbcType="INTEGER" property="listorder" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ID,NAME,PID,STATUS,REMARK,CTIME,UTIME,LISTORDER
+	</sql>
+	
+	<select id="select" parameterType="com.cea.ehm.bean.Role" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_role
+		WHERE ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getRoleList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_role
+	</select>
+
+	<insert id="insert" parameterType="com.cea.ehm.bean.Role">
+		INSERT INTO ehm_role
+			(NAME,PID,STATUS,REMARK,CTIME,UTIME,LISTORDER)
+		VALUES
+		(
+			#{name,jdbcType=VARCHAR},
+			#{pId,jdbcType=INTEGER},
+			#{status,jdbcType=INTEGER},
+			#{remark,jdbcType=VARCHAR},
+			#{ctime,jdbcType=TIMESTAMP},
+			#{utime,jdbcType=TIMESTAMP},
+			#{listorder,jdbcType=INTEGER}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="com.cea.ehm.bean.Role">
+		DELETE FROM
+			ehm_role
+		WHERE
+			ID = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<update id="update" parameterType="com.cea.ehm.bean.Role">
+		UPDATE ehm_role
+		<set>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="pId != null">
+				PID = #{pId,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="remark != null">
+				REMARK = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				CTIME = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="utime != null">
+				UTIME = #{utime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="listorder != null">
+				LISTORDER = #{listorder,jdbcType=INTEGER},
+			</if>
+		</set>
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="getAllRole" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_role
+	</select>
+</mapper>

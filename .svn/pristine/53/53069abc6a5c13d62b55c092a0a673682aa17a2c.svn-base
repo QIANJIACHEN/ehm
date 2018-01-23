@@ -1,0 +1,252 @@
+package com.cea.ehm.service;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.cea.ehm.bean.Duty;
+import com.cea.ehm.bean.OilConsumption;
+import com.cea.ehm.bean.User;
+import com.cea.ehm.dao.DutyMapper;
+import com.cea.ehm.dao.OilConsumptionMapper;
+import com.cea.ehm.dao.UserMapper;
+import com.cea.ehm.util.ExcelUtil;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import com.google.common.collect.Maps;
+
+/**
+ * 滑耗数据 服务层
+ */
+@Service
+public class OilConsumptionService {
+	private Logger logger = Logger.getLogger(OilConsumptionService.class);
+	@Autowired
+	private OilConsumptionMapper oilMapper;
+	@Autowired
+	private DutyMapper dutyMapper;
+	@Autowired
+	private UserMapper userMapper;
+
+	/**
+	 * 滑耗数据 保存
+	 * 
+	 * @param oil
+	 */
+	public void save(OilConsumption oil) {
+		oilMapper.save(oil);
+	}
+
+	/**
+	 * 查询滑耗数据
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	public PageList<OilConsumption> getList(Map<String, String> paramMap, PageBounds pageBounds) {
+		PageList<OilConsumption> oils = oilMapper.getList(paramMap, pageBounds);
+		// 提取所有的基地ID 和基地名
+		List<Duty> allDuty = dutyMapper.getAllDuty();
+		Map<Integer, String> dutyMap = Maps.newHashMap();
+		allDuty.forEach(duty -> dutyMap.put(duty.getId(), duty.getName()));
+		// 提取所有的用户ID 和用户名
+		List<User> allUser = userMapper.getAllUser();
+		Map<Integer, String> userMap = Maps.newHashMap();
+		allUser.forEach(user -> userMap.put(user.getUserId(), user.getUsername()));
+		oils.forEach(oil -> {
+			oil.setDutyName(dutyMap.get(oil.getDuty()));
+			String username = userMap.get(oil.getUserId());
+			oil.setUsername(Optional.ofNullable(username).orElse("-"));
+		});
+		return oils;
+	}
+
+	/**
+	 * 滑耗数据 删除
+	 * 
+	 * @param oil
+	 */
+	public void delete(OilConsumption oil) {
+		oilMapper.delete(oil);
+	}
+
+	/**
+	 * 滑耗数据 修改
+	 * 
+	 * @param oil
+	 */
+	public void update(OilConsumption oil) {
+		oilMapper.update(oil);
+	}
+	/**
+	 * 创建 excel数据表格
+	 * 
+	 * @return
+	 */
+	public Workbook createExcel() {
+		List<OilConsumption> oils = oilMapper.allOilConsumption();
+
+		// 创建一个Excel文件
+		Workbook workbook = new XSSFWorkbook();
+		// 创建一个工作表
+		Sheet sheet = workbook.createSheet("滑耗数据");
+		// 添加表头行
+		Row row0 = sheet.createRow(0);
+		// 添加表头内容
+		row0.createCell(0).setCellValue("ID");
+		row0.createCell(1).setCellValue("分公司");
+		row0.createCell(2).setCellValue("机型");
+		row0.createCell(3).setCellValue("飞机ID");
+		row0.createCell(4).setCellValue("机号");
+		row0.createCell(5).setCellValue("航班号");
+		row0.createCell(6).setCellValue("飞行日期");
+		row0.createCell(7).setCellValue("空中时间");
+		row0.createCell(8).setCellValue("空地时间");
+		row0.createCell(9).setCellValue("起飞航站");
+		row0.createCell(10).setCellValue("到达航站");
+		row0.createCell(11).setCellValue("1发加油前滑油量");
+		row0.createCell(12).setCellValue("1发滑油添加量");
+		row0.createCell(13).setCellValue("1发加油时间差");
+		row0.createCell(14).setCellValue("1发滑油消耗");
+		row0.createCell(15).setCellValue("1发滑油消耗率");
+		row0.createCell(16).setCellValue("2发加油前滑油量");
+		row0.createCell(17).setCellValue("2发滑油添加量");
+		row0.createCell(18).setCellValue("2发加油时间差");
+		row0.createCell(19).setCellValue("2发滑油消耗");
+		row0.createCell(20).setCellValue("2发滑油消耗率");
+		row0.createCell(21).setCellValue("3发加油前滑油量");
+		row0.createCell(22).setCellValue("3发滑油添加量");
+		row0.createCell(23).setCellValue("3发加油时间差");
+		row0.createCell(24).setCellValue("3发滑油消耗");
+		row0.createCell(25).setCellValue("3发滑油消耗率");
+		row0.createCell(26).setCellValue("4发加油前滑油量");
+		row0.createCell(27).setCellValue("4发滑油添加量");
+		row0.createCell(28).setCellValue("4发加油时间差");
+		row0.createCell(29).setCellValue("4发滑油消耗");
+		row0.createCell(30).setCellValue("4发滑油消耗率");
+		row0.createCell(31).setCellValue("发动机警戒值");
+		row0.createCell(32).setCellValue("APU滑油添加量");
+		row0.createCell(33).setCellValue("APU滑油消耗率");
+		row0.createCell(34).setCellValue("APU滑油消耗警戒值");
+		row0.createCell(35).setCellValue("录入人");
+		row0.createCell(36).setCellValue("创建时间");
+		// 添加数据内容
+		for (int i = 0; i < oils.size(); i++) {
+			Row row = sheet.createRow(i + 1);
+			row.createCell(0).setCellValue(oils.get(i).getId() + "");
+			row.createCell(1).setCellValue(oils.get(i).getDutyName() + "");
+			row.createCell(2).setCellValue(oils.get(i).getConfigPlane() + "");
+			row.createCell(3).setCellValue(oils.get(i).getPlaneId() + "");
+			row.createCell(4).setCellValue(oils.get(i).getTail() + "");
+			row.createCell(5).setCellValue(oils.get(i).getFltNo() + "");
+			row.createCell(6).setCellValue(oils.get(i).getFltTime() + "");
+			row.createCell(7).setCellValue(oils.get(i).getAirTime() + "");
+			row.createCell(8).setCellValue(oils.get(i).getGroundTime() + "");
+			row.createCell(9).setCellValue(oils.get(i).getStartTerminal() + "");
+			row0.createCell(10).setCellValue(oils.get(i).getEndTerminal() + "");
+			row0.createCell(11).setCellValue(oils.get(i).getRefuelOil1() + "");
+			row0.createCell(12).setCellValue(oils.get(i).getOilAddition1() + "");
+			row0.createCell(13).setCellValue(oils.get(i).getRefuelTimeDifference1() + "");
+			row0.createCell(14).setCellValue(oils.get(i).getOilConsume1() + "");
+			row0.createCell(15).setCellValue(oils.get(i).getOilConsumeRate1() + "");
+			row0.createCell(16).setCellValue(oils.get(i).getRefuelOil2() + "");
+			row0.createCell(17).setCellValue(oils.get(i).getOilAddition2() + "");
+			row0.createCell(18).setCellValue(oils.get(i).getRefuelTimeDifference2() + "");
+			row0.createCell(19).setCellValue(oils.get(i).getOilConsume2() + "");
+			row0.createCell(20).setCellValue(oils.get(i).getOilConsumeRate2() + "");
+			row0.createCell(21).setCellValue(oils.get(i).getRefuelOil3() + "");
+			row0.createCell(22).setCellValue(oils.get(i).getOilAddition3()+ "");
+			row0.createCell(23).setCellValue(oils.get(i).getRefuelTimeDifference3()+ "");
+			row0.createCell(24).setCellValue(oils.get(i).getOilConsume3() + "");
+			row0.createCell(25).setCellValue(oils.get(i).getOilConsumeRate3() + "");
+			row0.createCell(26).setCellValue(oils.get(i).getRefuelOil4()+ "");
+			row0.createCell(27).setCellValue(oils.get(i).getOilAddition4() + "");
+			row0.createCell(28).setCellValue(oils.get(i).getRefuelTimeDifference4() + "");
+			row0.createCell(29).setCellValue(oils.get(i).getOilConsume4()+ "");
+			row0.createCell(30).setCellValue(oils.get(i).getOilConsumeRate4()+ "");
+			row0.createCell(31).setCellValue(oils.get(i).getEngVigilance() + "");
+			row0.createCell(32).setCellValue(oils.get(i).getApuOilAddition() + "");
+			row0.createCell(33).setCellValue(oils.get(i).getApuOilConsumeRate() + "");
+			row0.createCell(34).setCellValue(oils.get(i).getApuOilConsumeVigilance()+ "");
+			row0.createCell(35).setCellValue(oils.get(i).getUserId() + "");
+			row0.createCell(36).setCellValue(oils.get(i).getCtime() + "");
+		}
+
+		return workbook;
+	}
+
+	/**
+	 * 处理滑耗数据信息
+	 * 
+	 * @param file
+	 */
+	public void process(MultipartFile file) {
+		try {
+			// 这里得到的是一个集合，里面的每一个元素是String[]数组
+			List<String[]> list = ExcelUtil.readExcel(file);
+			for (String[] arr : list) {
+				OilConsumption oil = new OilConsumption ();
+				oil.setId(Integer.parseInt(arr[0]));
+				oil.setDutyName(arr[1]);
+				oil.setPlaneId(Integer.parseInt(arr[2]));
+				oil.setTail(arr[4]);
+				oil.setFltNo(arr[5]);
+				oil.setFltTime(arr[6]);
+				oil.setAirTime(arr[7]);
+				oil.setGroundTime(arr[8]);
+				oil.setStartTerminal(arr[9]);
+				oil.setEndTerminal(arr[10]);
+				oil.setRefuelOil1(arr[11]);
+				oil.setOilAddition1(arr[12]);
+				oil.setRefuelTimeDifference1(arr[13]);
+				oil.setOilConsume1(arr[14]);
+				oil.setOilConsumeRate1(arr[15]);
+				oil.setRefuelOil2(arr[16]);
+				oil.setOilAddition2(arr[17]);
+				oil.setRefuelTimeDifference2(arr[18]);
+				oil.setOilConsume2(arr[19]);
+				oil.setOilConsumeRate2(arr[20]);
+				oil.setRefuelOil3(arr[21]);
+				oil.setOilAddition3(arr[22]);
+				oil.setRefuelTimeDifference3(arr[23]);
+				oil.setOilConsume3(arr[24]);
+				oil.setOilConsumeRate3(arr[25]);
+				oil.setRefuelOil4(arr[26]);
+				oil.setOilAddition4(arr[27]);
+				oil.setRefuelTimeDifference4(arr[28]);
+				oil.setOilConsume4(arr[29]);
+				oil.setOilConsumeRate4(arr[30]);
+				oil.setEngVigilance(arr[31]);
+				oil.setApuOilAddition(arr[32]);
+				oil.setApuOilConsumeRate(arr[33]);
+				oil.setApuOilConsumeVigilance(arr[34]);
+				oil.setUserId(Integer.parseInt(arr[35]));
+				oil.setCtime(arr[36]);
+				OilConsumption isExistOil =oilMapper.select(oil);
+				if (isExistOil == null) {
+					String date = LocalDateTime.now().toString().replace("T", " ");
+					String ctime = date.substring(0, date.indexOf("."));
+					oil.setCtime(ctime);
+					oilMapper.save(oil);
+				} else {
+					oilMapper.update(oil);
+				}
+			}
+		} catch (IOException e) {
+			logger.debug(e);
+		}
+
+	}
+}

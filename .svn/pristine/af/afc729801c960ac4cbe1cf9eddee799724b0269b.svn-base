@@ -1,0 +1,115 @@
+package com.cea.ehm.bean;
+
+import java.io.Serializable;
+
+/**
+ * 用户表
+ */
+public class User implements Serializable {
+	private static final long serialVersionUID = 1L;
+	// 用户ID
+	private String userId;
+	// 用户名
+	private String username;
+	// 姓名
+	private String realName;
+	// 密码
+	private String password;
+	// 职位
+	private String position;
+	// 角色
+	private String role;
+	// 手机号
+	private Integer phone;
+	// 创建时间
+	private String ctime;
+	// 基地
+	private String duty;
+
+	@SuppressWarnings("unused")
+	private String button;
+
+	public String getButton() {
+		return "<button class='btn btn-block btn-default edit' data-id='"+getUserId()+"'>修改</button><button class='btn btn-block btn-default delete' data-id='"+getUserId()+"'>删除</button>";
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getRealName() {
+		return realName;
+	}
+
+	public void setRealName(String realName) {
+		this.realName = realName;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public Integer getPhone() {
+		return phone;
+	}
+
+	public void setPhone(Integer phone) {
+		this.phone = phone;
+	}
+
+	public String getCtime() {
+		return ctime;
+	}
+
+	public void setCtime(String ctime) {
+		this.ctime = ctime;
+	}
+
+	public String getDuty() {
+		return duty;
+	}
+
+	public void setDuty(String duty) {
+		this.duty = duty;
+	}
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", username=" + username + ", realName=" + realName + ", password=" + password
+				+ ", position=" + position + ", role=" + role + ", phone=" + phone + ", ctime=" + ctime + ", duty="
+				+ duty + "]";
+	}
+
+}

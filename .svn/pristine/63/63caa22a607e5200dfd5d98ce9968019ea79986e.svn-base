@@ -1,0 +1,81 @@
+package com.cea.ehm.service;
+
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cea.ehm.bean.Activity;
+import com.cea.ehm.bean.ActivityHptn;
+import com.cea.ehm.bean.History;
+import com.cea.ehm.dao.ActivityMapper;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+/**
+ * 活动服务层
+ */
+@Service
+public class ActivityService {
+	@Autowired
+	ActivityMapper activityMapper;
+	/**
+	 * 查询用户列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	/**
+	 * 查询
+	 * */
+	public PageList<Activity> getActivityList(Map<String, String> paramMap, PageBounds pageBounds) {
+		return activityMapper.getActivityList(paramMap, pageBounds);
+	}
+	public PageList<ActivityHptn> getActivityHptn(Map<String, String> paramMap, PageBounds pageBounds) {
+		return activityMapper.getActivityHptn(paramMap, pageBounds);
+	}
+	public PageList<History> getHistory(Map<String, String> paramMap, PageBounds pageBounds) {
+		return activityMapper.getHistory(paramMap, pageBounds);
+	}
+	
+	/* * * 
+	 * 添加
+	 * */
+	public void add(Activity activity) {
+		activityMapper.add(activity);
+	}
+	public void activityTable1add(ActivityHptn activityHptn) {
+		activityMapper.activityTable1add(activityHptn);
+	}
+	public void historyadd(History history) {
+		activityMapper.historyadd(history);
+	}
+	
+	/* * * 
+	 * 修改
+	 * */
+	public void update(Activity activity) {
+		activityMapper.update(activity);
+	}
+	public void activityTable1update(ActivityHptn activityHptn) {
+		activityMapper.activityTable1update(activityHptn);
+	}
+	public void historyupdate(History history) {
+		activityMapper.historyupdate(history);
+	}
+	
+	
+	/* * * 
+	 * 删除
+	 * */
+	public void delete(Activity activity) {
+		activityMapper.delete(activity);
+	}
+	public void activityTable1delete(ActivityHptn activityHptn) {
+		activityMapper.activityTable1delete(activityHptn);
+	}
+	public void historydelete(History history) {
+		activityMapper.historydelete(history);
+	}
+}

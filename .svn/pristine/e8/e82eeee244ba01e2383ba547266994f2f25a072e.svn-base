@@ -1,0 +1,108 @@
+package com.cea.ehm.service;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cea.ehm.bean.Duty;
+import com.cea.ehm.bean.Role;
+import com.cea.ehm.bean.User;
+import com.cea.ehm.dao.DutyMapper;
+import com.cea.ehm.dao.RoleMapper;
+import com.cea.ehm.dao.UserMapper;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import com.google.common.collect.Maps;
+
+/**
+ * 用户服务层
+ */
+@Service
+public class UserService {
+	private Logger logger = Logger.getLogger(UserService.class);
+	@Autowired
+	private UserMapper userMapper;
+	@Autowired
+	private RoleMapper roleMapper;
+	@Autowired
+	private DutyMapper dutyMapper;
+
+	/**
+	 * 查询用户列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	public PageList<User> getUserList(Map<String, String> paramMap, PageBounds pageBounds) {
+		logger.info("数据库查询参数：" + paramMap);
+		PageList<User> userList = userMapper.getUserList(paramMap, pageBounds);
+		// 提取所有的角色ID 和角色名
+		List<Role> allRole = roleMapper.allRole();
+		Map<Integer, String> roleMap = Maps.newHashMap();
+		allRole.forEach(role -> roleMap.put(role.getId(), role.getName()));
+		// 提取所有的基地ID 和基地名
+		List<Duty> allDuty = dutyMapper.getAllDuty();
+		Map<Integer, String> dutyMap = Maps.newHashMap();
+		allDuty.forEach(duty -> dutyMap.put(duty.getId(), duty.getName()));
+		for (User user : userList) {
+			String roleName = roleMap.get(user.getRole());
+			user.setRoleName(Optional.ofNullable(roleName).orElse("-"));
+			String dutyName = dutyMap.get(user.getDuty());
+			user.setDutyName(Optional.ofNullable(dutyName).orElse("-"));
+		}
+		return userList;
+	}
+
+	/**
+	 * 查询用户信息
+	 * 
+	 * @param user
+	 */
+	public User select(User user) {
+		return userMapper.select(user);
+	}
+
+	/**
+	 * 保存用户信息
+	 * 
+	 * @param user
+	 */
+	public void save(User user) {
+		userMapper.insert(user);
+	}
+
+	/**
+	 * 更新用户信息
+	 * 
+	 * @param user
+	 */
+	public void update(User user) {
+		userMapper.update(user);
+	}
+
+	/**
+	 * 删除用户信息
+	 * 
+	 * @param user
+	 */
+	public void delete(User user) {
+		// 这里是物理删除，删除后用户信息从数据库消失
+		userMapper.delete(user);
+	}
+
+	/**
+	 * 通过 账号和密码 查询用户是否存在
+	 * 
+	 * @param user
+	 */
+	public User getUserByUsernameAndPassword(User user) {
+		User selectuser = userMapper.getUserByUsernameAndPassword(user);
+		return selectuser;
+	}
+
+}

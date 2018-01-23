@@ -1,0 +1,60 @@
+package com.cea.ehm.service;
+
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cea.ehm.bean.DataCfmPerformance;
+import com.cea.ehm.dao.DataCfmPerformanceMapper;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+/**
+ * 用户服务层
+ */
+@Service
+public class DataCfmPerformanceService {
+	private Logger logger = Logger.getLogger(UserService.class);
+	@Autowired
+	private DataCfmPerformanceMapper Data_cfm_performanceMapper;
+
+	/**
+	 * 查询用户列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	public PageList<DataCfmPerformance> getData_cfm_performanceList(Map<String, String> paramMap, PageBounds pageBounds) {
+		logger.info("数据库查询参数：" + paramMap);
+		return Data_cfm_performanceMapper.getData_cfm_performanceList(paramMap, pageBounds);
+	}
+
+	/**
+	 * 保存或更新用户信息
+	 * 
+	 * @param user
+	 */
+	public void saveOrUpdate(DataCfmPerformance data_cfm_performance) {
+		// 查询判断用户是否存在，考虑保存还是更新
+		DataCfmPerformance selectuser = Data_cfm_performanceMapper.select(data_cfm_performance);
+		if (selectuser == null) {
+			Data_cfm_performanceMapper.insert(data_cfm_performance);
+		} else {
+			Data_cfm_performanceMapper.update(data_cfm_performance);
+		}
+	}
+
+	/**
+	 * 删除用户信息
+	 * 
+	 * @param user
+	 */
+	public void delete(DataCfmPerformance data_cfm_performance) {
+		// 这里是物理删除，删除后用户信息从数据库消失
+		Data_cfm_performanceMapper.delete(data_cfm_performance);
+	}
+
+}

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.RecordEngReplaceMapper">
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.RecordEngReplace">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="PLANE_ID" jdbcType="INTEGER" property="planeId" />
+		<result column="TAIL" jdbcType="VARCHAR" property="tail" />
+		<result column="ENG_POSITION" jdbcType="INTEGER" property="engPosition" />
+		<result column="ENG_ID" jdbcType="INTEGER" property="engId" />
+		<result column="ENG_SN" jdbcType="VARCHAR" property="engSn" />
+		<result column="ENG_PN" jdbcType="VARCHAR" property="engPn" />
+		<result column="USED_CYCLE" jdbcType="VARCHAR" property="usedCycle" />
+		<result column="DATE_INSTALL" jdbcType="TIMESTAMP" property="dateInstall" />
+		<result column="ETSN_INSTALL" jdbcType="VARCHAR" property="etsnInstall" />
+		<result column="ECSN_INSTALL" jdbcType="VARCHAR" property="ecsnInstall" />
+		<result column="DATE_REMOVAL" jdbcType="TIMESTAMP" property="dateRemoval" />
+		<result column="ETSN_REMOVAL" jdbcType="VARCHAR" property="etsnRemoval" />
+		<result column="ECSN_REMOVAL" jdbcType="VARCHAR" property="ecsnRemoaval" />
+		<result column="PLAN" jdbcType="VARCHAR" property="paln" />
+		<result column="SV" jdbcType="VARCHAR" property="sv" />
+		<result column="SV_GRADE" jdbcType="VARCHAR" property="svGrade" />
+		<result column="REMOVAL_CAUSE" jdbcType="VARCHAR" property="removalCause" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+		<result column="FACTORY" jdbcType="VARCHAR" property="factory" />
+		
+	</resultMap>
+	<sql id="baseColumnList" >
+		ID,PLANE_ID,TAIL,ENG_POSITION,ENG_ID,ENG_SN,ENG_PN,USED_CYCLE,DATE_INSTALL,ETSN_INSTALL,ECSN_INSTALL,
+		DATE_REMOVAL,ETSN_REMOVAL,ECSN_REMOVAL,PLAN,SV,SV_GRADE,REMOVAL_CAUSE,REMARK,FACTORY
+	</sql>
+	<select id="recordinfos"   parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_record_eng_replace
+	</select>
+	<insert id="recordadd" parameterType="com.cea.ehm.bean.RecordEngReplace">
+		INSERT  INTO ehm_record_eng_replace
+		(ID,PLANE_ID,TAIL,ENG_POSITION,ENG_ID,ENG_SN,ENG_PN,USED_CYCLE,DATE_INSTAL,ETSN_INSTALL,ECSN_INSTALL,DATE_REMOVAL,ETSN_REMOVAL,ECSN_REMOVAL,PLAN,SV
+		,SV_GRADE,REMOVAL_CAUSE,REMARK,FACTORY)
+		  VALUES
+		(
+			#{id,jdbcType=INTEGER},
+			#{planeId,jdbcType=INTEGER},
+			#{tail,jdbcType=VARCHAR},
+			#{engPosition,jdbcType=INTEGER},
+			#{engId,jdbcType=INTEGER},
+			#{engSn,jdbcType=VARCHAR},
+			#{engPn,jdbcType=VARCHAR},
+			#{usedCycle,jdbcType=VARCHAR},
+			#{dateInstall,jdbcType=TIMESTAMP},
+			#{etsnInstall,jdbcType=VARCHAR},
+			#{ecsnInstall,jdbcType=VARCHAR},
+			#{dateRemoval,jdbcType=TIMESTAMP},
+			#{etsnRemoval,jdbcType=VARCHAR},
+			#{ecsnRemoaval,jdbcType=VARCHAR},
+			#{paln,jdbcType=VARCHAR},
+			#{sv,jdbcType=VARCHAR},
+			#{svGrade,jdbcType=VARCHAR},
+			#{removalCause,jdbcType=VARCHAR},
+			#{remark,jdbcType=VARCHAR},
+			#{factory,jdbcType=VARCHAR},
+		)
+	</insert>
+	<delete id="delete" parameterType="com.cea.ehm.bean.RecordEngReplace">
+		DELETE FROM
+			ehm_record_eng_replace
+		WHERE
+			ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<update id="recordupdate" parameterType="com.cea.ehm.bean.RecordEngReplace">
+		UPDATE ehm_record_eng_replace 
+		<set>
+			<if test="id != null">
+				ID = #{id,jdbcType=INTEGER},
+			</if>
+			<if test="planeId != null">
+				PLANE_ID = #{planeId,jdbcType=INTEGER},
+			</if>
+		</set>
+		WHERE id=#{id,jdbcType=INTEGER}
+	</update>
+	
+</mapper>

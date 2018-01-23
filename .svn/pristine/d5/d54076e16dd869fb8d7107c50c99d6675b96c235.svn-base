@@ -1,0 +1,16 @@
+package com.cea.ehm.dao;
+
+import java.util.Map;
+
+import com.cea.ehm.bean.Activity;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+public interface ActivityMapper {
+
+	PageList<Activity> getActivityList(Map<String, String> paramMap, PageBounds pageBounds);
+	public void add(Activity activity);
+	public void delete(Activity activity);
+	public void update(Activity activity);
+	
+}

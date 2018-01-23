@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.RuleInspectionUserMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.RuleInspectionUser">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="INSPECTION_ID" jdbcType="INTEGER" property="inspectionId" />
+		<result column="DUTY" jdbcType="INTEGER" property="duty" />
+		<result column="USERID" jdbcType="INTEGER" property="userId" />
+		<result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ID, INSPECTION_ID, DUTY, USERID, CTIME
+	</sql>
+
+	<insert id="insert" parameterType="com.cea.ehm.bean.RuleInspectionUser" >
+		INSERT INTO ehm_rule_inspection_user
+			(INSPECTION_ID, DUTY, USERID, CTIME)
+		VALUES
+		(
+			#{inspectionId,jdbcType=INTEGER},
+			#{duty,jdbcType=INTEGER},
+			#{userId,jdbcType=INTEGER},
+			#{ctime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM
+			ehm_rule_inspection_user
+		WHERE
+			INSPECTION_ID = #{inspecId, jdbcType=INTEGER}
+	</delete>
+
+
+</mapper>

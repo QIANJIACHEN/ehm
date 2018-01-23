@@ -1,0 +1,107 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<div class="modal fade" id="activityAdd-modal" tabindex="-1" role="dialog" aria-labelledby="activity-modal-label">
+    <div class="modal-dialog" role="document">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title" id="sub-title">新建</h3>
+            </div>
+            <form id="form-userinfo" method="post" enctype="multipart/form-data">
+            <input type="hidden" class="form-control" id="type-add"  value="2"/>
+            <input type="hidden" class="form-control" name="id" id="id-add" />
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="text-username">engSn</label>
+                        <input type="tel" class="form-control" id="engSn-add"
+                               placeholder="engSn">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-username">hptbPn</label>
+                        <input type="tel" class="form-control" id="hptbPn-add"
+                               placeholder="hptbPn">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">hptbSn</label>
+                        <input type="text" class="form-control" id="hptbSn-add"
+                               placeholder="hptbSn">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">engPn</label>
+                        <input type="text" class="form-control" id="engPn-add"
+                               placeholder="engPn">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">onDate</label>
+                        <input type="text" class="form-control" id="onDate-add"
+                               placeholder="onDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">onEtsn</label>
+                        <input type="text" class="form-control" id="onEtsn-add"
+                               placeholder="onEtsn">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">onEcsn</label>
+                        <input type="text" class="form-control" id="onEcsn-add"
+                               placeholder="onEcsn">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">onPtsn</label>
+                        <input type="text" class="form-control" id="onPtsn-add"
+                               placeholder="onPtsn">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">onPcsn</label>
+                        <input type="text" class="form-control" id="onPcsn-add"
+                               placeholder="onPcsn">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">limitSpecial</label>
+                        <input type="text" class="form-control" id="limitSpecial-add"
+                               placeholder="limitSpecial">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">code</label>
+                        <input type="text" class="form-control" id="code-add"
+                               placeholder="code">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">remark</label>
+                        <input type="text" class="form-control" id="remark-add"
+                               placeholder="remark">
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <button type="button" id="subbtn" class="btn btn-primary pull-right" onclick="subAddActivity()">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+	function subAddActivity(){
+		var type = $('#type-add').val();
+		var id = $('#id-add').val();
+		var engSn = $('#engSn-add').val();
+		var hptbPn = $('#hptbPn-add').val();
+		var hptbSn = $('#hptbSn-add').val();
+		var engPn = $('#engPn-add').val();
+		var onDate = $('#onDate-add').val();
+		var onEtsn = $('#onEtsn-add').val();
+		var onEcsn = $('#onEcsn-add').val();
+		var onPtsn = $('#onPtsn-add').val();
+		var onPcsn = $('#onPcsn-add').val();
+		var limitSpecial = $('#limitSpecial-add').val();
+		var code = $('#code-add').val();
+		var remark = $('#remark-add').val();
+		$.ajax({
+			type : "post",
+			data : {'type':type,'id':id,'engSn':engSn,'hptbPn':hptbPn,'hptbSn':hptbSn,'engPn':engPn,'onDate':onDate,'onEtsn':onEtsn,'onEcsn':onEcsn,
+				'onPtsn':onPtsn,'onPcsn':onPcsn,'limitSpecial':limitSpecial,'code':code,'remark':remark},
+			url : "${pageContext.request.contextPath}/manage/hptb/activityaddupdate.do",
+			success : function(data){
+				 console.log(12312312);
+			}
+		})
+	}
+</script>

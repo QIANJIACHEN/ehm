@@ -1,0 +1,58 @@
+package com.cea.ehm.service;
+
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cea.ehm.bean.RuleInspection;
+import com.cea.ehm.dao.RuleInspectionMapper;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+/**
+ * 监测规则服务层
+ */
+@Service
+public class RuleInspectionService {
+	private Logger logger = Logger.getLogger(RuleInspectionService.class);
+	@Autowired
+	private RuleInspectionMapper ruleinspectionMapper;
+
+	/**
+	 * 查询监测规则列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	public PageList<RuleInspection> getRuleInspectionList(Map<String, String> paramMap, PageBounds pageBounds) {
+		logger.info("数据库查询参数：" + paramMap);
+		return ruleinspectionMapper.getRuleInspectionList(paramMap, pageBounds);
+	}
+
+	/**
+	 * 保存或更新监测规则信息
+	 * 
+	 * @param ruleinspection
+	 */
+	public void saveOrUpdate(RuleInspection ruleinspection) {
+		// 查询判断水洗信息是否存在，考虑保存还是更新
+		RuleInspection selectuser = ruleinspectionMapper.select(ruleinspection);
+		if (selectuser == null) {
+			ruleinspectionMapper.insert(ruleinspection);
+		} else {
+			ruleinspectionMapper.update(ruleinspection);	}
+	}
+
+	/**
+	 * 删除监测规则信息
+	 * 
+	 * @param ruleinspection
+	 */
+	public void delete(RuleInspection ruleinspection) {
+		ruleinspectionMapper.delete(ruleinspection);
+	}
+
+}

@@ -1,0 +1,34 @@
+package com.cea.ehm.service;
+
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cea.ehm.bean.Activity;
+import com.cea.ehm.dao.ActivityMapper;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+/**
+ * 活动服务层
+ */
+@Service
+public class ActivityService {
+	private Logger logger = Logger.getLogger(ActivityService.class);
+	@Autowired
+	ActivityMapper activityMapper;
+	/**
+	 * 查询用户列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	public PageList<Activity> getActivityList(Map<String, String> paramMap, PageBounds pageBounds) {
+		logger.info("请求数据: " + activityMapper.getActivityList(paramMap, pageBounds));
+		return activityMapper.getActivityList(paramMap, pageBounds);
+	}
+
+}

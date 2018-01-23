@@ -1,0 +1,56 @@
+package com.cea.ehm.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import com.cea.ehm.bean.ControlFleetPlane;
+import com.cea.ehm.bean.DataPlane;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+/**
+ * 飞机发动机关联持久层接口
+ */
+public interface ControlFleetPlaneMapper {
+	/**
+	 * 查询飞机发动机关联列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	PageList<ControlFleetPlane> getControlFleetPlaneList(Map<String, String> paramMap, PageBounds pageBounds);
+
+	/**
+	 * 保存飞机发动机关联信息
+	 * 
+	 * @param user
+	 */
+	void insert(ControlFleetPlane controlfleetplane);
+
+	/**
+	 * 更新飞机发动机关联信息
+	 * 
+	 * @param user
+	 */
+	void update(ControlFleetPlane controlfleetplane);
+
+	/**
+	 * 删除飞机发动机关联信息
+	 * 
+	 * @param user
+	 */
+	void delete(ControlFleetPlane controlfleetplane);
+
+	/**
+	 * 查询飞机发动机关联信息
+	 * 
+	 * @param user
+	 */
+	ControlFleetPlane select(ControlFleetPlane controlfleetplane);
+	
+	/**
+	 * 获取所有飞机
+	 */
+	List<DataPlane> getPlane();
+}

@@ -1,0 +1,23 @@
+package com.cea.ehm.service;
+
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cea.ehm.bean.RecordEngReplace;
+import com.cea.ehm.dao.RecordEngReplaceMapper;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+@Service
+public class RecordEngReplaceService {
+
+	@Autowired
+	RecordEngReplaceMapper recordEngReplaceMapper;
+	
+	public PageList<RecordEngReplace> recordinfo(Map<String, String>paramMap,PageBounds pageBounds){
+		return recordEngReplaceMapper.recordinfos(paramMap, pageBounds);
+	}
+	
+}

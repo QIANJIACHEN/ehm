@@ -1,0 +1,456 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-head.jsp"/>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-script.jsp"/>
+</head>
+<script type="text/javascript" src="../../js/ocupload.js"></script>
+<body class="hold-transition" >
+
+<div class="wrapper">
+
+    <div class="box wrapper " style="overflow: auto;">
+		 
+        <div class="box-header with-border">
+            <div class="row">
+                <div class="col-xs-1" style="min-width: 160px">
+                    <input type="text" class=" form-control" id="search-tail" placeholder="TAIL">
+                </div>
+                <div class="col-xs-1" style="min-width: 160px">
+                    <select class="form-control" id="search-duty">
+                    </select>
+                </div>
+                <div class="col-xs-1" style="min-width: 160px">
+                    <button class="btn btn-block btn-default" onclick="searchdataplane()">
+                        <i class="fa fa-search"></i>
+                      	  搜索
+                    </button>
+                </div>
+                <div class="col-xs-1" style="min-width: 160px">
+                    <button id="i" class="btn btn-block btn-defauly col-sm-1" data-toggle="modal" data-target="#dataplane-add-modal">
+                        <i class="fa fa-plus"></i>
+                       	 添加飞机
+                    </button>
+                </div>
+                <div class="col-xs-1 pull-right" style="min-width: 160px">
+                    <button id="export" class="btn btn-block btn-primary col-sm-1">
+                        <i class="fa fa-mail-forward"></i>
+                       	 导出数据
+                    </button>
+                </div>
+                <div class="col-xs-1 pull-right" style="min-width: 160px">
+                    <button id="inport" class="btn btn-block btn-primary">
+                        <i class="fa fa-mail-reply"></i>
+                       	 导入数据
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="box-body">
+
+            <div class="dataTables_wrapper form-inline dt-bootstrap">
+            
+               <table id="table-list" class="table  table-hover">
+                    <thead>
+                    <tr>
+                        <th style="display:none">id</th>
+                        <th>tail</th>
+                        <th style="display:none">基地ID</th>
+                        <th>基地</th>
+                        <th style="display:none">推力</th>
+                        <th style="display:none">构型</th>
+                        <th style="display:none">原始的发动机编码</th>
+                        <th>型号1级</th>
+                        <th>型号2级</th>
+                        <th>型号3级</th>
+                        <th style="display:none">属性</th>
+                        <th style="display:none">ETOPS</th>
+                        <th>高高原</th>
+                        <th style="display:none">VARIABLE</th>
+                        <th style="display:none">MSN</th>
+                        <th style="display:none">LINE</th>
+                        <th style="display:none">手册适用性</th>
+                        <th>营运人</th>
+                        <th>所有人</th>
+                        <th style="display:none">备注</th>
+                        <th style="display:none">引进方式</th>
+                        <th>创建时间</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<jsp:include page='dataplaneinfo.jsp'/>
+<jsp:include page='dataplaneadd.jsp'/>
+
+<script type="text/javascript">
+$("#table-list").DataTable({
+    'dom': 'tr<"row"<"col-sm-5"l><"col-sm-7"p>>',
+    "serverSide": true,
+    ordering: false,
+    "type": "POST",
+    "ajax": {
+        "url": "${pageContext.request.contextPath}/manage/dataplane/list.do",
+        "type": "POST",
+        "data": function (search) {
+        	// 条件查询参数
+        	search.tail = $("#search-tail").val();
+        	search.duty = $("#search-duty").val();
+        }
+    },
+    "columns": [
+        {"data": "id","visible": false},
+        {"data": "tail"},
+        {"data": "duty","visible": false},
+        {"data": "dutyName"},
+        {"data": "ratingPlane","visible": false},
+        {"data": "configPlane","visible": false},
+        {"data": "egsnOriginal","visible": false},
+        {"data": "series"},
+        {"data": "type"},
+        {"data": "model"},
+        {"data": "attribute","visible": false},
+        {"data": "etops","visible": false},
+        null,
+        {"data": "variable","visible": false},
+        {"data": "serial","visible": false},
+        {"data": "line","visible": false},
+        {"data": "effectivity","visible": false},
+        {"data": "operater"},
+        {"data": "owner"},
+        {"data": "remark","visible": false},
+        {"data": "importWay","visible": false},
+        {"data": "ctime"},
+        {"data": "condition"}
+    ],
+    "ordering": false,
+    "searching": false,
+     "columnDefs": [
+    	 {
+             "targets": 12,
+             "data": function (row, type, val, meta) {
+                 if (row.hHighLand == 1) {
+                     return "是";
+                 } else if (row.hHighLand == 0){
+                     return "否";
+                 } else {
+                	 return "-";
+                 }
+             }
+         },
+        {
+            "targets": 23,
+            "data": function (row, type, val, meta) {
+                return row;
+            },
+            "render": function (data, type, full, meta) {
+                var table = $("#table-list").DataTable();
+                var result = '<div class="btn-group open">'
+                    + '<button class="btn btn-default btn-sm "'
+                    + ' data-toggle="modal" data-target="#dataplane-info-modal">'
+                    + '<i class="fa fa-gear"></i>'
+                    + '</button><button class="btn btn-default btn-sm" onclick="deletedataplane(' + data.id + ')">'
+                    + '<i class="fa fa-trash"></i></button>'
+                    + '<butoon class="btn btn-default btn-sm" onclick="jump('+data.tail+')" ><i class="fa fa-space-shuttle" aria-hidden="true"></i></button>'
+                    + '</div>'
+                    
+                    ;
+                return result;
+            }
+        }
+    ],
+    "info": false,
+    "language": {
+        "lengthMenu": "显示 _MENU_ 条记录",
+        "paginate": {
+            "first": "首页",
+            "next": "下一页",
+            "previous": "上一页",
+            "last": "末页",
+        },
+        "zeroRecords": "",
+        "infoEmpty":"没有符合条件的数据",
+        "emptyTable":"没有符合条件的数据"
+    }
+});
+
+//跳转
+function jump(tail){
+	window.location.href="${pageContext.request.contextPath}/manage/dataplane/dataplanelistdetail.do?tail="+tail;
+}
+/**
+ * 存储点击行的内容
+ */
+var cellData = null;
+ $('#table-list tbody').on('click', 'td', function () {
+     var table = $('#table-list').DataTable();
+     cellData = table.cell(this).data();
+ });
+
+/**
+ * 编辑按钮  → 信息填充
+ */
+ $('#dataplane-info-modal').on('show.bs.modal', function (event) {
+     var modal = $(this);
+     modal.find('#edittail').val(cellData.tail);
+     modal.find('#editratingPlane').val(cellData.ratingPlane);
+     modal.find('#editconfigPlane').val(cellData.configPlane);
+     modal.find('#editegsnOriginal').val(cellData.egsnOriginal);
+     modal.find('#editseries').val(cellData.series);
+     modal.find('#edittype').val(cellData.type);
+     modal.find('#editmodel').val(cellData.model);
+     modal.find('#editattribute').val(cellData.attribute);
+     modal.find('#editetops').val(cellData.etops);
+     modal.find('#edithHighLand').val(cellData.hHighLand);
+     modal.find('#editvariable').val(cellData.variable);
+     modal.find('#editserial').val(cellData.serial);
+     modal.find('#editline').val(cellData.line);
+     modal.find('#editeffectivity').val(cellData.effectivity);
+     modal.find('#editoperater').val(cellData.operater);
+     modal.find('#editowner').val(cellData.owner);
+     modal.find('#editremark').val(cellData.remark);
+     modal.find('#editimportWay').val(cellData.importWay);
+     modal.find('#editcondition').val(cellData.condition);
+ }).on('hide.bs.modal', function (event) {
+     cellData = null;
+ });
+ 
+ // edit
+ function editdataplane() {
+	 	var id = cellData.id;
+		var	tail = $('#edittail').val();
+		var	duty = $('#editduty').val();
+		var	ratingPlane = $('#editratingPlane').val();
+		var	configPlane = $('#editconfigPlane').val();
+		var egsnOriginal = $('#editegsnOriginal').val();
+		var series = $('#editseries').val();
+		var type = $('#edittype').val();
+		var model = $('#editmodel').val();
+		var attribute = $('#editattribute').val();
+		var etops = $('#editetops').val();
+		var hHighLand = $('#edithHighLand').val();
+		var variable = $('#editvariable').val();
+		var serial = $('#editserial').val();
+		var	line = $('#editline').val();
+		var effectivity = $('#editeffectivity').val();
+		var operater = $('#editoperater').val();
+		var owner = $('#editowner').val();
+		var remark = $('#editremark').val();
+		var	importWay = $('#editimportWay').val();
+		var	condition = $('#editcondition').val();
+		$.post(
+		    "${pageContext.request.contextPath}/manage/dataplane/update.do",
+		    {
+		        "id": id,
+		        "tail": tail,
+		        "duty": duty,
+		        "ratingPlane": ratingPlane,
+		        "configPlane": configPlane,
+		        "egsnOriginal": egsnOriginal,
+		        "series": series,
+		        "type": type,
+		        "model": model,
+		        "attribute": attribute,
+		        "etops": etops,
+		        "hHighLand": hHighLand,
+		        "variable": variable,
+		        "serial": serial,
+		        "line": line,
+		        "effectivity": effectivity,
+		        "operater": operater,
+		        "owner": owner,
+		        "remark": remark,
+		        "importWay": importWay,
+		        "condition": condition
+		    },
+		    function (response) {
+		    	 $('#dataplane-info-modal').modal('hide');
+		         reloadTable(true);
+		    },
+		    "json"
+		);
+	}
+ 
+ // add
+ function adddataplane() {
+	 	var tail = $('#addtail').val();
+		var	duty = $('#addduty').val();
+		var	ratingPlane = $('#addratingPlane').val();
+		var	configPlane = $('#addconfigPlane').val();
+		var egsnOriginal = $('#addegsnOriginal').val();
+		var series = $('#addseries').val();
+		var type = $('#addtype').val();
+		var model = $('#addmodel').val();
+		var attribute = $('#addattribute').val();
+		var etops = $('#addetops').val();
+		var hHighLand = $('#addhHighLand').val();
+		var variable = $('#addvariable').val();
+		var serial = $('#addserial').val();
+		var	line = $('#addline').val();
+		var effectivity = $('#addeffectivity').val();
+		var operater = $('#addoperater').val();
+		var owner = $('#addowner').val();
+		var remark = $('#addremark').val();
+		var	importWay = $('#addimportWay').val();
+		var	condition = $('#addcondition').val();
+		$.post(
+		    "${pageContext.request.contextPath}/manage/dataplane/save.do",
+		    {
+		    	"tail": tail,
+		        "duty": duty,
+		        "ratingPlane": ratingPlane,
+		        "configPlane": configPlane,
+		        "egsnOriginal": egsnOriginal,
+		        "series": series,
+		        "type": type,
+		        "model": model,
+		        "attribute": attribute,
+		        "etops": etops,
+		        "hHighLand": hHighLand,
+		        "variable": variable,
+		        "serial": serial,
+		        "line": line,
+		        "effectivity": effectivity,
+		        "operater": operater,
+		        "owner": owner,
+		        "remark": remark,
+		        "importWay": importWay,
+		        "condition": condition
+		    },
+		    function (response) {
+		    	if(response.code != 101){
+		    		alert(response.msg);
+		    	}
+		    	 $('#dataplane-add-modal').modal('hide');
+		         reloadTable(true);
+		    },
+		    "json"
+		);
+	}
+
+ /**
+  * 清除弹窗原数据
+  */
+  $("#dataplane-add-modal").on("hidden.bs.modal", function() {
+      $('#reset').click();
+  });
+ 
+ /**
+  * 重载列表
+  */
+ function reloadTable(reset) {
+     var table = $('#table-list').DataTable();
+     if (reset == true) {
+         table.ajax.reload(null, true);
+     } else {
+         table.ajax.reload();
+     }
+ }
+
+ // search 
+ function searchdataplane() {
+	 reloadTable(true);
+ }
+ 
+// delete
+ function deletedataplane(id) {
+     if (confirm("你确定要删除吗？")) {
+         $.post(
+             "${pageContext.request.contextPath}/manage/dataplane/delete.do",
+             {
+                 "id": id,
+             },
+             function (response) {
+                 $('#mood-modal').modal('hide');
+                 reloadTable(true);
+             },
+             "json"
+         );
+     };
+ }
+
+ $('#i').click(function(){
+	 $.post(
+             "${pageContext.request.contextPath}/manage/duty/allduty.do",
+             {},
+             function (response) {
+            	  $('#addduty').html('');
+            	  for(var o in response.data){
+            	      $('#addduty').append('<option value="'+response.data[o].id+'">'+response.data[o].name+'</option>');
+            	  }  
+             },
+             "json"
+      );
+ });
+ 
+ $('#table-list tbody').on('click', 'td', function () {
+	 $.post(
+             "${pageContext.request.contextPath}/manage/duty/allduty.do",
+             {},
+             function (response) {
+            	  $('#editduty').html('');
+            	  for(var o in response.data){
+            	      $('#editduty').append('<option value="'+response.data[o].id+'">'+response.data[o].name+'</option>');
+            	  }  
+             },
+             "json"
+      );
+ });
+
+ $(function(){
+	 $.post(
+             "${pageContext.request.contextPath}/manage/duty/allduty.do",
+             {},
+             function (response) {
+            	  $('#search-duty').html('');
+            	  $('#search-duty').append('<option value="">所属基地</option>');
+            	  for(var o in response.data){
+            	      $('#search-duty').append('<option value="'+response.data[o].id+'">'+response.data[o].name+'</option>');
+            	  }  
+             },
+             "json"
+      );
+ });
+ 
+	 // excel 导出
+	 $('#export').click(function(){
+		 window.location = '${pageContext.request.contextPath}/manage/dataplane/export.do';
+	 });
+	 
+	// 调用OCUpload插件的方法
+	$("#inport").upload({
+	     action: "${pageContext.request.contextPath}/manage/dataplane/inport.do", //表单提交的地址
+	     name: "file",
+	     onComplete: function (data) { //提交表单之后
+     		var data = $.parseJSON(data);
+			if (data.code != 101) {
+				alert("导入失败！");
+			}
+			reloadTable(true);
+		},
+		onSelect : function() {//当用户选择了一个文件后触发事件
+			//当选择了文件后，关闭自动提交
+			this.autoSubmit = false;
+			//校验上传的文件名是否满足后缀为.xls或.xlsx
+			var regex = /^.*\.(?:xls|xlsx)$/i;
+			if (regex.test($("[name = '" + this.name() + "']").val())) {
+				//通过校验
+				this.submit();
+			} else {
+				//未通过
+				alert('文件格式不正确! ');
+			}
+		}
+	});
+</script>
+</body>
+</html>

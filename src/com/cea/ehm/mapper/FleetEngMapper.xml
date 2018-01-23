@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.FleetEngMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.FleetEng">
+		<result column="ID" jdbcType="INTEGER" property="id" />
+		<result column="TAIL" jdbcType="VARCHAR" property="tail" />
+		<result column="PLANE_ID" jdbcType="INTEGER" property="planeId" />
+		<result column="ENG_POSITION" jdbcType="INTEGER" property="engPosition" />
+		<result column="ENG_SN" jdbcType="VARCHAR" property="engSn" />
+		<result column="ENG_ID" jdbcType="INTEGER" property="engId" />
+		<result column="ENG_PN" jdbcType="VARCHAR" property="engPn" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ID,TAIL,PLANE_ID,ENG_POSITION,ENG_SN,ENG_ID,ENG_PN
+	</sql>
+	
+	<select id="getAllFleetEngInfo" parameterType="com.cea.ehm.bean.FleetEng"
+		resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_fleet_eng
+	</select>
+	
+	<select id="select" parameterType="com.cea.ehm.bean.FleetEng"
+		resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_fleet_eng
+		WHERE ID = #{id,jdbcType=INTEGER} 
+	</select>
+
+	<select id="getFleetEngList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_fleet_eng
+		<if test="engSn != null">
+			WHERE ENG_SN LIKE CONCAT('%',#{engSn,jdbcType=VARCHAR})
+		</if>
+	</select>
+
+	<insert id="insert" parameterType="com.cea.ehm.bean.FleetEng">
+		INSERT INTO ehm_fleet_eng
+		(
+			ID,TAIL,PLANE_ID,ENG_POSITION,ENG_SN,ENG_ID,ENG_PN
+		)
+		VALUES
+		(
+			#{id,jdbcType=INTEGER},
+			#{tail,jdbcType=VARCHAR},
+			#{planeId,jdbcType=INTEGER},
+			#{engPosition,jdbcType=INTEGER},
+			#{engSn,jdbcType=VARCHAR},
+			#{engId,jdbcType=INTEGER},
+			#{engPn,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="com.cea.ehm.bean.FleetEng">
+		DELETE FROM
+		ehm_fleet_eng
+		WHERE
+		ID = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<update id="update" parameterType="com.cea.ehm.bean.FleetEng">
+		UPDATE ehm_fleet_eng
+		<set>
+			<if test="tail != null">
+				TAIL = #{tail,jdbcType=VARCHAR},
+			</if>
+			<if test="planeId != null">
+				PLANE_ID = #{planeId,jdbcType=INTEGER},
+			</if>
+			<if test="engPosition != null">
+				ENG_POSITION = #{engPosition,jdbcType=INTEGER},
+			</if>
+			<if test="engSn != null">
+				ENG_SN = #{engSn,jdbcType=VARCHAR},
+			</if>
+			<if test="engId != null">
+				ENG_ID = #{engId,jdbcType=INTEGER},
+			</if>
+			<if test="engPn != null">
+				ENG_PN = #{engPn,jdbcType=VARCHAR},
+			</if>
+			
+		</set>
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</update>
+
+</mapper>

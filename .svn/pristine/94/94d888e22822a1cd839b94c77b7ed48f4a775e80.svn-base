@@ -1,0 +1,320 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-head.jsp"/>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-script.jsp"/>
+    <style type="text/css">
+    	table.tablerecord th ,table.tablerecord td{
+    		text-align:center;
+    		border:1px solid #d7d7d7 !important;
+    	}
+    	table.tablerecord th{
+    		background-color:#f2f2f2;
+    	}
+    	table.tablerecord td a{
+    		text-decoration:underline;
+    	}
+    	.basicinfo p span{
+    		display:inline-block;
+    		width:40%;
+    		padding-left:10px;
+    		box-sizing:border-box;
+    		font-size:15px;
+    	}
+    	.basicinfo p span.key{
+    		width:45%;
+    		padding-left:0px;
+    		font-weight:bold;
+    	}
+    	.basicinfo p span a{
+    		text-decoration:underline;
+    	}
+    </style>
+</head>
+<body class="hold-transition" >
+
+<div class="wrapper">
+	<button type="button" onclick="back()"  class="return">返回</button>
+    <div class="box wrapper " style="overflow: auto;">
+		 
+        <div class="box-header">
+        	
+        	<h4>基础信息</h4><br>
+        	<div class="row basicinfo">
+        		<div class="col-md-3 col-xs-3">
+        			<p>
+        				<span class="key">执管基地</span>
+        				<span class="val"><a id="duty" onclick="jumpDuty(this)" href="javascript:void(0)" ></a></span>
+        			</p>
+        			<p>
+        				<span class="key">机型</span>
+        				<span class="val" id="configPlane"></span>
+        			</p>
+        			
+        			<p>
+        				<span class="key">机号</span>
+        				<span class="val"><a id="tail" href="javascript:void(0)" onclick="jumpPlane(this)" ></a></span>
+        			</p>
+        		</div>
+        		<div class="col-md-3 col-xs-3">
+        			<p>
+        				<span class="key">航班号</span>
+        				<span class="val" id="fltNo" ></span>
+        			</p>
+        			<p>
+        				<span class="key">飞行日期</span>
+        				<span class="val" id="fltTime" ></span>
+        			</p>
+        			<p>
+        				<span class="key">空中时间</span>
+        				<span class="val" id="airTime" ></span>
+        			</p>
+        			<p>
+        				<span class="key">空地时间</span>
+        				<span class="val" id="groundTime"></span>
+        			</p>
+        		</div>
+        		<div class="col-md-3 col-xs-3">
+        			<p>
+        				<span class="key">起飞航站</span>
+        				<span class="val" id="startTerminal" ></span>
+        			</p>
+        			<p>
+        				<span class="key">到达航站</span>
+        				<span class="val" id="endTerminal"></span>
+        			</p>
+        			<p>
+        				<span class="key" >1发加油前滑油量</span>
+        				<span class="val" id="refuelOil1"></span>
+        			</p>
+        			<p>
+        				<span class="key">1发滑油添加量</span>
+        				<span class="val" id="oilAddition1" ></span>
+        			</p>
+        		</div>
+        		<div class="col-md-3 col-xs-3">
+        			<p>
+        				<span class="key">1发加油时间差</span>
+        				<span class="val" id="refuelTimeDifference1"></span>
+        			</p>
+        			<p>
+        				<span class="key">1发滑油消耗</span>
+        				<span class="val" id="oilConsume1"></span>
+        			</p>
+        			<p>
+        				<span class="key">1发滑油消耗率</span>
+        				<span class="val" id="oilConsumeRate1"></span>
+        			</p>
+        			<p>
+        				<span class="key">2发加油前滑油量</span>
+        				<span class="val" id="refuelOil2"></span>
+        			</p>
+        		</div>
+        		<div class="col-md-3 col-xs-3">
+        			<p>
+        				<span class="key">2发滑油添加量</span>
+        				<span class="val" id="oilAddition2"></span>
+        			</p>
+        			<p>
+        				<span class="key">2发滑油时间差</span>
+        				<span class="val" id="refuelTimeDifference2"></span>
+        			</p>
+        			<p>
+        				<span class="key">2发滑油消耗</span>
+        				<span class="val" id="oilConsume2"></span>
+        			</p>
+        			<p>
+        				<span class="key">2发滑油消耗率</span>
+        				<span class="val" id="oilConsumeRate2"></span>
+        			</p>
+        		</div>
+        		<div class="col-md-3 col-xs-3">
+        			<p>
+        				<span class="key">3发加油前滑油量</span>
+        				<span class="val" id="refueOil3"></span>
+        			</p>
+        			<p>
+        				<span class="key">3发滑油添加量</span>
+        				<span class="val" id="oilAddition3"></span>
+        			</p>
+        			<p>
+        				<span class="key">3发滑油时间差</span>
+        				<span class="val" id="refuelTimeDifference3"></span>
+        			</p>
+        			<p>
+        				<span class="key">3发滑油消耗</span>
+        				<span class="val" id="oilConsume3"></span>
+        			</p>
+        		</div>
+        		<div class="col-md-3 col-xs-3">
+        			<p>
+        				<span class="key">3发滑油消耗率</span>
+        				<span class="val" id="oilConsumeRate3"></span>
+        			</p>
+        			<p>
+        				<span class="key">4发加油前滑油量</span>
+        				<span class="val" id="refueOil4"></span>
+        			</p>
+        			<p>
+        				<span class="key">4发滑油添加量</span>
+        				<span class="val" id="oilAddition4"></span>
+        			</p>
+        			<p>
+        				<span class="key">4发滑油时间差</span>
+        				<span class="val" id="refuelTimeDifference4"></span>
+        			</p>
+        			<p>
+        				<span class="key">4发滑油消耗</span>
+        				<span class="val" id="oilConsume4"></span>
+        			</p>
+        			
+        		</div>
+        		<div class="col-md-3 col-xs-3">
+        			<p>
+        				<span class="key">4发滑油消耗率</span>
+        				<span class="val" id="oilConsumeRate4"></span>
+        			</p>
+        			<p>
+        				<span class="key">发动机警戒值</span>
+        				<span class="val" id="engVigilance"></span>
+        			</p>
+        			<p>
+        				<span class="key">APU滑油添加量</span>
+        				<span class="val" id="apuOilAddition"></span>
+        			</p>
+        			<p>
+        				<span class="key">APU滑油消耗率</span>
+        				<span class="val" id="apuOilConsumeRate"></span>
+        			</p>
+        			<p>
+        				<span class="key">APU滑油消耗警戒值</span>
+        				<span class="val" id="apuOilConsumeVigilance"></span>
+        			</p>
+        			<p>
+        				<span class="key">录入人id</span>
+        				<span class="val" id="userid"></span>
+        			</p>
+        			
+        		</div>
+        		<div class="col-md-3 col-xs-3">
+        			<p>
+        				<span class="key">创建时间</span>
+        				<span class="val" id="ctime"></span>
+        			</p>
+        			
+        		</div>
+        	</div>
+        </div>
+        
+    </div>
+</div>
+<script type="text/javascript">
+function getRequest(){
+	var url = location.search;
+	var theRequest = new Object(); 
+	if (url.indexOf("?") != -1) { 
+		var str = url.substr(1); 
+		strs = str.split("&"); 
+		for(var i = 0; i < strs.length; i ++) { 
+		theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]); 
+		}
+	}
+	return theRequest; 
+}
+	
+var Request = new Object(); 
+Request = getRequest(); 
+var id = Request['id'];
+
+$.post("${pageContext.request.contextPath}/manage/oilconsumption/info.do",{id:id},function(res){
+	$("#duty").html(res.data[0].dutyName);
+	$("#duty").attr("duty",res.data[0].duty);
+	$("#configPlane").html(res.data[0].configPlane);
+	//$("#planeId").html(res.data[0].planeId);
+	$("#tail").html(res.data[0].tail);
+	$("#tail").attr("tail",res.data[0].tail);
+	$("#fltNo").html(res.data[0].fltNo);
+	$("#fltTime").html(res.data[0].fltTime);
+	$("#airTime").html(res.data[0].airTime);
+	$("#groundTime").html(res.data[0].groundTime);
+	$("#startTerminal").html(res.data[0].startTerminal);
+	$("#endTerminal").html(res.data[0].endTerminal);
+	$("#refuelOil1").html(res.data[0].refuelOil1);
+	$("#oilAddition1").html(res.data[0].oilAddition1);
+	$("#refuelTimeDifference1").html(res.data[0].refuelTimeDifference1);
+	$("#oilConsume1").html(res.data[0].oilConsume1);
+	$("#oilConsumeRate1").html(res.data[0].oilConsumeRate1);
+	$("#refuelOil2").html(res.data[0].refuelOil2);
+	$("#oilAddition2").html(res.data[0].oilAddition2);
+	$("#refuelTimeDifference2").html(res.data[0].refuelTimeDifference2);
+	$("#oilConsume2").html(res.data[0].oilConsume2);
+	$("#refueOil3").html(res.data[0].refueOil3);
+	$("#oilAddition3").html(res.data[0].oilAddition3);
+	$("#refuelTimeDifference3").html(res.data[0].refuelTimeDifference3);
+	$("#oilConsume3").html(res.data[0].oilConsume3);
+	$("#oilConsumeRate3").html(res.data[0].oilConsumeRate3);
+	$("#refueOil4").html(res.data[0].refueOil4);
+	$("#oilAddition4").html(res.data[0].oilAddition4);
+	$("#refuelTimeDifference4").html(res.data[0].refuelTimeDifference4);
+	$("#oilConsume4").html(res.data[0].oilConsume4);
+	$("#oilConsumeRate4").html(res.data[0].oilConsumeRate4);
+	$("#engVigilance").html(res.data[0].engVigilance);
+	$("#apuOilAddition").html(res.data[0].apuOilAddition);
+	$("#apuOilConsumeRate").html(res.data[0].apuOilConsumeRate);
+	$("#apuOilConsumeVigilance").html(res.data[0].apuOilConsumeVigilance);
+	$("#userid").html(res.data[0].username);
+	$("#userid").attr("userid",res.data[0].userId);
+	$("#ctime").html(res.data[0].ctime);
+},"json");
+
+
+	//返回
+	function back(){
+		var Request = new Object(); 
+		Request = getRequest(); 
+		title1 = Request['title'];
+		if(title1=="1"){
+			title = "滑油数据";
+		}else if(title1=="2"){
+			title = "飞机详情";
+		}else if(title1=="3"){
+			title="发动机属性更变详请";
+		}else if(title1=="4"){
+			title="onwing发动机详情";
+		}else if(title1=="5"){
+			title="发动机状态简报详情";
+		}else if(title1=="6"){
+			title = "SAP日报详情";
+		}
+		
+		tab_url = self.frameElement.getAttribute('data_url');//iframe对应的data_url和tab对应的data_url是一致的
+		window.parent.changePage(title,tab_url);//调用父页面的方法
+		//跳转
+		window.history.back();
+	}
+	
+	function jumpPlane(object){
+		tail = $(object).attr("tail");
+		title1 = "8";//该页面名称
+		url = "${pageContext.request.contextPath}/manage/dataplane/dataplanelistdetail.do?tail="+tail+"&title="+title1;
+		title = "飞机详情";//跳转页面名称
+		tab_url = self.frameElement.getAttribute('data_url');//iframe对应的data_url和tab对应的data_url是一致的
+		window.parent.changePage(title,tab_url);//调用父页面的方法
+		//跳转
+		window.location.href=url;
+	}
+	
+	function jumpDuty(object){
+		duty = $(object).attr("duty");
+		title1 = "8";//该页面名称
+		url = "${pageContext.request.contextPath}/manage/duty/dutydetail.do?id="+duty+"&title="+title1;
+		title = "部门详情";//跳转页面名称
+		tab_url = self.frameElement.getAttribute('data_url');//iframe对应的data_url和tab对应的data_url是一致的
+		window.parent.changePage(title,tab_url);//调用父页面的方法
+		//跳转
+		window.location.href=url;
+	}
+</script>
+</body>
+</html>

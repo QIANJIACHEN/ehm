@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.DataPlaneMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.DataPlane">
+		<id column="ID" jdbcType="INTEGER" property="id"/>
+		<result column="TAIL" jdbcType="VARCHAR" property="tail" />
+		<result column="DUTY" jdbcType="INTEGER" property="duty" />
+		<result column="RATING_PLANE" jdbcType="VARCHAR" property="ratingPlane" />
+		<result column="CONFIG_PLANE" jdbcType="VARCHAR" property="configPlane" />
+		<result column="ENG_SN_ORIGINAL" jdbcType="VARCHAR" property="egsnOriginal" />
+		<result column="SERIES" jdbcType="VARCHAR" property="series" />
+		<result column="TYPE" jdbcType="VARCHAR" property="type" />
+		<result column="MODEL" jdbcType="VARCHAR" property="model" />
+		<result column="ATTRIBUTE" jdbcType="VARCHAR" property="attribute" />
+		<result column="ETOPS" jdbcType="VARCHAR" property="etops" />
+		<result column="H_HIGHLAND" jdbcType="INTEGER" property="hHighLand" />
+		<result column="VARIABLE" jdbcType="VARCHAR" property="variable" />
+		<result column="SERIAL" jdbcType="VARCHAR" property="serial" />
+		<result column="LINE" jdbcType="VARCHAR" property="line" />
+		<result column="EFFECTIVITY" jdbcType="VARCHAR" property="effectivity" />
+		<result column="OPERATER" jdbcType="VARCHAR" property="operater" />
+		<result column="OWNER" jdbcType="VARCHAR" property="owner" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+		<result column="IMPORT_WAY" jdbcType="VARCHAR" property="importWay" />
+		<result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
+		<result column="CONDITION_" jdbcType="VARCHAR" property="condition" />
+		<result column="FLIGHT_ID" jdbcType="INTEGER" property="flightId" />
+	</resultMap>
+
+	<resultMap id="baseResultMap2" type="com.cea.ehm.bean.DataPlane">
+		<id column="ID" jdbcType="INTEGER" property="id"/>
+		<result column="TAIL" jdbcType="VARCHAR" property="tail" />
+		<result column="DUTY" jdbcType="INTEGER" property="duty" />
+		<result column="DUTYNAME" jdbcType="VARCHAR" property="dutyName" />
+		<result column="RATING_PLANE" jdbcType="VARCHAR" property="ratingPlane" />
+		<result column="CONFIG_PLANE" jdbcType="VARCHAR" property="configPlane" />
+		<result column="ENG_SN_ORIGINAL" jdbcType="VARCHAR" property="egsnOriginal" />
+		<result column="SERIES" jdbcType="VARCHAR" property="series" />
+		<result column="TYPE" jdbcType="VARCHAR" property="type" />
+		<result column="MODEL" jdbcType="VARCHAR" property="model" />
+		<result column="ATTRIBUTE" jdbcType="VARCHAR" property="attribute" />
+		<result column="ETOPS" jdbcType="VARCHAR" property="etops" />
+		<result column="H_HIGHLAND" jdbcType="INTEGER" property="hHighLand" />
+		<result column="VARIABLE" jdbcType="VARCHAR" property="variable" />
+		<result column="SERIAL" jdbcType="VARCHAR" property="serial" />
+		<result column="LINE" jdbcType="VARCHAR" property="line" />
+		<result column="EFFECTIVITY" jdbcType="VARCHAR" property="effectivity" />
+		<result column="OPERATER" jdbcType="VARCHAR" property="operater" />
+		<result column="OWNER" jdbcType="VARCHAR" property="owner" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+		<result column="IMPORT_WAY" jdbcType="VARCHAR" property="importWay" />
+		<result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
+		<result column="CONDITION_" jdbcType="VARCHAR" property="condition" />
+		<result column="FLIGHT_ID" jdbcType="INTEGER" property="flightId" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ID, TAIL, DUTY, RATING_PLANE, CONFIG_PLANE,
+		ENG_SN_ORIGINAL, SERIES, TYPE, MODEL, ATTRIBUTE, ETOPS, H_HIGHLAND,
+		VARIABLE, SERIAL, LINE, EFFECTIVITY, OPERATER, OWNER, REMARK, IMPORT_WAY,
+		CTIME,CONDITION_,FLIGHT_ID
+	</sql>
+	
+	<select id="select" parameterType="com.cea.ehm.bean.DataPlane"
+		resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_data_plane
+		WHERE TAIL = #{tail,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="planeInfo" parameterType="com.cea.ehm.bean.DataPlane"
+		resultMap="baseResultMap2">
+		SELECT
+		dp.*,d.NAME as DUTYNAME
+		FROM ehm_data_plane dp LEFT JOIN ehm_duty d ON dp.DUTY = d.ID
+		WHERE TAIL = #{tail,jdbcType=VARCHAR}
+		LIMIT 0,1
+	</select>
+	
+	<select id="getdataplaneList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_data_plane
+		WHERE TAIL LIKE CONCAT(CONCAT('%',#{tail,jdbcType=VARCHAR}),'%')
+		<if test="duty != null">
+			AND DUTY = #{duty,jdbcType=INTEGER}
+		</if>
+	</select>
+
+	<select id="allPlane" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_data_plane
+	</select>
+
+	<insert id="insert" parameterType="com.cea.ehm.bean.DataPlane">
+		INSERT INTO ehm_data_plane
+		(
+			TAIL, DUTY, RATING_PLANE, CONFIG_PLANE,
+			ENG_SN_ORIGINAL, SERIES, TYPE, MODEL, ATTRIBUTE, ETOPS, H_HIGHLAND,
+			VARIABLE, SERIAL, LINE, EFFECTIVITY, OPERATER, OWNER, REMARK, IMPORT_WAY,
+			CTIME, CONDITION_, FLIGHT_ID
+		)
+		VALUES
+		(
+			#{tail,jdbcType=VARCHAR},
+			#{duty,jdbcType=INTEGER},
+			#{ratingPlane,jdbcType=VARCHAR},
+			#{configPlane,jdbcType=VARCHAR},
+			#{egsnOriginal,jdbcType=VARCHAR},
+			#{series,jdbcType=VARCHAR},
+			#{type,jdbcType=VARCHAR},
+			#{model,jdbcType=VARCHAR},
+			#{attribute,jdbcType=VARCHAR},
+			#{etops,jdbcType=VARCHAR},
+			#{hHighLand,jdbcType=INTEGER},
+			#{variable,jdbcType=VARCHAR},
+			#{serial,jdbcType=VARCHAR},
+			#{line,jdbcType=VARCHAR},
+			#{effectivity,jdbcType=VARCHAR},
+			#{operater,jdbcType=VARCHAR},
+			#{owner,jdbcType=VARCHAR},
+			#{remark,jdbcType=VARCHAR},
+			#{importWay,jdbcType=VARCHAR},
+			#{ctime,jdbcType=TIMESTAMP},
+			#{condition,jdbcType=VARCHAR},
+			#{flightId,jdbcType=INTEGER}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="com.cea.ehm.bean.DataPlane">
+		DELETE FROM
+		ehm_data_plane
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<update id="update" parameterType="com.cea.ehm.bean.DataPlane">
+		UPDATE ehm_data_plane
+		<set>
+			<if test="tail != null">
+				TAIL = #{tail,jdbcType=VARCHAR},
+			</if>
+			<if test="duty != null">
+				DUTY = #{duty,jdbcType=INTEGER},
+			</if>
+			<if test="ratingPlane != null">
+				RATING_PLANE = #{ratingPlane,jdbcType=VARCHAR},
+			</if>
+			<if test="configPlane != null">
+				CONFIG_PLANE = #{configPlane,jdbcType=VARCHAR},
+			</if>
+			<if test="egsnOriginal != null">
+				ENG_SN_ORIGINAL = #{egsnOriginal,jdbcType=VARCHAR},
+			</if>
+			<if test="series != null">
+				SERIES = #{series,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				TYPE = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="model != null">
+				MODEL = #{model,jdbcType=VARCHAR},
+			</if>
+			<if test="attribute != null">
+				ATTRIBUTE = #{attribute,jdbcType=VARCHAR},
+			</if>
+			<if test="etops != null">
+				ETOPS = #{etops,jdbcType=VARCHAR},
+			</if>
+			<if test="hHighLand != null">
+				H_HIGHLAND = #{hHighLand,jdbcType=INTEGER},
+			</if>
+			<if test="variable != null">
+				VARIABLE = #{variable,jdbcType=VARCHAR},
+			</if>
+			<if test="serial != null">
+				SERIAL = #{serial,jdbcType=VARCHAR},
+			</if>
+			<if test="line != null">
+				LINE = #{line,jdbcType=VARCHAR},
+			</if>
+			<if test="effectivity != null">
+				EFFECTIVITY = #{effectivity,jdbcType=VARCHAR},
+			</if>
+			<if test="operater != null">
+				OPERATER = #{operater,jdbcType=VARCHAR},
+			</if>
+			<if test="owner != null">
+				OWNER = #{owner,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				REMARK = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="importWay != null">
+				IMPORT_WAY = #{importWay,jdbcType=VARCHAR},
+			</if>
+			<if test="condition != null">
+				CONDITION_ = #{condition,jdbcType=VARCHAR},
+			</if>
+			<if test="flightId != null">
+				FLIGHT_ID = #{flightId,jdbcType=INTEGER}
+			</if>
+		</set>
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</update>
+
+	<update id="updateTwo" parameterType="com.cea.ehm.bean.DataPlane">
+		UPDATE ehm_data_plane
+		<set>
+			<if test="duty != null">
+				DUTY = #{duty,jdbcType=INTEGER},
+			</if>
+			<if test="ratingPlane != null">
+				RATING_PLANE = #{ratingPlane,jdbcType=VARCHAR},
+			</if>
+			<if test="configPlane != null">
+				CONFIG_PLANE = #{configPlane,jdbcType=VARCHAR},
+			</if>
+			<if test="egsnOriginal != null">
+				ENG_SN_ORIGINAL = #{egsnOriginal,jdbcType=VARCHAR},
+			</if>
+			<if test="series != null">
+				SERIES = #{series,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				TYPE = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="model != null">
+				MODEL = #{model,jdbcType=VARCHAR},
+			</if>
+			<if test="attribute != null">
+				ATTRIBUTE = #{attribute,jdbcType=VARCHAR},
+			</if>
+			<if test="etops != null">
+				ETOPS = #{etops,jdbcType=VARCHAR},
+			</if>
+			<if test="hHighLand != null">
+				H_HIGHLAND = #{hHighLand,jdbcType=INTEGER},
+			</if>
+			<if test="variable != null">
+				VARIABLE = #{variable,jdbcType=VARCHAR},
+			</if>
+			<if test="serial != null">
+				SERIAL = #{serial,jdbcType=VARCHAR},
+			</if>
+			<if test="line != null">
+				LINE = #{line,jdbcType=VARCHAR},
+			</if>
+			<if test="effectivity != null">
+				EFFECTIVITY = #{effectivity,jdbcType=VARCHAR},
+			</if>
+			<if test="operater != null">
+				OPERATER = #{operater,jdbcType=VARCHAR},
+			</if>
+			<if test="owner != null">
+				OWNER = #{owner,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				REMARK = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="importWay != null">
+				IMPORT_WAY = #{importWay,jdbcType=VARCHAR},
+			</if>
+			<if test="condition != null">
+				CONDITION_ = #{condition,jdbcType=VARCHAR},
+			</if>
+			<if test="flightId != null">
+				FLIGHT_ID = #{flightId,jdbcType=INTEGER}
+			</if>
+		</set>
+		WHERE TAIL = #{tail,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

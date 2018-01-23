@@ -1,0 +1,175 @@
+package com.cea.ehm.controller.manage;
+
+import java.text.ParseException;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.cea.ehm.bean.ControlFleetPlane;
+import com.cea.ehm.bean.DataPlane;
+import com.cea.ehm.controller.BaseController;
+import com.cea.ehm.service.ControlFleetPlaneService;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import com.google.common.collect.Maps;
+
+/**
+ * 飞机发动机关联信息
+ */
+@Controller
+@RequestMapping(value = "/manage/controlfleetplane")
+public class ControlFleetPlaneController extends BaseController {
+	private Logger logger = Logger.getLogger(ControlFleetPlaneController.class);
+	@Autowired
+	private ControlFleetPlaneService controlfleetplaneService;
+	/**
+	 * 显示飞机发动机关联列表页面
+	 */
+	@RequestMapping(value = "/controlfleetplanelist.do")
+	public ModelAndView controlfleetplanelist() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/controlfleetplane/controlfleetplanelist");
+		return mv;
+	}
+	
+	/**
+	 * 显示飞机发动机关联添加/编辑
+	 */
+	@RequestMapping(value = "/controlfleetplaneadd.do")
+	public ModelAndView controlfleetplaneadd() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/controlfleetplane/controlfleetplaneadd");
+		return mv;
+	}
+	
+	/**
+	 * 显示飞机发动机关联信息页面
+	 */
+	@RequestMapping(value = "/controlfleetplaneinfo.do")
+	public ModelAndView controlfleetplaneinfo() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/controlfleetplane/controlfleetplaneinfo");
+		return mv;
+	}
+
+	/**
+	 * 查询飞机发动机关联→ 列表
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/list.do")
+	@ResponseBody
+	public Map<String, Object> list(@RequestParam Map<String, String> reqPara) {
+		logger.info("页面请求参数: " + reqPara);
+		PageBounds pageBounds = handlePageInfoForManage(reqPara);
+		// ？？
+		String sEcho = reqPara.get("draw");
+		// 条件参数
+		String key = reqPara.get("key");
+		Map<String, String> paramMap = Maps.newHashMap();
+		paramMap.put("tail", key);
+
+		PageList<ControlFleetPlane> pageList = (PageList<ControlFleetPlane>) controlfleetplaneService.getControlFleetPlaneList(paramMap, pageBounds);
+
+		Pageable page = new PageRequest(pageBounds.getPage(), pageBounds.getLimit());
+		Page<ControlFleetPlane> content = new PageImpl<>(pageList, page, pageList.getPaginator().getTotalCount());
+
+		Map<String, Object> map = Maps.newHashMap();
+		map.put("data", pageList);
+		map.put("iTotalRecords", content.getTotalElements());
+		map.put("iTotalDisplayRecords", content.getTotalElements());
+		map.put("sEcho", sEcho);
+		map.put("draw", sEcho);
+		return map;
+	}
+
+	/**
+	 * 保存或更新飞机发动机关联信息
+	 * 
+	 * @param reqPara
+	 * @return
+	 * @throws ParseException 
+	 */
+	@RequestMapping(value = "/saveOrUpdate.do")
+	@ResponseBody
+	public Map<String, Object> saveOrUpdate(@RequestParam Map<String, String> reqPara) throws ParseException {
+		logger.info("待编辑用户信息: " + reqPara);
+		String id = reqPara.get("id");
+		String planeId = reqPara.get("planeId");
+		String tail = reqPara.get("tail");
+		String engPosition = reqPara.get("engPosition");
+		String engId = reqPara.get("engId");
+		String engSn = reqPara.get("engSn");
+		String engPn = reqPara.get("engPn");
+		String codePosition = reqPara.get("codePosition");
+		String remark = reqPara.get("remark");
+		
+		ControlFleetPlane controlfleetplane = new ControlFleetPlane();
+		if(id!=null) {
+			controlfleetplane.setId(Integer.parseInt(id));
+		}
+		
+		controlfleetplane.setPlaneId(Integer.parseInt(planeId));
+		controlfleetplane.setTail(tail);
+		controlfleetplane.setEngPosition(Integer.parseInt(engPosition));
+		controlfleetplane.setEngId(Integer.parseInt(engId));
+		controlfleetplane.setEngSn(engSn);
+		controlfleetplane.setEngPn(engPn);
+		controlfleetplane.setCodePosition(codePosition);
+		controlfleetplane.setRemark(remark);
+		controlfleetplaneService.saveOrUpdate(controlfleetplane);
+		return null;
+	}
+
+	/**
+	 * 删除飞机发动机关联信息
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/delete.do")
+	@ResponseBody
+	public Map<String, Object> delete(@RequestParam Map<String, String> reqPara) {
+		logger.info("待删除飞机发动机关联信息: " + reqPara);
+		String id = reqPara.get("id");
+		ControlFleetPlane controlfleetplane = new ControlFleetPlane();
+		controlfleetplane.setId(Integer.parseInt(id));
+
+		// 删除之前是不是要判断飞机发动机关联是否存在？？
+
+		// 这里没做判断, 直接删除
+		controlfleetplaneService.delete(controlfleetplane);
+		return null;
+	}
+	
+	/**
+	 * 获取所有飞机信息
+	 * 
+	 * @param reqPara
+	 * @return 
+	 */
+	@RequestMapping(value = "/getPlane.do")
+	@ResponseBody
+	public  Map<String, Object> getPlane() {
+		Map<String, Object> map = Maps.newHashMap();
+		 List<DataPlane> data = controlfleetplaneService.getPlane();
+		map.put("data", data);
+		return map;
+	}
+	
+
+
+}
+

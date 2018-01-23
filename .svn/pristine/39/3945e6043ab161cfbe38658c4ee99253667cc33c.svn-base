@@ -1,0 +1,75 @@
+package com.cea.ehm.bean;
+
+import java.io.Serializable;
+
+/**
+ * 规则参数表
+ */
+public class RuleParameter implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	private Integer id;
+	private Integer parentId;
+	private Integer type;
+	private String val;
+	private String annotation;
+	private String ctime;
+	private Integer isCalculate;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(Integer parentId) {
+		this.parentId = parentId;
+	}
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
+
+	public String getVal() {
+		return val;
+	}
+
+	public void setVal(String val) {
+		this.val = val;
+	}
+
+	public String getAnnotation() {
+		return annotation;
+	}
+
+	public void setAnnotation(String annotation) {
+		this.annotation = annotation;
+	}
+
+	public String getCtime() {
+		return ctime;
+	}
+
+	public void setCtime(String ctime) {
+		this.ctime = ctime;
+	}
+
+	public Integer getIsCalculate() {
+		return isCalculate;
+	}
+
+	public void setIsCalculate(Integer isCalculate) {
+		this.isCalculate = isCalculate;
+	}
+
+}

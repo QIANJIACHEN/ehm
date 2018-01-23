@@ -1,0 +1,59 @@
+package com.cea.ehm.bean;
+
+import java.io.Serializable;
+
+public class RuleComputation implements Serializable{
+	private static final long serialVersionUID = 1L;
+	private String id;
+	private String inspectionId;
+	private String type;
+	private String ruleId;
+	private String maxVal;
+	private String minVal;
+	private String ctime;
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getInspectionId() {
+		return inspectionId;
+	}
+	public void setInspectionId(String inspectionId) {
+		this.inspectionId = inspectionId;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getRuleId() {
+		return ruleId;
+	}
+	public void setRuleId(String ruleId) {
+		this.ruleId = ruleId;
+	}
+	public String getMaxVal() {
+		return maxVal;
+	}
+	public void setMaxVal(String maxVal) {
+		this.maxVal = maxVal;
+	}
+	public String getMinVal() {
+		return minVal;
+	}
+	public void setMinVal(String minVal) {
+		this.minVal = minVal;
+	}
+	public String getCtime() {
+		return ctime;
+	}
+	public void setCtime(String ctime) {
+		this.ctime = ctime;
+	}
+	
+	
+}

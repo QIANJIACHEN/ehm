@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.LlpActivityMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.LlpActivity">
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="ENG_SN" jdbcType="VARCHAR" property="engSn" />
+		<result column="IIN" jdbcType="VARCHAR" property="iin" />
+		<result column="LLP_PN" jdbcType="VARCHAR" property="llpPn" />
+		<result column="LLP_SN" jdbcType="VARCHAR" property="llpSn" />
+		<result column="PLANE_TYPE" jdbcType="VARCHAR" property="planeType" />
+		<result column="ENG_PN" jdbcType="VARCHAR" property="engPn" />
+		<result column="ON_DATE" jdbcType="VARCHAR" property="onDate" />
+		<result column="ON_ETSN" jdbcType="VARCHAR" property="onEtsn" />
+		<result column="ON_ECSN" jdbcType="VARCHAR" property="onEcsn" />
+		<result column="ON_PTSN" jdbcType="VARCHAR" property="onPtsn" />
+		<result column="ON_PCSN" jdbcType="VARCHAR" property="onPcsn" />
+		<result column="LIMIT_SPECIAL" jdbcType="VARCHAR" property="limitSpecial" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+		<result column="CTIME" jdbcType="DATE" property="ctime" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ID,ENG_SN,IIN,LLP_PN,LLP_SN,PLANE_TYPE,ENG_PN,ON_DATE,ON_ETSN,ON_ECSN,ON_PTSN,ON_PCSN,LIMIT_SPECIAL,REMARK,CTIME
+	</sql>
+	
+	<select id="select" parameterType="com.cea.ehm.bean.LlpActivity" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_llp_activity
+		WHERE ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getLlpActivityList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_llp_activity
+		<if test="engSn != null">
+		WHERE ENG_SN LIKE CONCAT('%',#{engSn,jdbcType=VARCHAR})
+		</if>
+	</select>
+
+	<insert id="insert" parameterType="com.cea.ehm.bean.LlpActivity">
+		INSERT INTO ehm_llp_activity
+			(ID,ENG_SN,IIN,LLP_PN,LLP_SN,PLANE_TYPE,ENG_PN,ON_DATE,ON_ETSN,ON_ECSN,ON_PTSN,ON_PCSN,LIMIT_SPECIAL,REMARK,CTIME)
+		VALUES
+		(
+			#{id,jdbcType=VARCHAR},
+			#{engSn,jdbcType=VARCHAR},
+			#{iin,jdbcType=VARCHAR},
+			#{llpPn,jdbcType=VARCHAR},
+			#{llpSn,jdbcType=VARCHAR},
+			#{planeType,jdbcType=VARCHAR},
+			#{engPn,jdbcType=VARCHAR},
+			#{onDate,jdbcType=VARCHAR},
+			#{onEtsn,jdbcType=VARCHAR},
+			#{onEcsn,jdbcType=VARCHAR},
+			#{onPtsn,jdbcType=VARCHAR},
+			#{onPcsn,jdbcType=VARCHAR},
+			#{limitSpecial,jdbcType=VARCHAR},
+			#{remark,jdbcType=VARCHAR},
+			#{ctime,jdbcType=DATE}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="com.cea.ehm.bean.LlpActivity">
+		DELETE FROM
+			ehm_llp_activity
+		WHERE
+			ID = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<update id="update" parameterType="com.cea.ehm.bean.LlpActivity">
+		UPDATE ehm_llp_activity
+		<set>
+			<if test="engSn != null">
+				ENG_SN = #{engSn,jdbcType=VARCHAR},
+			</if>
+			<if test="iin != null">
+				IIN = #{iin,jdbcType=VARCHAR},
+			</if>
+			<if test="llpPn != null">
+				LLP_PN = #{llpPn,jdbcType=VARCHAR},
+			</if>
+			<if test="llpSn != null">
+				LLP_SN = #{llpSn,jdbcType=VARCHAR},
+			</if>
+			<if test="planeType != null">
+				PLANE_TYPE = #{planeType,jdbcType=VARCHAR},
+			</if>
+			<if test="engPn != null">
+				ENG_PN = #{engPn,jdbcType=VARCHAR},
+			</if>
+			<if test="onDate != null">
+				ON_DATE = #{onDate,jdbcType=VARCHAR},
+			</if>
+			<if test="onEtsn != null">
+				ON_ETSN = #{onEtsn,jdbcType=VARCHAR},
+			</if>
+			<if test="onEcsn != null">
+				ON_ECSN = #{onEcsn,jdbcType=VARCHAR},
+			</if>
+			<if test="onPtsn != null">
+				ON_PTSN = #{onPtsn,jdbcType=VARCHAR},
+			</if>
+			<if test="onPcsn != null">
+				ON_PCSN = #{onPcsn,jdbcType=VARCHAR},
+			</if>
+			<if test="limitSpecial != null">
+				LIMIT_SPECIAL = #{limitSpecial,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				REMARK = #{remark,jdbcType=VARCHAR},
+			</if>
+			
+		</set>
+		WHERE ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

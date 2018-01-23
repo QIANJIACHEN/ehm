@@ -1,0 +1,60 @@
+package com.cea.ehm.bean;
+
+import java.io.Serializable;
+
+/**
+ * (计算管理)获取页面传值
+ */
+public class Calculate implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 监测规则
+	 */
+	private RuleInspection inspection;
+	/**
+	 * 计算规则
+	 */
+	private RuleComputation computation;
+	/**
+	 * 规则参数表
+	 */
+	private RuleParameter parameter;
+	/**
+	 * 监测推送人员表
+	 */
+	private RuleInspectionUser inspectionUser;
+
+	public RuleInspection getInspection() {
+		return inspection;
+	}
+
+	public void setInspection(RuleInspection inspection) {
+		this.inspection = inspection;
+	}
+
+	public RuleComputation getComputation() {
+		return computation;
+	}
+
+	public void setComputation(RuleComputation computation) {
+		this.computation = computation;
+	}
+
+	public RuleParameter getParameter() {
+		return parameter;
+	}
+
+	public void setParameter(RuleParameter parameter) {
+		this.parameter = parameter;
+	}
+
+	public RuleInspectionUser getInspectionUser() {
+		return inspectionUser;
+	}
+
+	public void setInspectionUser(RuleInspectionUser inspectionUser) {
+		this.inspectionUser = inspectionUser;
+	}
+
+}

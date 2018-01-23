@@ -1,0 +1,44 @@
+package com.cea.ehm.dao;
+
+import java.util.Map;
+
+import com.cea.ehm.bean.RuleParameter;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+/**
+ * 规则参数持久层接口
+ */
+public interface RuleParameterMapper {
+
+	/**
+	 * 查询规则参数列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	PageList<RuleParameter> getRuleParameterList(Map<String, String> paramMap, PageBounds pageBounds);
+
+	/**
+	 * 保存规则参数信息
+	 * 
+	 * @param user
+	 */
+	void insert(RuleParameter ruleparameter);
+
+	/**
+	 * 更新规则参数信息
+	 * 
+	 * @param user
+	 */
+	void update(RuleParameter ruleparameter);
+
+	/**
+	 * 删除规则参数信息
+	 * 
+	 * @param user
+	 */
+	void delete(RuleParameter ruleparameter);
+
+}

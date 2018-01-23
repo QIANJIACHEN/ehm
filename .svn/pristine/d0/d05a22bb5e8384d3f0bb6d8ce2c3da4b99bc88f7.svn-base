@@ -1,0 +1,140 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+
+<title>飞机列表</title>
+<link rel="stylesheet" href="../css/jqueryui/weui.min.css">
+<link rel="stylesheet" href="../css/jqueryui/jquery-weui.css">
+<link rel="stylesheet" href="../css/jqueryui/demos.css">
+</head>
+<body ontouchstart>
+  	<div class="page__pd">
+      
+      <!--IDPLUG数据列表-->
+      <div class="weui-panel weui-panel_access">
+      	
+        <div class="weui-panel__bd">
+        	<!--没有删除功能-->
+          <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg open-popup" data-target="#half">
+          	
+	            <div class="weui-media-box__bd">
+	              <h4 class="weui-media-box__title">
+	                	IDPLUG_PN:
+	              </h4>
+	              <p class="weui-media-box__desc">发动机设备编号:</p>
+	            </div>
+          </a>
+          <!--带删除功能-->
+          <div class="weui-cell weui-cell_swiped">
+            <div class="weui-cell__bd">
+	        		<a class="open-popup" data-target="#half" >
+	              <div class="weui-cell">
+	                <div class="weui-cell__bd">
+	                	<div class="weui-media-box__bd">
+				              <h4 class="weui-media-box__title">
+				                	IDPLUG_PN:
+				              </h4>
+				              <p class="weui-media-box__desc">发动机设备编号:</p>
+				            </div>
+	                </div>
+	              </div>
+	            </a>
+            </div>
+            <div class="weui-cell__ft">
+              <a class="weui-swiped-btn weui-swiped-btn_warn delete-swipeout" href="javascript:">删除</a>
+              <a class="weui-swiped-btn weui-swiped-btn_default close-swipeout" href="javascript:">关闭</a>
+            </div>
+          </a>
+          </div>
+          
+        </div>
+        
+        
+        
+      </div>
+    </div>
+    <!--模态框-->
+    <div id="half" class='weui-popup__container popup-top'>
+      <div class="weui-popup__overlay"></div>
+      <div class="weui-popup__modal">
+        <div class="toolbar">
+          <div class="toolbar-inner">
+            <!--<a href="javascript:;" class="picker-button close-popup">关闭</a>-->
+            <h1 class="title">基本信息</h1>
+          </div>
+        </div>
+        <div class="modal-content">
+         	 <div class="weui-form-preview">
+		      <div class="weui-form-preview__hd">
+		        <div class="weui-form-preview__item">
+		          <label class="weui-form-preview__label">IDPLUG_PN</label>
+		          <em class="weui-form-preview__value"></em>
+		        </div>
+		      </div>
+		      <div class="weui-form-preview__bd">
+		      	<div class="weui-form-preview__item">
+		          <label class="weui-form-preview__label">ID</label>
+		          <span class="weui-form-preview__value"></span>
+		        </div>
+		        <div class="weui-form-preview__item">
+		          <label class="weui-form-preview__label">发动机ID</label>
+		          <span class="weui-form-preview__value"></span>
+		        </div>
+		        <div class="weui-form-preview__item">
+		          <label class="weui-form-preview__label">发动机设备编号</label>
+		          <span class="weui-form-preview__value"></span>
+		        </div>
+		        <div class="weui-form-preview__item">
+		          <label class="weui-form-preview__label">发动机型号</label>
+		          <span class="weui-form-preview__value"></span>
+		        </div>
+		        <div class="weui-form-preview__item">
+		          <label class="weui-form-preview__label">转速</label>
+		          <span class="weui-form-preview__value"></span>
+		        </div>
+		        <div class="weui-form-preview__item">
+		          <label class="weui-form-preview__label">构型</label>
+		          <span class="weui-form-preview__value"></span>
+		        </div>
+		        <div class="weui-form-preview__item">
+		          <label class="weui-form-preview__label">飞机型号</label>
+		          <span class="weui-form-preview__value"></span>
+		        </div>
+		      </div>
+		      <div class="weui-form-preview__ft">
+		        <a class="weui-form-preview__btn weui-form-preview__btn_default close-popup">关闭</a>
+		        <button type="submit" class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:">编辑</button>
+		      </div>
+		    </div>
+        </div>
+      </div>
+
+    </div>
+    
+    <jsp:include page='footer.jsp'/>
+    <script src="../../js/jqueryui/jquery-2.1.4.js"></script>
+	<script src="../../js/jqueryui/fastclick.js"></script>
+	<script>
+	  $(function() {
+	    FastClick.attach(document.body);
+	  });
+	</script>
+	<script src="../../js/jqueryui/jquery-weui.js"></script>
+	<script>
+		$('.delete-swipeout').click(function () {
+	        $(this).parents('.weui-cell').remove()
+	      })
+	      $('.close-swipeout').click(function () {
+	        $(this).parents('.weui-cell').swipeout('close')
+	      })
+		
+	</script>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+package com.cea.ehm.dao;
+
+import java.util.Map;
+
+import com.cea.ehm.bean.ControlFleetEngSpare;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+
+/**
+ * 发动机维修数据接口
+ */
+public interface ControlFleetEngSpareMapper {
+	/**
+	 * 查询发动机维修信息列表
+	 * 
+	 *  @param paramMap
+	 *  @param pageBounds
+	 *  @return
+	 */
+	PageList<ControlFleetEngSpare> getdatacontrolfleetengspareList(Map<String,String> paramMap, PageBounds pageBounds);
+	
+	/**
+	 * 保存发动机维修信息
+	 * 
+	 * @param controlFleetEngSpare
+	 */
+	void insert(ControlFleetEngSpare controlFleetEngSpare);
+	
+	/*
+	 * 更新发动机维修信息
+	 * 
+	 * @param controlFleetEngSpare
+	 */
+	void update(ControlFleetEngSpare controlFleetEngSpare);
+	
+	/**
+	 * 删除发动机维修信息
+	 * 
+	 * @param controlFleetEngSpare
+	 */
+	void delete(ControlFleetEngSpare controlFleetEngSpare);
+}

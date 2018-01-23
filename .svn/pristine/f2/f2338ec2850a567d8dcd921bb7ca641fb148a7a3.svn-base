@@ -1,0 +1,36 @@
+package com.cea.ehm.controller.manage;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.cea.ehm.controller.BaseController;
+
+/**
+ * 部门
+ */
+@Controller
+@RequestMapping(value = "/manage/department")
+public class DepartmentController extends BaseController {
+
+	
+	/**
+	 * 显示部门列表
+	 */
+	@RequestMapping(value = "/list.do")
+	public ModelAndView departmentlist() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/department/list");
+		return mv;
+	}
+	
+	/**
+	 * 显示部门详情
+	 */
+	@RequestMapping(value = "/teamdetail.do")
+	public ModelAndView departmentdetail() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/department/teamdetail");
+		return mv;
+	}
+}

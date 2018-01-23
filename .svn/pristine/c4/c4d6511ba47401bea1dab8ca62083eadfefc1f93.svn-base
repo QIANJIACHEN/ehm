@@ -1,0 +1,59 @@
+package com.cea.ehm.service;
+
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cea.ehm.bean.DataIdPlug;
+import com.cea.ehm.dao.DataIdPlugMapper;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+/**
+ * IDPLUG数据 服务层
+ */
+@Service
+public class DataIdPlugService {
+	@Autowired
+	DataIdPlugMapper dataIdPlugMapper;
+
+	/**
+	 * 查询 IDPLUG数据信息 → 列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	public PageList<DataIdPlug> getDataIdPlugList(Map<String, String> paramMap, PageBounds pageBounds) {
+		return dataIdPlugMapper.getDataIdPlugList(paramMap, pageBounds);
+	}
+
+	/**
+	 * 保存 IDPLUG数据 信息
+	 * 
+	 * @param dataIdPlug
+	 */
+	public void save(DataIdPlug dataIdPlug) {
+		dataIdPlugMapper.save(dataIdPlug);
+	}
+
+	/**
+	 * 更新 IDPLUG数据 信息
+	 * 
+	 * @param dataIdPlug
+	 */
+	public void update(DataIdPlug dataIdPlug) {
+		dataIdPlugMapper.update(dataIdPlug);
+	}
+
+	/**
+	 * 删除 IDPLUG数据 信息
+	 * 
+	 * @param dataIdPlug
+	 */
+	public void delete(DataIdPlug dataIdPlug) {
+		dataIdPlugMapper.delete(dataIdPlug);
+	}
+
+}

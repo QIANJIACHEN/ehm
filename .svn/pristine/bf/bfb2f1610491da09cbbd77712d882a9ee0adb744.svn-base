@@ -1,0 +1,60 @@
+package com.cea.ehm.service;
+
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cea.ehm.bean.Role;
+import com.cea.ehm.dao.RoleMapper;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+/**
+ * 角色服务层
+ */
+@Service
+public class RoleService {
+	private Logger logger = Logger.getLogger(RoleService.class);
+	@Autowired
+	private RoleMapper roleMapper;
+
+	/**
+	 * 查询角色列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	public PageList<Role> getRoleList(Map<String, String> paramMap, PageBounds pageBounds) {
+		logger.info("数据库查询参数：" + paramMap);
+		return roleMapper.getRoleList(paramMap, pageBounds);
+	}
+
+	/**
+	 * 保存或更新角色信息
+	 * 
+	 * @param role
+	 */
+	public void saveOrUpdate(Role role) {
+		// 查询判断用户是否存在，考虑保存还是更新
+		Role selectrole = roleMapper.select(role);
+		if (selectrole == null) {
+			roleMapper.insert(role);
+		} else {
+			roleMapper.update(role);
+		}
+	}
+
+	/**
+	 * 删除角色信息
+	 * 
+	 * @param role
+	 */
+	public void delete(Role role) {
+		// 这里是物理删除，删除后用户信息从数据库消失
+		roleMapper.delete(role);
+	}
+
+}

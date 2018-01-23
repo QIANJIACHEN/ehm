@@ -1,0 +1,62 @@
+package com.cea.ehm.service;
+
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cea.ehm.bean.RuleComputation;
+import com.cea.ehm.dao.RuleComputationMapper;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+/**
+ * 计算规则服务层
+ */
+@Service
+public class RuleComputationService {
+	private Logger logger = Logger.getLogger(RuleComputationService.class);
+	@Autowired
+	private RuleComputationMapper rulecomputationMapper;
+
+	/**
+	 * 查询计算规则列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	public PageList<RuleComputation> getRuleComputationList(Map<String, String> paramMap, PageBounds pageBounds) {
+		logger.info("数据库查询参数：" + paramMap);
+		return rulecomputationMapper.getRuleComputationList(paramMap, pageBounds);
+	}
+
+	/**
+	 * 保存计算规则信息
+	 * 
+	 * @param rulecomputation
+	 */
+	public void save(RuleComputation rulecomputation) {
+		rulecomputationMapper.insert(rulecomputation);
+	}
+
+	/**
+	 * 更新计算规则信息
+	 * 
+	 * @param rulecomputation
+	 */
+	public void update(RuleComputation rulecomputation) {
+		rulecomputationMapper.update(rulecomputation);
+	}
+
+	/**
+	 * 删除计算规则信息
+	 * 
+	 * @param rulecomputation
+	 */
+	public void delete(RuleComputation rulecomputation) {
+		rulecomputationMapper.delete(rulecomputation);
+	}
+
+}

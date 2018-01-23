@@ -1,0 +1,170 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+
+
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu">
+
+            <li class="active treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-user"></i> <span>用户管理</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <%--<li class="active">--%>
+                    <li><a href="javascript:void(0);" onclick="jumpPage('/manage/user/userlist.do')"><i
+                            class="fa fa-circle-o"></i>用户列表</a></li>
+                  <!--   <li><a href="javascript:void(0);" onclick="jumpPage('/manage/user/userinfo.do')"><i
+                            class="fa fa-circle-o"></i>增加用户</a></li> -->
+                </ul>
+            </li>
+
+            <!-- <li class="active treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-files-o"></i> <span>社区管理</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="javascript:void(0);"
+                                          onclick="jumpPage('/manage/community/communityList.do')"><i
+                            class="fa fa-circle-o"></i>社区列表</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="active treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-tablet"></i> <span>话题管理</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="javascript:void(0);" onclick="jumpPage('/manage/topic/topicList.do')"><i
+                            class="fa fa-circle-o"></i>话题列表</a></li>
+                </ul>
+            </li>
+            <li class="active treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-bell"></i> <span>消息管理</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="javascript:void(0);" onclick="jumpPage('/manage/message/messageList.do')"><i
+                            class="fa fa-circle-o"></i>消息列表</a></li>
+                </ul>
+            </li>
+            <li class="active treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-pie-chart"></i> <span>计划指导管理</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="javascript:void(0);" onclick="jumpPage('/manage/category/categoryList.do')"><i
+                            class="fa fa-circle-o"></i>文章分类</a></li>
+                    <li><a href="javascript:void(0);" onclick="jumpPage('/manage/article/articleList.do')"><i
+                            class="fa fa-circle-o"></i>文章列表</a></li>
+                </ul>
+            </li>
+            <li class="active treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-laptop"></i> <span>其他管理</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="javascript:void(0);" onclick="jumpPage('/manage/mood/moodList.do')"><i
+                            class="fa fa-circle-o"></i>心情分类</a></li>
+                    <li><a href="javascript:void(0);" onclick="jumpPage('/manage/toDo/toDoList.do')"><i
+                            class="fa fa-circle-o"></i>待做事项分类</a></li>
+                    <li><a href="javascript:void(0);"
+                           onclick="jumpPage('/manage/antenatalExamination/antenatalExaminationList.do')"><i
+                            class="fa fa-circle-o"></i>孕中检查分类</a></li>
+                    <li><a href="javascript:void(0);"
+                           onclick="jumpPage('/manage/babyExamination/babyExaminationList.do')"><i
+                            class="fa fa-circle-o"></i>宝宝检查分类</a></li>
+                    <li><a href="javascript:void(0);" onclick="jumpPage('/manage/babyFeed/babyFeedList.do')"><i
+                            class="fa fa-circle-o"></i>宝宝喂养分类</a></li>
+                    <li><a href="javascript:void(0);" onclick="jumpPage('/manage/vaccine/list.do')"><i
+                            class="fa fa-circle-o"></i>疫苗列表</a></li>
+
+                </ul>
+            <li class="active treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-pie-chart"></i> <span>宝宝饮食推荐</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="javascript:void(0);" onclick="jumpPage('/manage/babySup/babySupList.do')"><i
+                            class="fa fa-circle-o"></i>推荐列表</a></li>
+                </ul>
+            </li>
+            <li class="active treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-pie-chart"></i> <span>健康建议管理</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="javascript:void(0);" onclick="jumpPage('/manage/advice/adviceList.do')"><i
+                            class="fa fa-circle-o"></i>建议列表</a></li>
+                </ul>
+            </li>
+            </li>
+            <li class="active treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-mobile-phone"></i> <span>症状管理</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="javascript:void(0);" onclick="jumpPage('/manage/physicalSymptom/list.do')"><i
+                            class="fa fa-circle-o"></i>症状记录</a></li>
+                </ul>
+            </li>
+            <li class="active treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-mobile-phone"></i> <span>商品管理</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="javascript:void(0);" onclick="jumpPage('/manage/interalStore/list.do')"><i
+                            class="fa fa-circle-o"></i>积分商品</a></li>
+                </ul>
+            </li>
+            <li class="active treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-mobile-phone"></i> <span>反馈管理</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="javascript:void(0);" onclick="jumpPage('/manage/suggestion/suggestionFeedbackList.do')"><i
+                            class="fa fa-circle-o"></i>反馈意见</a></li>
+                </ul>
+            </li>
+
+            <li class="active treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-mobile-phone"></i> <span>版本管理</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="javascript:void(0);" onclick="jumpPage('/manage/version/versionList.do')"><i
+                            class="fa fa-circle-o"></i>版本列表</a></li>
+                </ul>
+            </li> -->
+
+
+
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+
+</aside>
+
+<script>
+    var base = "${pageContext.request.contextPath}";
+    var storeUrl = null;
+    function jumpPage(url) {
+
+        if (storeUrl == url) {
+            return;
+        }
+        document.getElementById("myiframe").src = base + url;
+
+        storeUrl = url;
+    }
+</script>
+
+
+<!-- Nav tabs -->
+
+
+
+
+

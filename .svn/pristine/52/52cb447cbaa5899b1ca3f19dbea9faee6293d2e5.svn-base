@@ -1,0 +1,86 @@
+package com.cea.ehm.bean;
+
+import java.io.Serializable;
+import java.util.Date;
+
+public class RuleInspection implements Serializable {
+	private static final long serialVersionUID = 1L;
+	private String id;
+	private String name;
+	private String userId;
+	private String type;
+	private String content;
+	private String engSeries;
+	private String engType;
+	private String engModel;
+	private String engConfig;
+	private String orderId;
+	private Date ctime;
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+	public String getEngSeries() {
+		return engSeries;
+	}
+	public void setEngSeries(String engSeries) {
+		this.engSeries = engSeries;
+	}
+	public String getEngType() {
+		return engType;
+	}
+	public void setEngType(String engType) {
+		this.engType = engType;
+	}
+	public String getEngModel() {
+		return engModel;
+	}
+	public void setEngModel(String engModel) {
+		this.engModel = engModel;
+	}
+	public String getEngConfig() {
+		return engConfig;
+	}
+	public void setEngConfig(String engConfig) {
+		this.engConfig = engConfig;
+	}
+	public String getOrderId() {
+		return orderId;
+	}
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
+	public Date getCtime() {
+		return ctime;
+	}
+	public void setCtime(Date ctime) {
+		this.ctime = ctime;
+	}
+}

@@ -1,0 +1,308 @@
+package com.cea.ehm.controller.manage;
+
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.cea.ehm.bean.Activity;
+import com.cea.ehm.bean.ActivityHptn;
+import com.cea.ehm.bean.History;
+import com.cea.ehm.controller.BaseController;
+import com.cea.ehm.service.ActivityService;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import com.google.common.collect.Maps;
+
+@Controller
+@RequestMapping(value = "/manage/activity")
+public class ActivityController extends BaseController {
+	@Autowired
+	ActivityService activityService;
+
+	/**
+	 * hptn_activity（HPTN表）页面
+	 **/
+	@RequestMapping(value = "activityTable1.do")
+	public ModelAndView activitytable() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/activity/activityTable1");
+		return mv;
+	}
+	
+	/**
+	 * hptn_activity（HPTN表）数据
+	 **/
+	@RequestMapping(value = "/activityTableInfo.do")
+	@ResponseBody
+	public Map<String, Object> activityTableInfo(@RequestParam Map<String, String> reqPara) {
+		PageBounds pageBounds = handlePageInfoForManage(reqPara);
+		String sEcho = reqPara.get("draw");
+		// 条件参数
+		String key = reqPara.get("key");
+		Map<String, String> paramMap = Maps.newHashMap();
+		PageList<ActivityHptn> pageList = (PageList<ActivityHptn>) activityService.getActivityHptn(paramMap, pageBounds);
+		Pageable page = new PageRequest(pageBounds.getPage(), pageBounds.getLimit());
+		Page<ActivityHptn> content = new PageImpl<>(pageList, page, pageList.getPaginator().getTotalCount());
+
+		Map<String, Object> map = Maps.newHashMap();
+		map.put("data", pageList);
+		map.put("iTotalRecords", content.getTotalElements());
+		map.put("iTotalDisplayRecords", content.getTotalElements());
+		map.put("sEcho", sEcho);
+		map.put("draw", sEcho);
+		return map;
+	}
+	/**
+	 * hptn_activity（HPTN表）修改添加
+	 **/
+	@RequestMapping(value = "/activityTable1addupdate.do")
+	@ResponseBody
+	public Map<String, Object> activityTable1addupdate(@RequestParam Map<String,String>reqData){
+		Integer type = Integer.parseInt(reqData.get("type"));
+		Integer id = 0;
+		if(type == 1) {
+			id = Integer.parseInt(reqData.get("id"));
+		};
+		Integer onDate = Integer.parseInt(reqData.get("onDate"));
+		Integer onEtsn = Integer.parseInt(reqData.get("onEtsn"));
+		Integer onEcsn = Integer.parseInt(reqData.get("onEcsn"));
+		Integer onPtsn = Integer.parseInt(reqData.get("onPtsn"));
+		Integer onPcsn = Integer.parseInt(reqData.get("onPcsn"));
+		String engSn = reqData.get("engSn");
+		String hptnPn = reqData.get("hptnPn");
+		String hptnSn = reqData.get("hptnSn");
+		String engPn = reqData.get("engPn");
+		String limitSpecial = reqData.get("limitSpecial");
+		String code = reqData.get("code");
+		String remark = reqData.get("remark");
+		ActivityHptn activityHptn = new ActivityHptn();
+		if(type == 1) {
+			activityHptn.setId(id);
+		}
+		activityHptn.setOnDate(onDate);
+		activityHptn.setOnEtsn(onEtsn);
+		activityHptn.setOnEcsn(onEcsn);
+		activityHptn.setOnPtsn(onPtsn);
+		activityHptn.setOnPcsn(onPcsn);
+		activityHptn.setEngPn(engPn);
+		activityHptn.setEngSn(engSn);
+		activityHptn.setLimitSpecial(limitSpecial);
+		activityHptn.setHptnPn(hptnPn);
+		activityHptn.setHptnSn(hptnSn);
+		activityHptn.setCode(code);
+		activityHptn.setRemark(remark);
+		if(type == 1) {
+			activityService.activityTable1update(activityHptn);
+		}else {
+			activityService.activityTable1add(activityHptn);
+		}
+		
+		return null;
+	}
+	
+	@RequestMapping(value = "/activityTable1delete.do")
+	@ResponseBody
+	public   Map<String, String> activityTable1delete(@RequestParam Map<String,String>reqPara){
+		Integer id =Integer.parseInt(reqPara.get("id"));
+		ActivityHptn activityHptn = new ActivityHptn();
+		activityHptn.setId(id);
+		activityService.activityTable1delete(activityHptn);
+		return null;
+	}	
+	
+	
+	
+	@RequestMapping(value = "history.do")
+	public ModelAndView history(@RequestParam Map<String,String>reqPara) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/activity/history");
+		return mv;
+	}
+	@RequestMapping(value = "/historyInfo.do")
+	@ResponseBody
+	public Map<String, Object> historyInfo(@RequestParam Map<String, String> reqPara) {
+		PageBounds pageBounds = handlePageInfoForManage(reqPara);
+		String sEcho = reqPara.get("draw");
+		// 条件参数
+		String key = reqPara.get("key");
+		Map<String, String> paramMap = Maps.newHashMap();
+		PageList<History> pageList = (PageList<History>) activityService.getHistory(paramMap, pageBounds);
+		Pageable page = new PageRequest(pageBounds.getPage(), pageBounds.getLimit());
+		Page<History> content = new PageImpl<>(pageList, page, pageList.getPaginator().getTotalCount());
+
+		Map<String, Object> map = Maps.newHashMap();
+		map.put("data", pageList);
+		map.put("iTotalRecords", content.getTotalElements());
+		map.put("iTotalDisplayRecords", content.getTotalElements());
+		map.put("sEcho", sEcho);
+		map.put("draw", sEcho);
+		return map;
+	}
+	@RequestMapping(value = "/historyAddUpdate.do")
+	@ResponseBody
+	public void historyAddUpdate(@RequestParam Map<String, String> reqData) {
+		Integer type = Integer.parseInt(reqData.get("type"));
+		Integer id = 0;
+		if(type == 1) {
+			id = Integer.parseInt(reqData.get("id"));
+		};
+		Integer onDate = Integer.parseInt(reqData.get("onDate"));
+		Integer onEtsn = Integer.parseInt(reqData.get("onEtsn"));
+		Integer onEcsn = Integer.parseInt(reqData.get("onEcsn"));
+		Integer onPtsn = Integer.parseInt(reqData.get("onPtsn"));
+		Integer onPcsn = Integer.parseInt(reqData.get("onPcsn"));
+		String engSnUsed = reqData.get("engSnUsed");
+		String hptnPn = reqData.get("hptnPn");
+		String hptnSn = reqData.get("hptnSn");
+		String engPn = reqData.get("engPn");
+		String limitSpecial = reqData.get("limitSpecial");
+		String code = reqData.get("code");
+		String remark = reqData.get("remark");
+		History history = new History();
+		if(type == 1) {
+			history.setId(id);
+		}
+		history.setOnDate(onDate);
+		history.setOnEtsn(onEtsn);
+		history.setOnEcsn(onEcsn);
+		history.setOnPtsn(onPtsn);
+		history.setOnPcsn(onPcsn);
+		history.setEngPn(engPn);
+		history.setEngSnUsed(engSnUsed);
+		history.setLimitSpecial(limitSpecial);
+		history.setHptnPn(hptnPn);
+		history.setHptnSn(hptnSn);
+		history.setCode(code);
+		history.setRemark(remark);
+		if(type == 1) {
+			activityService.historyupdate(history);
+		}else {
+			activityService.historyadd(history);
+		}
+	}
+	@RequestMapping(value = "/historydelete.do")
+	@ResponseBody
+	public Map<String, Object>  historydelete(@RequestParam Map<String, String>reqData) {
+		Integer id = Integer.parseInt(reqData.get("id"));
+		History history = new History();
+		history.setId(id);
+		activityService.historydelete(history);
+		return null;
+	}
+	
+	
+	@RequestMapping(value = "/delete.do")
+	public Map<String, Object> delete(@RequestParam Map<String,String>reqPara){
+		Integer id =Integer.parseInt(reqPara.get("id"));
+		Activity activity = new Activity();
+		activity.setId(id);
+		activityService.delete(activity);
+		return null;
+	}
+	
+	@RequestMapping(value = "/update.do")
+	@ResponseBody
+	public Map<String, Object> update(@RequestParam Map<String,String>reqData){
+		Integer type = Integer.parseInt(reqData.get("type"));
+		Integer id = 0;
+		if(type == 1) {
+			id = Integer.parseInt(reqData.get("id"));
+		};
+		Integer onDate = Integer.parseInt(reqData.get("onDate"));
+		Integer onEtsn = Integer.parseInt(reqData.get("onEtsn"));
+		Integer onEcsn = Integer.parseInt(reqData.get("onEcsn"));
+		Integer onPtsn = Integer.parseInt(reqData.get("onPtsn"));
+		Integer onPcsn = Integer.parseInt(reqData.get("onPcsn"));
+		String engSnUsed = reqData.get("engSnUsed");
+		String lptn1Pn = reqData.get("lptn1Pn");
+		String lptn1Sn = reqData.get("lptn1Sn");
+		String engPn = reqData.get("engPn");
+		String limitSpecial = reqData.get("limitSpecial");
+		String code = reqData.get("code");
+		String remark = reqData.get("remark");
+		Activity activity = new Activity();
+		if(type == 1) {
+			activity.setId(id);
+		}
+		activity.setOnDate(onDate);
+		activity.setOnEtsn(onEtsn);
+		activity.setOnEcsn(onEcsn);
+		activity.setOnPtsn(onPtsn);
+		activity.setOnPcsn(onPcsn);
+		activity.setEngPn(engPn);
+		activity.setEngSnUsed(engSnUsed);
+		activity.setLimitSpecial(limitSpecial);
+		activity.setLptn1Pn(lptn1Pn);
+		activity.setLptn1Sn(lptn1Sn);
+		activity.setCode(code);
+		activity.setRemark(remark);
+		if(type == 1) {
+			activityService.update(activity);
+		}else {
+			activityService.add(activity);
+		}
+		
+		return null;
+	}
+	
+	@RequestMapping(value = "activityTow.do")
+	public ModelAndView activityTow(@RequestParam Map<String,String>reqPara) {
+		ModelAndView view = new ModelAndView();
+		view.setViewName("/manage/activity/activityTow");
+		return view;
+	}
+	
+	
+	/**
+	 * 活动历史列表
+	 **/
+	@RequestMapping(value = "activityList.do")
+	public ModelAndView activitylist() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/activity/activityList");
+		return mv;
+	}
+
+	/**
+	 * 活动列表数据
+	 **/
+	@RequestMapping(value = "activityinfo.do")
+	@ResponseBody
+	public Map<String, Object> list(@RequestParam Map<String, String> reqPara) {
+		PageBounds pageBounds = handlePageInfoForManage(reqPara);
+		String sEcho = reqPara.get("draw");
+		// 条件参数
+		String key = reqPara.get("key");
+		Map<String, String> paramMap = Maps.newHashMap();
+		//paramMap.put("username", key);
+
+		PageList<Activity> pageList = (PageList<Activity>) activityService.getActivityList(paramMap, pageBounds);
+		Pageable page = new PageRequest(pageBounds.getPage(), pageBounds.getLimit());
+		Page<Activity> content = new PageImpl<>(pageList, page, pageList.getPaginator().getTotalCount());
+
+		Map<String, Object> map = Maps.newHashMap();
+		map.put("data", pageList);
+		map.put("iTotalRecords", content.getTotalElements());
+		map.put("iTotalDisplayRecords", content.getTotalElements());
+		map.put("sEcho", sEcho);
+		map.put("draw", sEcho);
+		return map;
+	}
+
+	@RequestMapping(value = "activityHistory.do")
+	public ModelAndView activityHistory() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/activity/activityList");
+		return mv;
+	}
+
+}

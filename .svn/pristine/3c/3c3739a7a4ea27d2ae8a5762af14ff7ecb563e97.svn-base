@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.HptbMapper">
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.Hptb">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="ENG_SN" jdbcType="VARCHAR" property="engSn" />
+		<result column="HPTB_PN" jdbcType="VARCHAR" property="hptbPn" />
+		<result column="HPTB_SN" jdbcType="VARCHAR" property="hptbSn" />
+		<result column="ENG_PN" jdbcType="VARCHAR" property="engPn" />
+		<result column="ON_DATE" jdbcType="INTEGER" property="onDate" />
+		<result column="ON_ETSN" jdbcType="INTEGER" property="onEtsn" />
+		<result column="ON_ECSN" jdbcType="INTEGER" property="onEcsn" />
+		<result column="ON_PTSN" jdbcType="INTEGER" property="onPtsn" />
+		<result column="ON_PCSN" jdbcType="INTEGER" property="onPcsn" />
+		<result column="LIMIT_SPECIAL" jdbcType="VARCHAR" property="limitSpecial" />
+		<result column="CODE" jdbcType="VARCHAR" property="code" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+	</resultMap>
+	<sql id="baseColumnList" >
+		id,ENG_SN,HPTB_PN,HPTB_SN,ENG_PN,ON_DATE,ON_ETSN,ON_ECSN,ON_PTSN,ON_PCSN,LIMIT_SPECIAL,CODE,REMARK
+	</sql>
+	<select id="hptbinfo"   parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM hptb_activity
+	</select>
+	<select id="hptbadd" resultMap="baseResultMap">
+		INSERT  INTO hptb_activity
+		(ENG_SN,HPTB_PN,HPTB_SN,ENG_PN,ON_DATE,ON_ETSN,ON_ECSN,ON_PTSN,ON_PCSN,LIMIT_SPECIAL,CODE,REMARK)
+		  VALUES
+		(
+			#{engSn,jdbcType=VARCHAR},
+			#{hptbPn,jdbcType=VARCHAR},
+			#{hptbSn,jdbcType=VARCHAR},
+			#{engPn,jdbcType=VARCHAR},
+			#{onDate,jdbcType=INTEGER},
+			#{onEtsn,jdbcType=INTEGER},
+			#{onEcsn,jdbcType=INTEGER},
+			#{onPtsn,jdbcType=INTEGER},
+			#{onPcsn,jdbcType=INTEGER},
+			#{limitSpecial,jdbcType=VARCHAR},
+			#{code,jdbcType=VARCHAR},
+			#{remark,jdbcType=VARCHAR}
+		)
+	</select>
+	<select id="hptbupdate" resultMap="baseResultMap">
+		UPDATE hptb_activity 
+		<set>
+			<if test="engSn != null">
+				ENG_SN = #{engSn,jdbcType=VARCHAR},
+			</if>
+			<if test="hptbPn != null">
+				HPTB_PN = #{hptbPn,jdbcType=VARCHAR},
+			</if>
+			<if test="hptbSn != null">
+				HPTB_SN = #{hptbSn,jdbcType=VARCHAR},
+			</if>
+			<if test="engPn != null">
+				ENG_PN = #{engPn,jdbcType=VARCHAR},
+			</if>
+			<if test="limitSpecial != null">
+				LIMIT_SPECIAL = #{limitSpecial,jdbcType=VARCHAR},
+			</if>
+			<if test="onDate != null">
+				ON_DATE = #{onDate,jdbcType=INTEGER},
+			</if>
+			<if test="code != null">
+				CODE = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				REMARK = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="onEtsn != null">
+				ON_ETSN = #{onEtsn,jdbcType=INTEGER},
+			</if>
+			<if test="onEcsn != null">
+				ON_ECSN = #{onEcsn,jdbcType=INTEGER},
+			</if>
+			<if test="onPtsn != null">
+				ON_PTSN = #{onPtsn,jdbcType=INTEGER},
+			</if>
+			<if test="onPcsn != null">
+				ON_PCSN = #{onPcsn,jdbcType=INTEGER},
+			</if>
+		</set>
+		WHERE id=#{id,jdbcType=INTEGER}
+	</select>
+	<select id="hptbdelete">
+		DELETE FROM hptb_activity WHERE id = #{id,jdbcType=INTEGER}
+	</select>
+	
+	
+	<resultMap id="baseResultMap1" type="com.cea.ehm.bean.HptbHistory">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="ENG_SN_USED" jdbcType="VARCHAR" property="engSnUsed" />
+		<result column="HPTB_PN" jdbcType="VARCHAR" property="hptbPn" />
+		<result column="HPTB_SN" jdbcType="VARCHAR" property="hptbSn" />
+		<result column="ENG_PN" jdbcType="VARCHAR" property="engPn" />
+		<result column="ON_DATE" jdbcType="INTEGER" property="onDate" />
+		<result column="ON_ETSN" jdbcType="INTEGER" property="onEtsn" />
+		<result column="ON_ECSN" jdbcType="INTEGER" property="onEcsn" />
+		<result column="ON_PTSN" jdbcType="INTEGER" property="onPtsn" />
+		<result column="ON_PCSN" jdbcType="INTEGER" property="onPcsn" />
+		<result column="OFF_DATE" jdbcType="INTEGER" property="offDate" />
+		<result column="OFF_ETSN" jdbcType="INTEGER" property="offEtsn" />
+		<result column="OFF_ECSN" jdbcType="INTEGER" property="offEcsn" />
+		<result column="OFF_PTSN" jdbcType="INTEGER" property="offPtsn" />
+		<result column="OFF_PCSN" jdbcType="INTEGER" property="offPcsn" />
+		<result column="LIMIT_SPECIAL" jdbcType="VARCHAR" property="limitSpecial" />
+		<result column="CODE" jdbcType="VARCHAR" property="code" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+	</resultMap>
+	
+	<sql id="baseColumnLists1">
+		id,ENG_SN_USED,HPTB_PN,HPTB_SN,ENG_PN,ON_DATE,ON_ETSN,ON_ECSN,ON_PTSN,ON_PCSN,
+		OFF_DATE,OFF_ETSN,OFF_ECSN,OFF_PTSN,OFF_PCSN,LIMIT_SPECIAL,CODE,REMARK
+	</sql>
+	<select id="historyinfo"  parameterType="map"  resultMap="baseResultMap1">
+		SELECT
+		<include refid="baseColumnLists1" />
+		FROM hptb_history
+	</select>
+	<select id="historyadd" resultMap="baseResultMap1">
+		INSERT  INTO hptb_history
+		(ENG_SN_USED,HPTB_PN,HPTB_SN,ENG_PN,ON_DATE,ON_ETSN,ON_ECSN,ON_PTSN,ON_PCSN,LIMIT_SPECIAL,CODE,REMARK)
+		  VALUES
+		(
+			#{engSnUsed,jdbcType=VARCHAR},
+			#{hptbPn,jdbcType=VARCHAR},
+			#{hptbSn,jdbcType=VARCHAR},
+			#{engPn,jdbcType=VARCHAR},
+			#{onDate,jdbcType=INTEGER},
+			#{onEtsn,jdbcType=INTEGER},
+			#{onEcsn,jdbcType=INTEGER},
+			#{onPtsn,jdbcType=INTEGER},
+			#{onPcsn,jdbcType=INTEGER},
+			#{limitSpecial,jdbcType=VARCHAR},
+			#{code,jdbcType=VARCHAR},
+			#{remark,jdbcType=VARCHAR}
+		)
+	</select>
+	<select id="historyupdate" resultMap="baseResultMap1">
+		UPDATE lptb_history 
+		<set>
+			<if test="engSnUsed != null">
+				ENG_SN_USED = #{engSnUsed,jdbcType=VARCHAR},
+			</if>
+			<if test="lptbPn != null">
+				HPTB_PN = #{hptn1Pn,jdbcType=VARCHAR},
+			</if>
+			<if test="lptbSn != null">
+				HPTB_SN = #{hptbSn,jdbcType=VARCHAR},
+			</if>
+			<if test="engPn != null">
+				ENG_PN = #{engPn,jdbcType=VARCHAR},
+			</if>
+			<if test="limitSpecial != null">
+				LIMIT_SPECIAL = #{limitSpecial,jdbcType=VARCHAR},
+			</if>
+			<if test="onDate != null">
+				ON_DATE = #{onDate,jdbcType=INTEGER},
+			</if>
+			<if test="code != null">
+				CODE = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				REMARK = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="onEtsn != null">
+				ON_ETSN = #{onEtsn,jdbcType=INTEGER},
+			</if>
+			<if test="onEcsn != null">
+				ON_ECSN = #{onEcsn,jdbcType=INTEGER},
+			</if>
+			<if test="onPtsn != null">
+				ON_PTSN = #{onPtsn,jdbcType=INTEGER},
+			</if>
+			<if test="onPcsn != null">
+				ON_PCSN = #{onPcsn,jdbcType=INTEGER},
+			</if>
+		</set>
+		WHERE id=#{id,jdbcType=INTEGER}
+	</select>
+	<select id="historydelete" resultMap="baseResultMap1">
+		DELETE FROM hptb_history WHERE id = #{id,jdbcType=INTEGER}
+	</select>
+</mapper>

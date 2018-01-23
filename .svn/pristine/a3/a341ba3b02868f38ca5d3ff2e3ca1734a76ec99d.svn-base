@@ -1,0 +1,129 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<div class="modal fade" id="waterwash-add-modal" tabindex="-1" role="dialog" aria-labelledby="user-info-modal-label">
+    <div class="modal-dialog" role="document">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">飞机属性更变信息</h3>
+            </div>
+            <form id="form-userinfo" method="post" enctype="multipart/form-data">
+                <div class="box-body">
+                        
+                    <div class="form-group">
+                        <label for="text-username">ID</label>
+                        <input type="tel" class="form-control" id="addid"
+                               placeholder="ID">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-username">TAIL</label>
+                        <input type="tel" class="form-control" id="addtail"
+                               placeholder="设备参数">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">基地</label>
+                        <input type="text" class="form-control" id="addduty"
+                               placeholder="水洗人员">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">推力</label>
+                        <input type="text" class="form-control" id="addratingPlane"
+                               placeholder="地理位置">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">构型</label>
+                        <input type="text" class="form-control" id="addconfigPlane"
+                               placeholder="天气">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">原始的发动机编码</label>
+                        <input type="text" class="form-control" id="addegsnOriginal"
+                               placeholder="发动机型号">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">型号1级</label>
+                        <input type="text" class="form-control" id="addseries"
+                               placeholder="效果">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">型号2级</label>
+                        <input type="text" class="form-control" id="addtype"
+                               placeholder="评级">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">型号3级</label>
+                        <input type="text" class="form-control" id="addmodel"
+                               placeholder="持续时间">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">属性</label>
+                        <input type="text" class="form-control" id="addattribute"
+                               placeholder="创建时间">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">ETOPS</label>
+                        <input type="text" class="form-control" id="addetops"
+                               placeholder="创建时间">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">高高原</label>
+                        <input type="text" class="form-control" id="addhHighLand"
+                               placeholder="创建时间">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">VARIABLE</label>
+                        <input type="text" class="form-control" id="addvariable"
+                               placeholder="创建时间">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">MSN</label>
+                        <input type="text" class="form-control" id="addserial"
+                               placeholder="创建时间">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">LINE</label>
+                        <input type="text" class="form-control" id="addline"
+                               placeholder="创建时间">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">MANUAL</label>
+                        <input type="text" class="form-control" id="addmanual"
+                               placeholder="创建时间">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">航空公司（品牌）</label>
+                        <input type="text" class="form-control" id="addoperater"
+                               placeholder="创建时间">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">所有人</label>
+                        <input type="text" class="form-control" id="addowner"
+                               placeholder="创建时间">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">备注</label>
+                        <input type="text" class="form-control" id="addremark"
+                               placeholder="创建时间">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">引进方式</label>
+                        <input type="text" class="form-control" id="addimportWay"
+                               placeholder="创建时间">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">录入人</label>
+                        <input type="text" class="form-control" id="adduserId"
+                               placeholder="创建时间">
+                    </div>
+                    <div class="form-group">
+                        <label for="text-nickname">创建时间</label>
+                        <input type="text" class="form-control" id="addctime"
+                               placeholder="创建时间">
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <button type="button" class="btn btn-primary pull-right" onclick="addwaterwash()">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

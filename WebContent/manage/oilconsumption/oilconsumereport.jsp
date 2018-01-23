@@ -1,0 +1,159 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-head.jsp"/>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-script.jsp"/>
+    <style type="text/css">
+    	
+    	.box-body{
+    		padding:0px 15px;
+    		box-sizing:border-box;
+    		min-width:970px;
+    	}
+    	.charts-single>div{
+    		float:left;
+    		width:50%;
+    		min-width:470px;
+    		height:300px;
+    		box-sizing:border-box;
+    		
+    	}
+    	span.mright{
+    		margin-right:15px;
+    		margin-left:15px;
+    	}
+    	input.formnew , select.formnew{
+    		padding:6px 12px;
+    		min-width:130px;
+    		max-width:160px;
+    		margin:0px 3px;
+    	}
+    </style>
+</head>
+<body class="hold-transition" >
+
+<!-- Content Wrapper. Contains page content -->
+<div class="wrapper">
+
+    <div class="box wrapper " style="overflow: auto;">
+        <div class="box-header with-border" style="border-bottom:none;">
+         	
+         	<div class="row" style="margin:15px 0px">
+					<span class="mright">机号</span>
+					<select class="formnew" id="search-tail" onchange="gettail()">
+					</select>
+					<!-- <span class="mright">飞行日期</span>
+					<input class="formnew" type="text" style="height:34px" onClick="WdatePicker({el:this,dateFmt:'yyyy-MM-dd HH:mm:ss'})"/> -->
+					<span class="mright">范围</span>
+					<select class="formnew" id="ch" onchange="toChart()">
+						<option value="5">5个点</option>
+						<option value="10">10个点</option>
+						<option value="15">15个点</option>
+					</select>
+					<div style="min-width: 160px;display:inline-block;vertical-align:bottom;float:right">
+	                    <button onclick="history.go(-1)" class="btn btn-block btn-primary col-sm-1">
+	                       	 返回
+	                    </button>
+                	</div>
+			</div>
+            
+        </div>
+        <div class="box-body">
+        	<div class="charts-single">
+        		<div id="leftcharts"></div>
+            	<div id="rightcharts"></div>
+        	</div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="../../js/echarts/echarts.js"></script>
+<script type="text/javascript" src="../../js/echarts/oilconsumeecharts.js"></script>
+
+<script type="text/javascript">
+	//初始化选择框
+	$.post(
+	        "${pageContext.request.contextPath}/manage/dataplane/allplane.do",
+	        {},
+	        function (response) {
+	       	  $('#search-tail').html('');
+	       	  for(var o in response.data){
+	       	      $('#search-tail').append('<option value="'+response.data[o].tail+'">'+response.data[o].tail+'</option>');
+	       	  }  
+	        },
+	        "json"
+	 );
+	
+ 	// 页面初始化
+	$(function(){
+		var inittail = '${sessionScope.inittail}';
+		searchtail(inittail);
+	});
+	
+	// onchange事件
+	function gettail(){
+		var tail = $('#search-tail').val();
+		searchtail(tail);
+	}
+	
+	// 1发加油时间差
+	var n1_rd = [];
+	// 1发滑油消耗率
+	var n1_or = [];
+	// 2发加油时间差
+	var n2_rd = [];
+	// 2发滑油消耗率
+	var n2_or = [];
+	
+	// 数据加载
+	function searchtail(tail){
+		// 数组清空
+ 		n1_rd.splice(0, n1_rd.length);
+ 		n1_or.splice(0, n1_or.length);
+ 		n2_rd.splice(0, n2_rd.length);
+ 		n2_or.splice(0, n2_or.length);
+ 		
+		$.post(
+	            "${pageContext.request.contextPath}/manage/oilconsume/all.do",
+	            {"tail": tail},
+	            function (response) {
+		           	  for(var o in response.data){
+							n1_rd.push(response.data[o].refuelTimeDifference1);
+							n1_or.push(response.data[o].oilConsumeRate1);
+							n2_rd.push(response.data[o].refuelTimeDifference2);
+							n2_or.push(response.data[o].oilConsumeRate2);
+		           	  }
+		           	  // 页面初始化
+	           		  toChart(); 
+	            },
+	            'json'
+	     );
+	}
+	
+	function toChart(){
+		var val = $('#ch').val()
+		var n1_rd_chart = []
+		var n1_or_chart = []
+		var n2_rd_chart = []
+		var n2_or_chart = []
+		
+		for(var i = n1_rd.length-val; i < n1_rd.length; i++){
+			n1_rd_chart.push(n1_rd[i])
+			n1_or_chart.push(n1_or[i])
+			n2_rd_chart.push(n2_rd[i])
+			n2_or_chart.push(n2_or[i])
+		} 
+		
+		var arr = []
+		for(var i = 1; i<= val; i++){
+			arr.push(''+i+'')
+		}
+		
+		chart(arr, n1_rd_chart, n1_or_chart, n2_rd_chart,  n2_or_chart) 
+	} 
+	
+</script>
+</body>
+</html>

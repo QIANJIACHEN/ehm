@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.EngConditionFleetMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.EngConditionFleet">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="ENG_ID" jdbcType="INTEGER" property="engId" />
+		<result column="ENG_SN" jdbcType="VARCHAR" property="engSn" />
+		<result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
+		<result column="TSI_START" jdbcType="VARCHAR" property="tsiStart" />
+		<result column="CSI_START" jdbcType="VARCHAR" property="csiStart" />
+		<result column="SV_TIME" jdbcType="VARCHAR" property="svTime" />
+		<result column="TSR_START" jdbcType="VARCHAR" property="tsrStart" />
+		<result column="CSR_START" jdbcType="VARCHAR" property="csrStart" />
+		<result column="TSO_START" jdbcType="VARCHAR" property="tsoStart" />
+		<result column="CSO_START" jdbcType="VARCHAR" property="csoStart" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ID,ENG_ID,ENG_SN,CTIME,TSI_START,CSI_START,SV_TIME,TSR_START,CSR_START,TSO_START,CSO_START
+	</sql>
+	
+	<select id="select" parameterType="com.cea.ehm.bean.EngConditionFleet" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_eng_condition_fleet
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</select>
+
+	<select id="getEngConditionFleetList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_eng_condition_fleet
+		<if test="engSn != null">
+		WHERE ENG_SN LIKE CONCAT('%',#{engSn,jdbcType=VARCHAR})
+		</if>
+	</select>
+
+	<insert id="insert" parameterType="com.cea.ehm.bean.EngConditionFleet">
+		INSERT INTO ehm_eng_condition_fleet
+			(ID,ENG_ID,ENG_SN,CTIME,TSI_START,CSI_START,SV_TIME,TSR_START,CSR_START,TSO_START,CSO_START)
+		VALUES
+		(
+			#{id,jdbcType=INTEGER},
+			#{engId,jdbcType=INTEGER},
+			#{engSn,jdbcType=VARCHAR},
+			#{ctime,jdbcType=TIMESTAMP},
+			#{tsiStart,jdbcType=VARCHAR},
+			#{csiStart,jdbcType=VARCHAR},
+			#{svTime,jdbcType=VARCHAR},
+			#{tsrStart,jdbcType=VARCHAR},
+			#{csrStart,jdbcType=VARCHAR},
+			#{tsoStart,jdbcType=VARCHAR},
+			#{csoStart,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="com.cea.ehm.bean.EngConditionFleet">
+		DELETE FROM
+			ehm_eng_condition_fleet
+		WHERE
+			ID = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<update id="update" parameterType="com.cea.ehm.bean.EngConditionFleet">
+		UPDATE ehm_eng_condition_fleet
+		<set>
+			<if test="engId != null">
+				ENG_ID = #{engId,jdbcType=INTEGER},
+			</if>
+			<if test="engSn != null">
+				ENG_SN = #{engSn,jdbcType=VARCHAR},
+			</if>
+			<if test="tsiStart != null">
+				TSI_START = #{tsiStart,jdbcType=VARCHAR},
+			</if>
+			<if test="csiStart != null">
+				CSI_START = #{csiStart,jdbcType=VARCHAR},
+			</if>
+			<if test="svTime != null">
+				SV_TIME = #{svTime,jdbcType=INTEGER},
+			</if>
+			<if test="tsrStart != null">
+				TSR_START = #{tsrStart,jdbcType=VARCHAR},
+			</if>
+			<if test="csrStart != null">
+				CSR_START = #{csrStart,jdbcType=VARCHAR},
+			</if>
+			<if test="tsoStart != null">
+				TSO_START = #{tsoStart,jdbcType=VARCHAR}
+			</if>
+			<if test="csoStart != null">
+				CSO_START = #{csoStart,jdbcType=VARCHAR}
+			</if>
+			
+			
+			
+		</set>
+		WHERE ID = #{id,jdbcType=VARCHAR}
+	</update>
+	
+	<select id="engconditionfleetinfo" parameterType="com.cea.ehm.bean.EngConditionFleet" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_eng_condition_fleet
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</select>
+
+</mapper>

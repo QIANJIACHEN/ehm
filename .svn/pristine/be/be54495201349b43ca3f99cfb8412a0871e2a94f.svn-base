@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.RuleParameterMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.RuleParameter">
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="PARENT_ID" jdbcType="VARCHAR" property="parentId" />
+		<result column="TYPE" jdbcType="VARCHAR" property="type" />
+		<result column="VAL" jdbcType="VARCHAR" property="val" />
+		<result column="ANNOTATION" jdbcType="VARCHAR" property="annotation" />
+		<result column="CTIME" jdbcType="VARCHAR" property="ctime" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ID,PARENT_ID,TYPE,VAL,ANNOTATION,CTIME
+	</sql>
+	
+	<select id="select" parameterType="com.cea.ehm.bean.RuleParameter" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM rule_parameter
+		WHERE ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getRuleParameterList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM rule_parameter
+	</select>
+
+	<insert id="insert" parameterType="com.cea.ehm.bean.RuleParameter">
+		INSERT INTO rule_parameter
+			(ID,PARENT_ID,TYPE,VAL,ANNOTATION,CTIME)
+		VALUES
+		(
+			#{id,jdbcType=VARCHAR},
+			#{parentId,jdbcType=VARCHAR},
+			#{type,jdbcType=VARCHAR},
+			#{val,jdbcType=VARCHAR},
+			#{annotation,jdbcType=VARCHAR},
+			#{ctime,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="com.cea.ehm.bean.RuleParameter">
+		DELETE FROM
+			rule_parameter
+		WHERE
+			ID = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<update id="update" parameterType="com.cea.ehm.bean.RuleParameter">
+		UPDATE rule_parameter
+		<set>
+			<if test="parentId != null">
+				PARENT_ID = #{parentId,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				TYPE = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="val != null">
+				VAL = #{val,jdbcType=VARCHAR},
+			</if>
+			<if test="annotation != null">
+				ANNOTATION = #{annotation,jdbcType=VARCHAR}
+			</if>
+		</set>
+		WHERE ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

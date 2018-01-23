@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.OilConsumeMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.OilConsume">
+		<result column="TAIL" jdbcType="VARCHAR" property="tail" />
+		<result column="OPERATER" jdbcType="VARCHAR" property="operater" />
+		<result column="H_HIGHLAND" jdbcType="INTEGER" property="hHighLand" />
+		<result column="DUTYNAME" jdbcType="VARCHAR" property="dutyName" />
+		<result column="FLT_TIME" jdbcType="TIMESTAMP" property="fltTime" />
+		<result column="REFUEL_TIME_DIFFERENCE_1" jdbcType="VARCHAR" property="refuelTimeDifference1" />
+		<result column="REFUEL_TIME_DIFFERENCE_2" jdbcType="VARCHAR" property="refuelTimeDifference2" />
+		<result column="OIL_CONSUME_RATE_1" jdbcType="VARCHAR" property="oilConsumeRate1" />
+		<result column="OIL_CONSUME_RATE_2" jdbcType="VARCHAR" property="oilConsumeRate2" />
+	</resultMap>
+	
+	<select id="list" parameterType="map" resultMap="baseResultMap">
+		SELECT
+			c.FLT_TIME FLT_TIME,
+			c.REFUEL_TIME_DIFFERENCE_1 REFUEL_TIME_DIFFERENCE_1,
+			c.REFUEL_TIME_DIFFERENCE_2 REFUEL_TIME_DIFFERENCE_2,
+			c.OIL_CONSUME_RATE_1 OIL_CONSUME_RATE_1,
+			c.OIL_CONSUME_RATE_2 OIL_CONSUME_RATE_2,
+			p.TAIL TAIL,
+			p.H_HIGHLAND H_HIGHLAND,
+			p.OPERATER OPERATER,
+			d.NAME DUTYNAME
+		FROM ehm_data_sap_oil_consumption c
+				LEFT JOIN ehm_data_plane p on c.PLANE_ID = p.ID
+				LEFT JOIN ehm_duty d on c.DUTY = d.ID
+		WHERE p.OPERATER LIKE CONCAT(CONCAT('%',#{operater, jdbcType=VARCHAR}),'%')
+		<if test="duty != null and duty != ''">
+			AND c.DUTY = #{duty, jdbcType=INTEGER}
+		</if>
+	</select>
+
+
+	<select id="all" parameterType="map" resultMap="baseResultMap">
+		SELECT * FROM (
+			SELECT
+				c.FLT_TIME FLT_TIME,
+				c.REFUEL_TIME_DIFFERENCE_1 REFUEL_TIME_DIFFERENCE_1,
+				c.REFUEL_TIME_DIFFERENCE_2 REFUEL_TIME_DIFFERENCE_2,
+				c.OIL_CONSUME_RATE_1 OIL_CONSUME_RATE_1,
+				c.OIL_CONSUME_RATE_2 OIL_CONSUME_RATE_2,
+				p.TAIL TAIL,
+				p.H_HIGHLAND H_HIGHLAND,
+				p.OPERATER OPERATER,
+				d.NAME DUTYNAME
+			FROM ehm_data_sap_oil_consumption c
+				LEFT JOIN ehm_data_plane p on c.PLANE_ID = p.ID
+				LEFT JOIN ehm_duty d on c.DUTY = d.ID
+		) AS t
+		WHERE 1 = 1 
+		<if test="tail != null and tail != ''">
+			AND t.TAIL = #{tail, jdbcType=VARCHAR}
+		</if>
+	</select>
+
+</mapper>

@@ -1,0 +1,232 @@
+package com.cea.ehm.service;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.cea.ehm.bean.DataPlane;
+import com.cea.ehm.bean.Duty;
+import com.cea.ehm.dao.DataPlaneMapper;
+import com.cea.ehm.dao.DutyMapper;
+import com.cea.ehm.util.ExcelUtil;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import com.google.common.collect.Maps;
+
+/**
+ * 飞机信息服务层
+ */
+@Service
+public class DataPlaneService {
+	private Logger logger = Logger.getLogger(DataPlaneService.class);
+	@Autowired
+	private DataPlaneMapper dataplaneMapper;
+	@Autowired
+	private DutyMapper dutyMapper;
+
+	/**
+	 * 查询飞机信息列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	public PageList<DataPlane> getdataplaneList(Map<String, String> paramMap, PageBounds pageBounds) {
+		logger.info("数据库查询参数：" + paramMap);
+		PageList<DataPlane> dataplaneList = dataplaneMapper.getdataplaneList(paramMap, pageBounds);
+		// 提取所有的基地ID 和基地名
+		List<Duty> allDuty = dutyMapper.getAllDuty();
+		Map<Integer, String> dutyMap = Maps.newHashMap();
+		allDuty.forEach(duty -> dutyMap.put(duty.getId(), duty.getName()));
+		for (DataPlane dataplane : dataplaneList) {
+			String dutyName = dutyMap.get(dataplane.getDuty());
+			dataplane.setDutyName(Optional.ofNullable(dutyName).orElse("-"));
+		}
+		return dataplaneList;
+	}
+
+	/**
+	 * 查询飞机信息
+	 * 
+	 * @param dataplane
+	 */
+	public DataPlane select(DataPlane dataplane) {
+		return dataplaneMapper.select(dataplane);
+	}
+
+	/**
+	 * 保存飞机信息
+	 * 
+	 * @param dataplane
+	 */
+	public void save(DataPlane dataplane) {
+		dataplaneMapper.insert(dataplane);
+	}
+
+	/**
+	 * 更新飞机信息
+	 * 
+	 * @param dataplane
+	 */
+	public void update(DataPlane dataplane) {
+		dataplaneMapper.update(dataplane);
+	}
+
+	/**
+	 * 删除飞机信息
+	 * 
+	 * @param dataplane
+	 */
+	public void delete(DataPlane dataplane) {
+		// 这里是物理删除，删除后信息从数据库消失
+		dataplaneMapper.delete(dataplane);
+	}
+
+	/**
+	 * 获取所有飞机信息
+	 * 
+	 * @return
+	 */
+	public List<DataPlane> allPlane() {
+		return dataplaneMapper.allPlane();
+	}
+
+	/**
+	 * 创建 excel数据表格
+	 * 
+	 * @return
+	 */
+	public Workbook createExcel() {
+		List<DataPlane> planes = dataplaneMapper.allPlane();
+		// 提取所有的基地ID 和基地名
+		List<Duty> allDuty = dutyMapper.getAllDuty();
+		Map<Integer, String> dutyMap = Maps.newHashMap();
+		allDuty.forEach(duty -> dutyMap.put(duty.getId(), duty.getName()));
+		planes.forEach(plane -> {
+			String dutyName = dutyMap.get(plane.getDuty());
+			plane.setDutyName(Optional.ofNullable(dutyName).orElse("-"));
+		});
+		// 创建一个Excel文件
+		Workbook workbook = new XSSFWorkbook();
+		// 创建一个工作表
+		Sheet sheet = workbook.createSheet("飞机数据");
+		// 添加表头行
+		Row row0 = sheet.createRow(0);
+		// 添加表头内容
+		row0.createCell(0).setCellValue("tail");
+		row0.createCell(1).setCellValue("基地");
+		row0.createCell(2).setCellValue("推力");
+		row0.createCell(3).setCellValue("构型");
+		row0.createCell(4).setCellValue("原始的发动机编码");
+		row0.createCell(5).setCellValue("型号1级");
+		row0.createCell(6).setCellValue("型号2级");
+		row0.createCell(7).setCellValue("型号3级");
+		row0.createCell(8).setCellValue("属性");
+		row0.createCell(9).setCellValue("ETOPS");
+		row0.createCell(10).setCellValue("高高原");
+		row0.createCell(11).setCellValue("VARIABLE");
+		row0.createCell(12).setCellValue("MSN");
+		row0.createCell(13).setCellValue("LINE");
+		row0.createCell(14).setCellValue("手册适用性");
+		row0.createCell(15).setCellValue("营运人");
+		row0.createCell(16).setCellValue("所有人");
+		row0.createCell(17).setCellValue("备注");
+		row0.createCell(18).setCellValue("引进方式");
+		row0.createCell(19).setCellValue("创建时间");
+		row0.createCell(20).setCellValue("状态");
+
+		// 添加数据内容
+		for (int i = 0; i < planes.size(); i++) {
+			Row row = sheet.createRow(i + 1);
+			row.createCell(0).setCellValue(planes.get(i).getTail() + "");
+			row.createCell(1).setCellValue(planes.get(i).getDutyName() + "");
+			row.createCell(2).setCellValue(planes.get(i).getRatingPlane() + "");
+			row.createCell(3).setCellValue(planes.get(i).getConfigPlane() + "");
+			row.createCell(4).setCellValue(planes.get(i).getEgsnOriginal() + "");
+			row.createCell(5).setCellValue(planes.get(i).getSeries() + "");
+			row.createCell(6).setCellValue(planes.get(i).getType() + "");
+			row.createCell(7).setCellValue(planes.get(i).getModel() + "");
+			row.createCell(8).setCellValue(planes.get(i).getAttribute() + "");
+			row.createCell(9).setCellValue(planes.get(i).getEtops() + "");
+			row.createCell(10).setCellValue(planes.get(i).gethHighLand() + "");
+			row.createCell(11).setCellValue(planes.get(i).getVariable() + "");
+			row.createCell(12).setCellValue(planes.get(i).getSerial() + "");
+			row.createCell(13).setCellValue(planes.get(i).getLine() + "");
+			row.createCell(14).setCellValue(planes.get(i).getEffectivity() + "");
+			row.createCell(15).setCellValue(planes.get(i).getOperater() + "");
+			row.createCell(16).setCellValue(planes.get(i).getOwner() + "");
+			row.createCell(17).setCellValue(planes.get(i).getRemark() + "");
+			row.createCell(18).setCellValue(planes.get(i).getImportWay() + "");
+			row.createCell(19).setCellValue(planes.get(i).getCtime() + "");
+			row.createCell(20).setCellValue(planes.get(i).getCondition() + "");
+		}
+
+		return workbook;
+	}
+
+	/**
+	 * 处理飞机数据信息
+	 * 
+	 * @param file
+	 */
+	public void process(MultipartFile file) {
+		// 提取所有的基地ID 和基地名
+		List<Duty> allDuty = dutyMapper.getAllDuty();
+		Map<String, Integer> dutyMap = Maps.newHashMap();
+		allDuty.forEach(duty -> dutyMap.put(duty.getName(), duty.getId()));
+		try {
+			// 这里得到的是一个集合，里面的每一个元素是String[]数组
+			List<String[]> list = ExcelUtil.readExcel(file);
+			for (String[] arr : list) {
+				DataPlane plane = new DataPlane();
+				plane.setTail(arr[0]);
+				Integer duty = dutyMap.get(arr[1]);
+				plane.setDuty(Optional.ofNullable(duty).orElse(0));
+				plane.setRatingPlane(arr[2]);
+				plane.setConfigPlane(arr[3]);
+				plane.setEgsnOriginal(arr[4]);
+				plane.setSeries(arr[5]);
+				plane.setType(arr[6]);
+				plane.setModel(arr[7]);
+				plane.setAttribute(arr[8]);
+				plane.setEtops(arr[9]);
+				plane.sethHighLand(Integer.parseInt(arr[10]));
+				plane.setVariable(arr[11]);
+				plane.setSerial(arr[12]);
+				plane.setLine(arr[13]);
+				plane.setEffectivity(arr[14]);
+				plane.setOperater(arr[15]);
+				plane.setOwner(arr[16]);
+				plane.setRemark(arr[17]);
+				plane.setImportWay(arr[18]);
+				plane.setCtime(arr[19]);
+				plane.setCondition(arr[20]);
+
+				DataPlane isExistPlane = dataplaneMapper.select(plane);
+				if (isExistPlane == null) {
+					String date = LocalDateTime.now().toString().replace("T", " ");
+					String ctime = date.substring(0, date.indexOf("."));
+					plane.setCtime(ctime);
+					dataplaneMapper.insert(plane);
+				} else {
+					dataplaneMapper.updateTwo(plane);
+				}
+			}
+		} catch (IOException e) {
+			logger.debug(e);
+		}
+
+	}
+
+}

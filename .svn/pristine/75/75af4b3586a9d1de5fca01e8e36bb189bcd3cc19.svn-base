@@ -1,0 +1,62 @@
+package com.cea.ehm.service;
+
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cea.ehm.bean.RuleParameter;
+import com.cea.ehm.dao.RuleParameterMapper;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+/**
+ * 规则参数服务层
+ */
+@Service
+public class RuleParameterService {
+	private Logger logger = Logger.getLogger(RuleParameterService.class);
+	@Autowired
+	private RuleParameterMapper ruleparameterMapper;
+
+	/**
+	 * 查询规则参数列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	public PageList<RuleParameter> getRuleParameterList(Map<String, String> paramMap, PageBounds pageBounds) {
+		logger.info("数据库查询参数：" + paramMap);
+		return ruleparameterMapper.getRuleParameterList(paramMap, pageBounds);
+	}
+
+	/**
+	 * 保存规则参数信息
+	 * 
+	 * @param ruleparameter
+	 */
+	public void save(RuleParameter ruleparameter) {
+		ruleparameterMapper.insert(ruleparameter);
+	}
+
+	/**
+	 * 更新规则参数信息
+	 * 
+	 * @param ruleparameter
+	 */
+	public void update(RuleParameter ruleparameter) {
+		ruleparameterMapper.update(ruleparameter);
+	}
+
+	/**
+	 * 删除规则参数信息
+	 * 
+	 * @param ruleparameter
+	 */
+	public void delete(RuleParameter ruleparameter) {
+		ruleparameterMapper.delete(ruleparameter);
+	}
+
+}

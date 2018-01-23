@@ -1,0 +1,51 @@
+package com.cea.ehm.dao;
+
+import java.util.Map;
+
+import com.cea.ehm.bean.RuleInspection;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+/**
+ * 监测规则持久层接口
+ */
+public interface RuleInspectionMapper {
+
+	/**
+	 * 查询监测规则列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	PageList<RuleInspection> getRuleInspectionList(Map<String, String> paramMap, PageBounds pageBounds);
+
+	/**
+	 * 保存监测规则信息
+	 * 
+	 * @param ruleinspection
+	 */
+	void insert(RuleInspection ruleinspection);
+
+	/**
+	 * 更新监测规则信息
+	 * 
+	 * @param ruleinspection
+	 */
+	void update(RuleInspection ruleinspection);
+
+	/**
+	 * 删除监测规则信息
+	 * 
+	 * @param ruleinspection
+	 */
+	void delete(RuleInspection ruleinspection);
+
+	/**
+	 * 查询监测规则信息
+	 * 
+	 * @param ruleinspection
+	 */
+	RuleInspection select(RuleInspection ruleinspection);
+
+}

@@ -1,0 +1,238 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-head.jsp"/>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-script.jsp"/>
+    <style type="text/css">
+    	table.tablerecord th ,table.tablerecord td{
+    		text-align:center;
+    		border:1px solid #d7d7d7 !important;
+    	}
+    	table.tablerecord th{
+    		background-color:#f2f2f2;
+    	}
+    	table.tablerecord td a{
+    		text-decoration:underline;
+    	}
+    	.basicinfo p span{
+    		display:inline-block;
+    		width:40%;
+    		padding-left:10px;
+    		box-sizing:border-box;
+    		font-size:15px;
+    	}
+    	.basicinfo p span.key{
+    		width:45%;
+    		padding-left:0px;
+    		font-weight:bold;
+    	}
+    	.basicinfo p span a{
+    		text-decoration:underline;
+    	}
+    </style>
+</head>
+<body class="hold-transition" >
+
+<div class="wrapper">
+
+    <div class="box wrapper " style="overflow: auto;">
+		 
+        <div class="box-header">
+        	<h4>基础信息</h4><br>
+        	<div class="row basicinfo">
+        		<div class="col-md-3 col-xs-3">
+        			<p>
+        				<span class="key">ID</span>
+        				<span class="val" id="planeId"></span>
+        			</p>
+        			<p>
+        				<span class="key">TAIL</span>
+        				<span class="val"><a id="tail"></a></span>
+        			</p>
+        			<p>
+        				<span class="key">基地</span>
+        				<span class="val"><a id="duty"></a></span>
+        			</p>
+        			<p>
+        				<span class="key">推力</span>
+        				<span class="val" id="ratingPlane"></span>
+        			</p>
+        			<p>
+        				<span class="key">构型</span>
+        				<span class="val" id="configPlane"></span>
+        			</p>
+        			<p>
+        				<span class="key">发动机原始编码</span>
+        				<span class="val" id="engSnOriginal"></span>
+        			</p>
+        		</div>
+        		<div class="col-md-2 col-xs-3">
+        			<p>
+        				<span class="key">型号1级</span>
+        				<span class="val" id="series"></span>
+        			</p>
+        			<p>
+        				<span class="key">型号2级</span>
+        				<span class="val" id="type"></span>
+        			</p>
+        			<p>
+        				<span class="key">型号3级</span>
+        				<span class="val" id="model"></span>
+        			</p>
+        			<p>
+        				<span class="key">属性</span>
+        				<span class="val" id="attribute"></span>
+        			</p>
+        			<p>
+        				<span class="key">ETOPS</span>
+        				<span class="val" id="etops"></span>
+        			</p>
+        			<p>
+        				<span class="key">高高原</span>
+        				<span class="val" id="hHighLand"></span>
+        			</p>
+        		</div>
+        		<div class="col-md-2 col-xs-3">
+        			<p>
+        				<span class="key">VARIABLE</span>
+        				<span class="val" id="variable"></span>
+        			</p>
+        			<p>
+        				<span class="key">MSN</span>
+        				<span class="val" id="msn"></span>
+        			</p>
+        			<p>
+        				<span class="key">LINE</span>
+        				<span class="val" id="line"></span>
+        			</p>
+        			<p>
+        				<span class="key">适用性手册</span>
+        				<span class="val" id="effectivity"></span>
+        			</p>
+        			<p>
+        				<span class="key">运营人</span>
+        				<span class="val" id="operater"></span>
+        			</p>
+        			<p>
+        				<span class="key">所有人</span>
+        				<span class="val" id="owner"></span>
+        			</p>
+        		</div>
+        		<div class="col-md-2 col-xs-3">
+        			<p>
+        				<span class="key" >引进方式</span>
+        				<span class="val" id="importWay"></span>
+        			</p>
+        			<p>
+        				<span class="key">创建时间</span>
+        				<span class="val" id="ctime"></span>
+        			</p>
+        			<p>
+        				<span class="key">状态</span>
+        				<span class="val" id="condition"></span>
+        			</p>
+        		</div>
+        	</div>
+        	<br><h4>备注</h4><br>
+        	<textarea id="remark" rows="" cols="" class="form-control" style="border-color:#fff;font-size:15px"></textarea>
+        	
+        </div>
+        
+        <div class="box-body">
+			
+			<h4>关联发动机记录</h4><br>
+            <div class="dataTables_wrapper form-inline dt-bootstrap" style="padding:0px 20px">
+               <table id="table-list" class="table table-hover tablerecord">
+                    <thead>
+	                    <tr>
+	                        
+	                        <th>发动机位置</th>
+	                        <th>发动机编号</th>
+	                        <th>发动机设备号</th>
+	                        <th>CODE_POSITION</th>
+	                        <th>备注</th>
+	                    </tr>
+                    </thead>
+                    <tbody id="table-body">
+                    	
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+	
+	function getRequest(){
+		var url = location.search;
+		var theRequest = new Object(); 
+		if (url.indexOf("?") != -1) { 
+			var str = url.substr(1); 
+			strs = str.split("&"); 
+			for(var i = 0; i < strs.length; i ++) { 
+			theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]); 
+			}
+		}
+		return theRequest; 
+	}
+		
+	var Request = new Object(); 
+	Request = getRequest(); 
+	var tail = Request['tail']; 
+	$.post("${pageContext.request.contextPath}/manage/dataplane/info.do",{tail:tail},function(res){
+		//console.log(res.data[0].serial);
+		$('#planeId').html(res.data[0].id);
+		$("#tail").html(res.data[0].tail);
+		$("#duty").html(res.data[0].dutyName);
+		$("#ratingPlane").html(res.data[0].ratingPlane);
+		$("#configPlane").html(res.data[0].configPlane);
+		$("#engSnOriginal").html(res.data[0].engSnOriginal);
+		$("#series").html(res.data[0].series);
+		$("#type").html(res.data[0].type);
+		$("#model").html(res.data[0].model);
+		$("#attribute").html(res.data[0].attribute);
+		$("#etops").html(res.data[0].etops);
+		if(res.data[0].hHighLand=="1"){
+			$("#hHighLand").html("N");
+		}else if(res.data[0].hHighLand=="0"){
+			$("#hHighLand").html("Y");
+		}
+		$("#variable").html(res.data[0].variable);
+		$("#msn").html(res.data[0].serial);
+		$("#line").html(res.data[0].line);
+		$("#effectivity").html(res.data[0].effectivity);
+		$("#operater").html(res.data[0].operater);
+		$("#owner").html(res.data[0].owner);
+		$("#importWay").html(res.data[0].importWay);
+		$("#ctime").html(res.data[0].ctime);
+		$("#condition").html(res.data[0].condition);
+		$("#remark").html(res.data[0].remark);
+		
+	},"json");
+	
+//飞机发动机关联	
+$.post("${pageContext.request.contextPath}/manage/controlfleetplane/getlistbyplane.do",{tail:tail},function(res){
+	res=JSON.parse(res);
+	//console.log(res.data);
+	$("#table-body").empty();
+	if(res.data!=null&&res.data!=""&&res.data!="undefined"){
+		$.each(res.data,function(index,item){
+			if(item.engPosition=="2"){
+				position = "右";
+			}else if(item.engPosition=="1"){
+				position = "左";
+			}
+			$("#table-body").append("<tr><td>"+position+"</td><td>"+item.engSn+"</td><td>"+item.engPn+"</td><td>"+item.codePosition+"</td>"
+					+"<td>"+item.remark+"</td></tr>");
+		
+		})
+	}else{
+		$("#table-body").append("<p>暂无数据</p>");
+	}
+})
+
+
+</script>
+</body>
+</html>

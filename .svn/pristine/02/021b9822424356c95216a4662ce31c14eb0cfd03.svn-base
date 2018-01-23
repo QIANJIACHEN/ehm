@@ -1,0 +1,60 @@
+package com.cea.ehm.service;
+
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cea.ehm.bean.RecordDataEng;
+import com.cea.ehm.dao.RecordDataEngMapper;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+/**
+ * 发动机更变记录服务层
+ */
+@Service
+public class RecordDataEngService {
+	private Logger logger = Logger.getLogger(RecordDataEngService.class);
+	@Autowired
+	private RecordDataEngMapper recorddataengMapper;
+
+	/**
+	 * 查询发动机更变记录列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	public PageList<RecordDataEng> getRecordDataEngList(Map<String, String> paramMap, PageBounds pageBounds) {
+		logger.info("数据库查询参数：" + paramMap);
+		return recorddataengMapper.getRecordDataEngList(paramMap, pageBounds);
+	}
+
+	/**
+	 * 保存或更新发动机更变记录信息
+	 * 
+	 * @param recorddataeng
+	 */
+	public void saveOrUpdate(RecordDataEng recorddataeng) {
+		// 查询判断发动机更变记录信息是否存在，考虑保存还是更新
+		RecordDataEng selectuser = recorddataengMapper.select(recorddataeng);
+		if (selectuser == null) {
+			recorddataengMapper.insert(recorddataeng);
+		} else {
+			recorddataengMapper.update(recorddataeng);
+		}
+	}
+
+	/**
+	 * 删除发动机更变记录信息
+	 * 
+	 * @param recorddataeng
+	 */
+	public void delete(RecordDataEng recorddataeng) {
+		// 这里是物理删除，删除后发动机更变记录信息从数据库消失
+		recorddataengMapper.delete(recorddataeng);
+	}
+
+}

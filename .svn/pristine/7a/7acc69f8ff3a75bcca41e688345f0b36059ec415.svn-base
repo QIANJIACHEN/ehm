@@ -1,0 +1,305 @@
+package com.cea.ehm.controller.manage;
+
+import java.time.LocalDateTime;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.cea.ehm.bean.HptnActivity;
+import com.cea.ehm.bean.HptnHistory;
+import com.cea.ehm.controller.BaseController;
+import com.cea.ehm.service.HptnService;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import com.google.common.collect.Maps;
+
+/**
+ * Hptn
+ */
+@Controller
+@RequestMapping(value = "/manage/hptn")
+public class HptnController extends BaseController {
+	private Logger logger = Logger.getLogger(HptnController.class);
+	@Autowired
+	private HptnService hptnService;
+
+	/**
+	 * hptnactivity 列表页面
+	 * 
+	 * @return
+	 **/
+	@RequestMapping(value = "hptnactivitylist.do")
+	public ModelAndView hptnactivitylist() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/hptn/hptnactivitylist");
+		return mv;
+	}
+
+	/**
+	 * hptn_activity（HPTN表）数据
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/hptnactivity.do")
+	@ResponseBody
+	public Map<String, Object> hptnactivity(@RequestParam Map<String, String> reqPara) {
+		logger.info("页面请求参数: " + reqPara);
+		PageBounds pageBounds = handlePageInfoForManage(reqPara);
+		String sEcho = reqPara.get("draw");
+		// 条件参数
+		Map<String, String> paramMap = Maps.newHashMap();
+		PageList<HptnActivity> pageList = (PageList<HptnActivity>) hptnService.getHptnActivityList(paramMap,
+				pageBounds);
+		Pageable page = new PageRequest(pageBounds.getPage(), pageBounds.getLimit());
+		Page<HptnActivity> content = new PageImpl<>(pageList, page, pageList.getPaginator().getTotalCount());
+		Map<String, Object> map = Maps.newHashMap();
+		map.put("data", pageList);
+		map.put("iTotalRecords", content.getTotalElements());
+		map.put("iTotalDisplayRecords", content.getTotalElements());
+		map.put("sEcho", sEcho);
+		map.put("draw", sEcho);
+		return map;
+	}
+
+	/**
+	 * 获取 hptnActivity 信息
+	 * 
+	 * @param reqData
+	 * @return
+	 */
+	public HptnActivity getHptnActivity(Map<String, String> reqPara) {
+		logger.info("待编辑信息: " + reqPara);
+
+		String id = reqPara.get("id");
+		String engSn = reqPara.get("engSn");
+		String hptnPn = reqPara.get("hptnPn");
+		String hptnSn = reqPara.get("hptnSn");
+		String engPn = reqPara.get("engPn");
+		String onDate = reqPara.get("onDate");
+		String onEtsn = reqPara.get("onEtsn");
+		String onEcsn = reqPara.get("onEcsn");
+		String onPtsn = reqPara.get("onPtsn");
+		String onPcsn = reqPara.get("onPcsn");
+		String limitSpecial = reqPara.get("limitSpecial");
+		String code = reqPara.get("code");
+		String remark = reqPara.get("remark");
+
+		HptnActivity hptnActivity = new HptnActivity();
+		if (id != null) {
+			hptnActivity.setId(Integer.parseInt(id));
+		}
+		hptnActivity.setEngSn(engSn);
+		hptnActivity.setHptnPn(hptnPn);
+		hptnActivity.setHptnSn(hptnSn);
+		hptnActivity.setEngPn(engPn);
+		hptnActivity.setOnDate(onDate);
+		hptnActivity.setOnEtsn(onEtsn);
+		hptnActivity.setOnEcsn(onEcsn);
+		hptnActivity.setOnPtsn(onPtsn);
+		hptnActivity.setOnPcsn(onPcsn);
+		hptnActivity.setLimitSpecial(limitSpecial);
+		hptnActivity.setCode(code);
+		hptnActivity.setRemark(remark);
+		String date = LocalDateTime.now().toString().replace("T", " ");
+		String time = date.substring(0, date.indexOf("."));
+		hptnActivity.setCtime(time);
+		return hptnActivity;
+	}
+
+	/**
+	 * hptn_activity（HPTN表）添加
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/saveHptnActivity.do")
+	@ResponseBody
+	public Map<String, Object> saveHptnActivity(@RequestParam Map<String, String> reqPara) {
+		HptnActivity hptnActivity = getHptnActivity(reqPara);
+		hptnService.saveHptnActivity(hptnActivity);
+		return getSuccessMessage();
+	}
+
+	/**
+	 * hptn_activity（HPTN表）修改
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/updateHptnActivity.do")
+	@ResponseBody
+	public Map<String, Object> updateHptnActivity(@RequestParam Map<String, String> reqPara) {
+		HptnActivity hptnActivity = getHptnActivity(reqPara);
+		hptnService.updateHptnActivity(hptnActivity);
+		return getSuccessMessage();
+	}
+
+	/**
+	 * hptn_activity（HPTN表）删除
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/deleteHptnActivity.do")
+	@ResponseBody
+	public Map<String, Object> deleteHptnActivity(@RequestParam Map<String, String> reqPara) {
+		Integer id = Integer.parseInt(reqPara.get("id"));
+		HptnActivity hptnActivity = new HptnActivity();
+		hptnActivity.setId(id);
+		hptnService.deleteHptnActivity(hptnActivity);
+		return getSuccessMessage();
+	}
+
+	/**
+	 * *** ( hptn_history ) ***
+	 */
+
+	/**
+	 * hptnhistory 列表页面
+	 * 
+	 * @return
+	 **/
+	@RequestMapping(value = "hptnhistorylist.do")
+	public ModelAndView hptnhistorylist() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/hptn/hptnhistorylist");
+		return mv;
+	}
+
+	/**
+	 * hptn_history数据
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/hptnhistory.do")
+	@ResponseBody
+	public Map<String, Object> hptnhistory(@RequestParam Map<String, String> reqPara) {
+		logger.info("页面请求参数: " + reqPara);
+		PageBounds pageBounds = handlePageInfoForManage(reqPara);
+		String sEcho = reqPara.get("draw");
+		// 条件参数
+		Map<String, String> paramMap = Maps.newHashMap();
+		PageList<HptnHistory> pageList = (PageList<HptnHistory>) hptnService.getHptnHistoryList(paramMap, pageBounds);
+		Pageable page = new PageRequest(pageBounds.getPage(), pageBounds.getLimit());
+		Page<HptnHistory> content = new PageImpl<>(pageList, page, pageList.getPaginator().getTotalCount());
+		Map<String, Object> map = Maps.newHashMap();
+		map.put("data", pageList);
+		map.put("iTotalRecords", content.getTotalElements());
+		map.put("iTotalDisplayRecords", content.getTotalElements());
+		map.put("sEcho", sEcho);
+		map.put("draw", sEcho);
+		return map;
+	}
+
+	/**
+	 * 获取 hptnhistory 信息
+	 * 
+	 * @param reqData
+	 * @return
+	 */
+	public HptnHistory getHptnHistory(Map<String, String> reqPara) {
+		logger.info("待编辑信息: " + reqPara);
+
+		String id = reqPara.get("id");
+		String engSnUsed = reqPara.get("engSnUsed");
+		String hptnPn = reqPara.get("hptnPn");
+		String hptnSn = reqPara.get("hptnSn");
+		String engPn = reqPara.get("engPn");
+		String onDate = reqPara.get("onDate");
+		String onEtsn = reqPara.get("onEtsn");
+		String onEcsn = reqPara.get("onEcsn");
+		String onPtsn = reqPara.get("onPtsn");
+		String onPcsn = reqPara.get("onPcsn");
+		String offDate = reqPara.get("offDate");
+		String offEtsn = reqPara.get("offEtsn");
+		String offEcsn = reqPara.get("offEcsn");
+		String offPtsn = reqPara.get("offPtsn");
+		String offPcsn = reqPara.get("offPcsn");
+		String limitSpecial = reqPara.get("limitSpecial");
+		String code = reqPara.get("code");
+		String remark = reqPara.get("remark");
+
+		HptnHistory hptnHistory = new HptnHistory();
+		if (id != null) {
+			hptnHistory.setId(Integer.parseInt(id));
+		}
+		hptnHistory.setEngSnUsed(engSnUsed);
+		hptnHistory.setHptnPn(hptnPn);
+		hptnHistory.setHptnSn(hptnSn);
+		hptnHistory.setEngPn(engPn);
+		hptnHistory.setOnDate(onDate);
+		hptnHistory.setOnEtsn(onEtsn);
+		hptnHistory.setOnEcsn(onEcsn);
+		hptnHistory.setOnPtsn(onPtsn);
+		hptnHistory.setOnPcsn(onPcsn);
+		hptnHistory.setOffDate(offDate);
+		hptnHistory.setOffEtsn(offEtsn);
+		hptnHistory.setOffEcsn(offEcsn);
+		hptnHistory.setOffPtsn(offPtsn);
+		hptnHistory.setOffPcsn(offPcsn);
+		hptnHistory.setLimitSpecial(limitSpecial);
+		hptnHistory.setCode(code);
+		hptnHistory.setRemark(remark);
+		String date = LocalDateTime.now().toString().replace("T", " ");
+		String time = date.substring(0, date.indexOf("."));
+		hptnHistory.setCtime(time);
+		return hptnHistory;
+	}
+
+	/**
+	 * hptn_history 添加
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/saveHptnHistory.do")
+	@ResponseBody
+	public Map<String, Object> saveHptnHistory(@RequestParam Map<String, String> reqPara) {
+		HptnHistory hptnHistory = getHptnHistory(reqPara);
+		hptnService.saveHptnHistory(hptnHistory);
+		return getSuccessMessage();
+	}
+
+	/**
+	 * hptn_history 修改
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/updateHptnHistory.do")
+	@ResponseBody
+	public Map<String, Object> updateHptnHistory(@RequestParam Map<String, String> reqPara) {
+		HptnHistory hptnHistory = getHptnHistory(reqPara);
+		hptnService.updateHptnHistory(hptnHistory);
+		return getSuccessMessage();
+	}
+
+	/**
+	 * hptn_history 删除
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/deleteHptnHistory.do")
+	@ResponseBody
+	public Map<String, Object> deleteHptnHistory(@RequestParam Map<String, String> reqPara) {
+		Integer id = Integer.parseInt(reqPara.get("id"));
+		HptnHistory hptnHistory = new HptnHistory();
+		hptnHistory.setId(id);
+		hptnService.deleteHptnHistory(hptnHistory);
+		return getSuccessMessage();
+	}
+
+}

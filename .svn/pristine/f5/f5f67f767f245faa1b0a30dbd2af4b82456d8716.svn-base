@@ -1,0 +1,235 @@
+package com.cea.ehm.service;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.cea.ehm.bean.DataCfmPerformance;
+import com.cea.ehm.dao.DataCfmPerformanceMapper;
+import com.cea.ehm.util.ExcelUtil;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+/**
+ * 发动机性能数据服务层
+ */
+@Service
+public class DataCfmPerformanceService {
+	private Logger logger = Logger.getLogger(DataCfmPerformanceService.class);
+	@Autowired
+	private DataCfmPerformanceMapper datacfmperformanceMapper;
+
+	/**
+	 * 查询发动机性能数据列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	public PageList<DataCfmPerformance> getDataCfmPerformanceList(Map<String, String> paramMap, PageBounds pageBounds) {
+		return datacfmperformanceMapper.getDataCfmPerformanceList(paramMap, pageBounds);
+	}
+
+	/**
+	 * 保存发动机性能数据信息
+	 * 
+	 * @param datacfmperformance
+	 */
+	public void save(DataCfmPerformance datacfmperformance) {
+		datacfmperformanceMapper.insert(datacfmperformance);
+	}
+
+	/**
+	 * 更新发动机性能数据信息
+	 * 
+	 * @param datacfmperformance
+	 */
+	public void update(DataCfmPerformance datacfmperformance) {
+		datacfmperformanceMapper.update(datacfmperformance);
+	}
+
+	/**
+	 * 删除发动机性能数据信息
+	 * 
+	 * @param datacfmperformance
+	 */
+	public void delete(DataCfmPerformance datacfmperformance) {
+		datacfmperformanceMapper.delete(datacfmperformance);
+	}
+
+	/**
+	 * 创建 excel数据表格
+	 * 
+	 * @return
+	 */
+	public Workbook createExcel() {
+		List<DataCfmPerformance> performance = datacfmperformanceMapper.allDataCfmPerformance();
+		// 创建一个Excel文件
+		Workbook workbook = new XSSFWorkbook();
+		// 创建一个工作表
+		Sheet sheet = workbook.createSheet("发动机性能数据");
+		// 添加表头行
+		Row row0 = sheet.createRow(0);
+		// 添加表头内容
+		row0.createCell(0).setCellValue("tail");
+		row0.createCell(1).setCellValue("EPOSITION");
+		row0.createCell(2).setCellValue("ESN");
+		row0.createCell(3).setCellValue("FLIGHT_PHASE");
+		row0.createCell(4).setCellValue("飞行时间");
+		row0.createCell(5).setCellValue("发动机类型");
+		row0.createCell(6).setCellValue("ZPHSR");
+		row0.createCell(7).setCellValue("GPCN25_SMOOTHED");
+		row0.createCell(8).setCellValue("DEGT_SMOOTHED");
+		row0.createCell(9).setCellValue("ZPHSF");
+		row0.createCell(10).setCellValue("EGTHDM_D");
+		row0.createCell(11).setCellValue("ZVB1F_SMOOTHED");
+		row0.createCell(12).setCellValue("GWFM");
+		row0.createCell(13).setCellValue("EGTHDM");
+		row0.createCell(14).setCellValue("GWFM_D");
+		row0.createCell(15).setCellValue("ZVB1R");
+		row0.createCell(16).setCellValue("EGTHDM_D_SMOOTHED");
+		row0.createCell(17).setCellValue("ZTOIL");
+		row0.createCell(18).setCellValue("ZVB2F");
+		row0.createCell(19).setCellValue("ZVB2R");
+		row0.createCell(20).setCellValue("ZVB1F");
+		row0.createCell(21).setCellValue("ZVB2R_SMOOTHED");
+		row0.createCell(22).setCellValue("DEGT_D_SMOOTHED");
+		row0.createCell(23).setCellValue("GPCN25_D");
+		row0.createCell(24).setCellValue("ZVB1R_SMOOTHED");
+		row0.createCell(25).setCellValue("ZTOIL_SMOOTHED");
+		row0.createCell(26).setCellValue("GWFM_SMOOTHED");
+		row0.createCell(27).setCellValue("GPCN25");
+		row0.createCell(28).setCellValue("GWFM_D_SMOOTHED");
+		row0.createCell(29).setCellValue("GPCN25_D_SMOOTHED");
+		row0.createCell(30).setCellValue("ZVB2F_SMOOTHED");
+		row0.createCell(31).setCellValue("ZPOIL_SMOOTHED");
+		row0.createCell(32).setCellValue("EGTHDM_SMOOTHED");
+		row0.createCell(33).setCellValue("DEGT_D");
+		row0.createCell(34).setCellValue("ZPOIL");
+		row0.createCell(35).setCellValue("ZT49");
+		row0.createCell(36).setCellValue("DEGT");
+		row0.createCell(37).setCellValue("CTIME");
+
+		// 添加数据内容
+		for (int i = 0; i < performance.size(); i++) {
+			Row row = sheet.createRow(i + 1);
+			row.createCell(0).setCellValue(performance.get(i).getTail() + "");
+			row.createCell(1).setCellValue(performance.get(i).getEposition() + "");
+			row.createCell(2).setCellValue(performance.get(i).getEsn() + "");
+			row.createCell(3).setCellValue(performance.get(i).getFlightPhase() + "");
+			row.createCell(4).setCellValue(performance.get(i).getFlightDateTime() + "");
+			row.createCell(5).setCellValue(performance.get(i).getEngineType() + "");
+			row.createCell(6).setCellValue(performance.get(i).getZphsr() + "");
+			row.createCell(7).setCellValue(performance.get(i).getGpcn25Smoothed() + "");
+			row.createCell(8).setCellValue(performance.get(i).getDegtSmoothed() + "");
+			row.createCell(9).setCellValue(performance.get(i).getZphsf() + "");
+			row.createCell(10).setCellValue(performance.get(i).getEgthdmD() + "");
+			row.createCell(11).setCellValue(performance.get(i).getZvb1fSmoothed() + "");
+			row.createCell(12).setCellValue(performance.get(i).getGwfm() + "");
+			row.createCell(13).setCellValue(performance.get(i).getEgthdm() + "");
+			row.createCell(14).setCellValue(performance.get(i).getGwfmD() + "");
+			row.createCell(15).setCellValue(performance.get(i).getZvb1r() + "");
+			row.createCell(16).setCellValue(performance.get(i).getEgthdmDSmoothed() + "");
+			row.createCell(17).setCellValue(performance.get(i).getZtoil() + "");
+			row.createCell(18).setCellValue(performance.get(i).getZvb2f() + "");
+			row.createCell(19).setCellValue(performance.get(i).getZvb2r() + "");
+			row.createCell(20).setCellValue(performance.get(i).getZvb1f() + "");
+			row.createCell(21).setCellValue(performance.get(i).getZvb2rSmoothed() + "");
+			row.createCell(22).setCellValue(performance.get(i).getDegtDSmoothed() + "");
+			row.createCell(23).setCellValue(performance.get(i).getGpcn25D() + "");
+			row.createCell(24).setCellValue(performance.get(i).getZvb1rSmoothed() + "");
+			row.createCell(25).setCellValue(performance.get(i).getZtoilSmoothed() + "");
+			row.createCell(26).setCellValue(performance.get(i).getGwfmSmoothed() + "");
+			row.createCell(27).setCellValue(performance.get(i).getGpcn25() + "");
+			row.createCell(28).setCellValue(performance.get(i).getGwfmDSmoothed() + "");
+			row.createCell(29).setCellValue(performance.get(i).getGpcn25DSmoothed() + "");
+			row.createCell(30).setCellValue(performance.get(i).getZvb2fSmoothed() + "");
+			row.createCell(31).setCellValue(performance.get(i).getZpoilSmoothed() + "");
+			row.createCell(32).setCellValue(performance.get(i).getEgthdmSmoothed() + "");
+			row.createCell(33).setCellValue(performance.get(i).getDegtD() + "");
+			row.createCell(34).setCellValue(performance.get(i).getZpoil() + "");
+			row.createCell(35).setCellValue(performance.get(i).getZt49() + "");
+			row.createCell(36).setCellValue(performance.get(i).getDegt() + "");
+			row.createCell(37).setCellValue(performance.get(i).getCtime() + "");
+		}
+		return workbook;
+	}
+
+	/**
+	 * 处理发动机性能数据
+	 * 
+	 * @param file
+	 */
+	public void process(MultipartFile file) {
+		try {
+			// 这里得到的是一个集合，里面的每一个元素是String[]数组
+			List<String[]> list = ExcelUtil.readExcel(file);
+			for (String[] arr : list) {
+				DataCfmPerformance performance = new DataCfmPerformance();
+				performance.setPlaneId(0);
+				performance.setTail(arr[0]);
+				performance.setEposition(arr[1]);
+				performance.setEngId(0);
+				performance.setEsn(arr[2]);
+				performance.setFlightPhase(arr[3]);
+				performance.setFlightDateTime(arr[4]);
+				performance.setEngineType(arr[5]);
+				performance.setZphsr(arr[6]);
+				performance.setGpcn25Smoothed(arr[7]);
+				performance.setDegtSmoothed(arr[8]);
+				performance.setZphsf(arr[9]);
+				performance.setEgthdmD(arr[10]);
+				performance.setZvb1fSmoothed(arr[11]);
+				performance.setGwfm(arr[12]);
+				performance.setEgthdm(arr[13]);
+				performance.setGwfmD(arr[14]);
+				performance.setZvb1r(arr[15]);
+				performance.setEgthdmDSmoothed(arr[16]);
+				performance.setZtoil(arr[17]);
+				performance.setZvb2f(arr[18]);
+				performance.setZvb2r(arr[19]);
+				performance.setZvb1f(arr[20]);
+				performance.setZvb2rSmoothed(arr[21]);
+				performance.setDegtDSmoothed(arr[22]);
+				performance.setGpcn25D(arr[23]);
+				performance.setZvb1rSmoothed(arr[24]);
+				performance.setZtoilSmoothed(arr[25]);
+				performance.setGwfmSmoothed(arr[26]);
+				performance.setGpcn25(arr[27]);
+				performance.setGwfmDSmoothed(arr[28]);
+				performance.setGpcn25DSmoothed(arr[29]);
+				performance.setZvb2fSmoothed(arr[30]);
+				performance.setZpoilSmoothed(arr[31]);
+				performance.setEgthdmSmoothed(arr[32]);
+				performance.setDegtD(arr[33]);
+				performance.setZpoil(arr[34]);
+				performance.setZt49(arr[35]);
+				performance.setDegt(arr[36]);
+				performance.setCtime(arr[37]);
+
+				DataCfmPerformance isExistPerformance = datacfmperformanceMapper.select(performance);
+				if (isExistPerformance == null) {
+					String date = LocalDateTime.now().toString().replace("T", " ");
+					String ctime = date.substring(0, date.indexOf("."));
+					performance.setCtime(ctime);
+					datacfmperformanceMapper.insert(performance);
+				} else {
+					datacfmperformanceMapper.updateTwo(performance);
+				}
+			}
+		} catch (IOException e) {
+			logger.debug(e);
+		}
+	}
+
+}

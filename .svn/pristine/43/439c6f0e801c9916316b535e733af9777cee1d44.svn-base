@@ -1,0 +1,401 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-head.jsp"/>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-script.jsp"/>
+    <style type="text/css">
+    	
+    	span.mright{
+    		margin-right:15px;
+    		margin-left:15px;
+    	}
+    	input.formnew , select.formnew{
+    		padding:6px 12px;
+    		min-width:130px;
+    		max-width:160px;
+    		margin:0px 3px;
+    	}
+    	.box-body{
+    		padding:0px 15px;
+    		box-sizing:border-box;
+    		min-width:970px;
+    	}
+    	.charts-single>div{
+    		float:left;
+    		width:50%;
+    		min-width:470px;
+    		height:560px;
+    		box-sizing:border-box;
+    	}
+    	.charts-single:after{
+    		display:block;
+    		content:"";
+    		clear:both;
+    	}
+    	.charts-single>div>div{
+    		width:100%;
+    		height:50%;
+    	}
+    </style>
+</head>
+<body class="hold-transition" >
+
+<!-- Content Wrapper. Contains page content -->
+<div class="wrapper">
+
+    <div class="box wrapper " style="overflow: auto;">
+        <div class="box-header with-border" style="border-bottom:none;">
+         	
+         	<div class="row" style="margin:15px 0px">
+				<!-- <span class="mright">发动机编号</span>
+				<input class="formnew" type="text" value="52250" style="height:34px"/> -->
+						  
+				<span class="mright">机号</span>
+				<select id="search-tail" class="formnew" onchange="gettail()">
+					<!-- <option value="tail">tail</option> -->
+				</select>  		
+				<span class="mright">范围</span>
+				<select class="formnew">
+					<option>10个点</option>
+				</select>
+				
+				<div style="min-width: 160px;margin-left:15px;display:inline-block;vertical-align:bottom">
+                    <button class="btn btn-block btn-default col-sm-1">
+                       	 查询
+                    </button>
+                </div>
+                <div style="min-width: 160px;display:inline-block;vertical-align:bottom;float:right">
+                    <button onclick="history.go(-1)" class="btn btn-block btn-primary col-sm-1">
+                       	 返回
+                    </button>
+                </div>
+			</div>
+            
+        </div>
+        <div class="box-body">
+        	<div class="charts-single">
+        		<div class="leftcharts">
+        			<div id="top"></div>
+        			<div id="bottom"></div>
+        		</div>
+            	<div class="rightcharts">
+            		<div id="top1"></div>
+        			<div id="bottom1"></div>
+            	</div>
+        	</div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="../../js/echarts/echarts.js"></script>
+<script type="text/javascript" src="../../js/echarts/performanceecharts.js"></script>
+<script type="text/javascript">
+	//初始化选择框
+	$.post(
+	        "${pageContext.request.contextPath}/manage/dataplane/allplane.do",
+	        {},
+	        function (response) {
+	       	  $('#search-tail').html('');
+	       	  for(var o in response.data){
+	       	      $('#search-tail').append('<option value="'+response.data[o].tail+'">'+response.data[o].tail+'</option>');
+	       	  }  
+	        },
+	        "json"
+	 );
+	
+	// 页面初始化
+	$(function(){
+		var inittail = '${sessionScope.inittail}';
+		searchtail(inittail);
+	});
+	
+	// onchange事件
+	function gettail(){
+		var tail = $('#search-tail').val();
+		searchtail(tail);
+	}
+	
+	// dff
+	var n1_gwfm = [];
+	var n1_gwfmSmoothed = [];
+	var n2_gwfm = [];
+	var n2_gwfmSmoothed = [];
+	
+	// degt
+	var n1_degt = [];
+	var n1_degtSmoothed = [];
+	var n2_degt = [];
+	var n2_degtSmoothed = [];
+	
+	// egtm
+	var n1_egthdm = [];
+	var n1_egthdmSmoothed = [];
+	var n2_egthdm = [];
+	var n2_egthdmSmoothed = [];
+	
+	// dcs
+	var n1_gpcn25 = [];
+	var n1_gpcn25Smoothed = [];
+	var n2_gpcn25 = [];
+	var n2_gpcn25Smoothed = [];
+	
+	// 数据加载
+	function searchtail(tail){
+		// 数组清空
+		n1_gwfm.splice(0, n1_gwfm.length);
+ 		n1_gwfmSmoothed.splice(0, n1_gwfmSmoothed.length);
+ 		n2_gwfm.splice(0, n2_gwfm.length);
+ 		n2_gwfmSmoothed.splice(0, n2_gwfmSmoothed.length);
+ 		
+		n1_degt.splice(0, n1_degt.length);
+		n1_degtSmoothed.splice(0, n1_degtSmoothed.length);
+		n2_degt.splice(0, n2_degt.length);
+		n2_degtSmoothed.splice(0, n2_degtSmoothed.length);
+		
+		n1_egthdm.splice(0, n1_egthdm.length);
+		n1_egthdmSmoothed.splice(0, n1_egthdmSmoothed.length);
+		n2_egthdm.splice(0, n2_egthdm.length);
+		n2_egthdmSmoothed.splice(0, n2_egthdmSmoothed.length);
+		
+		n1_gpcn25.splice(0, n1_gpcn25.length);
+		n1_gpcn25Smoothed.splice(0, n1_gpcn25Smoothed.length);
+		n2_gpcn25.splice(0, n2_gpcn25.length);
+		n2_gpcn25Smoothed.splice(0, n2_gpcn25Smoothed.length);
+			
+		$.post(
+	            "${pageContext.request.contextPath}/manage/datacfmperformance/all.do",
+	            {"tail": tail},
+	            function (response) {
+		           	  for(var o in response.data){
+		           		    if (response.data[o].ePosition == 1) {
+								// N1 (单点，平滑)
+								n1_gwfm.push(response.data[o].gwfm);
+								n1_gwfmSmoothed.push(response.data[o].gwfmSmoothed);
+								
+								n1_degt.push(response.data[o].degt);
+								n1_degtSmoothed.push(response.data[o].degtSmoothed);
+								
+								n1_egthdm.push(response.data[o].egthdm);
+								n1_egthdmSmoothed.push(response.data[o].egthdmSmoothed);
+								
+								n1_gpcn25.push(response.data[o].gpcn25);
+								n1_gpcn25Smoothed.push(response.data[o].gpcn25Smoothed);
+							} else {
+								// N2 (单点，平滑)
+								n2_gwfm.push(response.data[o].gwfm);
+								n2_gwfmSmoothed.push(response.data[o].gwfmSmoothed);
+								
+								n2_degt.push(response.data[o].degt);
+								n2_degtSmoothed.push(response.data[o].degtSmoothed);
+								
+								n2_egthdm.push(response.data[o].egthdm);
+								n2_egthdmSmoothed.push(response.data[o].egthdmSmoothed);
+								
+								n2_gpcn25.push(response.data[o].gpcn25);
+								n2_gpcn25Smoothed.push(response.data[o].gpcn25Smoothed);
+							}
+		           	  }
+		           	  // 页面初始化
+	           		  tochart(); 
+	            },
+	            'json'
+	     );
+	}
+	
+	function tochart(){
+		// dff
+		gwfm_n1_m0 = n1_gwfm[0];
+		gwfm_n1_m1 = n1_gwfm[1];
+		gwfm_n1_m2 = n1_gwfm[2];
+		gwfm_n1_m3 = n1_gwfm[3];
+		gwfm_n1_m4 = n1_gwfm[4];
+		gwfm_n1_m5 = n1_gwfm[5];
+		gwfm_n1_m6 = n1_gwfm[6];
+		gwfm_n1_m7 = n1_gwfm[7];
+		gwfm_n1_m8 = n1_gwfm[8];
+		gwfm_n1_m9 = n1_gwfm[9];
+		gwfm_n1_d0 = n1_gwfmSmoothed[0];
+		gwfm_n1_d1 = n1_gwfmSmoothed[1];
+		gwfm_n1_d2 = n1_gwfmSmoothed[2];
+		gwfm_n1_d3 = n1_gwfmSmoothed[3];
+		gwfm_n1_d4 = n1_gwfmSmoothed[4];
+		gwfm_n1_d5 = n1_gwfmSmoothed[5];
+		gwfm_n1_d6 = n1_gwfmSmoothed[6];
+		gwfm_n1_d7 = n1_gwfmSmoothed[7];
+		gwfm_n1_d8 = n1_gwfmSmoothed[8];
+		gwfm_n1_d9 = n1_gwfmSmoothed[9];
+		gwfm_n2_m0 = n2_gwfm[0];
+		gwfm_n2_m1 = n2_gwfm[1];
+		gwfm_n2_m2 = n2_gwfm[2];
+		gwfm_n2_m3 = n2_gwfm[3];
+		gwfm_n2_m4 = n2_gwfm[4];
+		gwfm_n2_m5 = n2_gwfm[5];
+		gwfm_n2_m6 = n2_gwfm[6];
+		gwfm_n2_m7 = n2_gwfm[7];
+		gwfm_n2_m8 = n2_gwfm[8];
+		gwfm_n2_m9 = n2_gwfm[9];
+		gwfm_n2_d0 = n2_gwfmSmoothed[0];
+		gwfm_n2_d1 = n2_gwfmSmoothed[1];
+		gwfm_n2_d2 = n2_gwfmSmoothed[2];
+		gwfm_n2_d3 = n2_gwfmSmoothed[3];
+		gwfm_n2_d4 = n2_gwfmSmoothed[4];
+		gwfm_n2_d5 = n2_gwfmSmoothed[5];
+		gwfm_n2_d6 = n2_gwfmSmoothed[6];
+		gwfm_n2_d7 = n2_gwfmSmoothed[7];
+		gwfm_n2_d8 = n2_gwfmSmoothed[8];
+		gwfm_n2_d9 = n2_gwfmSmoothed[9];
+		
+		// degt
+		degt_n1_m0 = n1_degt[0];
+		degt_n1_m1 = n1_degt[1];
+		degt_n1_m2 = n1_degt[2];
+		degt_n1_m3 = n1_degt[3];
+		degt_n1_m4 = n1_degt[4];
+		degt_n1_m5 = n1_degt[5];
+		degt_n1_m6 = n1_degt[6];
+		degt_n1_m7 = n1_degt[7];
+		degt_n1_m8 = n1_degt[8];
+		degt_n1_m9 = n1_degt[9];
+		degt_n1_d0 = n1_degtSmoothed[0];
+		degt_n1_d1 = n1_degtSmoothed[1];
+		degt_n1_d2 = n1_degtSmoothed[2];
+		degt_n1_d3 = n1_degtSmoothed[3];
+		degt_n1_d4 = n1_degtSmoothed[4];
+		degt_n1_d5 = n1_degtSmoothed[5];
+		degt_n1_d6 = n1_degtSmoothed[6];
+		degt_n1_d7 = n1_degtSmoothed[7];
+		degt_n1_d8 = n1_degtSmoothed[8];
+		degt_n1_d9 = n1_degtSmoothed[9];
+		degt_n2_m0 = n2_degt[0];
+		degt_n2_m1 = n2_degt[1];
+		degt_n2_m2 = n2_degt[2];
+		degt_n2_m3 = n2_degt[3];
+		degt_n2_m4 = n2_degt[4];
+		degt_n2_m5 = n2_degt[5];
+		degt_n2_m6 = n2_degt[6];
+		degt_n2_m7 = n2_degt[7];
+		degt_n2_m8 = n2_degt[8];
+		degt_n2_m9 = n2_degt[9];
+		degt_n2_d0 = n2_degtSmoothed[0];
+		degt_n2_d1 = n2_degtSmoothed[1];
+		degt_n2_d2 = n2_degtSmoothed[2];
+		degt_n2_d3 = n2_degtSmoothed[3];
+		degt_n2_d4 = n2_degtSmoothed[4];
+		degt_n2_d5 = n2_degtSmoothed[5];
+		degt_n2_d6 = n2_degtSmoothed[6];
+		degt_n2_d7 = n2_degtSmoothed[7];
+		degt_n2_d8 = n2_degtSmoothed[8];
+		degt_n2_d9 = n2_degtSmoothed[9];
+		
+		// egtm
+		egthdm_n1_m0 = n1_egthdm[0];
+		egthdm_n1_m1 = n1_egthdm[1];
+		egthdm_n1_m2 = n1_egthdm[2];
+		egthdm_n1_m3 = n1_egthdm[3];
+		egthdm_n1_m4 = n1_egthdm[4];
+		egthdm_n1_m5 = n1_egthdm[5];
+		egthdm_n1_m6 = n1_egthdm[6];
+		egthdm_n1_m7 = n1_egthdm[7];
+		egthdm_n1_m8 = n1_egthdm[8];
+		egthdm_n1_m9 = n1_egthdm[9];
+		egthdm_n1_d0 = n1_egthdmSmoothed[0];
+		egthdm_n1_d1 = n1_egthdmSmoothed[1];
+		egthdm_n1_d2 = n1_egthdmSmoothed[2];
+		egthdm_n1_d3 = n1_egthdmSmoothed[3];
+		egthdm_n1_d4 = n1_egthdmSmoothed[4];
+		egthdm_n1_d5 = n1_egthdmSmoothed[5];
+		egthdm_n1_d6 = n1_egthdmSmoothed[6];
+		egthdm_n1_d7 = n1_egthdmSmoothed[7];
+		egthdm_n1_d8 = n1_egthdmSmoothed[8];
+		egthdm_n1_d9 = n1_egthdmSmoothed[9];
+		egthdm_n2_m0 = n2_egthdm[0];
+		egthdm_n2_m1 = n2_egthdm[1];
+		egthdm_n2_m2 = n2_egthdm[2];
+		egthdm_n2_m3 = n2_egthdm[3];
+		egthdm_n2_m4 = n2_egthdm[4];
+		egthdm_n2_m5 = n2_egthdm[5];
+		egthdm_n2_m6 = n2_egthdm[6];
+		egthdm_n2_m7 = n2_egthdm[7];
+		egthdm_n2_m8 = n2_egthdm[8];
+		egthdm_n2_m9 = n2_egthdm[9];
+		egthdm_n2_d0 = n2_egthdmSmoothed[0];
+		egthdm_n2_d1 = n2_egthdmSmoothed[1];
+		egthdm_n2_d2 = n2_egthdmSmoothed[2];
+		egthdm_n2_d3 = n2_egthdmSmoothed[3];
+		egthdm_n2_d4 = n2_egthdmSmoothed[4];
+		egthdm_n2_d5 = n2_egthdmSmoothed[5];
+		egthdm_n2_d6 = n2_egthdmSmoothed[6];
+		egthdm_n2_d7 = n2_egthdmSmoothed[7];
+		egthdm_n2_d8 = n2_egthdmSmoothed[8];
+		egthdm_n2_d9 = n2_egthdmSmoothed[9];
+		
+		// dcs
+		gpcn25_n1_m0 = n1_gpcn25[0];
+		gpcn25_n1_m1 = n1_gpcn25[1];
+		gpcn25_n1_m2 = n1_gpcn25[2];
+		gpcn25_n1_m3 = n1_gpcn25[3];
+		gpcn25_n1_m4 = n1_gpcn25[4];
+		gpcn25_n1_m5 = n1_gpcn25[5];
+		gpcn25_n1_m6 = n1_gpcn25[6];
+		gpcn25_n1_m7 = n1_gpcn25[7];
+		gpcn25_n1_m8 = n1_gpcn25[8];
+		gpcn25_n1_m9 = n1_gpcn25[9];
+		gpcn25_n1_d0 = n1_gpcn25Smoothed[0];
+		gpcn25_n1_d1 = n1_gpcn25Smoothed[1];
+		gpcn25_n1_d2 = n1_gpcn25Smoothed[2];
+		gpcn25_n1_d3 = n1_gpcn25Smoothed[3];
+		gpcn25_n1_d4 = n1_gpcn25Smoothed[4];
+		gpcn25_n1_d5 = n1_gpcn25Smoothed[5];
+		gpcn25_n1_d6 = n1_gpcn25Smoothed[6];
+		gpcn25_n1_d7 = n1_gpcn25Smoothed[7];
+		gpcn25_n1_d8 = n1_gpcn25Smoothed[8];
+		gpcn25_n1_d9 = n1_gpcn25Smoothed[9];
+		gpcn25_n2_m0 = n2_gpcn25[0];
+		gpcn25_n2_m1 = n2_gpcn25[1];
+		gpcn25_n2_m2 = n2_gpcn25[2];
+		gpcn25_n2_m3 = n2_gpcn25[3];
+		gpcn25_n2_m4 = n2_gpcn25[4];
+		gpcn25_n2_m5 = n2_gpcn25[5];
+		gpcn25_n2_m6 = n2_gpcn25[6];
+		gpcn25_n2_m7 = n2_gpcn25[7];
+		gpcn25_n2_m8 = n2_gpcn25[8];
+		gpcn25_n2_m9 = n2_gpcn25[9];
+		gpcn25_n2_d0 = n2_gpcn25Smoothed[0];
+		gpcn25_n2_d1 = n2_gpcn25Smoothed[1];
+		gpcn25_n2_d2 = n2_gpcn25Smoothed[2];
+		gpcn25_n2_d3 = n2_gpcn25Smoothed[3];
+		gpcn25_n2_d4 = n2_gpcn25Smoothed[4];
+		gpcn25_n2_d5 = n2_gpcn25Smoothed[5];
+		gpcn25_n2_d6 = n2_gpcn25Smoothed[6];
+		gpcn25_n2_d7 = n2_gpcn25Smoothed[7];
+		gpcn25_n2_d8 = n2_gpcn25Smoothed[8];
+		gpcn25_n2_d9 = n2_gpcn25Smoothed[9];
+		
+		chart(
+			   // 1发单点
+			   gwfm_n1_m0, gwfm_n1_m1, gwfm_n1_m2, gwfm_n1_m3, gwfm_n1_m4, gwfm_n1_m5, gwfm_n1_m6, gwfm_n1_m7, gwfm_n1_m8, gwfm_n1_m9,
+			   degt_n1_m0, degt_n1_m1, degt_n1_m2, degt_n1_m3, degt_n1_m4, degt_n1_m5, degt_n1_m6, degt_n1_m7, degt_n1_m8, degt_n1_m9,
+			   egthdm_n1_m0, egthdm_n1_m1, egthdm_n1_m2, egthdm_n1_m3, egthdm_n1_m4, egthdm_n1_m5, egthdm_n1_m6, egthdm_n1_m7, egthdm_n1_m8, egthdm_n1_m9,
+			   gpcn25_n1_m0, gpcn25_n1_m1, gpcn25_n1_m2, gpcn25_n1_m3, gpcn25_n1_m4, gpcn25_n1_m5, gpcn25_n1_m6, gpcn25_n1_m7, gpcn25_n1_m8, gpcn25_n1_m9,
+			   // 1发平滑
+			   gwfm_n1_d0, gwfm_n1_d1, gwfm_n1_d2, gwfm_n1_d3, gwfm_n1_d4, gwfm_n1_d5, gwfm_n1_d6, gwfm_n1_d7, gwfm_n1_d8, gwfm_n1_d9,
+			   degt_n1_d0, degt_n1_d1, degt_n1_d2, degt_n1_d3, degt_n1_d4, degt_n1_d5, degt_n1_d6, degt_n1_d7, degt_n1_d8, degt_n1_d9,
+			   egthdm_n1_d0, egthdm_n1_d1, egthdm_n1_d2, egthdm_n1_d3, egthdm_n1_d4, egthdm_n1_d5, egthdm_n1_d6, egthdm_n1_d7, egthdm_n1_d8, egthdm_n1_d9,
+			   gpcn25_n1_d0, gpcn25_n1_d1, gpcn25_n1_d2, gpcn25_n1_d3, gpcn25_n1_d4, gpcn25_n1_d5, gpcn25_n1_d6, gpcn25_n1_d7, gpcn25_n1_d8, gpcn25_n1_d9,
+			   // 2发单点
+			   gwfm_n2_m0, gwfm_n2_m1, gwfm_n2_m2, gwfm_n2_m3, gwfm_n2_m4, gwfm_n2_m5, gwfm_n2_m6, gwfm_n2_m7, gwfm_n2_m8, gwfm_n2_m9,
+			   degt_n2_m0, degt_n2_m1, degt_n2_m2, degt_n2_m3, degt_n2_m4, degt_n2_m5, degt_n2_m6, degt_n2_m7, degt_n2_m8, degt_n2_m9,
+			   egthdm_n2_m0, egthdm_n2_m1, egthdm_n2_m2, egthdm_n2_m3, egthdm_n2_m4, egthdm_n2_m5, egthdm_n2_m6, egthdm_n2_m7, egthdm_n2_m8, egthdm_n2_m9,
+			   gpcn25_n2_m0, gpcn25_n2_m1, gpcn25_n2_m2, gpcn25_n2_m3, gpcn25_n2_m4, gpcn25_n2_m5, gpcn25_n2_m6, gpcn25_n2_m7, gpcn25_n2_m8, gpcn25_n2_m9,
+			   // 2发平滑
+			   gwfm_n2_d0, gwfm_n2_d1, gwfm_n2_d2, gwfm_n2_d3, gwfm_n2_d4, gwfm_n2_d5, gwfm_n2_d6, gwfm_n2_d7, gwfm_n2_d8, gwfm_n2_d9,
+			   degt_n2_d0, degt_n2_d1, degt_n2_d2, degt_n2_d3, degt_n2_d4, degt_n2_d5, degt_n2_d6, degt_n2_d7, degt_n2_d8, degt_n2_d9,
+			   egthdm_n2_d0, egthdm_n2_d1, egthdm_n2_d2, egthdm_n2_d3, egthdm_n2_d4, egthdm_n2_d5, egthdm_n2_d6, egthdm_n2_d7, egthdm_n2_d8, egthdm_n2_d9,
+			   gpcn25_n2_d0, gpcn25_n2_d1, gpcn25_n2_d2, gpcn25_n2_d3, gpcn25_n2_d4, gpcn25_n2_d5, gpcn25_n2_d6, gpcn25_n2_d7, gpcn25_n2_d8, gpcn25_n2_d9
+		);
+	}	
+</script>
+</body>
+</html>

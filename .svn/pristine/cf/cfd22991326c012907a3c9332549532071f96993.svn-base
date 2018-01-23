@@ -1,0 +1,381 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-head.jsp"/>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-script.jsp"/>
+</head>
+<body class="hold-transition" >
+
+<!-- Content Wrapper. Contains page content -->
+<div class="wrapper">
+
+    <div class="box wrapper " style="overflow: auto;">
+
+        <div class="box-header with-border">
+            <div class="row">
+                <div class="col-xs-2" style="min-width: 160px">
+                    <input type="text" class=" form-control" id="search-key" placeholder="tail">
+                </div>
+ 
+                
+
+                <div class="col-xs-1" style="min-width: 160px">
+                    <button class="btn btn-block btn-default" onclick="searchUser()">
+                        <i class="fa fa-search"></i>
+                      	  查询
+                    </button>
+                </div>
+                    
+                <div class="col-xs-1" style="min-width: 160px">
+                    <button class="btn btn-block btn-default col-sm-1" data-toggle="modal" data-target="#waterwash-add-modal">
+                        <i class="fa fa-plus"></i>
+                       	 添加
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="box-body" style="padding-top:20px">
+
+            <div class="dataTables_wrapper form-inline dt-bootstrap">
+                <table id="table-list" class="table  table-hover">
+                    <thead>
+                    <tr>
+                    	<th>id</th>
+                        <th>TAIL</th>
+                        <th>基地</th>
+                        <th>推力</th>
+                        <th>构型</th>
+                        <th>原始的发动机编码</th>
+                        <th>型号1级</th>
+                        <th>型号2级</th>
+                        <th>型号3级</th>
+                        <th>ETOPS</th>
+                        <th>高高原</th>
+                        <th>航空公司（品牌）</th>
+                        <th>所有人</th>
+                        <th>引进方式</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+<!--  
+                    <tbody>
+                    	<tr>
+                    		<td>2017年12月</td>
+                    		<td>多云</td>
+                    		<td></td>
+                    		<td></td>
+                    		<td></td>
+                    		<td></td>
+                    		<td></td>
+                    		<td></td>
+                    		<td>
+                    			<div class="btn-group open">
+                    				<button class="btn btn-default btn-sm " data-toggle="modal" data-target="#user-info-modal">
+                    					<i class="fa fa-gear"></i>
+                    				</button>
+                    				<button class="btn btn-default btn-sm" onclick="deleteuser(01)">
+                    					<i class="fa fa-trash"></i>
+                    				</button>
+                    			</div>
+                    		</td>
+                    	</tr>
+                    	<tr>
+                    		<td>2017年12月</td>
+                    		<td>小雨</td>
+                    		<td></td>
+                    		<td></td>
+                    		<td></td>
+                    		<td></td>
+                    		<td></td>
+                    		<td></td>
+                    		<td>
+                    			<div class="btn-group open">
+                    				<button class="btn btn-default btn-sm " data-toggle="modal" data-target="#user-info-modal">
+                    					<i class="fa fa-gear"></i>
+                    				</button>
+                    				<button class="btn btn-default btn-sm" onclick="deleteuser(01)">
+                    					<i class="fa fa-trash"></i>
+                    				</button>
+                    			</div>
+                    		</td>
+                    	</tr>
+                    </tbody>
+-->
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<jsp:include page='recorddataplaneinfo.jsp'/>
+<jsp:include page='recorddataplaneadd.jsp'/>
+
+
+
+<script type="text/javascript">
+$("#table-list").DataTable({
+    'dom': 'tr<"row"<"col-sm-5"l><"col-sm-7"p>>',
+    "serverSide": true,
+    ordering: false,
+    "type": "POST",
+    "ajax": {
+        "url": "${pageContext.request.contextPath}/manage/recorddataplane/list.do",
+        "type": "POST",
+        "data": function (d) {
+        	// 条件查询参数
+        	d.key = $("#search-key").val();
+        	
+        	// d.bzStatus = $("#search-bz-status").val();
+            // d.accountStatus = $("#search-account-status").val();
+        }
+    },
+    "columns": [
+    	{"data": "id"},
+        {"data": "tail"},
+        {"data": "duty"},
+        {"data": "ratingPlane"},
+        {"data": "configPlane"},
+        {"data": "egsnOriginal"},
+        {"data": "series"},
+        {"data": "type"},
+        {"data": "model"},
+        {"data": "etops"},
+        {"data": "hHighLand"},
+        {"data": "operater"},
+        {"data": "owner"},
+        {"data": "importWay"},
+        {"data": "ctime"},
+        null
+    ],
+    "ordering": false,
+    "searching": false,
+    "columnDefs": [
+        {
+            "targets": 15,
+            "data": function (row, type, val, meta) {
+                return row;
+            },
+            "render": function (data, type, full, meta) {
+                var table = $("#table-list").DataTable();
+                var result = '<div class="btn-group open">'
+                    + '<button class="btn btn-default btn-sm "'
+                    + ' data-toggle="modal" data-target="#waterwash-info-modal">'
+                    + '<i class="fa fa-gear"></i>'
+                    + '</button><button class="btn btn-default btn-sm" onclick="deletewaterwash(' + data.id + ')">'
+                    + '<i class="fa fa-trash"></i></button></div>';
+                return result;
+            }
+        }
+    ],
+    "info": false,
+    "language": {
+        "lengthMenu": "显示 _MENU_ 条记录",
+        "paginate": {
+            "first": "首页",
+            "next": "下一页",
+            "previous": "上一页",
+            "last": "末页",
+        },
+        "zeroRecords": "",
+        "infoEmpty":"没有符合条件的数据",
+        "emptyTable":"没有符合条件的数据"
+    }
+});
+
+// 存储点击行的内容
+var cellWaterWashData = null;
+ $('#table-list tbody').on('click', 'td', function () {
+     var table = $('#table-list').DataTable();
+     cellWaterWashData = table.cell(this).data();
+ });
+
+// 编辑按钮 → 用户信息填充
+ $('#waterwash-info-modal').on('show.bs.modal', function (event) {
+     var modal = $(this);
+     modal.find('#editid').val(cellWaterWashData.id);
+     modal.find('#edittail').val(cellWaterWashData.tail);
+     modal.find('#editduty').val(cellWaterWashData.duty);
+     modal.find('#editratingPlane').val(cellWaterWashData.ratingPlane);
+     modal.find('#editconfigPlane').val(cellWaterWashData.configPlane);
+     modal.find('#editegsnOriginal').val(cellWaterWashData.egsnOriginal);
+     modal.find('#editseries').val(cellWaterWashData.series);
+     modal.find('#edittype').val(cellWaterWashData.type);
+     modal.find('#editmodel').val(cellWaterWashData.model);
+     modal.find('#editattribute').val(cellWaterWashData.attribute);
+     modal.find('#editetops').val(cellWaterWashData.etops);
+     modal.find('#edithHighLand').val(cellWaterWashData.hHighLand);
+     modal.find('#editvariable').val(cellWaterWashData.variable);
+     modal.find('#editserial').val(cellWaterWashData.serial);
+     modal.find('#editline').val(cellWaterWashData.line);
+     modal.find('#editmanual').val(cellWaterWashData.manual);
+     modal.find('#editoperater').val(cellWaterWashData.operater);
+     modal.find('#editowner').val(cellWaterWashData.owner);
+     modal.find('#editremark').val(cellWaterWashData.remark);
+     modal.find('#editimportWay').val(cellWaterWashData.importWay);
+     modal.find('#edituserId').val(cellWaterWashData.userId);
+     modal.find('#editctime').val(cellWaterWashData.ctime);
+ }).on('hide.bs.modal', function (event) {
+     cellUserData = null;
+ });
+ 
+ // edit user
+ function editwaterwash() {
+		var id = $("#editid").val();
+		var tail = $("#edittail").val();
+		var duty = $("#editduty").val();
+		var ratingPlane= $("#editratingPlane").val();
+		var configPlane = $("#editconfigPlane").val();
+		var egsnOriginal = $("#editegsnOriginal").val();
+		var series = $("#editseries").val();
+		var type = $("#edittype").val();
+		var model = $("#editmodel").val();
+		var attribute = $("#editattribute").val();
+		var etops = $("#editetops").val();
+		var hHighLand = $("#edithHighLand").val();
+		var variable = $("#editvariable").val();
+		var serial = $("#editserial").val();
+		var line = $("#editline").val();
+		var manual = $("#editmanual").val();
+		var operater = $("#editoperater").val();
+		var owner = $("#editowner").val();
+		var remark = $("#editremark").val();
+		var importWay = $("#editimportWay").val();
+		var userId = $("#edituserId").val();
+		var ctime = $("#editctime").val();
+		$.post(
+		    "${pageContext.request.contextPath}/manage/recorddataplane/saveOrUpdate.do",
+		    {
+		        "id": id,
+		        "tail": tail,
+		        "duty": duty,
+		        "ratingPlane": ratingPlane,
+		        "configPlane": configPlane,
+		        "egsnOriginal": egsnOriginal,
+		        "series": series,
+		        "type": type,
+		        "model": model,
+		        "attribute": attribute,
+		        "etops": etops,
+		        "hHighLand": hHighLand,
+		        "variable": variable,
+		        "serial": serial,
+		        "line": line,
+		        "manual": manual,
+		        "operater": operater,
+		        "owner": owner,
+		        "remark": remark,
+		        "importWay": importWay,
+		        "userId": userId,
+		        "ctime": ctime
+		    },
+		    function (res) {
+		    	 $('#waterwash-info-modal').modal('hide');
+		         reloadTable(true);
+		    },
+		    "json"
+		);
+		$('#waterwash-info-modal').modal('hide');
+        reloadTable(true);
+	}
+ 
+ // add user
+ function addwaterwash() {
+		var id = $("#addid").val();
+		var tail = $("#addtail").val();
+		var duty = $("#addduty").val();
+		var ratingPlane= $("#addratingPlane").val();
+		var configPlane = $("#addconfigPlane").val();
+		var egsnOriginal = $("#addegsnOriginal").val();
+		var series = $("#addseries").val();
+		var type = $("#addtype").val();
+		var model = $("#addmodel").val();
+		var attribute = $("#addattribute").val();
+		var etops = $("#addetops").val();
+		var hHighLand = $("#addhHighLand").val();
+		var variable = $("#addvariable").val();
+		var serial = $("#addserial").val();
+		var line = $("#addline").val();
+		var manual = $("#addmanual").val();
+		var operater = $("#addoperater").val();
+		var owner = $("#addowner").val();
+		var remark = $("#addremark").val();
+		var importWay = $("#addimportWay").val();
+		var userId = $("#adduserId").val();
+		var ctime = $("#addctime").val();
+		$.post(
+		    "${pageContext.request.contextPath}/manage/recorddataplane/saveOrUpdate.do",
+		    {
+		    	"id": id,
+		        "tail": tail,
+		        "duty": duty,
+		        "ratingPlane": ratingPlane,
+		        "configPlane": configPlane,
+		        "egsnOriginal": egsnOriginal,
+		        "series": series,
+		        "type": type,
+		        "model": model,
+		        "attribute": attribute,
+		        "etops": etops,
+		        "hHighLand": hHighLand,
+		        "variable": variable,
+		        "serial": serial,
+		        "line": line,
+		        "manual": manual,
+		        "operater": operater,
+		        "owner": owner,
+		        "remark": remark,
+		        "importWay": importWay,
+		        "userId": userId,
+		        "ctime": ctime
+		    },
+		    function (response) {
+		    	 $('#waterwash-add-modal').modal('hide');
+		         reloadTable(true);
+		    },
+		    "json"
+		);
+		$('#waterwash-add-modal').modal('hide');
+        reloadTable(true);
+	}
+ 
+ /**
+  * 重载列表
+  */
+ function reloadTable(reset) {
+     var table = $('#table-list').DataTable();
+     if (reset == true) {
+         table.ajax.reload(null, true);
+     } else {
+         table.ajax.reload();
+     }
+ }
+
+ // search 
+ function searchUser() {
+	 reloadTable(true);
+ }
+ 
+// delete
+ function deletewaterwash(id) {
+     if (confirm("你确定要删除吗？")) {
+         $.post(
+             "${pageContext.request.contextPath}/manage/recorddataplane/delete.do",
+             {
+                 "id": id,
+             },
+             function (response) {
+            	 console.log(21);
+                 $('#mood-modal').modal('hide');
+                 reloadTable(true);
+             },
+             "json"
+         );
+     };
+     $('#mood-modal').modal('hide');
+     reloadTable(true);
+ }
+ 
+</script>
+</body>
+</html>

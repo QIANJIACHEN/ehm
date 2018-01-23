@@ -1,0 +1,67 @@
+package com.cea.ehm.controller.manage;
+
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.cea.ehm.bean.RecordFailure;
+import com.cea.ehm.controller.BaseController;
+import com.cea.ehm.service.RecordFailureService;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import com.google.common.collect.Maps;
+
+/**
+ * 部门
+ */
+@Controller
+@RequestMapping(value = "/manage/troubleshooting")
+public class TroubleShootingController extends BaseController {
+@Autowired RecordFailureService recordService;
+	
+	/**
+	 * 显示排故专家列表
+	 */
+	@RequestMapping(value = "/troublelist.do")
+	public ModelAndView index() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/troubleshooting/troublelist");
+		return mv;
+	}
+	
+	/**
+	 * 故障记录列表
+	 */
+	@RequestMapping(value="record")
+	public ModelAndView record() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/troubleshooting/record");
+		return mv;
+	}
+	@RequestMapping(value="recordinfo.do")
+	@ResponseBody
+	public Map<String, Object> recordinfo(@RequestParam Map<String, String> ReqData){
+		PageBounds pageBounds = handlePageInfoForManage(ReqData);
+		String sEcho = ReqData.get("draw");
+		Map<String, String> paramMap = Maps.newHashMap();
+		PageList<RecordFailure> pageList =  (PageList<RecordFailure>) recordService.recordinfo(paramMap, pageBounds);
+		Pageable page = new PageRequest(pageBounds.getPage(), pageBounds.getLimit());
+		Page<RecordFailure> content = new PageImpl<>(pageList, page, pageList.getPaginator().getTotalCount());
+		Map<String, Object> map = Maps.newHashMap();
+		map.put("data", pageList);
+		map.put("iTotalRecords", content.getTotalElements());
+		map.put("iTotalDisplayRecords", content.getTotalElements());
+		map.put("sEcho", sEcho);
+		map.put("draw", sEcho);
+		return map;
+	}
+}

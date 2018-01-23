@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.EngDeadLineLlpMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.EngDeadLineLlp">
+		<result column="ID" jdbcType="INTEGER" property="id" />
+		<result column="ENG_SN" jdbcType="VARCHAR" property="engSn" />
+		<result column="ENG_ID" jdbcType="INTEGER" property="engId" />
+		<result column="DEADLINE_LLP" jdbcType="VARCHAR" property="deadLineLlp" />
+		<result column="DEADLINE_211" jdbcType="VARCHAR" property="deadLine211" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ID,ENG_SN,ENG_ID,DEADLINE_LLP,DEADLINE_211
+	</sql>
+	
+	<select id="getAllEngDeadLineLlpInfo" parameterType="com.cea.ehm.bean.EngDeadLineLlp"
+		resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_eng_deadline_llp
+	</select>
+	
+	<select id="select" parameterType="com.cea.ehm.bean.EngDeadLineLlp"
+		resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_eng_deadline_llp
+		WHERE ID = #{id,jdbcType=INTEGER} 
+	</select>
+
+	<select id="getEngDeadLineLlpList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_eng_deadline_llp
+		<if test="engSn != null">
+			WHERE ENG_SN LIKE CONCAT('%',#{engSn,jdbcType=VARCHAR})
+		</if>
+	</select>
+
+	<insert id="insert" parameterType="com.cea.ehm.bean.EngDeadLineLlp">
+		INSERT INTO ehm_eng_deadline_llp
+		(
+			ID,ENG_SN,ENG_ID,DEADLINE_LLP,DEADLINE_211
+		)
+		VALUES
+		(
+			#{id,jdbcType=INTEGER},
+			#{engSn,jdbcType=VARCHAR},
+			#{engId,jdbcType=INTEGER},
+			#{deadLineLlp,jdbcType=VARCHAR},
+			#{deadLine211,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="com.cea.ehm.bean.EngDeadLineLlp">
+		DELETE FROM
+		ehm_eng_deadline_llp
+		WHERE
+		ID = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<update id="update" parameterType="com.cea.ehm.bean.EngDeadLineLlp">
+		UPDATE ehm_eng_deadline_llp
+		<set>
+			<if test="engSn != null">
+				ENG_SN = #{engSn,jdbcType=VARCHAR},
+			</if>
+			<if test="engId != null">
+				ENG_ID = #{engId,jdbcType=INTEGER},
+			</if>
+			<if test="deadLineLlp != null">
+				DEADLINE_LLP = #{deadLineLlp,jdbcType=VARCHAR},
+			</if>
+			<if test="deadLine211 != null">
+				DEADLINE_211 = #{deadLine211,jdbcType=VARCHAR},
+			</if>
+			
+		</set>
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</update>
+
+</mapper>

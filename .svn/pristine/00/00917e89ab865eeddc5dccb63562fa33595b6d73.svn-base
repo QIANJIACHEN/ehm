@@ -1,0 +1,142 @@
+package com.cea.ehm.controller.manage;
+
+import java.time.LocalDateTime;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.cea.ehm.bean.OilConsumption;
+import com.cea.ehm.bean.User;
+import com.cea.ehm.controller.BaseController;
+import com.cea.ehm.service.OilConsumptionService;
+import com.cea.ehm.util.ConstantUtil;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import com.google.common.collect.Maps;
+
+/**
+ * 滑耗数据
+ */
+@Controller
+@RequestMapping(value = "/manage/oilconsumption")
+public class OilConsumptionController extends BaseController {
+	@Autowired
+	OilConsumptionService oilService;
+
+	/**
+	 * 显示滑油监控列表
+	 */
+	@RequestMapping(value = "/oillist.do")
+	public ModelAndView shakelist() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/oilconsumption/oillist");
+		return mv;
+	}
+
+	/**
+	 * 显示滑油健康报告
+	 */
+	@RequestMapping(value = "/oilreport.do")
+	public ModelAndView report() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/oilconsumption/oilreport");
+		return mv;
+	}
+
+	/**
+	 * 查询滑耗数据 → 列表
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@PostMapping(value = "/list.do")
+	@ResponseBody
+	public Map<String, Object> list(@RequestParam Map<String, String> reqPara) {
+		PageBounds pageBounds = handlePageInfoForManage(reqPara);
+		String sEcho = reqPara.get("draw");
+		// 条件参数
+		Map<String, String> paramMap = Maps.newHashMap();
+		PageList<OilConsumption> pageList = (PageList<OilConsumption>) oilService.getList(paramMap, pageBounds);
+		Pageable page = new PageRequest(pageBounds.getPage(), pageBounds.getLimit());
+		Page<OilConsumption> content = new PageImpl<>(pageList, page, pageList.getPaginator().getTotalCount());
+		Map<String, Object> map = Maps.newHashMap();
+		map.put("data", pageList);
+		map.put("iTotalRecords", content.getTotalElements());
+		map.put("iTotalDisplayRecords", content.getTotalElements());
+		map.put("sEcho", sEcho);
+		map.put("draw", sEcho);
+		return map;
+	}
+
+	/**
+	 * 滑耗数据 保存
+	 * 
+	 * @param oil
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/save.do")
+	@ResponseBody
+	public Map<String, Object> save(OilConsumption oil, HttpServletRequest request) {
+		@SuppressWarnings("unchecked")
+		Map<Integer, String> planesMap = (Map<Integer, String>) request.getSession().getAttribute("planesMap");
+		oil.setTail(planesMap.get(oil.getPlaneId()));
+		User user = (User) request.getSession().getAttribute(ConstantUtil.SESSION_LOGIN_USER);
+		int userId = 0;
+		if (user != null) {
+			userId = user.getUserId();
+		}
+		oil.setUserId(userId);
+		String date = LocalDateTime.now().toString().replace("T", " ");
+		String ctime = date.substring(0, date.indexOf("."));
+		oil.setCtime(ctime);
+		oilService.save(oil);
+		return getSuccessMessage();
+	}
+
+	/**
+	 * 滑耗数据 修改
+	 * 
+	 * @param oil
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/update.do")
+	@ResponseBody
+	public Map<String, Object> update(OilConsumption oil, HttpServletRequest request) {
+		@SuppressWarnings("unchecked")
+		Map<Integer, String> planesMap = (Map<Integer, String>) request.getSession().getAttribute("planesMap");
+		oil.setTail(planesMap.get(oil.getPlaneId()));
+		oilService.update(oil);
+		return getSuccessMessage();
+	}
+
+	/**
+	 * 滑耗数据 删除
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/delete.do")
+	@ResponseBody
+	public Map<String, Object> delete(@RequestParam Map<String, String> reqPara) {
+		String id = reqPara.get("id");
+		OilConsumption oil = new OilConsumption();
+		oil.setId(Integer.parseInt(id));
+		oilService.delete(oil);
+		return getSuccessMessage();
+	}
+
+}

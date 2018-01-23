@@ -1,0 +1,151 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-head.jsp"/>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-script.jsp"/>
+    <style type="text/css">
+    	table.tablerecord th ,table.tablerecord td{
+    		text-align:center;
+    		border:1px solid #d7d7d7 !important;
+    	}
+    	table.tablerecord th{
+    		background-color:#f2f2f2;
+    	}
+    	table.tablerecord td a{
+    		text-decoration:underline;
+    	}
+    	.basicinfo p span{
+    		display:inline-block;
+    		width:40%;
+    		padding-left:10px;
+    		box-sizing:border-box;
+    		font-size:15px;
+    	}
+    	.basicinfo p span.key{
+    		width:45%;
+    		padding-left:0px;
+    		font-weight:bold;
+    	}
+    	.basicinfo p span a{
+    		text-decoration:underline;
+    	}
+    </style>
+</head>
+<body class="hold-transition" >
+
+<div class="wrapper">
+
+    <div class="box wrapper " style="overflow: auto;">
+		 
+		<button type="button" onclick="back()" style="margin:20px;padding:20px;" class="btn btn-default">返回</button>
+        <div class="box-header">
+        	<h4>基础信息</h4><br>
+        	<div class="row basicinfo">
+        		<div class="col-md-3 col-xs-3">
+        			<p>
+        				<span class="key">飞机号</span>
+        				<span class="val" id="planId"></span>
+        			</p>
+        			<p>
+        				<span class="key">TAIL</span>
+        				<span class="val"><a id="tail"></a></span>
+        			</p>
+        			<p>
+        				<span class="key">型号</span>
+        				<span class="val"><a id="model"></a></span>
+        			</p>
+        			<p>
+        				<span class="key">ETOPS</span>
+        				<span class="val" id="etops"></span>
+        			</p>
+        			<p>
+        				<span class="key">高高原</span>
+        				<span class="val" id="hHighland"></span>
+        			</p>
+        			<p>
+        				<span class="key">基地</span>
+        				<span class="val" id="duty"></span>
+        			</p>
+        		</div>
+        		<div class="col-md-3 col-xs-3">
+        			<p>
+        				<span class="key">航空公司</span>
+        				<span class="val" id="oprater"></span>
+        			</p>
+        			<p>
+        				<span class="key">发动机位置</span>
+        				<span class="val" id="engPosition"></span>
+        			</p>
+        			<p>
+        				<span class="key">发动机id</span>
+        				<span class="val" id="engId"></span>
+        			</p>
+        			<p>
+        				<span class="key">发动机编号</span>
+        				<span class="val" id="engSn"></span>
+        			</p>
+        			<p>
+        				<span class="key">发动机设备号</span>
+        				<span class="val" id="engPn"></span>
+        			</p>
+        			<p>
+        				<span class="key">IDPLUG_PN</span>
+        				<span class="val" id="idplugPn"></span>
+        			</p>
+        		</div>
+        		
+        	</div>
+        	
+        	
+        </div>
+        
+    </div>
+</div>
+<script type="text/javascript">
+	
+		function getRequest(){
+			var url = location.search;
+			var theRequest = new Object(); 
+			if (url.indexOf("?") != -1) { 
+				var str = url.substr(1); 
+				strs = str.split("&"); 
+				for(var i = 0; i < strs.length; i ++) { 
+				theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]); 
+				}
+			}
+			return theRequest; 
+		}
+		
+	
+	var Request = new Object(); 
+	Request = getRequest(); 
+	var planeId = Request['planeId'].toString(); 
+	$.post("${pageContext.request.contextPath}/manage/engonwing/info.do",{planeId:planeId},function(res){
+		$('#planeId').html(res.data[0].planeId);
+		$("#tail").html(res.data[0].tail);
+		$("#model").html(res.data[0].model);
+		$("#etops").html(res.data[0].etops);
+		$("#hHighland").html(res.data[0].hHighland);
+		$("#duty").html(res.data[0].duty);
+		$("#oprater").html(res.data[0].oprater);
+		$("#engPosition").html(res.data[0].engPosition);
+		$("#engId").html(res.data[0].engId);
+		$("#engSn").html(res.data[0].engSn);
+		$("#engPn").html(res.data[0].engPn);
+		$("#idplugPn").html(res.data[0].idplugPn);
+	},"json");
+	
+	//返回
+	function back(){
+		url="${pageContext.request.contextPath}/manage/engonwing/engonwinglist.do";
+		title = "onwing发动机";
+		tab_url = self.frameElement.getAttribute('data_url');//iframe对应的data_url和tab对应的data_url是一致的
+		window.parent.changePage(title,tab_url);//调用父页面的方法
+		//跳转
+		window.location.href=url;
+	}
+
+</script>
+</body>
+</html>

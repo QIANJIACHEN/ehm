@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.DataSapDefectMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.DataSapDefect">
+		<result column="ID" jdbcType="INTEGER" property="id" />
+		<result column="DUTY" jdbcType="INTEGER" property="duty" />
+		<result column="DUTYNAME" jdbcType="VARCHAR" property="dutyName"/>
+		<result column="SERIES" jdbcType="VARCHAR" property="series" />
+		<result column="PLANE_ID" jdbcType="INTEGER" property="planeId" />
+		<result column="TAIL" jdbcType="VARCHAR" property="tail" />
+		<result column="ENG_POSIT" jdbcType="INTEGER" property="engPosit" />
+		<result column="ENG_ID" jdbcType="INTEGER" property="engId" />
+		<result column="ENG_SN" jdbcType="VARCHAR" property="engSn" />
+		<result column="STATUS" jdbcType="INTEGER" property="status" />
+		<result column="NAME" jdbcType="VARCHAR" property="name" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ID,DUTY,SERIES,PLANE_ID,TAIL,ENG_POSIT,ENG_ID,ENG_SN,STATUS,NAME,REMARK
+	</sql>
+	
+	<select id="getAllDataSapDefectInfo" parameterType="com.cea.ehm.bean.DataSapDefect"
+		resultMap="baseResultMap">
+		SELECT
+		dsd.*,d.NAME as DUTYNAME
+		FROM ehm_data_sap_defect dsd
+		LEFT JOIN ehm_duty d ON dsd.DUTY = d.ID
+	</select>
+	
+	<select id="select" parameterType="com.cea.ehm.bean.DataSapDefect"
+		resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_data_sap_defect
+		WHERE ID = #{id,jdbcType=INTEGER} 
+	</select>
+
+	<select id="getDataSapDefectList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		dsd.*,d.NAME as DUTYNAME
+		FROM ehm_data_sap_defect dsd
+		LEFT JOIN ehm_duty d ON d.ID = dsd.DUTY
+		<if test="engSn != null">
+			WHERE dsd.ENG_SN LIKE CONCAT('%',#{engSn,jdbcType=VARCHAR})
+		</if>
+	</select>
+
+	<insert id="insert" parameterType="com.cea.ehm.bean.DataSapDefect">
+		INSERT INTO ehm_data_sap_defect
+		(
+			ID,DUTY,SERIES,PLANE_ID,TAIL,ENG_POSIT,ENG_ID,ENG_SN,STATUS,NAME,REMARK
+		)
+		VALUES
+		(
+			#{id,jdbcType=INTEGER},
+			#{duty,jdbcType=INTEGER},
+			#{series,jdbcType=VARCHAR},
+			#{planeId,jdbcType=INTEGER},
+			#{tail,jdbcType=VARCHAR},
+			#{engPosit,jdbcType=INTEGER},
+			#{engId,jdbcType=INTEGER},
+			#{engSn,jdbcType=VARCHAR},
+			#{status,jdbcType=INTEGER},
+			#{name,jdbcType=VARCHAR},
+			#{remark,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="com.cea.ehm.bean.DataSapDefect">
+		DELETE FROM
+		ehm_data_sap_defect
+		WHERE
+		ID = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<update id="update" parameterType="com.cea.ehm.bean.DataSapDefect">
+		UPDATE ehm_data_sap_defect
+		<set>
+			<if test="duty != null">
+				DUTY = #{duty,jdbcType=INTEGER},
+			</if>
+			<if test="series != null">
+				SERIES = #{series,jdbcType=INTEGER},
+			</if>
+			<if test="planeId != null">
+				PLANE_ID = #{planeId,jdbcType=INTEGER},
+			</if>
+			<if test="tail != null">
+				TAIL = #{tail,jdbcType=VARCHAR},
+			</if>
+			<if test="engPosit != null">
+				ENG_POSIT = #{engPosit,jdbcType=INTEGER},
+			</if>
+			<if test="engId != null">
+				ENG_ID = #{engId,jdbcType=INTEGER},
+			</if>
+			<if test="engSn != null">
+				ENG_SN = #{engSn,jdbcType=VARCHAR},
+			</if>
+			<if test="status!=null">
+				STATUS = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="name!=null">
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="remark!=null">
+				REMARK = #{remark,jdbcType=VARCHAR}
+			</if>
+		</set>
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</update>
+
+</mapper>

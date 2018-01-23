@@ -1,0 +1,51 @@
+package com.cea.ehm.dao;
+
+import java.util.Map;
+
+import com.cea.ehm.bean.DataEng;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+/**
+ * 发动机信息持久层接口
+ */
+public interface DataEngMapper {
+
+	/**
+	 * 查询发动机信息列表
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	PageList<DataEng> getdataengList(Map<String, String> paramMap, PageBounds pageBounds);
+
+	/**
+	 * 保存发动机信息
+	 * 
+	 * @param dataeng
+	 */
+	void insert(DataEng dataeng);
+
+	/**
+	 * 更新发动机信息
+	 * 
+	 * @param dataeng
+	 */
+	void update(DataEng dataeng);
+
+	/**
+	 * 删除发动机信息
+	 * 
+	 * @param dataeng
+	 */
+	void delete(DataEng dataeng);
+
+	/**
+	 * 查询发动机信息
+	 * 
+	 * @param dataeng
+	 */
+	DataEng select(DataEng dataeng);
+
+}

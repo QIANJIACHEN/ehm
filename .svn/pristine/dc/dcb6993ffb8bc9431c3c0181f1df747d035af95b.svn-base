@@ -1,0 +1,142 @@
+package com.cea.ehm.controller.manage;
+
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.cea.ehm.bean.User;
+import com.cea.ehm.controller.BaseController;
+import com.cea.ehm.service.UserService;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import com.google.common.collect.Maps;
+
+/**
+ * 用户信息
+ */
+@Controller
+@RequestMapping(value = "/manage/user")
+public class UserController extends BaseController {
+	private Logger logger = Logger.getLogger(UserController.class);
+	@Autowired
+	private UserService userService;
+
+	/**
+	 * 显示用户列表页面
+	 */
+	@RequestMapping(value = "/userlist.do")
+	public ModelAndView userlist() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/user/userlist");
+		return mv;
+	}
+	
+	/**
+	 * 显示用户信息页面
+	 */
+	@RequestMapping(value = "/userinfo.do")
+	public ModelAndView userinfo() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/user/userinfo");
+		return mv;
+	}
+
+	/**
+	 * 查询用户 → 列表
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/list.do")
+	@ResponseBody
+	public Map<String, Object> list(@RequestParam Map<String, String> reqPara) {
+		logger.info("页面请求参数: " + reqPara);
+		PageBounds pageBounds = handlePageInfoForManage(reqPara);
+		// ？？
+		String sEcho = reqPara.get("draw");
+		// 条件参数
+		String key = reqPara.get("key");
+		Map<String, String> paramMap = Maps.newHashMap();
+		paramMap.put("username", key);
+
+		PageList<User> pageList = (PageList<User>) userService.getUserList(paramMap, pageBounds);
+
+		Pageable page = new PageRequest(pageBounds.getPage(), pageBounds.getLimit());
+		Page<User> content = new PageImpl<>(pageList, page, pageList.getPaginator().getTotalCount());
+
+		Map<String, Object> map = Maps.newHashMap();
+		map.put("data", pageList);
+		map.put("iTotalRecords", content.getTotalElements());
+		map.put("iTotalDisplayRecords", content.getTotalElements());
+		map.put("sEcho", sEcho);
+		map.put("draw", sEcho);
+		return map;
+	}
+
+	/**
+	 * 保存或更新用户信息
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/saveOrUpdate.do")
+	@ResponseBody
+	public Map<String, Object> saveOrUpdate(@RequestParam Map<String, String> reqPara) {
+		logger.info("待编辑用户信息: " + reqPara);
+		String userId = reqPara.get("userId");
+		String username = reqPara.get("username");
+		String realName = reqPara.get("realName");
+		String password = reqPara.get("password");
+		String position = reqPara.get("position");
+		String role = reqPara.get("role");
+		Integer phone = Integer.parseInt(reqPara.get("phone"));
+		String ctime = reqPara.get("ctime");
+		String duty = reqPara.get("duty");
+
+		User user = new User();
+		user.setUserId(userId);
+		user.setUsername(username);
+		user.setRealName(realName);
+		user.setPassword(password);
+		user.setPosition(position);
+		user.setRole(role);
+		user.setPhone(phone);
+		user.setCtime(ctime);
+		user.setDuty(duty);
+
+		userService.saveOrUpdate(user);
+		return null;
+	}
+
+	/**
+	 * 删除用户信息
+	 * 
+	 * @param reqPara
+	 * @return
+	 */
+	@RequestMapping(value = "/delete.do")
+	@ResponseBody
+	public Map<String, Object> delete(@RequestParam Map<String, String> reqPara) {
+		logger.info("待删除用户信息: " + reqPara);
+		String userId = reqPara.get("userId");
+		User user = new User();
+		user.setUserId(userId);
+
+		// 删除之前是不是要判断用户是否存在？？
+
+		// 这里没做判断, 直接删除
+		userService.delete(user);
+		return null;
+	}
+	
+}

@@ -1,0 +1,341 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-head.jsp"/>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-script.jsp"/>
+    <style type="text/css">
+    	table.tablerecord th ,table.tablerecord td{
+    		text-align:center;
+    		border:1px solid #d7d7d7 !important;
+    	}
+    	table.tablerecord th{
+    		background-color:#f2f2f2;
+    	}
+    	table.tablerecord td a{
+    		text-decoration:underline;
+    	}
+    	.basicinfo p span{
+    		display:inline-block;
+    		width:40%;
+    		padding-left:10px;
+    		box-sizing:border-box;
+    		font-size:15px;
+    	}
+    	.basicinfo p span.key{
+    		width:45%;
+    		padding-left:0px;
+    		font-weight:bold;
+    	}
+    	.basicinfo p span a{
+    		text-decoration:underline;
+    	}
+    </style>
+</head>
+<body class="hold-transition" >
+
+<div class="wrapper">
+
+    <div class="box wrapper " style="overflow: auto;">
+		 
+		<button type="button" onclick="back()"  class="return">返回</button>
+        <div class="box-header">
+        	<h4>基础信息</h4><br>
+        	<div class="row basicinfo">
+        		<div class="col-md-3 col-xs-3">
+        			<p>
+        				<span class="key">id</span>
+        				<span class="val" id="id"></span>
+        			</p>
+        			<p>
+        				<span class="key">基地</span>
+        				<span class="val"><a id="duty"></a></span>
+        			</p>
+        			<p>
+        				<span class="key">机型</span>
+        				<span class="val"><a id="series"></a></span>
+        			</p>
+        		<!-- 
+        			<p>
+        				<span class="key">飞机ID</span>
+        				<span class="val" id="planeId"></span>
+        			</p> 
+        			 -->
+        			<p>
+        				<span class="key">机号</span>
+        				<span class="val" id="tail"></span>
+        			</p>
+        			<p>
+        				<span class="key">发动机位置</span>
+        				<span class="val" id="engPosit"></span>
+        			</p>
+        		</div>
+        		<div class="col-md-3 col-xs-3">
+        			<p>
+        				<span class="key">发动机ID</span>
+        				<span class="val" id="engId"></span>
+        			</p>
+        			<p>
+        				<span class="key">发动机序号</span>
+        				<span class="val" id="engSn"></span>
+        			</p>
+        			<p>
+        				<span class="key">Rating</span>
+        				<span class="val" id="rating"></span>
+        			</p>
+        			<p>
+        				<span class="key">config</span>
+        				<span class="val" id="config"></span>
+        			</p>
+        			<p>
+        				<span class="key">当前ETSN</span>
+        				<span class="val" id="etsn"></span>
+        			</p>
+        			<p>
+        				<span class="key">当前ECSN</span>
+        				<span class="val" id="ecsn"></span>
+        			</p>
+        		</div>
+        		<div class="col-md-3 col-xs-3">
+        			<p>
+        				<span class="key">当前EGTM</span>
+        				<span class="val" id="egtm"></span>
+        			</p>
+        			<p>
+        				<span class="key">LLP最小剩余寿命</span>
+        				<span class="val" id="minLlp"></span>
+        			</p>
+        			<p>
+        				<span class="key">是否正常</span>
+        				<span class="val" id="isNormal"></span>
+        			</p>
+        			<p>
+        				<span class="key">厂家网络监控</span>
+        				<span class="val" id="deliveryModeMonitoring"></span>
+        			</p>
+        			<p>
+        				<span class="key">滑耗监控</span>
+        				<span class="val" id="oilMonitoring"></span>
+        			</p>
+        			<p>
+        				<span class="key">震动监控</span>
+        				<span class="val" id="vibratopmMonitoring"></span>
+        			</p>
+        		</div>
+        		<div class="col-md-3 col-xs-3">
+        			<p>
+        				<span class="key">磁堵检查报告</span>
+        				<span class="val" id="magneticPluginSpectionReport"></span>
+        			</p>
+        			<p>
+        				<span class="key">孔探报告</span>
+        				<span class="val" id="borescopeReport"></span>
+        			</p>
+        			<p>
+        				<span class="key">CNR报告</span>
+        				<span class="val" id="cnrReport"></span>
+        			</p>
+        			<p>
+        				<span class="key">ACARS传输</span>
+        				<span class="val" id="acars"></span>
+        			</p>
+        			<p>
+        				<span class="key">航线运行</span>
+        				<span class="val" id="routeOperation"></span>
+        			</p>
+        			<p>
+        				<span class="key">发动机滑耗</span>
+        				<span class="val" id="engOil"></span>
+        			</p>
+        		</div>
+        		<div class="col-md-3 col-xs-3">
+        			<p>
+        				<span class="key">ETOPS能力</span>
+        				<span class="val" id="etops"></span>
+        			</p>
+        			<p>
+        				<span class="key">高高原能力</span>
+        				<span class="val" id="hHighland"></span>
+        			</p>
+        			<p>
+        				<span class="key">营运人</span>
+        				<span class="val" id="cntrOptr"></span>
+        			</p>
+        			<p>
+        				<span class="key">预计拆发日期</span>
+        				<span class="val" id="etime"></span>
+        			</p>
+        			<p>
+        				<span class="key">当前ETSR</span>
+        				<span class="val" id="etsr"></span>
+        			</p>
+        			<p>
+        				<span class="key">当前ECSR</span>
+        				<span class="val" id="ecsr"></span>
+        			</p>
+        		</div>
+        		<div class="col-md-3 col-xs-3">
+        			<p>
+        				<span class="key">当前ETSI</span>
+        				<span class="val" id="etsi"></span>
+        			</p>
+        			<p>
+        				<span class="key">当前ECSI</span>
+        				<span class="val" id="ecsi"></span>
+        			</p>
+        			<p>
+        				<span class="key">当前ETSO</span>
+        				<span class="val" id="etso"></span>
+        			</p>
+        			<p>
+        				<span class="key">当前ECSO</span>
+        				<span class="val" id="ecso"></span>
+        			</p>
+        			<p>
+        				<span class="key">装机日期</span>
+        				<span class="val" id="ptime"></span>
+        			</p>
+        			<p>
+        				<span class="key">创建日期</span>
+        				<span class="val" id="ctime"></span>
+        			</p>
+        		</div>
+        		<div class="col-md-3 col-xs-3">
+        			<p>
+        				<span class="key">创建人</span>
+        				<span class="val" id="cUser"></span>
+        			</p>
+        			<p>
+        				<span class="key">更改日期</span>
+        				<span class="val" id="utime"></span>
+        			</p>
+        			<p>
+        				<span class="key">审核人</span>
+        				<span class="val" id="auditor"></span>
+        			</p>
+        			<p>
+        				<span class="key">审核日期</span>
+        				<span class="val" id="atime"></span>
+        			</p>
+        			<p>
+        				<span class="key">性能月报编号</span>
+        				<span class="val" id="monPerformanceNo"></span>
+        			</p>
+        			<p>
+        				<span class="key">发动机设备号</span>
+        				<span class="val" id="engPn"></span>
+        			</p>
+        		</div>
+        		<div class="col-md-3 col-xs-3">
+        			<p>
+        				<span class="key">更改人</span>
+        				<span class="val" id="uUser"></span>
+        			</p>
+        			<p>
+        				<span class="key">是否历史数据</span>
+        				<span class="val" id="isHisData"></span>
+        			</p>
+        			<p>
+        				<span class="key">文档</span>
+        				<span class="val" id="doc"></span>
+        			</p>
+        		</div>       		
+        	</div>
+        </div>
+       
+    </div>
+</div>
+<script type="text/javascript">
+	
+		function getRequest(){
+			var url = location.search;
+			var theRequest = new Object(); 
+			if (url.indexOf("?") != -1) { 
+				var str = url.substr(1); 
+				strs = str.split("&"); 
+				for(var i = 0; i < strs.length; i ++) { 
+				theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]); 
+				}
+			}
+			return theRequest; 
+		}
+		
+	
+	var Request = new Object(); 
+	Request = getRequest(); 
+	var id = Request['id']; 
+	$.post("${pageContext.request.contextPath}/manage/sapdailyreport/info.do",{id:id},function(res){
+		var isNormal = "否";
+		var isHisData = "否";
+		if(res.data[0].isNormal == 1){
+			isNormal = "是";
+		}
+		if(res.data[0].isHisData == 1){
+			isHisData = "是";
+		}
+		$('#id').html(res.data[0].id);
+		$("#duty").html(res.data[0].dutyName);
+		$("#series").html(res.data[0].series);
+		//$("#planeId").html(res.data[0].planeId);
+		$("#tail").html(res.data[0].tail);
+		$("#engPosit").html(res.data[0].engPosit);
+		$("#engId").html(res.data[0].engId);
+		$("#engSn").html(res.data[0].engSn);
+		$("#rating").html(res.data[0].rating);
+		$("#config").html(res.data[0].config);
+		$("#etsn").html(res.data[0].etsn);
+		$("#ecsn").html(res.data[0].ecsn);
+		$("#egtm").html(res.data[0].egtm);
+		$("#minLlp").html(res.data[0].minLlp);
+		$("#isNormal").html(isNormal);
+		$("#deliveryModeMonitoring").html(res.data[0].deliveryModeMonitoring);
+		$("#oilMonitoring").html(res.data[0].oilMonitoring);
+		$("#vibratopmMonitoring").html(res.data[0].vibratopmMonitoring);
+		$("#magneticPluginSpectionReport").html(res.data[0].magneticPluginSpectionReport);
+		$("#borescopeReport").html(res.data[0].borescopeReport);
+		$("#cnrReport").html(res.data[0].cnrReport);
+		$("#acars").html(res.data[0].acars);
+		$("#routeOperation").html(res.data[0].routeOperation);
+		$("#engOil").html(res.data[0].engOil);
+		$("#etops").html(res.data[0].etops);
+		if(res.data[0].hHighLand=="0"){
+			$("#hHighland").html("是");
+		} else if(res.data[0].hHighLand=="1"){
+			$("#hHighland").html("否");
+		}
+		
+		$("#cntrOptr").html(res.data[0].cntrOptr);
+		$("#etime").html(res.data[0].etime);
+		$("#etsr").html(res.data[0].etsr);
+		$("#ecsr").html(res.data[0].ecsr);
+		$("#etsi").html(res.data[0].etsi);
+		$("#ecsi").html(res.data[0].ecsi);
+		$("#etso").html(res.data[0].etso);
+		$("#ecso").html(res.data[0].ecso);
+		$("#ptime").html(res.data[0].ptime);
+		$("#ctime").html(res.data[0].ctime);
+		$("#uUser").html(res.data[0].uUser);
+		$("#utime").html(res.data[0].utime);
+		$("#atime").html(res.data[0].atime);
+		$("#monPerformanceNo").html(res.data[0].monPerformanceNo);
+		$("#engPn").html(res.data[0].engPn);
+		$("#isHisData").html(isHisData);
+		$("#doc").html(res.data[0].doc);
+		$("#cUser").html(res.data[0].cUserName);
+		$("#uUser").html(res.data[0].uUserName);
+		$("#auditor").html(res.data[0].auditorName);
+	},"json");
+	
+	//返回
+	function back(){
+		url="${pageContext.request.contextPath}/manage/sapdailyreport/sapdailyreportlist.do";
+		title = "SAP日报表";
+		tab_url = self.frameElement.getAttribute('data_url');//iframe对应的data_url和tab对应的data_url是一致的
+		window.parent.changePage(title,tab_url);//调用父页面的方法
+		//跳转
+		window.location.href=url;
+	}
+
+</script>
+</body>
+</html>

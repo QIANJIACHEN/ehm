@@ -1,0 +1,84 @@
+package com.cea.ehm.service;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cea.ehm.bean.Duty;
+import com.cea.ehm.bean.OilConsumption;
+import com.cea.ehm.bean.User;
+import com.cea.ehm.dao.DutyMapper;
+import com.cea.ehm.dao.OilConsumptionMapper;
+import com.cea.ehm.dao.UserMapper;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import com.google.common.collect.Maps;
+
+/**
+ * 滑耗数据 服务层
+ */
+@Service
+public class OilConsumptionService {
+	@Autowired
+	OilConsumptionMapper oilMapper;
+	@Autowired
+	private DutyMapper dutyMapper;
+	@Autowired
+	private UserMapper userMapper;
+
+	/**
+	 * 滑耗数据 保存
+	 * 
+	 * @param oil
+	 */
+	public void save(OilConsumption oil) {
+		oilMapper.save(oil);
+	}
+
+	/**
+	 * 查询滑耗数据
+	 * 
+	 * @param paramMap
+	 * @param pageBounds
+	 * @return
+	 */
+	public PageList<OilConsumption> getList(Map<String, String> paramMap, PageBounds pageBounds) {
+		PageList<OilConsumption> oils = oilMapper.getList(paramMap, pageBounds);
+		// 提取所有的基地ID 和基地名
+		List<Duty> allDuty = dutyMapper.getAllDuty();
+		Map<Integer, String> dutyMap = Maps.newHashMap();
+		allDuty.forEach(duty -> dutyMap.put(duty.getId(), duty.getName()));
+		// 提取所有的用户ID 和用户名
+		List<User> allUser = userMapper.getAllUser();
+		Map<Integer, String> userMap = Maps.newHashMap();
+		allUser.forEach(user -> userMap.put(user.getUserId(), user.getUsername()));
+		oils.forEach(oil -> {
+			oil.setDutyName(dutyMap.get(oil.getDuty()));
+			String username = userMap.get(oil.getUserId());
+			oil.setUsername(Optional.ofNullable(username).orElse("-"));
+		});
+		return oils;
+	}
+
+	/**
+	 * 滑耗数据 删除
+	 * 
+	 * @param oil
+	 */
+	public void delete(OilConsumption oil) {
+		oilMapper.delete(oil);
+	}
+
+	/**
+	 * 滑耗数据 修改
+	 * 
+	 * @param oil
+	 */
+	public void update(OilConsumption oil) {
+		oilMapper.update(oil);
+	}
+
+}

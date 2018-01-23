@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.UserMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.User">
+		<id column="USERID" jdbcType="INTEGER" property="userId" />
+		<result column="USERNAME" jdbcType="VARCHAR" property="username" />
+		<result column="REALNAME" jdbcType="VARCHAR" property="realName" />
+		<result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+		<result column="POSITION" jdbcType="VARCHAR" property="position" />
+		<result column="ROLE" jdbcType="INTEGER" property="role" />
+		<result column="PHONE" jdbcType="VARCHAR" property="phone" />
+		<result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
+		<result column="DUTY" jdbcType="INTEGER" property="duty" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		USERID,USERNAME,REALNAME,PASSWORD,POSITION,ROLE,PHONE,CTIME,DUTY
+	</sql>
+	
+	<select id="getUserByUsernameAndPassword" parameterType="com.cea.ehm.bean.User" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_user
+		WHERE USERNAME = #{username,jdbcType=VARCHAR}
+		AND PASSWORD = #{password,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="select" parameterType="com.cea.ehm.bean.User" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_user
+		WHERE USERNAME = #{username,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getUserList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_user
+		WHERE USERNAME LIKE CONCAT(CONCAT('%',#{username,jdbcType=VARCHAR}),'%')
+		<if test="role != null">
+			AND ROLE = #{role,jdbcType=INTEGER}
+		</if>
+		<if test="duty != null">
+			AND DUTY = #{duty,jdbcType=INTEGER}
+		</if>
+	</select>
+
+	<insert id="insert" parameterType="com.cea.ehm.bean.User">
+		INSERT INTO ehm_user
+			(USERNAME,REALNAME,PASSWORD,POSITION,ROLE,PHONE,CTIME,DUTY)
+		VALUES
+		(
+			#{username,jdbcType=VARCHAR},
+			#{realName,jdbcType=VARCHAR},
+			#{password,jdbcType=VARCHAR},
+			#{position,jdbcType=VARCHAR},
+			#{role,jdbcType=INTEGER},
+			#{phone,jdbcType=VARCHAR},
+			#{ctime,jdbcType=TIMESTAMP},
+			#{duty,jdbcType=INTEGER}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="com.cea.ehm.bean.User">
+		DELETE FROM
+			ehm_user
+		WHERE
+			USERID = #{userId,jdbcType=INTEGER}
+	</delete>
+
+	<update id="update" parameterType="com.cea.ehm.bean.User">
+		UPDATE ehm_user
+		<set>
+			<if test="username != null">
+				USERNAME = #{username,jdbcType=VARCHAR},
+			</if>
+			<if test="realName != null">
+				REALNAME = #{realName,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				PASSWORD = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="position != null">
+				POSITION = #{position,jdbcType=VARCHAR},
+			</if>
+			<if test="role != null">
+				ROLE = #{role,jdbcType=INTEGER},
+			</if>
+			<if test="phone != null">
+				PHONE = #{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="duty != null">
+				DUTY = #{duty,jdbcType=INTEGER},
+			</if>
+		</set>
+		WHERE USERID = #{userId,jdbcType=INTEGER}
+	</update>
+
+</mapper>

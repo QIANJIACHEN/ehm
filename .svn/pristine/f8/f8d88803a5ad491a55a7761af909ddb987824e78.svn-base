@@ -1,0 +1,230 @@
+package com.cea.ehm.controller;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+
+import com.cea.ehm.page.BasePage;
+import com.cea.ehm.util.ConstantUtil;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+
+/**
+ * 分页方法 和 后台页面交互方法
+ */
+public class BaseController {
+	public final static String MESSAGE_KEY = "msg";
+	public final static String MESSAGE_SUCCESS = "成功";
+	public final static String CODE_KEY = "code";
+	public final static Integer CODE_SUCCESS = 101;
+	public final static String DATA_KEY = "data";
+	public final static String PAGE_INDEX_KEY = "pageIndex";
+	public final static String PAGE_SIZE_KEY = "pageSize";
+	public final static String PAGE_TOTAL_KEY = "total";
+	public final static String PAGE_DATA_KEY = "pageData";
+
+	@InitBinder
+	protected void initBinder(WebDataBinder binder) {
+	}
+
+	/**
+	 * 返回成功数据
+	 *
+	 * @param data
+	 * @return
+	 */
+	public Map<String, Object> getSuccessData(Object data) {
+		return getSuccessData(data, MESSAGE_SUCCESS);
+	}
+
+	/**
+	 * 返回成功数据
+	 *
+	 * @param data
+	 * @return
+	 */
+	public Map<String, Object> getSuccessDataKey(String key, Object data) {
+		Map<String, Object> returnJSON = new HashMap<>();
+
+		returnJSON.put(MESSAGE_KEY, MESSAGE_SUCCESS);
+		returnJSON.put(CODE_KEY, CODE_SUCCESS);
+		returnJSON.put(key, data);
+
+		return returnJSON;
+	}
+
+	/**
+	 * 返回成功数据
+	 *
+	 * @param data
+	 * @return
+	 */
+	public Map<String, Object> getSuccessDatakey(String key, Object data, String message) {
+		Map<String, Object> returnJSON = new HashMap<>();
+
+		returnJSON.put(MESSAGE_KEY, message);
+		returnJSON.put(CODE_KEY, CODE_SUCCESS);
+		returnJSON.put(key, data);
+
+		return returnJSON;
+	}
+
+	/**
+	 * 返回成功数据
+	 *
+	 * @param data
+	 * @return
+	 */
+	public Map<String, Object> getSuccessData(Object data, String message) {
+		Map<String, Object> returnJSON = new HashMap<>();
+
+		returnJSON.put(MESSAGE_KEY, message);
+		returnJSON.put(CODE_KEY, CODE_SUCCESS);
+		returnJSON.put(DATA_KEY, data);
+
+		return returnJSON;
+	}
+
+	/**
+	 * 返回成功分页数据
+	 *
+	 * @param data
+	 * @param page
+	 * @return
+	 */
+	public Map<String, Object> getSuccessPageData(Object data, BasePage page) {
+		Map<String, Object> returnJSON = new HashMap<>();
+
+		returnJSON.put(MESSAGE_KEY, MESSAGE_SUCCESS);
+		returnJSON.put(CODE_KEY, CODE_SUCCESS);
+		returnJSON.put("page", page.getPage());
+		returnJSON.put(PAGE_TOTAL_KEY, page.getPager().getPageCount());
+		returnJSON.put("page_size", page.getPage_size());
+		returnJSON.put(DATA_KEY, data);// 分页数据结果保存
+
+		return returnJSON;
+	}
+
+	/**
+	 * easyui 专用查分页接口
+	 *
+	 * @param total
+	 * @param rows
+	 * @return
+	 */
+	public Map<String, Object> getGridData(int total, Object rows) {
+		Map<String, Object> resultMap = new HashMap<>();
+		resultMap.put("total", total);
+		resultMap.put("rows", rows);
+		return resultMap;
+	}
+
+	/**
+	 * 返回成功消息
+	 *
+	 * @param msg
+	 * @return
+	 */
+	public Map<String, Object> getSuccessMessage(String msg) {
+		Map<String, Object> returnJSON = new HashMap<>();
+
+		returnJSON.put(MESSAGE_KEY, msg);
+		returnJSON.put(CODE_KEY, CODE_SUCCESS);
+
+		return returnJSON;
+	}
+
+	/**
+	 * 返回失败消息, 使用指定code
+	 *
+	 * @param msg
+	 * @return
+	 */
+	public Map<String, Object> getFailureMessage(String msg, int code) {
+		Map<String, Object> returnJSON = new HashMap<>();
+
+		returnJSON.put(MESSAGE_KEY, msg);
+		returnJSON.put(CODE_KEY, code);
+
+		return returnJSON;
+	}
+
+	/**
+	 * 返回失败消息, 使用指定code
+	 *
+	 * @param msg
+	 * @return
+	 */
+	public Map<String, Object> getFailureMessage(String msg, int code, Object data) {
+		Map<String, Object> returnJSON = new HashMap<>();
+
+		returnJSON.put(MESSAGE_KEY, msg);
+		returnJSON.put(CODE_KEY, code);
+
+		returnJSON.put(DATA_KEY, data);
+
+		return returnJSON;
+	}
+
+	/**
+	 * 返回成功消息
+	 *
+	 * @return
+	 */
+	public Map<String, Object> getSuccessMessage() {
+		Map<String, Object> returnJSON = new HashMap<>();
+
+		returnJSON.put(MESSAGE_KEY, MESSAGE_SUCCESS);
+		returnJSON.put(CODE_KEY, CODE_SUCCESS);
+		returnJSON.put(DATA_KEY, "");
+		return returnJSON;
+	}
+
+	/**
+	 * 分页对象
+	 *
+	 * @param reqPara
+	 * @return
+	 */
+	protected PageBounds handlePageInfo(Map<String, String> reqPara) {
+		int pageIndex = getNumber(reqPara, ConstantUtil.KEY_PAGE_INDEX, ConstantUtil.PAGE_INDEX);
+		int pageSize = getNumber(reqPara, ConstantUtil.KEY_PAGE_SIZE, ConstantUtil.PAGE_SIZE);
+		return new PageBounds(pageIndex, pageSize);
+
+	}
+
+	/**
+	 * 后台管理的分页对象
+	 * 
+	 * @param reqPara
+	 */
+	protected PageBounds handlePageInfoForManage(Map<String, String> reqPara) {
+		int offset = Integer.parseInt(reqPara.get("start"));
+		int pageSize = Integer.parseInt(reqPara.get("length"));
+		int pageIndex = (offset / pageSize) + 1;
+		PageBounds pageBounds = new PageBounds(pageIndex, pageSize);
+		return pageBounds;
+	}
+
+	/**
+	 * 获取value
+	 *
+	 * @param reqPara
+	 * @param key
+	 * @param defaultValue
+	 * @return
+	 */
+	private int getNumber(Map<String, String> reqPara, String key, int defaultValue) {
+		if (reqPara.containsKey(key)) {
+			try {
+				return Integer.valueOf(reqPara.get(key).trim());
+			} catch (Exception e) {
+				return defaultValue;
+			}
+		} else {
+			return defaultValue;
+		}
+	}
+
+}

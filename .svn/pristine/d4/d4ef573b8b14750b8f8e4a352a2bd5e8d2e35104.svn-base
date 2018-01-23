@@ -1,0 +1,9 @@
+<!--#include file="jquery-1.9.1.min.js"-->
+<!--#include file="jquery-migrate-1.1.1.js"-->
+<!--#include file="jquery.easyui.min.js"-->
+<!--#include file="easyui-lang-zh_CN.js"-->
+<!--#include file="jquery.cookie.1.3.1.js"-->
+<!--#include file="util.js"-->
+<!--#include file="URI.js"-->
+<!--#include file="URI.fragmentQuery.js"-->
+<!--#include file="jquery.loading.js"-->

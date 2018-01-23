@@ -1,0 +1,45 @@
+package com.cea.ehm.controller.manage;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.cea.ehm.controller.BaseController;
+
+/**
+ * 部门
+ */
+@Controller
+@RequestMapping(value = "/manage/shakemonitor")
+public class ShakeMonitorController extends BaseController {
+
+	
+	/**
+	 * 显示震动监控列表
+	 */
+	@RequestMapping(value = "/shakelist.do")
+	public ModelAndView shakelist() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/shakemonitor/shakelist");
+		return mv;
+	}
+	/**
+	 * 显示震动健康报告
+	 */
+	@RequestMapping(value = "/shakereport.do")
+	public ModelAndView report() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/shakemonitor/shakereport");
+		return mv;
+	}
+	/**
+	 * 显示震动健康报告图表
+	 */
+	@RequestMapping(value = "/shakeimagereport.do")
+	public ModelAndView imagereport() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/manage/shakemonitor/shakeimagereport");
+		return mv;
+	}
+	
+}

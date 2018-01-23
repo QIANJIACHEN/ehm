@@ -1,0 +1,117 @@
+package com.cea.ehm.bean;
+
+import java.io.Serializable;
+
+/**
+ * 水洗表
+ */
+public class WaterWash implements Serializable {
+	private static final long serialVersionUID = 1L;
+	// ID
+	private Integer Id;
+	// 设备参数
+	private String ParameterApparatus;
+	// 水洗人员
+	private String UserId;
+	// 地理位置
+	private String Geographic;
+	// 天气
+	private String Weather;
+	// 发动机型号
+	private String EngSn;
+	// 效果
+	private String Result;
+	// 评级
+	private String Level;
+	// 持续时间
+	private String DurationTime;
+	// 创建时间时间
+	private String CTime;
+
+	public Integer getId() {
+		return Id;
+	}
+
+	public void setId(Integer id) {
+		Id = id;
+	}
+
+	public String getParameterApparatus() {
+		return ParameterApparatus;
+	}
+
+	public void setParameterApparatus(
+			String parameterApparatus) {
+		ParameterApparatus = parameterApparatus;
+	}
+
+	public String getUserId() {
+		return UserId;
+	}
+
+	public void setUserId(String userId) {
+		UserId = userId;
+	}
+
+	public String getGeographic() {
+		return Geographic;
+	}
+
+	public void setGeographic(String geographic) {
+		Geographic = geographic;
+	}
+
+	public String getWeather() {
+		return Weather;
+	}
+
+	public void setWeather(String weather) {
+		Weather = weather;
+	}
+
+	public String getEngSn() {
+		return EngSn;
+	}
+
+	public void setEngSn(String engSn) {
+		EngSn = engSn;
+	}
+
+	public String getResult() {
+		return Result;
+	}
+
+	public void setResult(String result) {
+		Result = result;
+	}
+
+	public String getLevel() {
+		return Level;
+	}
+
+	public void setLevel(String level) {
+		Level = level;
+	}
+
+	public String getDurationTime() {
+		return DurationTime;
+	}
+
+	public void setDurationTime(
+			String durationTime) {
+		DurationTime = durationTime;
+	}
+
+	public String getCTime() {
+		return CTime;
+	}
+
+	public void setCTime(String cTime) {
+		CTime = cTime;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+}

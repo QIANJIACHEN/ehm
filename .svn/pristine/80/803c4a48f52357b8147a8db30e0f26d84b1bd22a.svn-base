@@ -1,0 +1,291 @@
+//获取到这个DOM节点，然后初始化
+
+
+function chart(
+			// 1发单点
+		   gwfm_n1_m0, gwfm_n1_m1, gwfm_n1_m2, gwfm_n1_m3, gwfm_n1_m4, gwfm_n1_m5, gwfm_n1_m6, gwfm_n1_m7, gwfm_n1_m8, gwfm_n1_m9,
+		   degt_n1_m0, degt_n1_m1, degt_n1_m2, degt_n1_m3, degt_n1_m4, degt_n1_m5, degt_n1_m6, degt_n1_m7, degt_n1_m8, degt_n1_m9,
+		   egthdm_n1_m0, egthdm_n1_m1, egthdm_n1_m2, egthdm_n1_m3, egthdm_n1_m4, egthdm_n1_m5, egthdm_n1_m6, egthdm_n1_m7, egthdm_n1_m8, egthdm_n1_m9,
+		   gpcn25_n1_m0, gpcn25_n1_m1, gpcn25_n1_m2, gpcn25_n1_m3, gpcn25_n1_m4, gpcn25_n1_m5, gpcn25_n1_m6, gpcn25_n1_m7, gpcn25_n1_m8, gpcn25_n1_m9,
+		   // 1发平滑
+		   gwfm_n1_d0, gwfm_n1_d1, gwfm_n1_d2, gwfm_n1_d3, gwfm_n1_d4, gwfm_n1_d5, gwfm_n1_d6, gwfm_n1_d7, gwfm_n1_d8, gwfm_n1_d9,
+		   degt_n1_d0, degt_n1_d1, degt_n1_d2, degt_n1_d3, degt_n1_d4, degt_n1_d5, degt_n1_d6, degt_n1_d7, degt_n1_d8, degt_n1_d9,
+		   egthdm_n1_d0, egthdm_n1_d1, egthdm_n1_d2, egthdm_n1_d3, egthdm_n1_d4, egthdm_n1_d5, egthdm_n1_d6, egthdm_n1_d7, egthdm_n1_d8, egthdm_n1_d9,
+		   gpcn25_n1_d0, gpcn25_n1_d1, gpcn25_n1_d2, gpcn25_n1_d3, gpcn25_n1_d4, gpcn25_n1_d5, gpcn25_n1_d6, gpcn25_n1_d7, gpcn25_n1_d8, gpcn25_n1_d9,
+		   // 2发单点
+		   gwfm_n2_m0, gwfm_n2_m1, gwfm_n2_m2, gwfm_n2_m3, gwfm_n2_m4, gwfm_n2_m5, gwfm_n2_m6, gwfm_n2_m7, gwfm_n2_m8, gwfm_n2_m9,
+		   degt_n2_m0, degt_n2_m1, degt_n2_m2, degt_n2_m3, degt_n2_m4, degt_n2_m5, degt_n2_m6, degt_n2_m7, degt_n2_m8, degt_n2_m9,
+		   egthdm_n2_m0, egthdm_n2_m1, egthdm_n2_m2, egthdm_n2_m3, egthdm_n2_m4, egthdm_n2_m5, egthdm_n2_m6, egthdm_n2_m7, egthdm_n2_m8, egthdm_n2_m9,
+		   gpcn25_n2_m0, gpcn25_n2_m1, gpcn25_n2_m2, gpcn25_n2_m3, gpcn25_n2_m4, gpcn25_n2_m5, gpcn25_n2_m6, gpcn25_n2_m7, gpcn25_n2_m8, gpcn25_n2_m9,
+		   // 2发平滑
+		   gwfm_n2_d0, gwfm_n2_d1, gwfm_n2_d2, gwfm_n2_d3, gwfm_n2_d4, gwfm_n2_d5, gwfm_n2_d6, gwfm_n2_d7, gwfm_n2_d8, gwfm_n2_d9,
+		   degt_n2_d0, degt_n2_d1, degt_n2_d2, degt_n2_d3, degt_n2_d4, degt_n2_d5, degt_n2_d6, degt_n2_d7, degt_n2_d8, degt_n2_d9,
+		   egthdm_n2_d0, egthdm_n2_d1, egthdm_n2_d2, egthdm_n2_d3, egthdm_n2_d4, egthdm_n2_d5, egthdm_n2_d6, egthdm_n2_d7, egthdm_n2_d8, egthdm_n2_d9,
+		   gpcn25_n2_d0, gpcn25_n2_d1, gpcn25_n2_d2, gpcn25_n2_d3, gpcn25_n2_d4, gpcn25_n2_d5, gpcn25_n2_d6, gpcn25_n2_d7, gpcn25_n2_d8, gpcn25_n2_d9
+){
+	
+	
+	var myChart = echarts.init(document.getElementById("top"));
+	var myChart1 = echarts.init(document.getElementById("bottom"));
+	var myChart2 = echarts.init(document.getElementById("top1"));
+	var myChart3 = echarts.init(document.getElementById("bottom1"));
+	
+	
+	var option = {
+            // 标题
+            title: {
+                text: '左发单点'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            //图例名
+            legend: {
+                data:['DFF单点','DEGT单点','EGTM单点','DCS单点']
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            //工具框，可以选择
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            //x轴信息样式
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['1','2','3','4','5','6','7','8','9','10'],
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    name:'DFF单点',
+                    type:'line',
+                    color:['#cf8970'],
+                    data:[gwfm_n1_m0, gwfm_n1_m1, gwfm_n1_m2, gwfm_n1_m3, gwfm_n1_m4, gwfm_n1_m5, gwfm_n1_m6, gwfm_n1_m7, gwfm_n1_m8, gwfm_n1_m9],
+                },
+                {
+                    name:'DEGT单点',
+                    type:'line',
+                    color:['#639fa7'],
+                    data:[degt_n1_m0, degt_n1_m1, degt_n1_m2, degt_n1_m3, degt_n1_m4, degt_n1_m5, degt_n1_m6, degt_n1_m7, degt_n1_m8, degt_n1_m9]
+                },
+                {
+                    name:'EGTM单点',
+                    type:'line',
+                    color:['#123fa7'],
+                    data:[egthdm_n1_m0, egthdm_n1_m1, egthdm_n1_m2, egthdm_n1_m3, egthdm_n1_m4, egthdm_n1_m5, egthdm_n1_m6, egthdm_n1_m7, egthdm_n1_m8, egthdm_n1_m9]
+                },
+                {
+                    name:'DCS单点',
+                    type:'line',
+                    color:['#111fa7'],
+                    data:[gpcn25_n1_m0, gpcn25_n1_m1, gpcn25_n1_m2, gpcn25_n1_m3, gpcn25_n1_m4, gpcn25_n1_m5, gpcn25_n1_m6, gpcn25_n1_m7, gpcn25_n1_m8, gpcn25_n1_m9]
+                }
+            ]
+        };
+	
+	
+	var option1 = {
+			// 标题
+			title: {
+				text: '左发平滑'
+			},
+			tooltip: {
+				trigger: 'axis'
+			},
+			//图例名
+			legend: {
+				data:['DFF平滑','DEGT平滑','EGTM平滑','DCS平滑']
+			},
+			grid: {
+				left: '3%',
+				right: '4%',
+				bottom: '3%',
+				containLabel: true
+			},
+			//工具框，可以选择
+			toolbox: {
+				feature: {
+					saveAsImage: {}
+				}
+			},
+			//x轴信息样式
+			xAxis: {
+				type: 'category',
+				boundaryGap: false,
+				data: ['1','2','3','4','5','6','7','8','9','10'],
+			},
+			yAxis: {
+				type: 'value'
+			},
+			series: [
+				{
+					name:'DFF平滑',
+					type:'line',
+					color:['#cf8970'],
+					data:[gwfm_n1_d0, gwfm_n1_d1, gwfm_n1_d2, gwfm_n1_d3, gwfm_n1_d4, gwfm_n1_d5, gwfm_n1_d6, gwfm_n1_d7, gwfm_n1_d8, gwfm_n1_d9],
+				},
+				{
+					name:'DEGT平滑',
+					type:'line',
+					color:['#639fa7'],
+					data:[degt_n1_d0, degt_n1_d1, degt_n1_d2, degt_n1_d3, degt_n1_d4, degt_n1_d5, degt_n1_d6, degt_n1_d7, degt_n1_d8, degt_n1_d9]
+				},
+				{
+					name:'EGTM平滑',
+					type:'line',
+					color:['#888fa7'],
+					data:[egthdm_n1_d0, egthdm_n1_d1, egthdm_n1_d2, egthdm_n1_d3, egthdm_n1_d4, egthdm_n1_d5, egthdm_n1_d6, egthdm_n1_d7, egthdm_n1_d8, egthdm_n1_d9]
+				},
+				{
+					name:'DCS平滑',
+					type:'line',
+					color:['#666fa7'],
+					data:[gpcn25_n1_d0, gpcn25_n1_d1, gpcn25_n1_d2, gpcn25_n1_d3, gpcn25_n1_d4, gpcn25_n1_d5, gpcn25_n1_d6, gpcn25_n1_d7, gpcn25_n1_d8, gpcn25_n1_d9]
+				}
+			]
+	};
+	
+	
+	var option2 = {
+            // 标题
+            title: {
+                text: '右发单点'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            //图例名
+            legend: {
+                data:['DFF单点','DEGT单点','EGTM单点','DCS单点']
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            //工具框，可以选择
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            //x轴信息样式
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['1','2','3','4','5','6','7','8','9','10'],
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    name:'DFF单点',
+                    type:'line',
+                    color:['#cf8970'],
+                    data:[gwfm_n2_m0, gwfm_n2_m1, gwfm_n2_m2, gwfm_n2_m3, gwfm_n2_m4, gwfm_n2_m5, gwfm_n2_m6, gwfm_n2_m7, gwfm_n2_m8, gwfm_n2_m9],
+                },
+                {
+                    name:'DEGT单点',
+                    type:'line',
+                    color:['#639fa7'],
+                    data:[degt_n2_m0, degt_n2_m1, degt_n2_m2, degt_n2_m3, degt_n2_m4, degt_n2_m5, degt_n2_m6, degt_n2_m7, degt_n2_m8, degt_n2_m9]
+                },
+                {
+                    name:'EGTM单点',
+                    type:'line',
+                    color:['#333fa7'],
+                    data:[egthdm_n2_m0, egthdm_n2_m1, egthdm_n2_m2, egthdm_n2_m3, egthdm_n2_m4, egthdm_n2_m5, egthdm_n2_m6, egthdm_n2_m7, egthdm_n2_m8, egthdm_n2_m9]
+                },
+                {
+                    name:'DCS单点',
+                    type:'line',
+                    color:['#255fa7'],
+                    data:[gpcn25_n2_m0, gpcn25_n2_m1, gpcn25_n2_m2, gpcn25_n2_m3, gpcn25_n2_m4, gpcn25_n2_m5, gpcn25_n2_m6, gpcn25_n2_m7, gpcn25_n2_m8, gpcn25_n2_m9]
+                }
+            ]
+    };
+	
+	
+	var option3 = {
+			// 标题
+			title: {
+				text: '右发平滑'
+			},
+			tooltip: {
+				trigger: 'axis'
+			},
+			//图例名
+			legend: {
+				data:['DFF平滑','DEGT平滑','EGTM平滑','DCS平滑']
+			},
+			grid: {
+				left: '3%',
+				right: '4%',
+				bottom: '3%',
+				containLabel: true
+			},
+			//工具框，可以选择
+			toolbox: {
+				feature: {
+					saveAsImage: {}
+				}
+			},
+			//x轴信息样式
+			xAxis: {
+				type: 'category',
+				boundaryGap: false,
+				data: ['1','2','3','4','5','6','7','8','9','10'],
+			},
+			yAxis: {
+				type: 'value'
+			},
+			series: [
+				{
+					name:'DFF平滑',
+					type:'line',
+					color:['#cf8970'],
+					data:[gwfm_n2_d0, gwfm_n2_d1, gwfm_n2_d2, gwfm_n2_d3, gwfm_n2_d4, gwfm_n2_d5, gwfm_n2_d6, gwfm_n2_d7, gwfm_n2_d8, gwfm_n2_d9],
+				},
+				{
+					name:'DEGT平滑',
+					type:'line',
+					color:['#639fa7'],
+					data:[degt_n2_d0, degt_n2_d1, degt_n2_d2, degt_n2_d3, degt_n2_d4, degt_n2_d5, degt_n2_d6, degt_n2_d7, degt_n2_d8, degt_n2_d9]
+				},
+				{
+					name:'EGTM平滑',
+					type:'line',
+					color:['#339fa7'],
+					data:[egthdm_n2_d0, egthdm_n2_d1, egthdm_n2_d2, egthdm_n2_d3, egthdm_n2_d4, egthdm_n2_d5, egthdm_n2_d6, egthdm_n2_d7, egthdm_n2_d8, egthdm_n2_d9]
+				},
+				{
+					name:'DCS平滑',
+					type:'line',
+					color:['#600fa1'],
+					data:[gpcn25_n2_d0, gpcn25_n2_d1, gpcn25_n2_d2, gpcn25_n2_d3, gpcn25_n2_d4, gpcn25_n2_d5, gpcn25_n2_d6, gpcn25_n2_d7, gpcn25_n2_d8, gpcn25_n2_d9]
+				}
+			]
+	};
+	
+	
+	myChart.setOption(option);
+	myChart1.setOption(option1);
+	myChart2.setOption(option2);
+	myChart3.setOption(option3);
+	
+	
+	
+}	
+	
+	

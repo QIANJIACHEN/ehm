@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.RuleComputationMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.RuleComputation">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="INSPECTION_ID" jdbcType="INTEGER" property="inspectionId" />
+		<result column="TYPE" jdbcType="INTEGER" property="type" />
+		<result column="RULE_ID" jdbcType="INTEGER" property="ruleId" />
+		<result column="CALCULATION_TYPE" jdbcType="INTEGER" property="calculationType" />
+		<result column="CALCULATION_RANGE" jdbcType="INTEGER" property="calculationRange" />
+		<result column="RANGE_TYPE" jdbcType="INTEGER" property="rangeType" />
+		<result column="FLIGHT_PHASE" jdbcType="INTEGER" property="flightPhase" />
+		<result column="MAX" jdbcType="VARCHAR" property="max" />
+		<result column="MIN" jdbcType="VARCHAR" property="min" />
+		<result column="EQUAL" jdbcType="VARCHAR" property="equal" />
+		<result column="UNEQUAL" jdbcType="VARCHAR" property="unequal" />
+		<result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ID, INSPECTION_ID, TYPE, RULE_ID, CALCULATION_TYPE, CALCULATION_RANGE, RANGE_TYPE, FLIGHT_PHASE,
+		MAX, MIN, EQUAL, UNEQUAL, CTIME
+	</sql>
+	
+	<select id="getCompu" parameterType="java.lang.Integer" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_rule_computation
+		WHERE INSPECTION_ID = #{inspecId, jdbcType=INTEGER}
+	</select>
+
+	<insert id="saveComputation" parameterType="com.cea.ehm.bean.RuleComputation" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO ehm_rule_computation
+		(
+			INSPECTION_ID, TYPE, RULE_ID, CALCULATION_TYPE, CALCULATION_RANGE, RANGE_TYPE, FLIGHT_PHASE,
+			MAX, MIN, EQUAL, UNEQUAL, CTIME
+		)
+		VALUES
+		(
+			#{inspectionId, jdbcType=INTEGER},
+			#{type, jdbcType=INTEGER},
+			#{ruleId, jdbcType=INTEGER},
+			#{calculationType, jdbcType=INTEGER},
+			#{calculationRange, jdbcType=INTEGER},
+			#{rangeType, jdbcType=INTEGER},
+			#{flightPhase, jdbcType=INTEGER},
+			#{max, jdbcType=VARCHAR},
+			#{min, jdbcType=VARCHAR},
+			#{equal, jdbcType=VARCHAR},
+			#{unequal, jdbcType=VARCHAR},
+			#{ctime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+
+	<delete id="deleteComputation" parameterType="java.lang.Integer">
+		DELETE FROM
+			ehm_rule_computation
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<update id="updateComputation" parameterType="com.cea.ehm.bean.RuleComputation">
+		UPDATE ehm_rule_computation
+		<set>
+			<if test="inspectionId != null">
+				INSPECTION_ID = #{inspectionId,jdbcType=INTEGER},
+			</if>
+			<if test="type != null">
+				TYPE = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="ruleId != null">
+				RULE_ID = #{ruleId,jdbcType=INTEGER},
+			</if>
+			<if test="calculationType != null">
+				CALCULATION_TYPE = #{calculationType,jdbcType=INTEGER},
+			</if>
+			<if test="calculationRange != null">
+				CALCULATION_RANGE = #{calculationRange,jdbcType=INTEGER},
+			</if>
+			<if test="rangeType != null">
+				RANGE_TYPE = #{rangeType,jdbcType=INTEGER},
+			</if>
+			<if test="flightPhase != null">
+				FLIGHT_PHASE = #{flightPhase,jdbcType=INTEGER},
+			</if>
+			<if test="max != null">
+				MAX = #{max,jdbcType=VARCHAR},
+			</if>
+			<if test="min != null">
+				MIN = #{min,jdbcType=VARCHAR},
+			</if>
+			<if test="equal != null">
+				EQUAL = #{equal,jdbcType=VARCHAR},
+			</if>
+			<if test="unequal != null">
+				UNEQUAL = #{unequal,jdbcType=VARCHAR}
+			</if>
+		</set>
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</update>
+
+</mapper>

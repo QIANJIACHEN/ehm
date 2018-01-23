@@ -1,0 +1,152 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-head.jsp"/>
+    <jsp:include page="../AdminLTE-2.3.0/myapp/my-common-script.jsp"/>
+    <style type="text/css">
+    	table.tablerecord th ,table.tablerecord td{
+    		text-align:center;
+    		border:1px solid #d7d7d7 !important;
+    	}
+    	table.tablerecord th{
+    		background-color:#f2f2f2;
+    	}
+    	table.tablerecord td a{
+    		text-decoration:underline;
+    	}
+    	.basicinfo p span{
+    		display:inline-block;
+    		width:40%;
+    		padding-left:10px;
+    		box-sizing:border-box;
+    		font-size:15px;
+    	}
+    	.basicinfo p span.key{
+    		width:45%;
+    		padding-left:0px;
+    		font-weight:bold;
+    	}
+    	.basicinfo p span a{
+    		text-decoration:underline;
+    	}
+    </style>
+</head>
+<body class="hold-transition" >
+
+<div class="wrapper">
+
+    <div class="box wrapper " style="overflow: auto;">
+		 
+        <div class="box-header">
+        	<h2>发动机信息</h2><br>
+        	<h4>基础信息</h4><br>
+        	<div class="row basicinfo">
+        		<div class="col-md-3 col-xs-3">
+        			<p>
+        				<span class="key">ID</span>
+        				<span class="val" id="engId"></span>
+        			</p>
+        			<p>
+        				<span class="key">发动机SN</span>
+        				<span class="val" id="engSn"></span>
+        			</p>
+        			<p>
+        				<span class="key">SAP平台显示方式</span>
+        				<span class="val" id="engSnSap"></span>
+        			</p>
+        			<p>
+        				<span class="key">发动机序列</span>
+        				<span class="val" id="engSeries"></span>
+        			</p>
+        		</div>
+        		<div class="col-md-2 col-xs-3">
+        			<p>
+        				<span class="key">发动机构型</span>
+        				<span class="val" id="engConfig" ></span>
+        			</p>
+        			<p>
+        				<span class="key">发动机类型</span>
+        				<span class="val" id="engType" ></span>
+        			</p>
+        			<p>
+        				<span class="key">发动机模型</span>
+        				<span class="val" id="engModel" ></span>
+        			</p>
+        			<p>
+        				<span class="key">原始厂商</span>
+        				<span class="val" id="deliveryMode"></span>
+        			</p>
+        		</div>
+        		<div class="col-md-3 col-xs-3">
+        			<p>
+        				<span class="key">所有人</span>
+        				<span class="val" id="owner" ></span>
+        			</p>
+        			<p>
+        				<span class="key">CODE CONFIG</span>
+        				<span class="val" id="codeConfig"></span>
+        			</p>
+        			<p>
+        				<span class="key" style="word-break:normal; white-space:pre-wrap;word-wrap : break-word ;overflow: hidden ;">ENG_CONFIGARATION</span>
+        				<span class="val" id="engConfigration"></span>
+        			</p>
+        			<p>
+        				<span class="key">发动机设备号</span>
+        				<span class="val" id="engPn" ></span>
+        			</p>
+        		</div>
+        		<div class="col-md-2 col-xs-3">
+        			
+        			<p>
+        				<span class="key">创建时间</span>
+        				<span class="val" id="ctime"></span>
+        			</p>
+        		</div>
+        	</div>
+        	
+        </div>
+        
+
+    </div>
+</div>
+<script type="text/javascript">
+function getRequest(){
+	var url = location.search;
+	var theRequest = new Object(); 
+	if (url.indexOf("?") != -1) { 
+		var str = url.substr(1); 
+		strs = str.split("&"); 
+		for(var i = 0; i < strs.length; i ++) { 
+		theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]); 
+		}
+	}
+	return theRequest; 
+}
+	
+var Request = new Object(); 
+Request = getRequest(); 
+var id = Request['id'];
+
+$.post("${pageContext.request.contextPath}/manage/recorddataeng/detail.do",{id:id},function(res){
+	
+	$("#engId").html(res.data[0].id);
+	$("#engSn").html(res.data[0].engSn);
+	$("#engSnSap").html(res.data[0].engSnSap);
+	$("#engSeries").html(res.data[0].engSeries);
+	$("#engType").html(res.data[0].engType);
+	$("#engModel").html(res.data[0].engModel);
+	$("#engConfig").html(res.data[0].engConfig);
+	$("#deliveryMode").html(res.data[0].deliveryMode);
+	$("#owner").html(res.data[0].owner);
+	$("#codeConfig").html(res.data[0].codeConfig);
+	$("#engConfigration").html(res.data[0].engConfigration);
+	$("#ctime").html(res.data[0].ctime);
+	$("#engPn").html(res.data[0].engPn);
+},"json");
+
+
+
+</script>
+</body>
+</html>

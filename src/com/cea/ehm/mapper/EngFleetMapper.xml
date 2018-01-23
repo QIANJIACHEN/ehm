@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cea.ehm.dao.EngFleetMapper">
+
+	<resultMap id="baseResultMap" type="com.cea.ehm.bean.EngFleet">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
+		<result column="DUTY" jdbcType="INTEGER" property="duty" />
+		<result column="MODLE" jdbcType="VARCHAR" property="modle" />
+		<result column="TAIL" jdbcType="VARCHAR" property="tail" />
+		<result column="ENG_POSIT" jdbcType="VARCHAR" property="engPosit" />
+		<result column="ENG_SN" jdbcType="VARCHAR" property="engSn" />
+		<result column="ENG_PN" jdbcType="VARCHAR" property="engPn" />
+		<result column="RATING" jdbcType="VARCHAR" property="rating" />
+		<result column="CONFIG_PLANE" jdbcType="VARCHAR" property="configPlane" />
+		<result column="LLP_LIFETIME" jdbcType="TIMESTAMP" property="llpLifeTime" />
+		<result column="ETSN" jdbcType="VARCHAR" property="etsn" />
+		<result column="ECSN" jdbcType="VARCHAR" property="ecsn" />
+		<result column="SV_TIME" jdbcType="TIMESTAMP" property="svTime" />
+		<result column="IN_TIME" jdbcType="TIMESTAMP" property="inTime" />
+		<result column="TSI" jdbcType="VARCHAR" property="tsi" />
+		<result column="CSI" jdbcType="VARCHAR" property="csi" />
+		<result column="TSR" jdbcType="VARCHAR" property="tsr" />
+		<result column="CSR" jdbcType="VARCHAR" property="csr" />
+		<result column="TSO" jdbcType="VARCHAR" property="tso" />
+		<result column="CSO" jdbcType="VARCHAR" property="cso" />
+		<result column="LLP_211_SB" jdbcType="VARCHAR" property="llp211sb" />
+		<result column="HPTB_LIFETIME" jdbcType="TIMESTAMP" property="hptbLifeTime" />
+		<result column="ENG_LIFETIME" jdbcType="TIMESTAMP" property="engLifeTime" />
+		<result column="UNINSTALL_TIME" jdbcType="TIMESTAMP" property="uninstallTime" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+	</resultMap>
+
+	<sql id="baseColumnList">
+		ID,CTIME,DUTY,MODLE,TAIL,ENG_POSIT,ENG_SN,ENG_PN,RATING,CONFIG_PLANE,LLP_LIFETIME,ETSN,ECSN,SV_TIME,IN_TIME,TSI,CSI,TSR,CSR,TSO,CSO,
+		LLP_211_SB,HPTB_LIFETIME,ENG_LIFETIME,UNINSTALL_TIME,REMARK
+	</sql>
+	
+	<select id="select" parameterType="com.cea.ehm.bean.EngFleet" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_eng_fleet
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</select>
+
+	<select id="getEngFleetList" parameterType="map" resultMap="baseResultMap">
+		SELECT
+		<include refid="baseColumnList" />
+		FROM ehm_eng_fleet
+		<if test="engSn != null">
+		WHERE ENG_SN LIKE CONCAT('%',#{engSn,jdbcType=VARCHAR})
+		</if>
+	</select>
+
+	<insert id="insert" parameterType="com.cea.ehm.bean.EngFleet">
+		INSERT INTO ehm_eng_fleet
+			(ID,CTIME,DUTY,MODLE,TAIL,ENG_POSIT,ENG_SN,ENG_PN,RATING,CONFIG_PLANE,LLP_LIFETIME,ETSN,ECSN,SV_TIME,IN_TIME,TSI,CSI,TSR,CSR,TSO,CSO,
+		LLP_211_SB,HPTB_LIFETIME,ENG_LIFETIME,UNINSTALL_TIME,REMARK)
+		VALUES
+		(
+			#{id,jdbcType=INTEGER},
+			#{ctime,jdbcType=TIMESTAMP},
+			#{duty,jdbcType=INTEGER},
+			#{modle,jdbcType=VARCHAR},
+			#{tail,jdbcType=VARCHAR},
+			#{engPosit,jdbcType=VARCHAR},
+			#{engSn,jdbcType=VARCHAR},
+			#{engPn,jdbcType=VARCHAR},
+			#{rating,jdbcType=VARCHAR},
+			#{configPlane,jdbcType=VARCHAR},
+			#{llpLifeTime,jdbcType=TIMESTAMP},
+			#{etsn,jdbcType=VARCHAR},
+			#{ecsn,jdbcType=VARCHAR},
+			#{svTime,jdbcType=TIMESTAMP},
+			#{inTime,jdbcType=TIMESTAMP},
+			#{tsi,jdbcType=VARCHAR},
+			#{csi,jdbcType=VARCHAR},
+			#{tsr,jdbcType=VARCHAR},
+			#{csr,jdbcType=VARCHAR},
+			#{tso,jdbcType=VARCHAR},
+			#{cso,jdbcType=VARCHAR},
+			#{llp211sb,jdbcType=VARCHAR},
+			#{hptbLifeTime,jdbcType=TIMESTAMP},
+			#{engLifeTime,jdbcType=TIMESTAMP},
+			#{uninstallTime,jdbcType=TIMESTAMP},
+			#{remark,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="com.cea.ehm.bean.EngFleet">
+		DELETE FROM
+			ehm_eng_fleet
+		WHERE
+			ID = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<update id="update" parameterType="com.cea.ehm.bean.EngFleet">
+		UPDATE ehm_eng_fleet
+		<set>
+			<if test="ctime != null">
+				CTIME = #{ctime,jdbcType=VARCHAR},
+			</if>
+			<if test="duty != null">
+				DUTY = #{duty,jdbcType=VARCHAR},
+			</if>
+			<if test="modle != null">
+				MODLE = #{modle,jdbcType=VARCHAR},
+			</if>
+			<if test="tail != null">
+				TAIL = #{tail,jdbcType=VARCHAR},
+			</if>
+			<if test="engPosit != null">
+				ENG_POSIT = #{engPosit,jdbcType=VARCHAR},
+			</if>
+			<if test="engSn != null">
+				ENG_SN = #{engSn,jdbcType=INTEGER},
+			</if>
+			<if test="engPn != null">
+				ENG_PN = #{engPn,jdbcType=VARCHAR},
+			</if>
+			<if test="rating != null">
+				RATING = #{rating,jdbcType=VARCHAR},
+			</if>
+			<if test="configPlane != null">
+				CONFIG_PLANE = #{configPlane,jdbcType=VARCHAR}
+			</if>
+			<if test="llpLifeTime != null">
+				LLP_LIFETIME = #{llpLifeTime,jdbcType=VARCHAR}
+			</if>
+			<if test="etsn != null">
+				ETSN = #{etsn,jdbcType=VARCHAR}
+			</if>
+			<if test="ecsn != null">
+				ECSN = #{ecsn,jdbcType=VARCHAR}
+			</if>
+			<if test="svTime != null">
+				SV_TIME = #{svTime,jdbcType=VARCHAR}
+			</if>
+			<if test="inTime != null">
+				IN_TIME = #{inTime,jdbcType=VARCHAR}
+			</if>
+			<if test="tsi != null">
+				TSI = #{tsi,jdbcType=VARCHAR}
+			</if>
+			<if test="csi != null">
+				CSI = #{csi,jdbcType=VARCHAR}
+			</if>
+			<if test="tsr != null">
+				TSR = #{tsr,jdbcType=VARCHAR}
+			</if>
+			<if test="csr != null">
+				CSR = #{csr,jdbcType=VARCHAR}
+			</if>
+			<if test="tso != null">
+				TSO = #{tso,jdbcType=VARCHAR}
+			</if>
+			<if test="cso != null">
+				CSO = #{cso,jdbcType=VARCHAR}
+			</if>
+			<if test="llp211sb != null">
+				LLP_211_SB = #{llp211sb,jdbcType=VARCHAR}
+			</if>
+			<if test="hptbLifeTime != null">
+				HPTB_LIFETIME = #{hptbLifeTime,jdbcType=VARCHAR}
+			</if>
+			<if test="engLifeTime != null">
+				ENG_LIFETIME = #{engLifeTime,jdbcType=VARCHAR}
+			</if>
+			<if test="uninstallTime != null">
+				UNINSTALL_TIME = #{uninstallTime,jdbcType=VARCHAR}
+			</if>
+			<if test="remark != null">
+				REMARK = #{remark,jdbcType=VARCHAR}
+			</if>
+			
+			
+		</set>
+		WHERE ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

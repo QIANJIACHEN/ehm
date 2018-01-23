@@ -1,0 +1,38 @@
+package com.cea.ehm.dao;
+
+import java.util.Map;
+
+import com.cea.ehm.bean.Activity;
+import com.cea.ehm.bean.ActivityHptn;
+import com.cea.ehm.bean.History;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+public interface ActivityMapper {
+	
+	/* * * 
+	 * Activity
+	 * */
+	PageList<Activity> getActivityList(Map<String, String> paramMap, PageBounds pageBounds);
+	public void add(Activity activity);
+	public void delete(Activity activity);
+	public void update(Activity activity);
+	
+	/* * * 
+	 * Hptn
+	 * */
+	PageList<ActivityHptn> getActivityHptn(Map<String, String> paramMap, PageBounds pageBounds);
+	public void activityTable1delete(ActivityHptn activityHptn);
+	public void activityTable1add(ActivityHptn activityHptn);
+	public void activityTable1update(ActivityHptn activityHptn);
+	
+	/* * * 
+	 * History
+	 * */
+	PageList<History> getHistory(Map<String, String> paramMap, PageBounds pageBounds);
+	public void historyadd(History history);
+	public void historyupdate(History history);
+	public void historydelete(History history);
+	
+	
+}
