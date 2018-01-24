@@ -49,12 +49,10 @@
 	         if(sessionstatus == "timeout"){
 	        	   // 如果超时就处理 ，指定要跳转的页面  
 	        	   if (confirm("登录超时,请重新登录！")) {
+	        		   //response.sendRedirect(request.getContextPath() + "/manage/login/login.jsp");
 	        		   window.location.reload()
 	        	   }
-	         } else if(sessionstatus == "nopower"){
-	        	 window.location = "${pageContext.request.contextPath}/manage/manage/nopower.jsp"
-	         }
-	    	
+	         }   
 	    }   
 	});
 </script>

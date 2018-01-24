@@ -50,7 +50,7 @@
 	<insert id="insert" parameterType="com.cea.ehm.bean.DataSapDefect">
 		INSERT INTO ehm_data_sap_defect
 		(
-			ID,DUTY,SERIES,PLANE_ID,TAIL,ENG_POSIT,ENG_ID,ENG_SN,STATUS,NAME,REMARK
+			ID,DUTY,SERIES,PLANE_ID,TAIL,ENG_POSIT,ENG_ID,ENG_SN,STATUS,NAME,REMARK,CTIME
 		)
 		VALUES
 		(
@@ -64,7 +64,8 @@
 			#{engSn,jdbcType=VARCHAR},
 			#{status,jdbcType=INTEGER},
 			#{name,jdbcType=VARCHAR},
-			#{remark,jdbcType=VARCHAR}
+			#{remark,jdbcType=VARCHAR},
+			#{ctime,jdbcType=VARCHAR}
 		)
 	</insert>
 
